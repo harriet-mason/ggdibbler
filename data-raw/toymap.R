@@ -29,7 +29,5 @@ toymap <- toymap |>
          temp_sample = generate(temp_dist, 10)) |> 
   select(county_name, geometry, temp_dist, temp_sample)
 
-# make dibble object? Would need own R file. Save this as a tibble and decide later
-# class(toymap) <- "dibble"
-saveRDS(toymap, file = "data/toymap.rda")
-#readRDS("data/toymap.rda")
+# use toymap data in package.
+usethis::use_data(toymap)
