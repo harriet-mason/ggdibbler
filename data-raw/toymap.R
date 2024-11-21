@@ -29,30 +29,14 @@ toymap <- toymap |>
          temp_sample = generate(temp_dist, 10)) |> 
   select(county_name, geometry, temp_dist, temp_sample)
 
+toymap2 <- new_dibble(toymap) 
+
 # use toymap data in package.
 usethis::use_data(toymap)
 
 
-## MAKE INTO DIBBLE OBJECT
-#install.packages("S7")
-library(S7)
 
-# class is dibble, method is changed ggplot functions, generic.class
-# check class with typeof() and class()
-# ftype(ggplot) = generic
-# ftype(ggplot.sf) = method
 
-# S3 Practice
-# method 1
-x <- structure(list(), class = "my_class")
 
-# method 2
-x <- list()
-class(x) <- "my_class"
 
-# so can just do
-class(toymap) <- "dibble"
 
-inherits(m, "tbl") #=true because tible in list
-inherits(m, "data.frame") #=true becase data.frame in list
-inherits(m, "dibble") #=false becase dibble not in list
