@@ -43,17 +43,24 @@
 
 # base object is list?? (or tibble or data frame?)
 
-new_dibble <- function(x = list() ) {
-  stopifnot(is.list(x))
-  structure(x,class = "dibble")
-}
+#new_dibble <- function(x = list() ) {
+#  structure(x,class = "dibble")
+#}
 
+# format from tsibble
+new_dibble <- function (x, ..., class = NULL) {
+  #not_dibble(x)
+  x <- new_tibble(x, ..., nrow = vec_size(x), class = "dibble")
+  assert_key_data(attr(x, "key"))
+  class(x) <- c(class, class(x))
+  x
+}
 
 validate_dibble <- function(x) {
   cls <- class(x)
-  if (cls !== "tibble")) {
+  if (cls !== "dibble")) {
     stop(
-      "Dibbles can only be constructed from tibbles",
+      "something something something",
       call. = FALSE
     )
   }
