@@ -20,19 +20,20 @@ toymap$cent_lat <- centroids$y
 #make trend and variance
 toymap <- toymap |>
   mutate(temp = as.double(round(29 - 2*abs(scale(cent_lat) - sin(2*(scale(cent_long)))), digits=1)), # trend
-         var = runif(99, min=0, max=3), # high variance
+         se = runif(99, min=0, max=3), # high variance
          count_id = row_number()) 
 
 # make distribution tibble
 toymap <- toymap |> 
-  mutate(temp_dist = dist_normal(temp, var),
+  mutate(temp_dist = dist_normal(temp, se),
          temp_sample = generate(temp_dist, 10)) |> 
-  select(county_name, geometry, temp_dist, temp_sample)
+  select(county_name, geometry, temp, se, temp_dist, temp_sample)
 
-toymap2 <- new_dibble(toymap) 
+# make into dibble object
+# ??? idk
 
 # use toymap data in package.
-usethis::use_data(toymap)
+usethis::use_data(toymap, overwrite = TRUE)
 
 
 
