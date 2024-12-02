@@ -120,8 +120,20 @@ mix_colour <- function(colours, method="tree"){
   colours
 }
 
-VSUP <- function(colours, method, amount) {
-  
+VSUP <- function(colours, method="tree", n=NULL, amount) {
+  if(is.null(n)){
+    n = 1+ floor(log2(length(colours)))
+  } 
+  pal <- matrix(NA, nrow=n, ncol=length(colours))
+  # use a set method
+  if(class(method)=="character"){
+    for(i in seq(n)){
+      colours <- mix_colour(colours, method)
+      pal[i] <- colours
+    }
+  } else if (class(method)=="function"){
+    print("TODO: allow users to suppress with thier own function")
+  }
 }
   
   
