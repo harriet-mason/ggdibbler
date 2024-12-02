@@ -108,11 +108,11 @@ perceptual_mix <- function(){
 
 mix_colour <- function(colours, method="tree"){
   # adjust colour based on function
-  if (type == "tree") {
+  if (method == "tree") {
     colours <- tree_mix(colours)
-  } else if (type == "shrinkage") {
+  } else if (method == "shrinkage") {
     colours <- shrinkage_mix(colours)
-  } else if (type == "perceptual") {
+  } else if (method == "perceptual") {
     colours <- perceptual_mix(colours)
   } else {
     stop("The VSUP palette mixing method is not recognised. Please set method to tree, shrinkage, or perceptual.")
