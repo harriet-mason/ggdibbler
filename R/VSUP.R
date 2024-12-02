@@ -42,6 +42,10 @@ bivariate_pal <- function(colours, type="desaturate",  n=4, amount=1){
   pal
 }
 
+hex2hcl <- function(colours){
+  colours <- colorspace::hex2RGB(colours)
+  as(colours, "polarLUV")
+}
 # checks
 scales::show_col(bivariate_pal(colourvalues, type = "dkwjend"), ncol=4)
 scales::show_col(bivariate_pal(colourvalues, type = "desaturate"), ncol=4)
