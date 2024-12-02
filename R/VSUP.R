@@ -3,11 +3,25 @@ colourvalues <- colorspace::sequential_hcl(4, palette = "YlOrRd")
 
 
 # desaturation, lightening, transparency functions
-# input: colour=palette, levels = # saturations, type = how to add uncertainty
-bivariate_pal <- function(colours, type,  n=4, amount=1){
+# input: colour=palette, levels = # saturations, type = transform
+transform_colour <- function(colours, type="desaturate", amount){
+    # adjust colour based on function
+  if (type == "desaturate") {
+    colours <- colorspace::desaturate(colours, amount=amount)
+    } else if (type == "lighten") {
+      colours <- colorspace::lighten(colours, amount=amount)
+      } else if (type == "transparency") {
+        colours <- colorspace::adjust_transparency(colours, alpha=1-amount)
+        } else {
+          stop("Visual channel for palette adjustment not recognised")
+          }
+  colours
+}
+
+bivariate_pal <- function(colours, type="desaturate",  n=4, amount=1){
   # value can be total change OR vector of increments
   if (length(amount)==1) {
-    sups <- seq(from = 0, to=amount, length.out = n)[-1]
+    sups <- seq(from = 0, to=1, length.out = n)[-1]
   } else {
     sups <- amount
   }
@@ -16,18 +30,7 @@ bivariate_pal <- function(colours, type,  n=4, amount=1){
   
   # adjust for each value
   for(i in sups){
-    # adjust colour based on function
-    if (type == "desaturate") {
-      colours <- colorspace::desaturate(colours, amount=i)
-    } else if (type == "lighten") {
-      colours <- colorspace::lighten(colours, amount=i)
-    } else if (type == "transparency") {
-      colours <- colorspace::adjust_transparency(colours, alpha=1-i)
-    } else {
-      stop("Visual channel for palette adjustment not recognised")
-    }
-    
-    # set palette
+    colours <- transform_colour(colours, type, amount=i)
     pal <- c(pal, colours)
   }
   pal
