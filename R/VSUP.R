@@ -1,6 +1,4 @@
 # temporary test data
-estimates <- toymap$temp
-stderrs <- toymap$se
 colourvalues <- colorspace::sequential_hcl(4, palette = "YlOrRd")
 
 
