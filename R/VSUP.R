@@ -71,24 +71,56 @@ ARSA_mix <- function(basecols, p_length, nblend) {
   }
 }
 
+# all mix functions should return the same number of colours they spit out.
 tree_mix <- function(colours, amount=0.5){
-  n <- length(colourvalues)
-  # if even # of colours
-  pal <- NULL
-  if(n%%2 == 0){
+  n <- length(colours)
+  colours <- unique(colours)
+  m <- length(colours)
+  pal <- NULL #return full palette
+  if(m==1){
+    warning("Only one unique colour passed to the mixing function. Returning mixed colours that are the same as the original colour")
+    pal <- rep(colours, n)
+    return(pal)
+  }
+  # if even no. of colours
+  if(m%%2 == 0){
     colours <- colorspace::hex2RGB(colours)
-    for(i in seq(1, n, by=2)){
-      colour <-colorspace::mixcolor(amount, rgb_colours[i], rgb_colours[i+1])
-      pal <- c(pal, hex(colour)) #keep output same length as input
+    for(i in seq(1, m, by=2)){
+      colour <-colorspace::mixcolor(amount, colours[i], colours[i+1])
+      pal <- c(pal, rep(hex(colour), 2*n/m)) #keep output same length as input
       }
   # if odd # of colours
     } else {
-      stop("The tree VSUP requires an even number of colours in the palette to work")
+      stop("The tree VSUP requires an even number of unique colours for the palette to work. You have either supplied an odd number of colours, or you have duplicates in your palette")
     } 
   pal
 }
 
-VSUP <- function(colours, amount) {
+col1 <- tree_mix(colourvalues)
+tree_mix(col1)
+hex(colorspace::mixcolor(0.5, hex2RGB("#B42B13"),  hex2RGB("#FBE18D")))
+
+shrinkage_mix <- function(){
+}
+
+perceptual_mix <- function(){
+}
+
+mix_colour <- function(colours, method="tree"){
+  # adjust colour based on function
+  if (type == "tree") {
+    colours <- tree_mix(colours)
+  } else if (type == "shrinkage") {
+    colours <- shrinkage_mix(colours)
+  } else if (type == "perceptual") {
+    colours <- perceptual_mix(colours)
+  } else {
+    stop("The VSUP palette mixing method is not recognised. Please set method to tree, shrinkage, or perceptual.")
+  }
+  colours
+}
+
+VSUP <- function(colours, method, amount) {
   
 }
   
@@ -97,7 +129,8 @@ rgb_colours <- colorspace::hex2RGB(colourvalues)
 mixed <- tree_mix
 scales::show_col(colourvalues,ncol=4)
 scales::show_col(tree_mix(colourvalues),ncol=2)
-tree_suppress(colourvalues)
+
+
 
 mapply(colorspace::mixcolor, 0.5, rgb_colours[odd], rgb_colours[even])
 
