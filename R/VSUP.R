@@ -46,6 +46,27 @@ hex2hcl <- function(colours){
   colours <- colorspace::hex2RGB(colours)
   as(colours, "polarLUV")
 }
+# my colour blend function. The colourspace one messes up if you have convex colours, something I fixed for the
+ARSA_blend <- function(basecols, p_length, nblend) {
+  X <- rgb2hsv(col2rgb(unique(basecols)))
+  v1 <- X[,seq(1,dim(X)[2], 2)]
+  v2 <- X[,seq(2,dim(X)[2], 2)]
+  if("matrix" %in% class(v1)){
+    # hue issue wrap around pt 1
+    v3 <- (v1+v2)
+    v3["h",] <- ifelse(abs(v1["h",]-v2["h",])>0.5, v3["h",]+1, v3["h",])
+    v3 <- v3/2
+    # hue issue wrap around pt 2
+    v3["h",] <- ifelse(v3["h",]>=1 , v3["h",]-1 ,v3["h",])
+    hsv(rep(v3[1,], each=nblend), rep(v3[2,], each=nblend), rep(v3[3,], each=nblend))
+  } else {
+    v3 <- (v1+v2)
+    v3["h"] <- ifelse(abs(v1["h"]-v2["h"])>0.5, v3["h"]+1, v3["h"])
+    v3 <- v3/2
+    v3["h"] <- ifelse(v3["h"]>=1 , v3["h"]-1 ,v3["h"])
+    rep(hsv(h=v3[1], s=v3[2], v=v3[3]), p_length)
+  }
+}
 # checks
 scales::show_col(bivariate_pal(colourvalues, type = "dkwjend"), ncol=4)
 scales::show_col(bivariate_pal(colourvalues, type = "desaturate"), ncol=4)
