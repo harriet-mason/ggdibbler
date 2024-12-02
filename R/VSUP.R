@@ -46,6 +46,21 @@ hex2hcl <- function(colours){
   colours <- colorspace::hex2RGB(colours)
   as(colours, "polarLUV")
 }
+
+colourspace_blend <- function(colours){
+  n <- length(colourvalues)
+  if(n%%2 == 0){
+    # if even # of colours
+    odd <- seq(1, n, by=2)
+    even <- seq(2, n, by=2)
+    hcl_colours <- hex2hcl(colours)
+    mapply(colorspace::mixcolor, colours[odd,], colours[even])
+
+  }
+  # if odd # of colours
+  #colorspace::mixcolor()
+}
+
 # my colour blend function. The colourspace one messes up if you have convex colours, something I fixed for the
 ARSA_blend <- function(basecols, p_length, nblend) {
   X <- rgb2hsv(col2rgb(unique(basecols)))
