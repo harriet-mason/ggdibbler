@@ -47,22 +47,10 @@ hex2hcl <- function(colours){
   as(colours, "polarLUV")
 }
 
-colourspace_blend <- function(colours){
-  n <- length(colourvalues)
-  if(n%%2 == 0){
-    # if even # of colours
-    odd <- seq(1, n, by=2)
-    even <- seq(2, n, by=2)
-    hcl_colours <- hex2hcl(colours)
-    mapply(colorspace::mixcolor, colours[odd,], colours[even])
 
-  }
-  # if odd # of colours
-  #colorspace::mixcolor()
-}
-
-# my colour blend function. The colourspace one messes up if you have convex colours, something I fixed for the
-ARSA_blend <- function(basecols, p_length, nblend) {
+# mixcolour function used in the ASRA paper
+  # the colourspace one throws a warning messes up if you have convex colours, something I fixed for the the ARSA function
+ARSA_mix <- function(basecols, p_length, nblend) {
   X <- rgb2hsv(col2rgb(unique(basecols)))
   v1 <- X[,seq(1,dim(X)[2], 2)]
   v2 <- X[,seq(2,dim(X)[2], 2)]
@@ -82,15 +70,40 @@ ARSA_blend <- function(basecols, p_length, nblend) {
     rep(hsv(h=v3[1], s=v3[2], v=v3[3]), p_length)
   }
 }
+
+tree_mix <- function(colours, amount=0.5){
+  n <- length(colourvalues)
+  # if even # of colours
+  pal <- NULL
+  if(n%%2 == 0){
+    colours <- colorspace::hex2RGB(colours)
+    for(i in seq(1, n, by=2)){
+      colour <-colorspace::mixcolor(amount, rgb_colours[i], rgb_colours[i+1])
+      pal <- c(pal, hex(colour)) #keep output same length as input
+      }
+  # if odd # of colours
+    } else {
+      stop("The tree VSUP requires an even number of colours in the palette to work")
+    } 
+  pal
+}
+
+VSUP <- function(colours, amount) {
+  
+}
+  
+  
+rgb_colours <- colorspace::hex2RGB(colourvalues)
+mixed <- tree_mix
+scales::show_col(colourvalues,ncol=4)
+scales::show_col(tree_mix(colourvalues),ncol=2)
+tree_suppress(colourvalues)
+
+mapply(colorspace::mixcolor, 0.5, rgb_colours[odd], rgb_colours[even])
+
 # checks
 scales::show_col(bivariate_pal(colourvalues, type = "dkwjend"), ncol=4)
 scales::show_col(bivariate_pal(colourvalues, type = "desaturate"), ncol=4)
 scales::show_col(bivariate_pal(colourvalues, type = "lighten"), ncol=4)
 scales::show_col(bivariate_pal(colourvalues, type = "transparency"), ncol=4)
 scales::show_col(bivariate_pal(colourvalues, type = "lighten", amount=c(0.1,0.2,0.3)), ncol=4)
-
-
-# vsup
-VSUP_pal <- function(colours, type,  n=4, amount=1){
-  colorspace::mixcolor()
-}
