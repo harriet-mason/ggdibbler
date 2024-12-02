@@ -96,10 +96,6 @@ tree_mix <- function(colours, amount=0.5){
   pal
 }
 
-col1 <- tree_mix(colourvalues)
-tree_mix(col1)
-hex(colorspace::mixcolor(0.5, hex2RGB("#B42B13"),  hex2RGB("#FBE18D")))
-
 shrinkage_mix <- function(){
 }
 
@@ -135,20 +131,11 @@ VSUP <- function(colours, method="tree", n=NULL, amount) {
     print("TODO: allow users to suppress with thier own function")
   }
 }
-  
-  
-rgb_colours <- colorspace::hex2RGB(colourvalues)
-mixed <- tree_mix
-scales::show_col(colourvalues,ncol=4)
-scales::show_col(tree_mix(colourvalues),ncol=2)
+
+VSUP(colourvalues)
 
 
 
 mapply(colorspace::mixcolor, 0.5, rgb_colours[odd], rgb_colours[even])
 
-# checks
-scales::show_col(bivariate_pal(colourvalues, type = "dkwjend"), ncol=4)
-scales::show_col(bivariate_pal(colourvalues, type = "desaturate"), ncol=4)
-scales::show_col(bivariate_pal(colourvalues, type = "lighten"), ncol=4)
-scales::show_col(bivariate_pal(colourvalues, type = "transparency"), ncol=4)
-scales::show_col(bivariate_pal(colourvalues, type = "lighten", amount=c(0.1,0.2,0.3)), ncol=4)
+
