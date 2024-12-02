@@ -18,6 +18,12 @@ transform_colour <- function(colours, type="desaturate", amount){
   colours
 }
 
+# saturation decrease function used in ARSA paper
+ARSA_trans <- function(basecols, hue=1, sat=1, val=1) {
+  X <- diag(c(hue, sat, val)) %*% rgb2hsv(col2rgb(basecols))
+  hsv(pmin(X[1,], 1), pmin(X[2,], 1), pmin(X[3,], 1))
+}
+
 bivariate_pal <- function(colours, type="desaturate",  n=4, amount=1){
   # value can be total change OR vector of increments
   if (length(amount)==1) {
