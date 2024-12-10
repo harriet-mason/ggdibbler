@@ -72,7 +72,7 @@ ARSA_mix <- function(basecols, p_length, nblend) {
 }
 
 # all mix functions should return the same number of colours they spit out.
-tree_mix <- function(colours, amount=0.5){
+tree_mix <- function(colours, alpha=0.5){
   n <- length(colours)
   colours <- unique(colours)
   m <- length(colours)
@@ -86,8 +86,8 @@ tree_mix <- function(colours, amount=0.5){
   if(m%%2 == 0){
     colours <- colorspace::hex2RGB(colours)
     for(i in seq(1, m, by=2)){
-      colour <-colorspace::mixcolor(amount, colours[i], colours[i+1])
-      pal <- c(pal, rep(hex(colour), 2*n/m)) #keep output same length as input
+      colour <- colorspace::mixcolor(alpha, colours[i], colours[i+1])
+      pal <- c(pal, rep(colourspace::hex(colour), 2*n/m)) #keep output same length as input
       }
   # if odd # of colours
     } else {
@@ -96,8 +96,27 @@ tree_mix <- function(colours, amount=0.5){
   pal
 }
 
-shrinkage_mix <- function(){
+shrinkage_mix <- function(colours, colour_mean, alpha){
+  # alpha = b/a+b where b=est_var and a=global_var
+  # mixing is only for adjustment on mean, not on the variance adjustment
+  n <- length(colours)
+  # convert to RGB for mixing
+  colour_mean <- colorspace::hex2RGB(colour_mean)
+  colours <- colorspace::hex2RGB(colours) 
+  pal <- NULL 
+  for(i in seq(n)){
+    colour <- colorspace::mixcolor(alpha, colour_mean, colours[i])
+    pal <- c(pal, colorspace::hex(colour))
+  }
+  pal
 }
+shrinkage_mix(colourvalues, mean_col, 0.25)
+
+colourvaluesRGB <- colorspace::hex2RGB(colourvalues)
+mean_col <- colorspace::hex(colorspace::mixcolor(0.5, colourvaluesRGB[2], colourvaluesRGB[3]))
+scales::show_col(mean_col)
+scales::show_col(colourvalues,ncol=4)
+scales::show_col(shrinkage_mix(colourvalues, mean_col, 0.5),ncol=4)
 
 perceptual_mix <- function(){
 }
