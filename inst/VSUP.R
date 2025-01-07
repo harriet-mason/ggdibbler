@@ -1,6 +1,3 @@
-# temporary test data
-colourvalues <- colorspace::sequential_hcl(4, palette = "YlOrRd")
-
 
 # desaturation, lightening, transparency functions
 # input: colour=palette, levels = # saturations, type = transform
@@ -126,12 +123,6 @@ shrinkage_mix <- function(colours, colour_mean=NULL, alpha=0.5){
   pal
 }
 
-colourvaluesRGB <- colorspace::hex2RGB(colourvalues)
-mean_col <- colorspace::hex(colorspace::mixcolor(0.5, colourvaluesRGB[2], colourvaluesRGB[3]))
-scales::show_col(mean_col)
-scales::show_col(colourvalues,ncol=4)
-scales::show_col(shrinkage_mix(colourvalues, mean_col, 0.5),ncol=4)
-
 
 mix_colour <- function(colours, method="tree"){
   # adjust colour based on function
@@ -145,7 +136,7 @@ mix_colour <- function(colours, method="tree"){
   colours
 }
 
-VSUP <- function(colours, method="tree", type="desaturate", n=NULL,  amount=1) {
+value_sup_palette <- function(colours, method="tree", type="desaturate", n=NULL,  amount=1) {
   # set number of mixes in case of odd number
   if(is.null(n)){
     n = 1+ floor(log2(length(colours)))
@@ -178,15 +169,83 @@ VSUP <- function(colours, method="tree", type="desaturate", n=NULL,  amount=1) {
   }
   pal
 }
-scales::show_col(t(VSUP(colourvalues, amount=0.8, method="shrinkage")))
+
+
+# temporary test colours
+colourvalues <- colorspace::sequential_hcl(4, palette = "YlOrRd")
+vsup <- value_sup_palette(colourvalues, amount=0.8, method="shrinkage")
+n <- dim(vsup)[2]
+d <- dim(vsup)[1]
+# Get toydata package from ggdibble
+# devtools::load_all()
+# toydata is weird so im getting it from the code ATM
+toydata <- toymap # delete when saved version is fine
+
+vect_pal_trans <- function(distribution, n, m){
+  # input is distribution vector and colour palette dimensions
+  means <- mean(distribution) # get mean vector
+  jumps <- (max(means) + 2 - min(means))/n
+  print(jumps)
+  print(max(means))
+  print(min(means))
+  mean_breaks <- c(seq(from=min(means), by=jumps, length = n+1)) 
+  # if min and max are equal to cut, it 
+  actual_breaks <- c(-Inf, mean_breaks[-(n-1)], Inf)
+  print(actual_breaks)
+  mean_breaks2 <- c(seq(to=max(means), by=jumps, length = n)) 
+  mean_key <- cut(means, breaks = mean_breaks) # breaks remove max while labels add 0
+  print(means)
+  print(mean_key)
+  #variances <- variance(distribution) # get mean vector
+  #variance_breaks <- floor(seq(min(variances), max(variances)+1, length.out = m)) # palette breaks
+  #variance_key <- cut(variances, breaks = variance_breaks[-n])
+  #paste(mean_key, variance_key, sep="-")
+}
+
+vect_pal_trans(toydata$temp_dist, n, d)
+
+toydata |>
+  mutate(
+
+  pivot_longer(cols=highvar:lowvar, names_to = "variance_class", values_to = "variance") |>
+  # add bivariate classes to data
+  mutate(bitemp = cut(temp, breaks=breaks, labels=seq(8)),
+         bivar = cut(variance, breaks=0:4, labels=seq(4)),
+         biclass = paste(bitemp, bivar, sep="-"))|>
+  mutate(highlight = ifelse(count_id <= 5, TRUE, FALSE))
+
+# Bivariate maps
+p2a <- my_map_data |>
+  filter(variance_class=="lowvar") |>
+  ggplot() +
+  geom_sf(aes(fill = biclass, geometry = geometry), colour=NA) + 
+  scale_fill_manual(values = bivariatepal) +
+  theme_void() + 
+  theme(legend.position = "none")
+
+# VSUP maps
+p3a <- my_map_data |>
+  filter(variance_class=="lowvar") |>
+  ggplot() +
+  geom_sf(aes(fill = biclass, geometry = geometry), colour=NA) + 
+  scale_fill_manual(values = VSUP) +
+  theme_void() + 
+  theme(legend.position = "none")
 
 # VSUP geom_sf
-geom_sf_VSUP <- function(ggplot, ???){
-  ggplot +
-    geom_sf(aes(fill = ???, geometry = geometry), colour=NA) + 
-    scale_fill_manual(values = VSUP)
-}
+# geom_sf_VSUP <- function(ggplot, ???){
+#   ggplot +
+#     geom_sf(aes(fill = ???, geometry = geometry), colour=NA) + 
+#     scale_fill_manual(values = VSUP)
+# }
 # write up similarly to geom_sf but with VSUP
 
 
+# testing lines
+colourvaluesRGB <- colorspace::hex2RGB(colourvalues)
+mean_col <- colorspace::hex(colorspace::mixcolor(0.5, colourvaluesRGB[2], colourvaluesRGB[3]))
+scales::show_col(mean_col)
+scales::show_col(colourvalues,ncol=4)
+scales::show_col(shrinkage_mix(colourvalues, mean_col, 0.5),ncol=4)
+scales::show_col(t(VSUP(colourvalues, amount=0.8, method="shrinkage")))
 
