@@ -27,7 +27,7 @@ toymap <- toymap |>
 toymap <- toymap |> 
   mutate(temp_dist = dist_normal(temp, se),
          temp_sample = generate(temp_dist, 10)) |> 
-  select(county_name, geometry, temp, se, temp_dist, temp_sample)
+  select(county_name, geometry, temp_dist, temp_sample)
 
 # make into dibble object
 # ??? idk
