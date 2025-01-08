@@ -179,15 +179,12 @@ d <- dim(vsup)[1]
 # Get toydata package from ggdibble
 # devtools::load_all()
 # toydata is weird so im getting it from the code ATM
-toydata <- toymap # delete when saved version is fine
+#toydata <- toymap # delete when saved version is fine
 
-vect_pal_trans <- function(distribution, n, m){
+vsup_scale_discrete <- function(distribution, n, m){
   # input is distribution vector and colour palette dimensions
   means <- mean(distribution) # get mean vector
   jumps <- (max(means) + 2 - min(means))/n
-  print(jumps)
-  print(max(means))
-  print(min(means))
   mean_breaks <- c(seq(from=min(means), by=jumps, length = n+1)) 
   # if min and max are equal to cut, it 
   actual_breaks <- c(-Inf, mean_breaks[-(n-1)], Inf)
@@ -202,10 +199,14 @@ vect_pal_trans <- function(distribution, n, m){
   #paste(mean_key, variance_key, sep="-")
 }
 
-vect_pal_trans(toydata$temp_dist, n, d)
+vect_pal_trans(toymap$temp_dist, n, d)
 
-toydata |>
-  mutate(
+
+library(distributional) # remove when I stop getting that error
+
+test <- toymap |>
+  dplyr::mutate(est = mean(temp_dist),
+                vari = variance(temp_dist))
 
   pivot_longer(cols=highvar:lowvar, names_to = "variance_class", values_to = "variance") |>
   # add bivariate classes to data
@@ -215,10 +216,9 @@ toydata |>
   mutate(highlight = ifelse(count_id <= 5, TRUE, FALSE))
 
 # Bivariate maps
-p2a <- my_map_data |>
-  filter(variance_class=="lowvar") |>
+toymap |>
   ggplot() +
-  geom_sf(aes(fill = biclass, geometry = geometry), colour=NA) + 
+  geom_sf(aes(fill = , geometry = geometry), colour=NA) + 
   scale_fill_manual(values = bivariatepal) +
   theme_void() + 
   theme(legend.position = "none")
