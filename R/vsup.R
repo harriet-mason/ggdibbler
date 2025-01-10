@@ -49,7 +49,7 @@ pal_bivariate <- function(colours, type="desaturate",  n=4, amount=1){
 #' pal_vsup(colourvalues)
 #'
 #' @export
-pal_vsup <- function(colours, method="tree", type="desaturate", n=NULL,  amount=1) {
+pal_vsup <- function(colours, method="tree", type="desaturate", n=NULL,  amount=0.9) {
   # set number of mixes in case of odd number
   if(is.null(n)){
     n = 1+ floor(log2(length(colours)))
@@ -80,7 +80,7 @@ pal_vsup <- function(colours, method="tree", type="desaturate", n=NULL,  amount=
   } else if (class(method)=="function"){
     print("TODO: allow users to suppress with thier own function")
   }
-  pal
+  t(pal)
 }
 
 # desaturation, lightening, transparency functions
