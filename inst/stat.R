@@ -8,7 +8,7 @@ library(distributional)
 #make mean/var once working
 StatMean <- ggplot2::ggproto("StatMean", Stat, # stat not found if ggplot2 isn't loaded
                        compute_group = function(data, scales) {
-                         data[distributional::mean(data$y), , drop = FALSE]
+                         mean(data$y)
                        },
                        required_aes = c("y")
 )
