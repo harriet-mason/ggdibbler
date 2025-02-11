@@ -40,7 +40,8 @@ ggplot(toymap, aes(x = county_name)) +
 #make mean/var once working
 StatMean <- ggplot2::ggproto("StatMean", Stat, # stat not found if ggplot2 isn't loaded
                              compute_group = function(data, scales) {
-                               data[mean(data$colour), , drop = FALSE]
+                               mean(data$colour)
+                               print(mean(data$colour))
                              },
                              required_aes = c("colour")
 )
