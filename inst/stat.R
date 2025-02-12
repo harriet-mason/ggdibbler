@@ -18,7 +18,7 @@ c <- b |>
 ###########################################################################
 
 # Location based StatMean
-StatMeanX <- ggplot2::ggproto("StatMean", ggplot2::Stat, 
+StatMean <- ggplot2::ggproto("StatMean", ggplot2::Stat, 
                        compute_group = function(data, scales) {
                          data$y <- distributional:::mean.distribution(data$y)
                          data
@@ -28,7 +28,7 @@ StatMeanX <- ggplot2::ggproto("StatMean", ggplot2::Stat,
 
 
 # Layer function
-stat_mean_x <- function(mapping = NULL, data = NULL, 
+stat_mean <- function(mapping = NULL, data = NULL, 
                                       geom = "point", position = "identity", 
                                       na.rm = FALSE, show.legend = NA, 
                                       inherit.aes = TRUE, ...) {
@@ -49,7 +49,7 @@ stat_mean_x <- function(mapping = NULL, data = NULL,
 ggplot() +
   # Cannot plot dist and normal variables together, bit of a problem
   # geom_point(data=a, aes(x=county_name, y=temp), size=2, colour="red") +
-  stat_mean_x(data = b, aes(x=county_name, y=temp_dist), size=0.5)
+  stat_mean(data = b, aes(x=county_name, y=temp_dist), size=0.5)
 
 ###########################################################################
 
@@ -63,6 +63,8 @@ StatSample <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat,
 )
 
 StatSample$compute_group(named, n=10)
+
+
 ###########################################################################
 
                
