@@ -4,9 +4,25 @@ library(vctrs)
 devtools::load_all()
 library(distributional)
 
+ggplot() +
+  geom_sf(data=data, aes(geometry, fill=distribution)) +
+  scale_colour_vsup()
+
+
+a <- toymap |> select(county_name, temp)
+b <- toymap |> select(county_name, temp_dist)
+
+c <- b |>
+  mutate(temp_mean = distributional:::mean.distribution(temp_dist)) %>%
+  select(county_name, temp_mean)
+
+ggplot() +
+  geom_point(data=a, aes(x=county_name, y=temp), size=2, colour="blue") +
+  geom_point(data=c, aes(county_name, temp_mean), size=0.5)
+
 # ggproto object 
 #make mean/var once working
-StatMean <- ggplot2::ggproto("StatMean", Stat, # stat not found if ggplot2 isn't loaded
+StatMean <- ggplot2::ggproto("StatMean", ggplot2::Stat, # stat not found if ggplot2 isn't loaded
                        compute_group = function(data, scales) {
                          mean(data$y)
                        },
@@ -29,10 +45,12 @@ stat_mean <- function(mapping = NULL, data = NULL,
     params = list(na.rm = na.rm, ...)
   )
 }
+m <- toymap
 
 # test stat
 ggplot(toymap, aes(x = county_name)) + 
   geom_point(aes(y=temp), size=2, colour="blue") + 
+  stat_sum
   stat_mean(aes(y=temp_dist))
 
 ######################## TRY WITH COLOUR INSTEAD ####################
@@ -84,6 +102,7 @@ StatProb <- ggproto()
 
 # Basic DF in DF out approach
 sample_df <- function(df){
+
 
 }
 n=10
