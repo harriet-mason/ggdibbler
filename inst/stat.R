@@ -1,19 +1,20 @@
 # working out inputs and outputs
-library(tidyverse)
+#library(tidyverse)
+#library(distributional)
 devtools::load_all()
-library(distributional)
+
 
 # data with matching names for checking compute_group functions
 named <- toymap |>
-  rename(x = county_name, y = temp_dist) |>
-  select(x, y)
+  dplyr::rename(x = county_name, y = temp_dist) |>
+  dplyr::select(x, y)
 
 # three data sets
-a <- toymap |> select(county_name, temp)
-b <- toymap |> select(county_name, temp_dist)
+a <- toymap |> dplyr::select(county_name, temp)
+b <- toymap |> dplyr::select(county_name, temp_dist)
 c <- b |>
-  mutate(temp_mean = distributional:::mean.distribution(temp_dist)) %>%
-  select(county_name, temp_mean)
+  dplyr::mutate(temp_mean = distributional:::mean.distribution(temp_dist)) |>
+  dplyr::select(county_name, temp_mean)
 
 ###########################################################################
 
@@ -32,7 +33,7 @@ stat_mean <- function(mapping = NULL, data = NULL,
                                       geom = "point", position = "identity", 
                                       na.rm = FALSE, show.legend = NA, 
                                       inherit.aes = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     stat = StatMean, 
     data = data, 
     mapping = mapping, 
@@ -46,23 +47,22 @@ stat_mean <- function(mapping = NULL, data = NULL,
 
 
 # test map
-ggplot() +
+ggplot2::ggplot() +
   # Cannot plot dist and normal variables together, bit of a problem
   # geom_point(data=a, aes(x=county_name, y=temp), size=2, colour="red") +
-  stat_mean(data = b, aes(x=county_name, y=temp_dist), size=0.5)
+  stat_mean(data = b, ggplot2::aes(x=county_name, y=temp_dist), size=0.5)
 
 ###########################################################################
 
 # Location based StatSample
 StatSample <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat,
-                               compute_group = function(data, scales, n) {
+                               compute_group = function(data, scales, n=10) {
                                  data$y <- distributional::generate(data$y, n)
                                  data
                                },
                                required_aes = c("y")
 )
 
-StatSample$compute_group(named, n=10)
 
 
 ###########################################################################
