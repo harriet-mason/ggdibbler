@@ -59,16 +59,14 @@ ggplot2::ggplot() +
 ###########################################################################
 # Location based StatSample
 StatSample <- ggplot2::ggproto("StatSample", ggplot2::Stat,
-                               compute_group = function(data, scales, n=10) {
+                               compute_group = function(data, n=10, scales) {
                                  data |>
-                                   dplyr::mutate(y = distributional::generate(y, 10)) |>
+                                   dplyr::mutate(y = distributional::generate(y, n)) |>
                                    tidyr::unnest(y)
                                    
                                },
                                required_aes = c("y")
 )
-
-check <- StatSample$compute_group(named)
 
 stat_sample <- function(mapping = NULL, data = NULL, 
                       geom = "point", position = "identity", 
@@ -93,15 +91,41 @@ ggplot2::ggplot() +
             size=0.5)
 
 ###########################################################################
-StatProb <- ggproto("StatProb", ggplot2::Stat,
-                    compute_group = function(data, scales) {
-                      data 
+
+StatProb <- ggplot2::ggproto("StatProb", ggplot2::Stat,
+                    compute_group = function(data, p, scales) {
+                      
+                      data |>
+                        dplyr::mutate(y = distributional:::quantile.distribution(y, p)) |>
+                        tidyr::unnest(y)
                       
                     },
                     required_aes = c("y")
 )
+p <- c(0.2, 0.4, 0.6, 0.8)
+StatProb$compute_group(named, p)
 
+stat_sample <- function(mapping = NULL, data = NULL, 
+                      geom = "point", position = "identity", 
+                      na.rm = FALSE, show.legend = NA, 
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatSample, 
+    data = data, 
+    mapping = mapping, 
+    geom = geom, 
+    position = position, 
+    show.legend = show.legend, 
+    inherit.aes = inherit.aes, 
+    params = list(na.rm = na.rm, ...)
+  )
+}
 
+# test plot
+ggplot2::ggplot() +
+  stat_sample(data = b, 
+            ggplot2::aes(x=county_name, y=temp_dist), 
+            size=0.5)
 ###########################################################################
                
                                             
