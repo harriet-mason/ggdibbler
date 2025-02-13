@@ -48,12 +48,11 @@ stat_mean <- function(mapping = NULL, data = NULL,
 
 # test map
 ggplot2::ggplot() +
-  # Cannot plot dist and normal variables together, bit of a problem
-  # geom_point(data=a, aes(x=county_name, y=temp), size=2, colour="red") +
-  stat_mean(data = b, ggplot2::aes(x=county_name, y=temp_dist), size=0.5)
+  stat_mean(data = b, 
+            ggplot2::aes(x=county_name, y=temp_dist), 
+            size=0.5)
 
 ###########################################################################
-
 # Location based StatSample
 StatSample <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat,
                                compute_group = function(data, scales, n=10) {
@@ -63,7 +62,29 @@ StatSample <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat,
                                required_aes = c("y")
 )
 
+#StatSample$compute_group(named)
 
+stat_sample <- function(mapping = NULL, data = NULL, 
+                      geom = "point", position = "identity", 
+                      na.rm = FALSE, show.legend = NA, 
+                      inherit.aes = TRUE, ...) {
+  ggplot2::layer(
+    stat = StatSample, 
+    data = data, 
+    mapping = mapping, 
+    geom = geom, 
+    position = position, 
+    show.legend = show.legend, 
+    inherit.aes = inherit.aes, 
+    params = list(na.rm = na.rm, ...)
+  )
+}
+
+# test plot
+ggplot2::ggplot() +
+  stat_sample(data = b, 
+            ggplot2::aes(x=county_name, y=temp_dist), 
+            size=0.5)
 
 ###########################################################################
 
