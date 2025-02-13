@@ -3,15 +3,19 @@
 #library(distributional)
 devtools::load_all()
 
+toydata <- toymap |>
+  dplyr::filter(county_name == "Story County" | 
+                  county_name == "Boone County" | 
+                  county_name == "Johnson County")
 
 # data with matching names for checking compute_group functions
-named <- toymap |>
+named <- toydata |>
   dplyr::rename(x = county_name, y = temp_dist) |>
   dplyr::select(x, y)
 
 # three data sets
-a <- toymap |> dplyr::select(county_name, temp)
-b <- toymap |> dplyr::select(county_name, temp_dist)
+a <- toydata |> dplyr::select(county_name, temp)
+b <- toydata |> dplyr::select(county_name, temp_dist)
 c <- b |>
   dplyr::mutate(temp_mean = distributional:::mean.distribution(temp_dist)) |>
   dplyr::select(county_name, temp_mean)
