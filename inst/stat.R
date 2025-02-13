@@ -93,7 +93,16 @@ ggplot2::ggplot() +
             size=0.5)
 
 ###########################################################################
+StatProb <- ggproto("StatProb", ggplot2::Stat,
+                    compute_group = function(data, scales) {
+                      data 
+                      
+                    },
+                    required_aes = c("y")
+)
 
+
+###########################################################################
                
                                             
 # Fill based StatMeanVar (cant check without propper ggplot)
@@ -117,7 +126,7 @@ StatProb <- ggproto()
 
 # try and go between condensed and long data frame
 n=10
-m <- toymap |>
+m <- toydata |>
   select(c(county_name, temp_dist, geometry)) |>
   mutate(count=n) |>
   uncount(count) |>
