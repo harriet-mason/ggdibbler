@@ -58,15 +58,17 @@ ggplot2::ggplot() +
 
 ###########################################################################
 # Location based StatSample
-StatSample <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat,
+StatSample <- ggplot2::ggproto("StatSample", ggplot2::Stat,
                                compute_group = function(data, scales, n=10) {
-                                 data$y <- distributional::generate(data$y, n)
-                                 data
+                                 data |>
+                                   dplyr::mutate(y = distributional::generate(y, 10)) |>
+                                   tidyr::unnest(y)
+                                   
                                },
                                required_aes = c("y")
 )
 
-#StatSample$compute_group(named)
+check <- StatSample$compute_group(named)
 
 stat_sample <- function(mapping = NULL, data = NULL, 
                       geom = "point", position = "identity", 
