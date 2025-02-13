@@ -142,24 +142,7 @@ StatMeanVar <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat,
 
 ###########################################################################
 
-
 StatPDF <- ggproto()
 
-StatProb <- ggproto()
 
-
-# try and go between condensed and long data frame
-n=10
-m <- toydata |>
-  select(c(county_name, temp_dist, geometry)) |>
-  mutate(count=n) |>
-  uncount(count) |>
-  rowid_to_column("ID") |>
-  group_by(ID, county_name, temp_dist, geometry) |>
-  summarise(temp_sample = distributional::generate(temp_dist, 1))
-  #separate_longer_delim(temp_sample, delim = ",")
-  # I mean it works
-
-# have to use different versions of these functions for sf or tibble
-# runs fine if i have tidyerse loaded, but cant call each package indirectly
   
