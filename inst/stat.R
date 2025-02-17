@@ -93,8 +93,8 @@ ggplot2::ggplot() +
 ###########################################################################
 
 StatProb <- ggplot2::ggproto("StatProb", ggplot2::Stat,
-                    compute_group = function(data, p, scales) {
-                      
+                    compute_group = function(data, p=NULL, scales) {
+                      if (is.null(p)) {p = c(0.2, 0.4, 0.6, 0.8)}
                       data |>
                         dplyr::mutate(y = distributional:::quantile.distribution(y, p)) |>
                         tidyr::unnest(y)
@@ -102,15 +102,16 @@ StatProb <- ggplot2::ggproto("StatProb", ggplot2::Stat,
                     },
                     required_aes = c("y")
 )
-p <- c(0.2, 0.4, 0.6, 0.8)
+StatProb$compute_group(named)
+p <- c(0.1, 0.3, 0.5, 0.7, 0.9)
 StatProb$compute_group(named, p)
 
-stat_sample <- function(mapping = NULL, data = NULL, 
+stat_prob <- function(mapping = NULL, data = NULL, 
                       geom = "point", position = "identity", 
                       na.rm = FALSE, show.legend = NA, 
                       inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    stat = StatSample, 
+    stat = StatProb, 
     data = data, 
     mapping = mapping, 
     geom = geom, 
@@ -123,7 +124,7 @@ stat_sample <- function(mapping = NULL, data = NULL,
 
 # test plot
 ggplot2::ggplot() +
-  stat_sample(data = b, 
+  stat_prob(data = b, 
             ggplot2::aes(x=county_name, y=temp_dist), 
             size=0.5)
 ###########################################################################
