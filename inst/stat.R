@@ -143,7 +143,8 @@ StatMeanVar <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat,
 
 ###########################################################################
 
-StatPDF <- ggproto()
+# idk if getting the pdf function would have any use
+StatPDF <- ggproto() 
 
 
   
