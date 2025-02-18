@@ -32,8 +32,19 @@ StatMeanVar <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat,
 )
 # tested compute_group function and it works. Cant check the rest until fill is done
 
-# 
+# Dont have a geom that takes two values for the fill function
+
+GeomSfDist <- ggproto("GeomSfDist", ggplot2::GeomSf,
+                      # Specify the required aesthetics                   
+                      required_aes = c("geometry", "hue", "saturation"),
+            
+)
+)
+# need function that generates the plot
+
 
 
 # Ideal code
-geom_sf()
+#ggplot(toydata) +
+#  geom_sf(aes(geometry, fill=temp_dist)) +
+#  scale_fill_VSUP()
