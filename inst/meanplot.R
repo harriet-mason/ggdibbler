@@ -8,30 +8,33 @@ toydata <- toymap |>
 
 # data with matching names for checking compute_group functions
 named <- toydata |>
-  dplyr::rename(fill = temp_dist) 
+  dplyr::rename(fill = temp_dist) |>
+  dplyr::select(geometry, fill)
 
 # three data sets
-a <- toydata |> dplyr::select(county_name, temp)
-b <- toydata |> dplyr::select(county_name, temp_dist)
+a <- toydata |> dplyr::select(geometry, temp)
+b <- toydata |> dplyr::select(geometry, temp_dist)
 c <- b |>
   dplyr::mutate(temp_mean = distributional:::mean.distribution(temp_dist)) |>
-  dplyr::select(county_name, temp_mean)
+  dplyr::select(geometry, temp_mean)
 
 ###########################################################################
 
 # Location based StatMean
 StatMean <- ggplot2::ggproto("StatMean", ggplot2::Stat, 
                              compute_group = function(data, scales) {
-                               data$y <- distributional:::mean.distribution(data$y)
+                               data$fill <- distributional:::mean.distribution(data$fill)
                                data
                              },
                              required_aes = c("fill")
 )
 
 
+StatMean$compute_group(named)
+
 # Layer function
 stat_mean <- function(mapping = NULL, data = NULL, 
-                      geom = "point", position = "identity", 
+                      geom = ggplot2::GeomSf, position = "identity", 
                       na.rm = FALSE, show.legend = NA, 
                       inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -47,8 +50,12 @@ stat_mean <- function(mapping = NULL, data = NULL,
 }
 
 
+
 # test map
 ggplot2::ggplot() +
   stat_mean(data = b, 
-            ggplot2::aes(x=county_name, y=temp_dist), 
-            size=0.5)
+            ggplot2::aes(geometry = geometry, fill=temp_dist)
+            )
+
+
+
