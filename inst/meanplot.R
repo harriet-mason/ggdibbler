@@ -50,12 +50,12 @@ stat_mean <- function(mapping = NULL, data = NULL,
 }
 
 
-
 # test map
 ggplot2::ggplot() +
   stat_mean(data = b, 
             ggplot2::aes(geometry = geometry, fill=temp_dist)
             )
 
-
+# CURRENT ISSUE: Geom_sf has its OWN stat that it computes. 
+# and there is no obvious way to compute two stats on the same data
 
