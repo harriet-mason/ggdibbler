@@ -4,7 +4,7 @@
 devtools::load_all()
 
 toydata <- toymap |>
-  dplyr::filter(county_name %in% c("Story County", "Boone County", "Johnson County")
+  dplyr::filter(county_name %in% c("Story County", "Boone County", "Johnson County"))
 
 # data with matching names for checking compute_group functions
 named <- toydata |>
@@ -57,19 +57,19 @@ ggplot2::ggplot() +
 ###########################################################################
 # Location based StatSample
 StatSample <- ggplot2::ggproto("StatSample", ggplot2::Stat,
-                               compute_group = function(data, n=10, scales) {
+                               compute_group = function(data, scales, n) {
                                  data |>
                                    dplyr::mutate(y = distributional::generate(y, n)) |>
                                    tidyr::unnest(y)
-                                   
+                                 
                                },
                                required_aes = c("y")
 )
 
 stat_sample <- function(mapping = NULL, data = NULL, 
-                      geom = "point", position = "identity", 
-                      na.rm = FALSE, show.legend = NA, 
-                      inherit.aes = TRUE, ...) {
+                        geom = "point", position = "identity", 
+                        na.rm = FALSE, show.legend = NA, 
+                        inherit.aes = TRUE, n=10, ...) {
   ggplot2::layer(
     stat = StatSample, 
     data = data, 
@@ -78,20 +78,21 @@ stat_sample <- function(mapping = NULL, data = NULL,
     position = position, 
     show.legend = show.legend, 
     inherit.aes = inherit.aes, 
-    params = list(na.rm = na.rm, ...)
+    params = list(na.rm = na.rm,
+                  n = n, ...)
   )
 }
 
 # test plot
 ggplot2::ggplot() +
   stat_sample(data = b, 
-            ggplot2::aes(x=county_name, y=temp_dist), 
-            size=0.5)
+              ggplot2::aes(x=county_name, y=temp_dist), n=30,
+              size=0.5)
 
 ###########################################################################
 
 StatProb <- ggplot2::ggproto("StatProb", ggplot2::Stat,
-                    compute_group = function(data, p=NULL, scales) {
+                    compute_group = function(data, scales, p = NULL) {
                       if (is.null(p)) {p = c(0.2, 0.4, 0.6, 0.8)}
                       data |>
                         dplyr::mutate(y = distributional:::quantile.distribution(y, p)) |>
@@ -100,14 +101,11 @@ StatProb <- ggplot2::ggproto("StatProb", ggplot2::Stat,
                     },
                     required_aes = c("y")
 )
-StatProb$compute_group(named)
-p <- c(0.1, 0.3, 0.5, 0.7, 0.9)
-StatProb$compute_group(named, p)
 
 stat_prob <- function(mapping = NULL, data = NULL, 
                       geom = "point", position = "identity", 
                       na.rm = FALSE, show.legend = NA, 
-                      inherit.aes = TRUE, ...) {
+                      inherit.aes = TRUE, p = NULL, ...) {
   ggplot2::layer(
     stat = StatProb, 
     data = data, 
@@ -116,14 +114,17 @@ stat_prob <- function(mapping = NULL, data = NULL,
     position = position, 
     show.legend = show.legend, 
     inherit.aes = inherit.aes, 
-    params = list(na.rm = na.rm, ...)
+    params = list(na.rm = na.rm,
+                  p = p, ...)
   )
 }
+
+p <- c(0.1, 0.3, 0.5, 0.7, 0.9)
 
 # test plot
 ggplot2::ggplot() +
   stat_prob(data = b, 
-            ggplot2::aes(x=county_name, y=temp_dist), 
+            ggplot2::aes(x=county_name, y=temp_dist), p=p,
             size=0.5)
 
 ###########################################################################
