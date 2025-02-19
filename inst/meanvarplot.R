@@ -24,8 +24,8 @@ c <- b |>
 # Fill based StatMeanVar (cant check without propper ggplot)
 StatMeanVar <- ggplot2::ggproto("StatMeanVar", ggplot2::Stat, 
                                 compute_group = function(data, scales) {
-                                  data$mfill <- distributional:::mean.distribution(data$fill)
-                                  data$vfill <- distributional:::variance.distribution(data$fill)
+                                  data$hue <- distributional:::mean.distribution(data$fill)
+                                  data$saturation <- distributional:::variance.distribution(data$fill)
                                   data
                                 },
                                 required_aes = c("fill")
@@ -41,6 +41,7 @@ GeomSfDist <- ggproto("GeomSfDist", ggplot2::GeomSf,
 )
 )
 # need function that generates the plot
+
 
 
 
