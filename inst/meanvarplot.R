@@ -41,7 +41,7 @@ GeomSfDist <- ggproto("GeomSfDist", ggplot2::GeomSf,
 )
 # need function that generates the plot
 
-
+# CURRENT ISSUE: Need to pass hue and saturation on, i.e. need to be able to compute multiple aesthetics
 
 
 # Ideal code
