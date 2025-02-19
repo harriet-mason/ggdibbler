@@ -20,34 +20,30 @@ c <- b |>
 
 # Location based StatSample
 StatSample <- ggplot2::ggproto("StatSample", ggplot2::Stat,
-                               compute_group = function(data, scales, n) {
+                               compute_group = function(data, scales, n = NULL) {
+                                 if (is.null(n)) {n = 10}
                                  data |>
-                                   dplyr::mutate(y = distributional::generate(y, n)) |>
-                                   tidyr::unnest(y)
+                                   dplyr::mutate(fill = distributional::generate(fill, n)) |>
+                                   tidyr::unnest(fill)
                                  
                                },
-                               required_aes = c("y")
+                               required_aes = c("fill")
 )
 
-stat_sample <- function(mapping = NULL, data = NULL, 
-                        geom = "point", position = "identity", 
-                        na.rm = FALSE, show.legend = NA, 
-                        inherit.aes = TRUE, n=10, ...) {
-  ggplot2::layer(
-    stat = StatSample, 
-    data = data, 
-    mapping = mapping, 
-    geom = geom, 
-    position = position, 
-    show.legend = show.legend, 
-    inherit.aes = inherit.aes, 
-    params = list(na.rm = na.rm,
-                  n = n, ...)
-  )
-}
+StatSample$compute_group(named)
 
-# test plot
-ggplot2::ggplot() +
-  stat_sample(data = b, 
-              ggplot2::aes(x=county_name, y=temp_dist), n=30,
-              size=0.5)
+
+# Function that splits geometry up into subdivided sections
+geometry <- named[[ ggplot2:::geom_column(named) ]]
+sf::st_bbox(geometry)
+
+# check what format the data that is fed into geom_polygon should be
+named <- toydata |>
+  dplyr::rename(x = temp, y = se) |>
+  dplyr::select(x, y) |>
+  sf::st_drop_geometry()
+
+named[chull(named$x, named$y), , drop = FALSE]
+
+# try to make a grid of values from the geometry
+# sf::st_make_grid(geometry) # this function should make a grid inside the geometry
