@@ -4,9 +4,7 @@
 devtools::load_all()
 
 toydata <- toymap |>
-  dplyr::filter(county_name == "Story County" | 
-                  county_name == "Boone County" | 
-                  county_name == "Johnson County")
+  dplyr::filter(county_name %in% c("Story County", "Boone County", "Johnson County")
 
 # data with matching names for checking compute_group functions
 named <- toydata |>
