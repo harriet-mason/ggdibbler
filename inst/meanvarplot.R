@@ -11,8 +11,8 @@ toydata <- toymap |>
 
 # data with matching names for checking compute_group functions
 named <- toydata |>
-  dplyr::rename(x = county_name, y = temp_dist) |>
-  dplyr::select(x, y)
+  dplyr::rename(x = county_name, fill = temp_dist) |>
+  dplyr::select(x, fill)
 
 # three data sets
 a <- toydata |> dplyr::select(county_name, temp)
