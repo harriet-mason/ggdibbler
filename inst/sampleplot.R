@@ -4,7 +4,7 @@
 devtools::load_all()
 
 toydata <- toymap |>
-  dplyr::filter(county_name %in% c("Story County", "Boone County", "Johnson County"))
+  dplyr::filter(county_name %in% c("Dallas County", "Polk County", "Story County", "Boone County"))
 
 # data with matching names for checking compute_group functions
 named <- toydata |>
@@ -31,11 +31,25 @@ StatSample <- ggplot2::ggproto("StatSample", ggplot2::Stat,
 )
 
 StatSample$compute_group(named)
-
-
+ 
 # Function that splits geometry up into subdivided sections
-geometry <- named[[ ggplot2:::geom_column(named) ]]
-sf::st_bbox(geometry)
+
+subdivide <- function(geometry, d = c(3,3)){
+  # make n*n grid
+  g <- sf::st_make_grid(geometry, n=d)
+  # combine grid and original geometry into sf
+  a <- c(geometry, g)
+  sf <- sf::st_sf(a)
+  # get interactions of grid and orginal geometry
+  i = sf::st_intersection(sf)
+  # new subdivided geometry 
+  subdivided <- i |> 
+    dplyr::filter( `n.overlaps` >=2) |> #get grid elements that overlap with original shape
+    dplyr::filter(sf::st_geometry_type(a) %in% c("POLYGON")) # get rid of other weird line stuff
+  subdivided$a
+}
+
+plot(subdivide(toydata$geometry[1]))
 
 # check what format the data that is fed into geom_polygon should be
 named <- toydata |>
@@ -45,5 +59,9 @@ named <- toydata |>
 
 named[chull(named$x, named$y), , drop = FALSE]
 
-# try to make a grid of values from the geometry
-# sf::st_make_grid(geometry) # this function should make a grid inside the geometry
+
+
+
+
+
+
