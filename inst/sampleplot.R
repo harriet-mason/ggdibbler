@@ -49,7 +49,9 @@ subdivide <- function(geometry, d = c(3,3)){
   subdivided$a
 }
 
-plot(subdivide(toydata$geometry[1]))
+plot(toydata$geometry[1])
+
+plot(subdivide(toydata$geometry[1], d=c(10,10)))
 
 # check what format the data that is fed into geom_polygon should be
 named <- toydata |>
