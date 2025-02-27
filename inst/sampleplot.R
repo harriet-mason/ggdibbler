@@ -9,7 +9,7 @@ toydata <- toymap |>
 # data with matching names for checking compute_group functions
 named <- toydata |>
   dplyr::rename(fill = temp_dist) |>
-  dplyr::select(geometry, fill)
+  dplyr::select(county_name, geometry, fill)
 
 # three data sets
 a <- toydata |> dplyr::select(geometry, temp)
@@ -22,19 +22,21 @@ c <- b |>
 StatSample <- ggplot2::ggproto("StatSample", ggplot2::Stat,
                                compute_group = function(data, scales, n = NULL) {
                                  if (is.null(n)) {n = 10}
+                                 
                                  data |>
-                                   dplyr::mutate(fill = distributional::generate(fill, n)) |>
-                                   tidyr::unnest(fill)
+                                   dplyr::group_by(geometry) |>
+                                   dplyr::reframe(geometry = subdivide(geometry, d=c(n,n)), 
+                                                  dplyr::across(dplyr::everything())) |>
+                                   dplyr::mutate(fill = as.double(distributional::generate(fill, 1)))
+                                 
                                  
                                },
-                               required_aes = c("fill")
+                               required_aes = c("geometry","fill")
 )
 
-StatSample$compute_group(named)
- 
 # Function that splits geometry up into subdivided sections
 
-subdivide <- function(geometry, d = c(3,3)){
+subdivide <- function(geometry, d){
   # make n*n grid
   g <- sf::st_make_grid(geometry, n=d)
   # combine grid and original geometry into sf
@@ -49,9 +51,17 @@ subdivide <- function(geometry, d = c(3,3)){
   subdivided$a
 }
 
-plot(toydata$geometry[1])
+d <- StatSample$compute_group(named, n=20)
 
-plot(subdivide(toydata$geometry[1], d=c(10,10)))
+ggplot(d) + 
+  geom_sf(aes(geometry=geometry, fill=fill)) +
+  scale_fill_viridis_c()
+
+
+  
+
+
+
 
 # check what format the data that is fed into geom_polygon should be
 named <- toydata |>
