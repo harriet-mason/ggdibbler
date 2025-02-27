@@ -18,24 +18,7 @@ c <- b |>
   dplyr::mutate(temp_mean = distributional:::mean.distribution(temp_dist)) |>
   dplyr::select(geometry, temp_mean)
 
-# Location based StatSample
-StatSample <- ggplot2::ggproto("StatSample", ggplot2::Stat,
-                               compute_group = function(data, scales, n = NULL) {
-                                 if (is.null(n)) {n = 10}
-                                 
-                                 data |>
-                                   dplyr::group_by(geometry) |>
-                                   dplyr::reframe(geometry = subdivide(geometry, d=c(n,n)), 
-                                                  dplyr::across(dplyr::everything())) |>
-                                   dplyr::mutate(fill = as.double(distributional::generate(fill, 1)))
-                                 
-                                 
-                               },
-                               required_aes = c("geometry","fill")
-)
-
 # Function that splits geometry up into subdivided sections
-
 subdivide <- function(geometry, d){
   # make n*n grid
   g <- sf::st_make_grid(geometry, n=d)
@@ -51,14 +34,61 @@ subdivide <- function(geometry, d){
   subdivided$a
 }
 
-d <- StatSample$compute_group(named, n=20)
+# Location based StatSample
+StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
+                               # compute_layer is literally code from stat_sf
+                               compute_group = function(data, scales, coord, n = NULL) {
+                                 if (is.null(n)) {n = 10}
+                                 # subdivide and sample data
+                                 data <- data |>
+                                   dplyr::group_by(geometry) |>
+                                   dplyr::reframe(geometry = subdivide(geometry, d=c(n,n)), 
+                                                  dplyr::across(dplyr::everything())) |>
+                                   dplyr::mutate(fill = as.double(distributional::generate(fill, 1)))
+                                 sf::st_sf(data)
+                               },
+                               
+                               required_aes = c("geometry")
+)
 
-ggplot(d) + 
+
+test <- StatSample$compute_group(named, n=20)
+
+# check geometry alone works
+ggplot(test) + 
+  geom_sf(aes(geometry=geometry)) 
+
+# check geometry and fill
+ggplot(test) + 
   geom_sf(aes(geometry=geometry, fill=fill)) +
   scale_fill_viridis_c()
 
 
-  
+# make layer function
+
+stat_sample <- function(mapping = NULL, data = NULL,
+                    position = "identity", na.rm = FALSE, show.legend = NA,
+                    inherit.aes = TRUE, ...) {
+  layer_sf(
+    stat = StatSample,
+    data = data,
+    mapping = mapping,
+    geom = GeomSf,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      na.rm = na.rm,
+      ...
+    )
+  )
+}
+# doesn't work
+#ggdebug(ggplot, GeomSf$draw_panel)
+#ggundebug(ggplot, GeomSf$draw_panel)
+
+ggplot(b) + 
+  stat_sample(aes(geometry=geometry))
 
 
 
