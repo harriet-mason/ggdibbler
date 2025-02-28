@@ -2,6 +2,7 @@
 #library(tidyverse)
 #library(distributional)
 devtools::load_all()
+library(ggplot2)
 
 toydata <- toymap |>
   dplyr::filter(county_name %in% c("Dallas County", "Polk County", "Story County", "Boone County"))
