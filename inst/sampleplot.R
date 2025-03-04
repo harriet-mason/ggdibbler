@@ -41,12 +41,13 @@ StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
                                compute_group = function(data, scales, coord, n = NULL) {
                                  if (is.null(n)) {n = 10}
                                  # subdivide and sample data
-                                 data <- data |>
+                                 data |>
                                    dplyr::group_by(geometry) |>
                                    dplyr::reframe(geometry = subdivide(geometry, d=c(n,n)), 
                                                   dplyr::across(dplyr::everything())) |>
-                                   dplyr::mutate(fill = as.double(distributional::generate(fill, 1)))
-                                 sf::st_sf(data)
+                                   dplyr::mutate(fill = as.double(distributional::generate(fill, 1))) |>
+                                   sf::st_sf() |>
+                                   sf::st_zm()
                                },
                                
                                required_aes = c("geometry")
@@ -65,28 +66,71 @@ ggplot(test) +
   scale_fill_viridis_c()
 
 
-# make layer function
+# make stat function
 
-stat_sample <- function(mapping = NULL, data = NULL,
-                    position = "identity", na.rm = FALSE, show.legend = NA,
-                    inherit.aes = TRUE, ...) {
+stat_sample <- function(mapping = aes(), data = NULL, geom = "rect",
+                           position = "identity", na.rm = FALSE, show.legend = NA,
+                           inherit.aes = TRUE, ...) {
   layer_sf(
-    stat = StatSample,
-    data = data,
-    mapping = mapping,
-    geom = GeomSf,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list(
-      na.rm = na.rm,
-      ...
-    )
+      geom = geom,
+      data = data,
+      mapping = mapping,
+      stat = StatSample,
+      position = position,
+      show.legend = show.legend,
+      inherit.aes = inherit.aes,
+      params = rlang::list2(
+        na.rm = na.rm,
+        ...
+        )
   )
 }
+
+ggplot(data=b) +
+  geom_sf(aes(geometry = after_stat(geometry), fill = after_stat(fill)),
+        stat = "stat_sample")
+
+# make layer function
+
+geom_sf_sample <- function(mapping = aes(), data = NULL,
+                    position = "identity", na.rm = FALSE, show.legend = NA,
+                    inherit.aes = TRUE, ...) {
+  c(
+    layer_sf(
+      geom = GeomSf,
+      data = data,
+      mapping = mapping,
+      stat = StatSample,
+      position = position,
+      show.legend = show.legend,
+      inherit.aes = inherit.aes,
+      params = rlang::list2(
+        na.rm = na.rm,
+        ...
+      )
+    ),
+    coord_sf(default = TRUE)
+  )
+}
+
+
 # doesn't work
-#ggdebug(ggplot, GeomSf$draw_panel)
-#ggundebug(ggplot, GeomSf$draw_panel)
+#ggdebug::ggdebug(ggplot, GeomSf$draw_panel)
+#ggdebug::ggundebug(ggplot, GeomSf$draw_panel)
+
+
+ggplot(b) + 
+  geom_sf_sample(aes(geometry=geometry, fill=temp_dist)) 
+
+ggplot(a) + 
+  stat_sf(aes(geometry=geometry, fill=temp)) +
+  coord_sf()
+
+ggplot(a) + 
+  geom_sf(aes(geometry=geometry, fill=temp))
+
+
+
 
 ggplot(b) + 
   stat_sample(aes(geometry=geometry))
