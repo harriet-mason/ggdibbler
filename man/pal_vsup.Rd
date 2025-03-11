@@ -4,7 +4,7 @@
 \alias{pal_vsup}
 \title{Generates a VSUP palette}
 \usage{
-pal_vsup(colours, method = "tree", type = "desaturate", n = NULL, amount = 1)
+pal_vsup(colours, method = "tree", type = "desaturate", n = NULL, amount = 0.9)
 }
 \arguments{
 \item{colours}{character vector (of length d) of Hex colours.}
