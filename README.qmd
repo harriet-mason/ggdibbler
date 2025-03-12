@@ -1,0 +1,58 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r}
+#| include: FALSE
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%",
+  eval = TRUE
+)
+```
+
+# ggdibbler <img src="man/figures/logo.png" align="right" height="139" alt="" />
+
+## Overview
+`ggdibbler` is an R package for implementing signal suppression in ggplot2. Usually, uncertainty visualisation focuses on expressing uncertainty as a distribution or probability, whereas ggdibble differentiates itself by viewing an uncertainty visualisation as a transformation of an existing graphic that incorperates uncertainty. The package allows you to replace any existing variable of observations in a graphic, with a variable of distributons. It is particularly useful for visualisations of estimates, such as a mean. You provide ggdibble with code for an existing plot, but repalace one of the variables with a distribution, and it will convert the visualisation into it's signal supression counterpart.
+
+## Installation
+The development version of the package can be installed from GitHub using 
+
+> ```remotes::install_github("numbats/cassowaryr")```
+
+
+## Examples
+Currently, the primary useage of ggdibbler is a variation on `geom_sf`, by having several alternatives to the standard fill.
+
+```{r}
+library(ggdibbler)
+library(ggplot2)
+```
+
+Typically, if we had an average estimate for a series of areas, we would simply display the average, or keep the average separate. Below is an example of this with a choropleth map.
+
+```{r}
+# normal map
+toymap |> 
+  ggplot() + 
+  geom_sf(aes(geometry = geometry, fill=temp)) +
+  scale_fill_viridis_c()
+```
+
+We can use `geom_sf_sample` from the ggdibbler package to instead view each estimate as a sample of values from its sampling distribution.
+
+```{r}
+# sample map
+toymap |> 
+  ggplot() + 
+  geom_sf_sample(aes(geometry = geometry, fill=temp_dist), linewidth=0.1) + 
+  geom_sf(aes(geometry=geometry), fill=NA, linewidth=1) +
+  scale_fill_viridis_c()
+```
+
+
