@@ -2,7 +2,7 @@
 StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
                                # compute_layer is literally code from stat_sf
                                compute_panel = function(self, data, scales, coord, n = NULL) {
-                                 if (is.null(n)) {n = 10}
+                                 if (is.null(n)) {n = 3}
                                  
                                  # subdivide and sample data
                                  data <- data |>

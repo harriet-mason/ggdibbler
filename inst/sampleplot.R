@@ -21,16 +21,26 @@ c <- b |>
 
 
 ggplot(b) + 
-  geom_sf_sample(aes(geometry=geometry, fill=temp_dist)) +
-  scale_fill_viridis_c()
+  geom_sf_sample(aes(geometry=geometry, fill=temp_dist)) 
 
 ggplot(a) + 
   geom_sf(aes(geometry=geometry, fill=temp)) 
 
 
 
+# actual examples
+# normal map
+toymap |> 
+  ggplot() + 
+  geom_sf(aes(geometry = geometry, fill=temp)) +
+  scale_fill_viridis_c()
 
-
+# sample map
+toymap |> 
+  ggplot() + 
+  geom_sf_sample(aes(geometry = geometry, fill=temp_dist), linewidth=0.1, n=5) + 
+  geom_sf(aes(geometry=geometry), fill=NA, linewidth=1) +
+  scale_fill_viridis_c()
 
 
 

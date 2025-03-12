@@ -7,7 +7,7 @@ Maintainer: Harriet Mason <harriet.m.mason@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: GPL-3
-Imports: distributional, colorspace, sf
+Imports: distributional, colorspace, sf, ggplot2, dplyr
 Suggests: 
 Encoding: UTF-8
 LazyData: true
