@@ -58,7 +58,7 @@ pal_vsup <- function(colours, method="tree", type="desaturate", n=NULL,  amount=
   # value can be total change OR vector of increments
   if (length(amount)==1) {
     sups <- seq(from = 0, to=amount, length.out = n)[-1]
-  } else if (length(ammount)==n){
+  } else if (length(amount)==n){
     sups <- amount } else {
       stop(paste0("The colour transformation amount must be 1 or n (the number of times the colours are mixed. Amount has length ", 
                   length(amount),  

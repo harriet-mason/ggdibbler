@@ -1,4 +1,4 @@
-# Location based StatSample
+#' @export
 StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
                                # compute_layer is literally code from stat_sf
                                compute_panel = function(self, data, scales, coord, n = NULL) {
@@ -20,6 +20,7 @@ StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
                                required_aes = c("geometry")
 )
 
+#' @export
 # internal function for subdividing geometry grid
 subdivide <- function(geometry, d){
   # make n*n grid
