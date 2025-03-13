@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 ## Installation
 The development version of the package can be installed from GitHub using 
 
-> ```remotes::install_github("numbats/cassowaryr")```
+> ```remotes::install_github("harriet-mason/ggdibbler")```
 
 
 ## Examples
