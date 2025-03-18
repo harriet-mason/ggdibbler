@@ -71,3 +71,12 @@ toymap |>
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+## Additions to the package
+
+As `ggdibbler` is designed to alter existing graphic types to accept
+distributions as inputs there is a near infinite number of that can be
+spat out. At the moment the focus is on alterations to `geom_sf`, but we
+are happy to add any other functionality that users would like to have
+as a ggplot geom. If you have a suggestion, feel free to add it in the
+github issues.
