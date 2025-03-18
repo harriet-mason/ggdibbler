@@ -16,3 +16,4 @@ CODE_OF_CONDUCT.md
 hexsticker/*
 hexfile.png
 pkgdown
+^README\.Rmd$

@@ -4,27 +4,30 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r}
-#| include: FALSE
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%",
-  eval = TRUE
+  out.width = "100%"
 )
 ```
 
-# ggdibbler <img src="man/figures/logo.png" align="right" height="139" alt="" />
+# ggdibbler
 
-## Overview
+<!-- badges: start -->
+<!-- badges: end -->
+
 `ggdibbler` is an R package for implementing signal suppression in ggplot2. Usually, uncertainty visualisation focuses on expressing uncertainty as a distribution or probability, whereas ggdibble differentiates itself by viewing an uncertainty visualisation as a transformation of an existing graphic that incorperates uncertainty. The package allows you to replace any existing variable of observations in a graphic, with a variable of distributons. It is particularly useful for visualisations of estimates, such as a mean. You provide ggdibble with code for an existing plot, but repalace one of the variables with a distribution, and it will convert the visualisation into it's signal supression counterpart.
 
 ## Installation
-The development version of the package can be installed from GitHub using 
 
-> ```remotes::install_github("harriet-mason/ggdibbler")```
+You can install the development version of ggdibbler from [GitHub](https://github.com/) with:
 
+``` r
+# install.packages("pak")
+pak::pak("harriet-mason/ggdibbler")
+```
 
 ## Examples
 Currently, the primary useage of ggdibbler is a variation on `geom_sf`, by having several alternatives to the standard fill.
