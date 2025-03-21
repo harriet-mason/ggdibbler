@@ -1,17 +1,39 @@
-Package: ggdibbler
 Type: Package
-Title: Adding Uncertainty to Existing Visualisations
-Version: 0.1.0
-Author: Harriet Mason
+Package: ggdibbler
+Title: Add Uncertainty to Existing Visualisations
+Version: 0.1.0.9000
+Authors@R: c(
+    person("Harriet", "Mason", , "harriet.m.mason@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0007-4568-8215")),
+    person("Dianne", "Cook", , "dicook@monash.edu", role = "aut",
+           comment = c(ORCID = "0000-0002-3813-7155")),
+    person("Sarah", "Goodwin", , "sarah.goodwin@monash.edu", role = "aut",
+           comment = c(ORCID = "0000-0001-8894-8282")),
+    person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = "aut",
+           comment = c(ORCID = "0000-0002-3803-0972"))
+  )
 Maintainer: Harriet Mason <harriet.m.mason@gmail.com>
-Description: A package for visualising uncertainty with the goal of signal supression.
-    Usually, uncertainty visualisation focuses on expressing uncertainty as a distribution or probability, whereas ggdibble differentiates itself by viewing an uncertainty visualisation as an existing graphic that has been adjusted to incorperate uncertainty in the estimates.
-    You provide ggdibble with code for an existing plot, but repalace one of the variables with a vector of distributions, and it will convert the visualisation into it's signal supression counterpart.
+Description: A package for visualising uncertainty with the goal of signal
+    supression. Usually, uncertainty visualisation focuses on expressing
+    uncertainty as a distribution or probability, whereas ggdibble
+    differentiates itself by viewing an uncertainty visualisation as an
+    existing graphic that has been adjusted to incorperate uncertainty in
+    the estimates.  You provide the code for an existing plot, but
+    repalace one of the variables with a vector of distributions, and it
+    will convert the visualisation into it's signal supression
+    counterpart.
 License: GPL-3
-Imports: distributional, colorspace, sf, ggplot2, dplyr, rlang
-Suggests: 
-Encoding: UTF-8
-LazyData: true
 Depends: 
     R (>= 2.10)
+Imports: 
+    colorspace,
+    distributional,
+    dplyr,
+    ggplot2,
+    rlang,
+    sf
+Suggests: 
+    
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 7.3.2
