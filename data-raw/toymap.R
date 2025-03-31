@@ -4,6 +4,7 @@ library(tidyverse)
 # devtools::install_github("UrbanInstitute/urbnmapr")
 library(urbnmapr)
 library(rgeos)
+library(sf)
 
 # Generate Data
 my_map_data <- get_urbn_map("counties", sf = TRUE) |>
@@ -38,34 +39,43 @@ toy_geometry <- toymap |>
 toymap_raw <- toymap |> 
   dplyr::group_by(geometry) |>
   dplyr::reframe(
-    temp = unlist(generate(dist_normal(temp, se), 10)), 
+    location = st_sample(geometry, 10), 
     dplyr::across(dplyr::everything())
   ) |>
-  mutate(id = row_number()) |>
-  dplyr::select(id, county_name, temp)
+  mutate(temp = unlist(generate(dist_normal(temp, se), 1)),
+         id = row_number()) |>
+  sf::st_sf() |>
+  dplyr::select(id, county_name, geometry, location, temp)
 
+
+# Plot Raw Data
+ggplot(toymap_raw) +
+  geom_sf(aes(geometry=geometry)) + 
+  geom_sf(aes(geometry=location, colour=temp))
+  
 # Mean data
 toymap_mean <- toymap_raw |> 
   dplyr::group_by(county_name) |>
   summarise(temp_avg = mean(temp))
   
+# Plot Mean Data
+
 # Mean and variance data
 toymap_est <- toymap_raw |> 
   dplyr::group_by(county_name) |>
   summarise(temp_mean = mean(temp),
             temp_std = sd(temp))
 
-# Sample
-toymap_sample <- toymap_raw |> 
-  dplyr::group_by(county_name) |>
-  dplyr::summarise(temp_psample = dist_sample(list(temp))) |>
-  dplyr::select(county_name, temp_psample) 
-
 # Distribution
 toymap_dist <- toymap_est |> 
   mutate(temp_dist = dist_normal(temp_mean, temp_std)) |>
   select(county_name, temp_dist) 
 
+# Plot Distribution Data
+
+# Sample
+# BOOTSTRAP
+# MAKE DIST WITH SAMPLE
 
 
 
@@ -80,8 +90,8 @@ toymap_dist <- toymap_est |>
 usethis::use_data(toymap, overwrite = TRUE)
 
 
+nc = st_read(system.file("shape/nc.shp", package="sf"))
 
-
-
+p1 = st_sample(nc[1:3, ], 6)
 
 
