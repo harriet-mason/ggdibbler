@@ -23,7 +23,7 @@ toymap$cent_lat <- centroids$y
 #make trend and variance
 toymap <- toymap |>
   mutate(temp = as.double(round(29 - 2*abs(scale(cent_lat) - sin(2*(scale(cent_long)))), digits=1)), # trend
-         se = runif(99, min=1, max=7)) 
+         se = runif(99, min=1, max=4)) 
 
 # make distribution tibble
 # toymap <- toymap |> 
@@ -44,68 +44,58 @@ toy_temp <- toymap |>
          county_longitude = cent_long,
          county_latitude = cent_lat,
          recorded_temp = temp) |>
-  dplyr::select(county_name, county_geometry, county_longitude, county_latitude, recorded_temp)
-toy_temp$readerID <- paste("#", sample(seq(10000, 99999), length(toy_temp$recorded_temp)), sep="")
+  dplyr::select(county_name, county_geometry, county_longitude, county_latitude, recorded_temp) |>
+  st_sf()
+toy_temp$scientistID <- paste("#", sample(seq(10000, 99999), length(toy_temp$recorded_temp)), sep="")
 
 # Plot Raw Data
 ggplot(toy_temp) +
   geom_sf(aes(geometry=county_geometry)) +
   geom_jitter(aes(x=county_longitude, y=county_latitude, colour=recorded_temp), 
-              width=5000, height =5000) 
+              width=5000, height =5000) +
+  scale_colour_viridis_c()
   
 # Mean data
 toy_temp_mean <- toy_temp |> 
-  st_drop_geometry() |>
   dplyr::group_by(county_name) |>
-  summarise(temp_mean = mean(temp)) |>
-  left_join(iowa_counties)|>
-  sf::st_sf()
+  summarise(temp_mean = mean(recorded_temp)) 
   
 # Plot Mean Data
 ggplot(toy_temp_mean) +
-  geom_sf(aes(geometry=geometry, fill=temp_mean)) 
+  geom_sf(aes(geometry=county_geometry, fill=temp_mean)) +
+  scale_fill_viridis_c()
 
 
 # Mean and variance data
 toy_temp_est <- toy_temp |> 
-  st_drop_geometry() |>
   dplyr::group_by(county_name) |>
-  summarise(temp_mean = mean(temp),
-            temp_se = sd(temp)/sqrt(n())) |>
-  left_join(iowa_counties)|>
-  sf::st_sf()
+  summarise(temp_mean = mean(recorded_temp),
+            temp_se = sd(recorded_temp)/sqrt(n())) 
 
 # ??? Cant really plot this
 
 # Distribution
 toy_temp_dist <- toy_temp_est |> 
   mutate(temp_dist = dist_normal(temp_mean, temp_se)) |>
-  select(county_name, temp_dist, geometry) 
+  select(county_name, temp_dist) 
 
 # Plot Distribution Data
 ggplot(toy_temp_dist) +
-  ggdibbler::geom_sf_sample(aes(geometry=geometry, fill=temp_dist)) 
+  geom_sf_sample(aes(geometry=county_geometry, fill=temp_dist)) +
+  scale_fill_viridis_c()
 
+# Better plot of distribution data
+ggplot(toy_temp_dist) + 
+  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) + 
+  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) +
+  scale_fill_viridis_c()
 
 # Sample
 # BOOTSTRAP
 # MAKE DIST WITH SAMPLE
 
 
-
-
-
-#toymap_raw
-
-# make into dibble object
-# ??? idk
-
 # use toymap data in package.
-usethis::use_data(toymap, overwrite = TRUE)
-
-
-nc = st_read(system.file("shape/nc.shp", package="sf"))
-
-p1 = st_sample(nc[1:3, ], 6)
-
+usethis::use_data(toy_temp, overwrite = TRUE)
+usethis::use_data(toy_temp_dist, overwrite = TRUE)
 
