@@ -30,27 +30,28 @@ toymap <- toymap |>
 #  mutate(temp_dist = dist_normal(temp, se),
 #         temp_sample = generate(temp_dist, 50)) |> 
 #  select(county_name, geometry, temp, temp_dist, temp_sample)
-
-# Geometry Info
-iowa_counties <- toymap |> 
-  dplyr::select(county_name, geometry, cent_long, cent_lat) 
   
 # "Raw" data
 toy_temp <- toymap |> 
   dplyr::group_by(county_name) |>
   dplyr::reframe(
     #location = st_sample(geometry, 20), 
-    Temperature = unlist(generate(dist_normal(temp, se), 20)),
+    temp = unlist(generate(dist_normal(temp, se), 20)),
     dplyr::across(dplyr::everything())
   ) |>
   slice_sample(prop = 0.5) |>
-  dplyr::select(county_name, temp)
-toy_temp$readerID <- paste("#", sample(seq(10000, 99999), length(toy_temp$temp)), sep="")
+  rename(county_geometry = geometry,
+         county_longitude = cent_long,
+         county_latitude = cent_lat,
+         recorded_temp = temp) |>
+  dplyr::select(county_name, county_geometry, county_longitude, county_latitude, recorded_temp)
+toy_temp$readerID <- paste("#", sample(seq(10000, 99999), length(toy_temp$recorded_temp)), sep="")
 
 # Plot Raw Data
-ggplot() +
-  geom_sf(data = iowa_counties, aes(geometry=geometry)) +
-  geom_jitter(data = toy_temp, aes(x=cent_long, y=cent_lat, colour=temp)) 
+ggplot(toy_temp) +
+  geom_sf(aes(geometry=county_geometry)) +
+  geom_jitter(aes(x=county_longitude, y=county_latitude, colour=recorded_temp), 
+              width=5000, height =5000) 
   
 # Mean data
 toy_temp_mean <- toy_temp |> 
