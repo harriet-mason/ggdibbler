@@ -36,12 +36,8 @@ by having several alternatives to the standard fill.
 ``` r
 library(ggdibbler)
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.3.1
-#> 
-#> Attaching package: 'ggplot2'
-#> The following object is masked from 'package:ggdibbler':
-#> 
-#>     scale_type
+library(dplyr)
+library(sf)
 ```
 
 Typically, if we had an average estimate for a series of areas, we would
@@ -49,10 +45,14 @@ simply display the average, or keep the average separate. Below is an
 example of this with a choropleth map.
 
 ``` r
-# normal map
-toymap |> 
-  ggplot() + 
-  geom_sf(aes(geometry = geometry, fill=temp)) +
+# Make average summary of data
+toy_temp_mean <- toy_temp |> 
+  dplyr::group_by(county_name) |>
+  summarise(temp_mean = mean(recorded_temp))
+
+# plot it
+ggplot(toy_temp_mean) +
+  geom_sf(aes(geometry=county_geometry, fill=temp_mean)) +
   scale_fill_viridis_c()
 ```
 
@@ -63,10 +63,10 @@ each estimate as a sample of values from its sampling distribution.
 
 ``` r
 # sample map
-toymap |> 
+toy_temp_dist |> 
   ggplot() + 
-  geom_sf_sample(aes(geometry = geometry, fill=temp_dist), linewidth=0.1) + 
-  geom_sf(aes(geometry=geometry), fill=NA, linewidth=1) +
+  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) + 
+  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) +
   scale_fill_viridis_c()
 ```
 
