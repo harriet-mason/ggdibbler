@@ -24,7 +24,7 @@ Description: A package for visualising uncertainty with the goal of signal
     counterpart.
 License: GPL-3
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 Imports: 
     colorspace,
     distributional,
@@ -32,7 +32,6 @@ Imports:
     ggplot2,
     rlang,
     sf
-Suggests: 
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
