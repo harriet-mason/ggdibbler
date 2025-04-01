@@ -6,6 +6,8 @@ library(urbnmapr)
 library(rgeos)
 library(sf)
 
+set.seed(1)
+
 # Generate Data
 my_map_data <- get_urbn_map("counties", sf = TRUE) |>
   filter(state_name=="Iowa") 
@@ -21,7 +23,7 @@ toymap$cent_lat <- centroids$y
 #make trend and variance
 toymap <- toymap |>
   mutate(temp = as.double(round(29 - 2*abs(scale(cent_lat) - sin(2*(scale(cent_long)))), digits=1)), # trend
-         se = runif(99, min=0, max=3)) 
+         se = runif(99, min=1, max=7)) 
 
 # make distribution tibble
 # toymap <- toymap |> 
@@ -30,48 +32,59 @@ toymap <- toymap |>
 #  select(county_name, geometry, temp, temp_dist, temp_sample)
 
 # Geometry Info
-toy_geometry <- toymap |> 
-  dplyr::select(county_name, geometry) |>
-  dplyr::group_by(geometry)
-  
+iowa_counties <- toymap |> 
+  dplyr::select(county_name, geometry, cent_long, cent_lat) 
   
 # "Raw" data
-toymap_raw <- toymap |> 
-  dplyr::group_by(geometry) |>
+toy_temp <- toymap |> 
+  dplyr::group_by(county_name) |>
   dplyr::reframe(
-    location = st_sample(geometry, 10), 
+    #location = st_sample(geometry, 20), 
+    Temperature = unlist(generate(dist_normal(temp, se), 20)),
     dplyr::across(dplyr::everything())
   ) |>
-  mutate(temp = unlist(generate(dist_normal(temp, se), 1)),
-         id = row_number()) |>
-  sf::st_sf() |>
-  dplyr::select(id, county_name, geometry, location, temp)
-
+  slice_sample(prop = 0.5) |>
+  dplyr::select(county_name, temp)
+toy_temp$readerID <- paste("#", sample(seq(10000, 99999), length(toy_temp$temp)), sep="")
 
 # Plot Raw Data
-ggplot(toymap_raw) +
-  geom_sf(aes(geometry=geometry)) + 
-  geom_sf(aes(geometry=location, colour=temp))
+ggplot() +
+  geom_sf(data = iowa_counties, aes(geometry=geometry)) +
+  geom_jitter(data = toy_temp, aes(x=cent_long, y=cent_lat, colour=temp)) 
   
 # Mean data
-toymap_mean <- toymap_raw |> 
+toy_temp_mean <- toy_temp |> 
+  st_drop_geometry() |>
   dplyr::group_by(county_name) |>
-  summarise(temp_avg = mean(temp))
+  summarise(temp_mean = mean(temp)) |>
+  left_join(iowa_counties)|>
+  sf::st_sf()
   
 # Plot Mean Data
+ggplot(toy_temp_mean) +
+  geom_sf(aes(geometry=geometry, fill=temp_mean)) 
+
 
 # Mean and variance data
-toymap_est <- toymap_raw |> 
+toy_temp_est <- toy_temp |> 
+  st_drop_geometry() |>
   dplyr::group_by(county_name) |>
   summarise(temp_mean = mean(temp),
-            temp_std = sd(temp))
+            temp_se = sd(temp)/sqrt(n())) |>
+  left_join(iowa_counties)|>
+  sf::st_sf()
+
+# ??? Cant really plot this
 
 # Distribution
-toymap_dist <- toymap_est |> 
-  mutate(temp_dist = dist_normal(temp_mean, temp_std)) |>
-  select(county_name, temp_dist) 
+toy_temp_dist <- toy_temp_est |> 
+  mutate(temp_dist = dist_normal(temp_mean, temp_se)) |>
+  select(county_name, temp_dist, geometry) 
 
 # Plot Distribution Data
+ggplot(toy_temp_dist) +
+  ggdibbler::geom_sf_sample(aes(geometry=geometry, fill=temp_dist)) 
+
 
 # Sample
 # BOOTSTRAP
