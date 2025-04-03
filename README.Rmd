@@ -49,8 +49,7 @@ toy_temp_mean <- toy_temp |>
 
 # plot it
 ggplot(toy_temp_mean) +
-  geom_sf(aes(geometry=county_geometry, fill=temp_mean)) +
-  scale_fill_viridis_c()
+  geom_sf(aes(geometry=county_geometry, fill=temp_mean)) 
 ```
 
 We can use `geom_sf_sample` from the ggdibbler package to instead view each estimate as a sample of values from its sampling distribution.
@@ -60,8 +59,7 @@ We can use `geom_sf_sample` from the ggdibbler package to instead view each esti
 toy_temp_dist |> 
   ggplot() + 
   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) + 
-  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) +
-  scale_fill_viridis_c()
+  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1)
 ```
 
 

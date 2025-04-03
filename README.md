@@ -52,8 +52,7 @@ toy_temp_mean <- toy_temp |>
 
 # plot it
 ggplot(toy_temp_mean) +
-  geom_sf(aes(geometry=county_geometry, fill=temp_mean)) +
-  scale_fill_viridis_c()
+  geom_sf(aes(geometry=county_geometry, fill=temp_mean)) 
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
@@ -66,8 +65,7 @@ each estimate as a sample of values from its sampling distribution.
 toy_temp_dist |> 
   ggplot() + 
   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) + 
-  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) +
-  scale_fill_viridis_c()
+  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1)
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
