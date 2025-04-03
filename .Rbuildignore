@@ -17,3 +17,6 @@ hexsticker/*
 hexfile.png
 pkgdown
 ^README\.Rmd$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

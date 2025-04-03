@@ -51,3 +51,5 @@ rsconnect/
 # dsstore
 .DS_Store
 **/.DS_Store
+inst/doc
+docs
