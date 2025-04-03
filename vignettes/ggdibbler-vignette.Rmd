@@ -1,5 +1,5 @@
 ---
-title: "Using ggdibbler for Signal Supression"
+title: "An introduction to ggdibbler"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggdibbler-vignette}
