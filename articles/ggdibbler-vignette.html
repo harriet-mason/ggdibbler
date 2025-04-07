@@ -130,12 +130,12 @@ geometry, and the county centroid’s longitude and latitude.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">toy_temp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 990</span></span>
 <span><span class="co">#&gt; Columns: 6</span></span>
-<span><span class="co">#&gt; $ county_name      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Lyon County", "Dubuque County", "Crawford County", "…</span></span>
-<span><span class="co">#&gt; $ county_geometry  <span style="color: #949494; font-style: italic;">&lt;MULTIPOLYGON [m]&gt;</span> MULTIPOLYGON (((274155.2 -1..., MULTIPOL…</span></span>
-<span><span class="co">#&gt; $ county_longitude <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 306173.3, 746092.2, 381255.2, 696287.1, 729905.9, 306…</span></span>
-<span><span class="co">#&gt; $ county_latitude  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -172880.7, -239861.5, -318675.9, -153979.0, -280551.9…</span></span>
-<span><span class="co">#&gt; $ recorded_temp    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 21.08486, 28.94271, 26.39905, 27.10343, 34.20208, 20.…</span></span>
-<span><span class="co">#&gt; $ scientistID      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "#74991", "#22780", "#55325", "#46379", "#84259", "#9…</span></span></code></pre></div>
+<span><span class="co">#&gt; $ county_name      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Lyon County"<span style="color: #949494;">, </span>"Dubuque County"<span style="color: #949494;">, </span>"Crawford County"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ county_geometry  <span style="color: #949494; font-style: italic;">&lt;MULTIPOLYGON [m]&gt;</span> MULTIPOLYGON (((274155.2 -1...<span style="color: #949494;">, </span>MULTIPOL…</span></span>
+<span><span class="co">#&gt; $ county_longitude <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 306173.3<span style="color: #949494;">, </span>746092.2<span style="color: #949494;">, </span>381255.2<span style="color: #949494;">, </span>696287.1<span style="color: #949494;">, </span>729905.9<span style="color: #949494;">, </span>306…</span></span>
+<span><span class="co">#&gt; $ county_latitude  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> -172880.7<span style="color: #949494;">, </span>-239861.5<span style="color: #949494;">, </span>-318675.9<span style="color: #949494;">, </span>-153979.0<span style="color: #949494;">, </span>-280551.9…</span></span>
+<span><span class="co">#&gt; $ recorded_temp    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 21.08486<span style="color: #949494;">, </span>28.94271<span style="color: #949494;">, </span>26.39905<span style="color: #949494;">, </span>27.10343<span style="color: #949494;">, </span>34.20208<span style="color: #949494;">, </span>20.…</span></span>
+<span><span class="co">#&gt; $ scientistID      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "#74991"<span style="color: #949494;">, </span>"#22780"<span style="color: #949494;">, </span>"#55325"<span style="color: #949494;">, </span>"#46379"<span style="color: #949494;">, </span>"#84259"<span style="color: #949494;">, </span>"#9…</span></span></code></pre></div>
 <p>While it is slightly difficult, we can view the individual
 observations by plotting them to the centroid longitude and latitude
 (with a little jitter) and drawing the counties in the background for
