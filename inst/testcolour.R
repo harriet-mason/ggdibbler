@@ -11,56 +11,31 @@ toy_temp_est <- toy_temp |>
   summarise(temp_mean = mean(recorded_temp),
             temp_se = sd(recorded_temp)/sqrt(n())) 
 
-# Plot Mean Data
-ggplot(toy_temp_est) +
-  geom_sf(aes(geometry=county_geometry, 
-              fill=hsl_spec(h=temp_mean, s=temp_se, l=0.5)))
 ################################################################
 
 ################### MAKE BIVAR SCALE ########################
 
-ggchromatic::cmyk_spec(0.1, 0.2, 0.3, 0)
 
-# ggchromatic constructor
-new_not <- function(...) {
-  vals <- rlang::list2(...)
-  missing <- vapply(vals, identical, logical(1), quote(expr = ))
-  vals[missing] <- list(double())
-  n <- lengths(vals)
-  vals <- vec_recycle_common(!!!vals)
-  new_rcrd(vals, class = "dibbler_bivar")
-}
+
 
 # Make bivar vector class
-new_bivar <- function(...) {
-  #if (!is.double(x)) {
-  #  rlang::abort("`x` must be a double vector.")
-  #}
+new_bivar <- function(x=data.frame()) {
+  if (!is.data.frame(x)) {
+    rlang::abort("`x` must be a data.frame.")
+  }
   vctrs::new_rcrd(x, class = "dibbler_bivar")
 }
 
-
-# Make bivar stat
+# Make bivar from distribution
 bivar <- function(x=new_dist()) {
   if (!is_distribution(x)) {
     rlang::abort("`x` must be a distribution vector.")
   }
-  est <- sapply(x, distributional:::mean.distribution)
-  se <- sapply(x, distributional::variance)
-  print(mean)
-  print(se)
-  #x <- data.frame(mean = distributional:::mean.distribution(x), 
-  #                se = distributional::variance(x))
-  #x <- lapply(x, extrct_bivar)
-  #x
-  new_bivar(x)
-}
-
-extrct_bivar <- function(x) {
-  # get mean and variance from distribution
-  #x <- c(mean = distributional:::mean.distribution(x), se = distributional::variance(x))
-  print(x)
-  print(length(x))
+  # Convert distribution to mean/variance data frame
+  x <- data.frame(
+    est_mean = distributional:::mean.distribution(x),
+    std_err = distributional::variance(x)
+    )
   new_bivar(x)
 }
 
@@ -104,11 +79,15 @@ as_bivar <- function(x) {
 
 # checking code
 x <- toy_temp_dist$temp_dist
-x <- bivar(x)
-x
+z <- data.frame(
+  est_mean = distributional:::mean.distribution(x),
+  std_err = distributional::variance(x)
+)
+y <- bivar(x)
+
 
 vec_cast(x, bivar())
 
-tibble::tibble(x)
+tibble::tibble(y)
 
 vec_ptype2(bivar(), bivar())
