@@ -19,7 +19,7 @@ new_bivariate <- function(x=data.frame()) {
 #' @examples
 #' bivariate(toy_temp_dist$temp_dist)
 bivariate <- function(x=new_dist()) {
-  if (!is_distribution(x)) {
+  if (!distributional::is_distribution(x)) {
     rlang::abort("`x` must be a distribution vector.")
   }
   # Convert distribution to mean/variance data frame
@@ -75,7 +75,7 @@ vec_cast.data.frame.ggdibbler_bivariate <- function(x, to, ...) data.frame(vec_d
 vec_cast.ggdibbler_bivariate.distribution <- function(x, to, ...) bivariate(x)
 
 #' @export
-vec_cast.distribution.ggdibbler_bivariate <- function(x, to, ...) dist_normal(x)
+vec_cast.distribution.ggdibbler_bivariate <- function(x, to, ...) distributional::dist_normal(x)
 
 #' @export
 as_bivariate <- function(x) {
