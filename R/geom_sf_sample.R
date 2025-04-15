@@ -9,12 +9,12 @@
 #' @examples
 #' # In it's most basic form, the geom will make a subdivision 
 #' library(ggplot2)
-#' toymap |>  
+#' toy_temp_dist |>  
 #'   ggplot() + 
 #'   geom_sf_sample(aes(geometry = geometry, fill=temp_dist))
 #' # The original borders of the sf object can be hard to see, 
 #'  # so layering the original geometry on top can help to see the original boundaries
-#' toymap |>  
+#' toy_temp_dist |>  
 #'   ggplot() + 
 #'   geom_sf_sample(aes(geometry = geometry, fill=temp_dist), linewidth=0.1, n=5) + 
 #'   geom_sf(aes(geometry=geometry), fill=NA, linewidth=1)
