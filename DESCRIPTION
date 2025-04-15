@@ -38,6 +38,8 @@ LazyData: true
 RoxygenNote: 7.3.2
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 URL: https://harriet-mason.github.io/ggdibbler/
+Config/testthat/edition: 3
