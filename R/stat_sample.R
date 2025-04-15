@@ -20,7 +20,6 @@ StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
                                required_aes = c("geometry")
 )
 
-#' @export
 # internal function for subdividing geometry grid
 subdivide <- function(geometry, d){
   # make n*n grid
