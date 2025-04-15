@@ -11,13 +11,13 @@
 #' library(ggplot2)
 #' toy_temp_dist |>  
 #'   ggplot() + 
-#'   geom_sf_sample(aes(geometry = geometry, fill=temp_dist))
+#'   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist))
 #' # The original borders of the sf object can be hard to see, 
 #'  # so layering the original geometry on top can help to see the original boundaries
 #' toy_temp_dist |>  
 #'   ggplot() + 
-#'   geom_sf_sample(aes(geometry = geometry, fill=temp_dist), linewidth=0.1, n=5) + 
-#'   geom_sf(aes(geometry=geometry), fill=NA, linewidth=1)
+#'   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1, n=5) + 
+#'   geom_sf(aes(geometry=county_geometry), fill=NA, linewidth=1)
 #' @export
 geom_sf_sample <- function(mapping = ggplot2::aes(), data = NULL, stat = "sample",
                            position = "identity", na.rm = FALSE, show.legend = NA,
