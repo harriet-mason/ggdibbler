@@ -71,13 +71,13 @@ pal_vsup <- function(colours, method="tree", type="desaturate", n=NULL,  amount=
   pal[1,] <- colours
   
   # iteratively transform then mix the colour palette n times
-  if(class(method)=="character"){
+  if(is.character("character")){
     for(i in seq(n-1)){
       colours <- transform_colour(colours, type, amount=sups[i])
       colours <- mix_colour(colours, method)
       pal[i+1,] <- colours
     }
-  } else if (class(method)=="function"){
+  } else if (is.function("function")){
     print("TODO: allow users to suppress with thier own function")
   }
   t(pal)
