@@ -18,16 +18,16 @@ new_bivariate <- function(x=data.frame()) {
 #' @export
 #' @examples
 #' bivariate(toy_temp_dist$temp_dist)
-bivariate <- function(x=new_dist()) {
+bivariate <- function(x=distributional::new_dist()) {
   if (!distributional::is_distribution(x)) {
     rlang::abort("`x` must be a distribution vector.")
   }
   # Convert distribution to mean/variance data frame
-  x <- data.frame(
+  y <- data.frame(
     est_mean = distributional:::mean.distribution(x),
     std_err = distributional::variance(x)
   )
-  new_bivariate(x)
+  new_bivariate(y)
 }
 
 

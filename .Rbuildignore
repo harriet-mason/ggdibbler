@@ -20,3 +20,4 @@ pkgdown
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+README_files

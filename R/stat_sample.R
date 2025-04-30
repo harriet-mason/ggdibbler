@@ -28,10 +28,10 @@ subdivide <- function(geometry, d){
   a <- c(geometry, g)
   sf <- sf::st_sf(a)
   # get interactions of grid and orginal geometry
-  i = sf::st_intersection(sf)
+  i <- sf::st_intersection(sf)
   # new subdivided geometry 
   subdivided <- i |> 
-    dplyr::filter( `n.overlaps` >=2) |> #get grid elements that overlap with original shape
+    dplyr::filter( n.overlaps >=2) |> #get grid elements that overlap with original shape
     dplyr::filter(sf::st_geometry_type(a) %in% c("POLYGON")) # get rid of other weird line stuff
   subdivided$a
 }

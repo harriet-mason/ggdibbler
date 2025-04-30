@@ -5,7 +5,7 @@
 \alias{is_bivariate}
 \title{`bivariate` vector}
 \usage{
-bivariate(x = new_dist())
+bivariate(x = distributional::new_dist())
 
 is_bivariate(x)
 }
