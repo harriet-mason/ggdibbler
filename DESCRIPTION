@@ -26,7 +26,6 @@ License: GPL-3
 Depends: 
     R (>= 3.5)
 Imports: 
-    colorspace,
     distributional,
     dplyr,
     ggplot2,
