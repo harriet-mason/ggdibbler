@@ -25,6 +25,7 @@ StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
 
 # internal function for subdividing geometry grid
 subdivide <- function(geometry, d){
+  n.overlaps <- NULL #to avoid binding error
   # make n*n grid
   g <- sf::st_make_grid(geometry, n=d)
   # combine grid and original geometry into sf
@@ -34,7 +35,7 @@ subdivide <- function(geometry, d){
   i <- sf::st_intersection(sf)
   # new subdivided geometry 
   subdivided <- i |> 
-    dplyr::filter( n.overlaps >=2) |> #get grid elements that overlap with original shape
+    dplyr::filter(n.overlaps >=2) |> #get grid elements that overlap with original shape
     dplyr::filter(sf::st_geometry_type(a) %in% c("POLYGON")) # get rid of other weird line stuff
   subdivided$a
 }
