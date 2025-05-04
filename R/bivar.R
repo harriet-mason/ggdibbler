@@ -12,9 +12,11 @@ new_bivariate <- function(x=data.frame()) {
 #' This creates a bivariate variable that allows us to represent
 #' the mean and variance of a distribution as a single variable.
 #' @param x
-#'  * For `percent()`: a distribution from the `distributional` package
-#'  * For `is_percent()`: An object to test.
+#'  * For `bivariate()`: a distribution from the `distributional` package
+#'  * For `is_bivariate()`: An object to test.
+#'  * For `as_bivariate()`: a distribution or data frame that should be converted to a bivariate
 #' @return An S3 vector of class `ggdibbler_bivariate`.
+#' @importFrom distributional mean
 #' @export
 #' @examples
 #' bivariate(toy_temp_dist$temp_dist)
@@ -24,7 +26,7 @@ bivariate <- function(x=distributional::new_dist()) {
   }
   # Convert distribution to mean/variance data frame
   y <- data.frame(
-    est_mean = distributional:::mean.distribution(x),
+    est_mean = mean(x),
     std_err = distributional::variance(x)
   )
   new_bivariate(y)
@@ -78,6 +80,7 @@ vec_cast.ggdibbler_bivariate.distribution <- function(x, to, ...) bivariate(x)
 vec_cast.distribution.ggdibbler_bivariate <- function(x, to, ...) distributional::dist_normal(x)
 
 #' @export
+#' @rdname bivariate
 as_bivariate <- function(x) {
   vec_cast(x, new_bivariate())
 }
