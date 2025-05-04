@@ -3,15 +3,19 @@
 \name{bivariate}
 \alias{bivariate}
 \alias{is_bivariate}
+\alias{as_bivariate}
 \title{`bivariate` vector}
 \usage{
 bivariate(x = distributional::new_dist())
 
 is_bivariate(x)
+
+as_bivariate(x)
 }
 \arguments{
-\item{x}{* For `percent()`: a distribution from the `distributional` package
-* For `is_percent()`: An object to test.}
+\item{x}{* For `bivariate()`: a distribution from the `distributional` package
+* For `is_bivariate()`: An object to test.
+* For `as_bivariate()`: a distribution or data frame that should be converted to a bivariate}
 }
 \value{
 An S3 vector of class `ggdibbler_bivariate`.
