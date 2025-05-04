@@ -6,8 +6,7 @@
 #' @param n A parameter used to control the number of cells in each grid. Each area is broken up into an nxn grid
 #' @param fill A variable of distributions from the `distributional` package
 #' @returns A ggplot2 geom representing a sf_sample which can be added to a ggplot object
-#' @importFrom ggplot2 GeomSf coord_sf aes
-#' @importFrom rlang list2
+#' @inheritParams ggplot2::geom_sf
 #' @examples
 #' # In it's most basic form, the geom will make a subdivision 
 #' library(ggplot2)

@@ -1,4 +1,6 @@
 #' @export
+#' @usage NULL
+#' @format NULL
 StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
                                # compute_layer is literally code from stat_sf
                                compute_panel = function(self, data, scales, coord, n = NULL) {
