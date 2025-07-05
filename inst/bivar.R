@@ -16,7 +16,6 @@ new_bivariate <- function(x=data.frame()) {
 #'  * For `is_bivariate()`: An object to test.
 #'  * For `as_bivariate()`: a distribution or data frame that should be converted to a bivariate
 #' @return An S3 vector of class `ggdibbler_bivariate`.
-#' @importFrom distributional mean
 #' @export
 #' @examples
 #' bivariate(toy_temp_dist$temp_dist)
@@ -26,7 +25,7 @@ bivariate <- function(x=distributional::new_dist()) {
   }
   # Convert distribution to mean/variance data frame
   y <- data.frame(
-    est_mean = mean(x),
+    est_mean = distributional::mean.distribution(x),
     std_err = distributional::variance(x)
   )
   new_bivariate(y)
