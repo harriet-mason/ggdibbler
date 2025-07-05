@@ -4,7 +4,6 @@
 #' This function will replace the fill area with a grid, where each cell is filled with an outcome from the fill distribution. 
 #' 
 #' @param n A parameter used to control the number of cells in each grid. Each area is broken up into an nxn grid
-#' @param fill A variable of distributions from the `distributional` package
 #' @returns A ggplot2 geom representing a sf_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_sf
 #' @examples

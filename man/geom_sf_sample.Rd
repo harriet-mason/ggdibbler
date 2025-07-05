@@ -109,8 +109,6 @@ lists which parameters it can accept.
 \code{...}. This can be one of the functions described as
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
-
-\item{fill}{A variable of distributions from the `distributional` package}
 }
 \value{
 A ggplot2 geom representing a sf_sample which can be added to a ggplot object
