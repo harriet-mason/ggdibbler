@@ -1,22 +1,25 @@
 #' @export
 #' @usage NULL
 #' @format NULL
+#' @importFrom ggplot2 ggproto StatSf
+#' @importFrom dplyr group_by reframe across everything mutate filter
+#' @importFrom sf st_sf st_zm st_make_grid st_intersection st_geometry_type
 #' @rdname geom_sf_sample
-StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
+StatSample <- ggplot2::ggproto("StatSample", StatSf,
                                # compute_layer is literally code from stat_sf
                                compute_panel = function(self, data, scales, coord, n = NULL) {
                                  if (is.null(n)) {n = 3}
                                  
                                  # subdivide and sample data
                                  data <- data |>
-                                   dplyr::group_by(geometry) |>
-                                   dplyr::reframe(
+                                   group_by(geometry) |>
+                                   reframe(
                                      geometry = subdivide(geometry, d=c(n,n)), 
-                                     dplyr::across(dplyr::everything())
+                                     across(everything())
                                    ) |>
-                                   dplyr::mutate(fill = as.double(distributional::generate(fill, 1))) |>
-                                   sf::st_sf() |>
-                                   sf::st_zm()
+                                   mutate(fill = as.double(distributional::generate(fill, 1))) |>
+                                   st_sf() |>
+                                   st_zm()
                                  
                                  ggproto_parent(StatSf, self)$compute_panel(data, scales, coord)
                                },
@@ -27,15 +30,15 @@ StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatSf,
 subdivide <- function(geometry, d){
   n.overlaps <- NULL #to avoid binding error
   # make n*n grid
-  g <- sf::st_make_grid(geometry, n=d)
+  g <- st_make_grid(geometry, n=d)
   # combine grid and original geometry into sf
   a <- c(geometry, g)
-  sf <- sf::st_sf(a)
+  sf <- st_sf(a)
   # get interactions of grid and orginal geometry
-  i <- sf::st_intersection(sf)
+  i <- st_intersection(sf)
   # new subdivided geometry 
   subdivided <- i |> 
-    dplyr::filter(n.overlaps >=2) |> #get grid elements that overlap with original shape
-    dplyr::filter(sf::st_geometry_type(a) %in% c("POLYGON")) # get rid of other weird line stuff
+    filter(n.overlaps >=2) |> #get grid elements that overlap with original shape
+    filter(st_geometry_type(a) %in% c("POLYGON")) # get rid of other weird line stuff
   subdivided$a
 }
