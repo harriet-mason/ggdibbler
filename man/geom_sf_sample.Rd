@@ -7,7 +7,7 @@
 \title{Visualise Sf Objectjects with Uncertainty}
 \usage{
 geom_sf_sample(
-  mapping = ggplot2::aes(),
+  mapping = aes(),
   data = NULL,
   stat = "sample",
   position = "identity",

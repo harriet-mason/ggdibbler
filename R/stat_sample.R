@@ -4,8 +4,9 @@
 #' @importFrom ggplot2 ggproto StatSf
 #' @importFrom dplyr group_by reframe across everything mutate filter
 #' @importFrom sf st_sf st_zm st_make_grid st_intersection st_geometry_type
+#' @importFrom distributional generate
 #' @rdname geom_sf_sample
-StatSample <- ggplot2::ggproto("StatSample", StatSf,
+StatSample <- ggproto("StatSample", StatSf,
                                # compute_layer is literally code from stat_sf
                                compute_panel = function(self, data, scales, coord, n = NULL) {
                                  if (is.null(n)) {n = 3}
@@ -17,7 +18,7 @@ StatSample <- ggplot2::ggproto("StatSample", StatSf,
                                      geometry = subdivide(geometry, d=c(n,n)), 
                                      across(everything())
                                    ) |>
-                                   mutate(fill = as.double(distributional::generate(fill, 1))) |>
+                                   mutate(fill = as.double(generate(fill, 1))) |>
                                    st_sf() |>
                                    st_zm()
                                  

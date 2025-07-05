@@ -3,6 +3,8 @@
 #' Identical to geom_sf, except that the fill for each area will be a distribution. 
 #' This function will replace the fill area with a grid, where each cell is filled with an outcome from the fill distribution. 
 #' 
+#' @importFrom ggplot2 aes layer_sf GeomSf coord_sf
+#' @importFrom rlang list2
 #' @param n A parameter used to control the number of cells in each grid. Each area is broken up into an nxn grid
 #' @returns A ggplot2 geom representing a sf_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_sf
@@ -19,25 +21,25 @@
 #'   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1, n=5) + 
 #'   geom_sf(aes(geometry=county_geometry), fill=NA, linewidth=1)
 #' @export
-geom_sf_sample <- function(mapping = ggplot2::aes(), data = NULL, stat = "sample",
+geom_sf_sample <- function(mapping = aes(), data = NULL, stat = "sample",
                            position = "identity", na.rm = FALSE, show.legend = NA,
                            inherit.aes = TRUE, n = NULL, ...) {
   c(
-    ggplot2::layer_sf(
-      geom = ggplot2::GeomSf,
+    layer_sf(
+      geom = GeomSf,
       data = data,
       mapping = mapping,
       stat = stat,
       position = position,
       show.legend = show.legend,
       inherit.aes = inherit.aes,
-      params = rlang::list2(
+      params = list2(
         na.rm = na.rm,
         n = n,
         ...
       )
     ),
-    ggplot2::coord_sf(default = TRUE)
+    coord_sf(default = TRUE)
   )
 }
 
