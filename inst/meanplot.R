@@ -3,12 +3,13 @@
 #library(distributional)
 devtools::load_all()
 
-toydata <- toymap |>
+toydata <- toy_temp_dist |>
   dplyr::filter(county_name %in% c("Story County", "Boone County", "Johnson County"))
 
 # data with matching names for checking compute_group functions
 named <- toydata |>
-  dplyr::rename(fill = temp_dist) |>
+  dplyr::rename(fill = temp_dist,
+                geometry = county_geometry) |>
   dplyr::select(geometry, fill)
 
 # three data sets
