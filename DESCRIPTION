@@ -24,14 +24,13 @@ Description: A package for visualising uncertainty with the goal of signal
     counterpart.
 License: GPL-3
 Depends: 
-    R (>= 3.5)
+    R (>= 4.1.0)
 Imports: 
     distributional,
     dplyr,
     ggplot2,
     rlang,
-    sf,
-    vctrs
+    sf
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
