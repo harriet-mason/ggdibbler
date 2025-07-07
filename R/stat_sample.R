@@ -31,15 +31,15 @@ StatSample <- ggproto("StatSample", StatSf,
 subdivide <- function(geometry, d){
   n.overlaps <- NULL #to avoid binding error
   # make n*n grid
-  g <- st_make_grid(geometry, n=d)
+  nn_grid <- st_make_grid(geometry, n=d)
   # combine grid and original geometry into sf
-  a <- c(geometry, g)
-  sf <- st_sf(a)
+  comb_data <- c(geometry, nn_grid)
+  comb_sf <- st_sf(comb_data)
   # get interactions of grid and orginal geometry
-  i <- st_intersection(sf)
+  inter_sf <- st_intersection(comb_sf)
   # new subdivided geometry 
-  subdivided <- i |> 
+  subdivided <- inter_sf |> 
     filter(n.overlaps >=2) |> #get grid elements that overlap with original shape
-    filter(st_geometry_type(a) %in% c("POLYGON")) # get rid of other weird line stuff
-  subdivided$a
+    filter(st_geometry_type(comb_data) %in% c("POLYGON", "MULTIPOLYGON")) # get rid of other weird line stuff
+  subdivided$comb_data
 }
