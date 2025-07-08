@@ -21,3 +21,4 @@ pkgdown
 ^docs$
 ^pkgdown$
 README_files
+^cran-comments\.md$
