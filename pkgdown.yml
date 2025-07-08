@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   ggdibbler-vignette: ggdibbler-vignette.html
-last_built: 2025-07-08T18:19Z
+last_built: 2025-07-08T18:37Z
 urls:
   reference: https://harriet-mason.github.io/ggdibbler/reference
   article: https://harriet-mason.github.io/ggdibbler/articles
