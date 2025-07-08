@@ -5,7 +5,7 @@ Initial CRAN submission.
 ## New features
 ### Functions
 The package comes with one function:
-- `geom_sf_sample()`: Visualise an sf map with random variable for fill
+- `geom_sf_sample()`: Visualise an sf object with random variable for fill
 
 ### Data sets
 And two datasets:
