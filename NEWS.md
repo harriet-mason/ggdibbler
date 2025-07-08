@@ -1,4 +1,4 @@
-# ggdibbler v0.1.0
+# Version v0.1.0
 
 Initial CRAN submission.
 
