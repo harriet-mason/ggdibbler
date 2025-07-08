@@ -14,14 +14,14 @@ Authors@R: c(
   )
 Maintainer: Harriet Mason <harriet.m.mason@gmail.com>
 Description: A package for visualising uncertainty with the goal of signal
-    supression. Usually, uncertainty visualisation focuses on expressing
+    suppression. Usually, uncertainty visualisation focuses on expressing
     uncertainty as a distribution or probability, whereas ggdibbler
     differentiates itself by viewing an uncertainty visualisation as an
-    adjustment to an existing graphic that incorperates the inherrent
+    adjustment to an existing graphic that incorporates the inherent
     uncertainty in the estimates.  You provide the code for an existing
-    plot, but repalace one of the variables with a vector of
+    plot, but replace one of the variables with a vector of
     distributions, and it will convert the visualisation into it's signal
-    supression counterpart.
+    suppression counterpart.
 License: GPL-3
 URL: https://harriet-mason.github.io/ggdibbler/
 Depends: 
