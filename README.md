@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Codecov test
+coverage](https://codecov.io/gh/harriet-mason/ggdibbler/graph/badge.svg)](https://app.codecov.io/gh/harriet-mason/ggdibbler)
 <!-- badges: end -->
 
 `ggdibbler` is an R package for implementing signal suppression in
