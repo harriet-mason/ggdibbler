@@ -35,6 +35,7 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
+    vdiffr,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
