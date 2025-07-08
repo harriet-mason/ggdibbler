@@ -1,7 +1,7 @@
 Type: Package
 Package: ggdibbler
 Title: Add Uncertainty to Existing Visualisations
-Version: 0.1.0.9000
+Version: 0.1.0
 Authors@R: c(
     person("Harriet", "Mason", , "harriet.m.mason@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-4568-8215")),
