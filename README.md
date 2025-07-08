@@ -4,6 +4,7 @@
 # ggdibbler <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 `ggdibbler` is an R package for implementing signal suppression in
@@ -52,7 +53,8 @@ toy_temp_mean <- toy_temp |>
 
 # plot it
 ggplot(toy_temp_mean) +
-  geom_sf(aes(geometry=county_geometry, fill=temp_mean)) 
+  geom_sf(aes(geometry=county_geometry, fill=temp_mean)) +
+  scale_fill_distiller(palette = "OrRd")
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
@@ -65,7 +67,8 @@ each estimate as a sample of values from its sampling distribution.
 toy_temp_dist |> 
   ggplot() + 
   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) + 
-  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1)
+  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) +
+  scale_fill_distiller(palette = "OrRd")
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
@@ -73,8 +76,8 @@ toy_temp_dist |>
 ## Additions to the package
 
 As `ggdibbler` is designed to alter existing graphic types to accept
-distributions as inputs there is a near infinite number of that can be
-spat out. At the moment the focus is on alterations to `geom_sf`, but we
-are happy to add any other functionality that users would like to have
-as a ggplot geom. If you have a suggestion, feel free to add it in the
-github issues.
+distributions as inputs there is a near infinite number of plots that
+could be changed with the package. At the moment the focus is on
+alterations to `geom_sf`, but we are happy to add any other
+functionality that users would like to have as a ggplot geom. If you
+have a suggestion, feel free to add it in the github issues.
