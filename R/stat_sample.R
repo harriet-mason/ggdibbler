@@ -1,7 +1,7 @@
 #' @export
 #' @usage NULL
 #' @format NULL
-#' @importFrom ggplot2 ggproto StatSf
+#' @importFrom ggplot2 ggproto StatSf ggproto_parent
 #' @importFrom dplyr group_by reframe across everything mutate filter
 #' @importFrom sf st_sf st_zm st_make_grid st_intersection st_geometry_type
 #' @importFrom distributional generate
