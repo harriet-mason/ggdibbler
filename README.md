@@ -63,6 +63,7 @@ We can use `geom_sf_sample` from the ggdibbler package to instead view
 each estimate as a sample of values from its sampling distribution.
 
 ``` r
+set.seed(1)
 # sample map
 toy_temp_dist |> 
   ggplot() + 
