@@ -15,14 +15,15 @@ Authors@R: c(
 Maintainer: Harriet Mason <harriet.m.mason@gmail.com>
 Description: A package for visualising uncertainty with the goal of signal
     supression. Usually, uncertainty visualisation focuses on expressing
-    uncertainty as a distribution or probability, whereas ggdibble
+    uncertainty as a distribution or probability, whereas ggdibbler
     differentiates itself by viewing an uncertainty visualisation as an
-    existing graphic that has been adjusted to incorperate uncertainty in
-    the estimates.  You provide the code for an existing plot, but
-    repalace one of the variables with a vector of distributions, and it
-    will convert the visualisation into it's signal supression
-    counterpart.
+    adjustment to an existing graphic that incorperates the inherrent
+    uncertainty in the estimates.  You provide the code for an existing
+    plot, but repalace one of the variables with a vector of
+    distributions, and it will convert the visualisation into it's signal
+    supression counterpart.
 License: GPL-3
+URL: https://harriet-mason.github.io/ggdibbler/
 Depends: 
     R (>= 4.1.0)
 Imports: 
@@ -31,13 +32,13 @@ Imports:
     ggplot2,
     rlang,
     sf
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.3.2
 Suggests: 
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
-VignetteBuilder: knitr
-URL: https://harriet-mason.github.io/ggdibbler/
+VignetteBuilder: 
+    knitr
 Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
