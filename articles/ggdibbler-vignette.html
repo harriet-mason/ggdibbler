@@ -146,10 +146,10 @@ referece.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">county_longitude</span>, y<span class="op">=</span><span class="va">county_latitude</span>, colour<span class="op">=</span><span class="va">recorded_temp</span><span class="op">)</span>, </span>
 <span>              width<span class="op">=</span><span class="fl">5000</span>, height <span class="op">=</span><span class="fl">5000</span>, alpha<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggdibbler-vignette_files/figure-html/unnamed-chunk-3-1.png" width="700">
-Typically, we would not visualise the data this way. A much more common
-approach would be to take the average of each county and display that in
-a choropleth map, displayed below.</p>
+<p><img src="ggdibbler-vignette_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p>Typically, we would not visualise the data this way. A much more
+common approach would be to take the average of each county and display
+that in a choropleth map, displayed below.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Mean data</span></span>
 <span><span class="va">toy_temp_mean</span> <span class="op">&lt;-</span> <span class="va">toy_temp</span> <span class="op">|&gt;</span> </span>
@@ -159,8 +159,8 @@ a choropleth map, displayed below.</p>
 <span><span class="co"># Plot Mean Data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_mean</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_mean</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggdibbler-vignette_files/figure-html/unnamed-chunk-4-1.png" width="700">
-This plot is fine, but it does loose a key piece of information,
+<p><img src="ggdibbler-vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p>This plot is fine, but it does loose a key piece of information,
 specifically the understanding that this mean is an estimate. That means
 that this estimate has a sampling distribuiton that is invisible to us
 when we make this visualisation.</p>
@@ -196,8 +196,8 @@ package and then can use it with the <code>ggdibbler</code> version of
 <span><span class="co"># Plot Distribution Data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_dist</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="ggdibbler-vignette_files/figure-html/unnamed-chunk-6-1.png" width="700">
-To maintain flexibility, the <code>geom_sf_sample</code> does not
+<p><img src="ggdibbler-vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p>To maintain flexibility, the <code>geom_sf_sample</code> does not
 highlight the original boundary lines, but that can be easily added just
 by adding another layer.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
