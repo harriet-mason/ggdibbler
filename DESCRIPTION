@@ -13,7 +13,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-3803-0972"))
   )
 Maintainer: Harriet Mason <harriet.m.mason@gmail.com>
-Description: A ggplot2 extension for visualising uncertainty with the goal
+Description: A 'ggplot2' extension for visualising uncertainty with the goal
     of signal suppression. Usually, uncertainty visualisation focuses on
     expressing uncertainty as a distribution or probability, whereas
     'ggdibbler' differentiates itself by viewing an uncertainty
