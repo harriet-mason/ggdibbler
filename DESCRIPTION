@@ -1,6 +1,6 @@
 Type: Package
 Package: ggdibbler
-Title: Add Uncertainty to Existing Visualisations
+Title: Add Uncertainty to Data Visualisations
 Version: 0.1.0
 Authors@R: c(
     person("Harriet", "Mason", , "harriet.m.mason@gmail.com", role = c("aut", "cre"),
@@ -13,15 +13,15 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-3803-0972"))
   )
 Maintainer: Harriet Mason <harriet.m.mason@gmail.com>
-Description: A package for visualising uncertainty with the goal of signal
-    suppression. Usually, uncertainty visualisation focuses on expressing
-    uncertainty as a distribution or probability, whereas ggdibbler
-    differentiates itself by viewing an uncertainty visualisation as an
-    adjustment to an existing graphic that incorporates the inherent
-    uncertainty in the estimates.  You provide the code for an existing
-    plot, but replace one of the variables with a vector of
-    distributions, and it will convert the visualisation into it's signal
-    suppression counterpart.
+Description: A ggplot2 extension for visualising uncertainty with the goal
+    of signal suppression. Usually, uncertainty visualisation focuses on
+    expressing uncertainty as a distribution or probability, whereas
+    'ggdibbler' differentiates itself by viewing an uncertainty
+    visualisation as an adjustment to an existing graphic that
+    incorporates the inherent uncertainty in the estimates.  You provide
+    the code for an existing plot, but replace one of the variables with a
+    vector of distributions, and it will convert the visualisation into
+    it's signal suppression counterpart.
 License: GPL-3
 URL: https://harriet-mason.github.io/ggdibbler/
 Depends: 
@@ -35,8 +35,8 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    vdiffr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    vdiffr
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
