@@ -2,14 +2,16 @@
 % Please edit documentation in R/scale-type.R
 \name{scale_type.distribution}
 \alias{scale_type.distribution}
-\title{Sets default scale for distribution objects}
+\title{⁠@description Sets default scale for distribution objects}
 \usage{
 \method{scale_type}{distribution}(x)
 }
 \arguments{
-\item{x}{variable being scaled}
+\item{x}{value being scaled}
+}
+\value{
+A character vector of scale types. The scale type is the ggplot scale type of the outcome of the distribution.
 }
 \description{
-Generates a single value from the distribution and uses it to set the default ggplot scale. 
-The scale can be changed later in the ggplot by using any scale_* function
+⁠@details Generates a single value from the distribution and uses it to set the default ggplot scale. The scale can be changed later in the ggplot by using any scale_* function
 }

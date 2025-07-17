@@ -122,7 +122,7 @@ This function will replace the fill area with a grid, where each cell is filled 
 library(ggplot2)
 library(dplyr)
 basic_data <- toy_temp_dist |>
-dplyr::filter(county_name \%in\% c("Pottawattamie County", "Mills County", "Cass County", "Harrison County"))
+dplyr::filter(county_name \%in\% c("Pottawattamie County", "Mills County", "Cass County"))
 basic_data |>
   ggplot() + 
   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist))
