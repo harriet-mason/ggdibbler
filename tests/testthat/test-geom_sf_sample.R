@@ -5,6 +5,7 @@ basic_data <- toy_temp_dist |>
 
 test_that("geom_sf_sample tests", {
   set.seed(1)
+  
   # basic geom_sf check
   p1 <- basic_data |>  
     ggplot2::ggplot() + 
