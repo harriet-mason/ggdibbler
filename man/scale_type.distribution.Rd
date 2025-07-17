@@ -2,8 +2,7 @@
 % Please edit documentation in R/scale-type.R
 \name{scale_type.distribution}
 \alias{scale_type.distribution}
-\title{Sets default scale for distribution objects
-Default scale for distribution objects is continuous}
+\title{Sets default scale for distribution objects}
 \usage{
 \method{scale_type}{distribution}(x)
 }
@@ -11,6 +10,6 @@ Default scale for distribution objects is continuous}
 \item{x}{variable being scaled}
 }
 \description{
-Sets default scale for distribution objects
-Default scale for distribution objects is continuous
+Generates a single value from the distribution and uses it to set the default ggplot scale. 
+The scale can be changed later in the ggplot by using any scale_* function
 }
