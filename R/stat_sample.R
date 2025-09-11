@@ -6,7 +6,7 @@
 #' @importFrom sf st_sf st_zm st_make_grid st_intersection st_geometry_type
 #' @importFrom distributional generate
 #' @rdname geom_sf_sample
-StatSample <- ggproto("StatSample", StatSf,
+StatSampleSf <- ggproto("StatSampleSf", StatSf,
                                # compute_layer is literally code from stat_sf
                                compute_panel = function(self, data, scales, coord, n = NULL) {
                                  if (is.null(n)) {n = 3}

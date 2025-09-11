@@ -3,13 +3,12 @@
 \docType{data}
 \name{geom_sf_sample}
 \alias{geom_sf_sample}
-\alias{StatSample}
+\alias{StatSampleSf}
 \title{Visualise Sf Objectjects with Uncertainty}
 \usage{
 geom_sf_sample(
   mapping = aes(),
   data = NULL,
-  stat = "sample",
   position = "identity",
   na.rm = FALSE,
   show.legend = NA,
@@ -38,19 +37,6 @@ A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
-
-\item{stat}{The statistical transformation to use on the data for this layer.
-When using a \verb{geom_*()} function to construct a layer, the \code{stat}
-argument can be used the override the default coupling between geoms and
-stats. The \code{stat} argument accepts the following:
-\itemize{
-\item A \code{Stat} ggproto subclass, for example \code{StatCount}.
-\item A string naming the stat. To give the stat as a string, strip the
-function name of the \code{stat_} prefix. For example, to use \code{stat_count()},
-give the stat as \code{"count"}.
-\item For more information and other ways to specify the stat, see the
-\link[ggplot2:layer_stats]{layer stat} documentation.
-}}
 
 \item{position}{A position adjustment to use on the data for this layer. This
 can be used in various ways, including to prevent overplotting and

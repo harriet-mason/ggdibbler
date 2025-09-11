@@ -24,7 +24,7 @@
 #'   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1, n=4) + 
 #'   geom_sf(aes(geometry=county_geometry), fill=NA, linewidth=1)
 #' @export
-geom_sf_sample <- function(mapping = aes(), data = NULL, stat = "sample",
+geom_sf_sample <- function(mapping = aes(), data = NULL,
                            position = "identity", na.rm = FALSE, show.legend = NA,
                            inherit.aes = TRUE, n = NULL, ...) {
   c(
@@ -32,7 +32,7 @@ geom_sf_sample <- function(mapping = aes(), data = NULL, stat = "sample",
       geom = GeomSf,
       data = data,
       mapping = mapping,
-      stat = stat,
+      stat = StatSampleSf,
       position = position,
       show.legend = show.legend,
       inherit.aes = inherit.aes,
