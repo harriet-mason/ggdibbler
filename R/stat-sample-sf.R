@@ -3,6 +3,7 @@
 #' @format NULL
 #' @importFrom ggplot2 ggproto StatSf ggproto_parent
 #' @importFrom dplyr group_by reframe across everything mutate filter
+#' @importFrom tidyselect everything
 #' @importFrom sf st_sf st_zm st_make_grid st_intersection st_geometry_type
 #' @importFrom distributional generate
 #' @rdname geom_sf_sample
