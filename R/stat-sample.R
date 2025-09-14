@@ -9,9 +9,8 @@
 StatSample <- ggproto("StatSample", Stat,
                       compute_group = function(data, scales, n) {
                         # Check which variables are distributions
-                        distcols <- names(named_data)[sapply(named_data, is_distribution)]
-                        othcols <- setdiff(names(named_data), distcols)
-                                 
+                        distcols <- names(data)[sapply(data, is_distribution)]
+                        othcols <- setdiff(names(data), distcols)
                         # Sample from distribution variables
                         data |>
                           mutate(across(all_of(distcols), ~ generate(.x, times = n))) |>
@@ -36,6 +35,5 @@ stat_sample <- function(mapping = NULL, data = NULL,
                   n = n, ...)
   )
 }
-
 
 
