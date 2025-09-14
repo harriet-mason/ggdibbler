@@ -10,6 +10,6 @@
 #' @exportS3Method ggplot2::scale_type
 scale_type.distribution <- function(x) {
   # generate a single value from a distribution and use it's class to set scale
-   scale_type(unlist(distributional::generate(x,1))) #breaks position scale
+  scale_type(unlist(distributional::generate(x,1))) #breaks position scale
    # "identity"
 }
