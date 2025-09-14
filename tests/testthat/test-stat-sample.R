@@ -20,15 +20,31 @@ test_that("StatSample tests", {
 }
 )
 
+test_data <- data.frame(
+  bob = c(distributional::dist_uniform(2,3), 
+          distributional::dist_normal(3,2), 
+          distributional::dist_exponential(3)),
+  john = c(distributional::dist_gamma(2,1), 
+           distributional::dist_normal(5,1), 
+           distributional::dist_exponential(1)),
+  ken = c(1,2,3),
+  rob = c("A", "B", "C")
+)
+
+
 test_that("stat_sample tests", {
   set.seed(1)
   
   # basic check with dist x and y
-  # p1 <- ggplot2::ggplot() +
-  #  stat_sample(ddata = check, ggplot2::aes(x=x, y=y, colour=colour))
-  # vdiffr::expect_doppelganger("correct name sample check", p1)
+  # no random variables used - just return normal points
+  #p1 <- ggplot2::ggplot() + 
+  #  stat_sample(data = test_data, ggplot2::aes(x=ken, y=rob))
+  
+  # random variables used - return sample
+  #p2 <- ggplot2::ggplot() + 
+  #  stat_sample(data = test_data, ggplot2::aes(x=bob, y=john))
 }
 )
 
 
-# ggplot2::ggplot() + stat_sample(data = named_data, ggplot2::aes(x=x, y=y, colour=colour))
+#ggplot2::ggplot() + stat_sample(data = named_data, ggplot2::aes(x=x, y=y, colour=colour))
