@@ -2,7 +2,7 @@
 library(ggplot2)
 devtools::load_all()
 
-test_data <- data.frame(
+data <- data.frame(
   bob = c(distributional::dist_uniform(2,3), 
           distributional::dist_normal(3,2), 
           distributional::dist_exponential(3)),
@@ -10,18 +10,17 @@ test_data <- data.frame(
            distributional::dist_normal(5,1), 
            distributional::dist_exponential(1)),
   ken = c(1,2,3),
-  rob = c("A", "B", "C")
+  rob = c("A", "B", "C"))
 
 ####################################################################################
 # Broken plot
 # make data that doesn't work
-)
+plot <- p
 
 # position case
-plot <- ggplot() + 
-  stat_sample(data = test_data, ggplot2::aes(x=bob, y=john)) +
-  scale_x_continuous(trans="dist") +
-  scale_y_continuous(trans="dist")
+library(ggplot2)
+plot <- ggplot2::ggplot() + 
+  stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, colour = as.factor(bob))) 
 
 # set layers, data, and scales
 layers <- plot@layers
@@ -62,10 +61,10 @@ data <- ggplot2:::by_layer(function(l, d) l$map_statistic(d, plot), layers, data
 plot@scales$add_missing(c("x", "y"), plot@plot_env)
 
 # Reparameterise geoms from (e.g.) y and width to ymin and ymax
-data <- by_layer(function(l, d) l$compute_geom_1(d), layers, data, "setting up geom")
+data <- ggplot2:::by_layer(function(l, d) l$compute_geom_1(d), layers, data, "setting up geom")
 
 # Apply position adjustments
-data <- by_layer(function(l, d) l$compute_position(d, layout), layers, data, "computing position")
+data <- ggplot2:::by_layer(function(l, d) l$compute_position(d, layout), layers, data, "computing position")
 
 # Reset position scales, then re-train and map.  This ensures that facets
 # have control over the range of a plot: is it generated from what is
@@ -80,9 +79,26 @@ data <- layout$map_position(data)
 layout$setup_panel_guides(plot@guides, plot@layers)
 
 # Complete the plot's theme
-plot@theme <- plot_theme(plot)
+plot@theme <- ggplot2:::plot_theme(plot)
 
+# Train and map non-position scales and guides
+npscales <- scales$non_position_scales()
+if (npscales$n() > 0) {
+  npscales$set_palettes(plot@theme)
+  lapply(data, npscales$train_df)
+  plot@guides <- plot@guides$build(npscales, plot@layers, plot@labels, data, plot@theme)
+  data <- lapply(data, npscales$map_df)
+} else {
+  # Only keep custom guides if there are no non-position scales
+  plot@guides <- plot@guides$get_custom()
+}
+data <- .expose_data(data)
 
+data <- ggplot2:::by_layer(
+  function(l, d) l$compute_geom_2(d, theme = plot@theme),
+  layers, data, "setting up geom aesthetics"
+)
+data <- by_layer(function(l, d) l$finish_statistics(d), layers, data, "finishing layer stat")
 ####################################################################################
 
 dist <- dist_normal(mu = 1:5, sigma = 3)
