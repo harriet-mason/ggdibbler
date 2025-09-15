@@ -57,11 +57,15 @@ test_that("stat_sample tests", {
     stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, colour=as.factor(john)))
   
   # random x and colour, deterministic x
-  ggplot2::ggplot() + 
+  p6 <- ggplot2::ggplot() + 
     stat_sample(data = test_data, ggplot2::aes(x=ken, y=bob, colour=john))
-  # no colour scale??
+  # no colour scale?? it works for geom_sf. Look into it
   
-  # random colour
+  # random colour only 
+  p7 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=ken, y=rob, colour=john), 
+                position = position_dodge(width=0.1))
+  # should add jitter position dodge doesnt work very well. look into it.
 }
 )
 
