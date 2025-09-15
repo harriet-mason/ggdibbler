@@ -37,12 +37,31 @@ test_that("stat_sample tests", {
   
   # basic check with dist x and y
   # no random variables used - just return normal points
-  #p1 <- ggplot2::ggplot() + 
-  #  stat_sample(data = test_data, ggplot2::aes(x=ken, y=rob))
+  p1 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=ken, y=rob))
   
-  # random variables used - return sample
-  #p2 <- ggplot2::ggplot() + 
-  #  stat_sample(data = test_data, ggplot2::aes(x=bob, y=john))
+  # random variables x and y
+  p2 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john))
+  
+  # random variables only x
+  p3 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=bob, y=ken))
+  
+  # deterministic colour, random x and y
+  p4 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, colour=rob))
+  
+  # colour by distribution
+  p5 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, colour=as.factor(john)))
+  
+  # random x and colour, deterministic x
+  ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=ken, y=bob, colour=john))
+  # no colour scale??
+  
+  # random colour
 }
 )
 
