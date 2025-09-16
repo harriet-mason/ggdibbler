@@ -63,9 +63,12 @@ test_that("stat_sample tests", {
   
   # random colour only 
   p7 <- ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=ken, y=rob, colour=john), 
-                position = position_dodge(width=0.1))
+    stat_sample(data = test_data, ggplot2::aes(x=ken, y=rob, colour=john))
   # should add jitter position dodge doesnt work very well. look into it.
+  
+  # warning message for wrong aesthetic
+  p8 <- ggplot2::ggplot() + 
+    +     stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, flat = rob))
 }
 )
 
