@@ -8,15 +8,19 @@
 #' @export
 StatSample <- ggproto("StatSample", Stat,
                       compute_group = function(data, scales, n) {
-                        
+                    
                         # Check which variables are distributions
                         distcols <- names(data)[sapply(data, is_distribution)]
                         othcols <- setdiff(names(data), distcols)
                         
+                        # Check for at least one distribution vector
+                        if(length(distcols)==0) return(data)
+                          
                         # Hold old data to add back in to avoid warning
                         old_data <- data |>
                           dplyr::select(distcols)|>
                           dplyr::slice(rep(1:dplyr::n(), each = n))
+                        
                         
                         # add xdist and ydist to old_data in if not already in
                         # should I add all aesthetics of them
@@ -39,18 +43,21 @@ stat_sample <- function(mapping = NULL, data = NULL,
                         geom = "point", position = "identity", 
                         na.rm = FALSE, show.legend = NA, 
                         inherit.aes = TRUE, n=10, ...) {
-
-  ggplot2::layer(
-    stat = StatSample, 
-    data = data, 
-    mapping = mappingswap(mapping, data), #swap mapping to avoid scale problem
-    geom = geom, 
-    position = position, 
-    show.legend = show.legend, 
-    inherit.aes = inherit.aes, 
-    params = list(na.rm = na.rm,
-                  n = n, ...)
-  )
+  #capture_and_filter_warnings({
+    ggplot2::layer(
+      stat = StatSample, 
+      data = data, 
+      mapping = mappingswap(mapping, data), #swap mapping to avoid scale problem
+      geom = geom, 
+      position = position, 
+      show.legend = show.legend, 
+      inherit.aes = inherit.aes, 
+      params = list(na.rm = na.rm,
+                    n = n, ...)
+      )
+  #},
+  #  pattern = "dist"
+  #)
 }
 
 # internal function that swaps all distributions to *dist naming
