@@ -1,4 +1,5 @@
 # example code from fable that uses distributional
+# from fable readme https://github.com/tidyverts/fable/tree/main
 library(fable)
 library(tsibble)
 library(tsibbledata)
