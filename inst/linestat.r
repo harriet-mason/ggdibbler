@@ -58,6 +58,23 @@ fc <- fit |> forecast(h = 30, times=10, bootstrap = TRUE)
 # default plot
 autoplot(fc, google_2015)
 
+# Work With...
+    # bootstrapped data
+    # distribution
 
+# check family
+all(family(fc$Close)=="sample")
+# line to include to check family in stat
+families <- distcols[sapply(distcols, family)]
+#get sample in sample dist
+parameters(Close)
 
+# methods pass to distributional:::dist_apply, just check that function
+x <- fc$Close
+# check all lines of dist_apply to work out what happens
 
+dog <- distributional:::dist_apply(x, parameters)
+
+# top level object is a distribution and calls f.distribution (e.g. mean.distribution)
+# 2nd level object is a sample f.dist_sample (e.g. mean.dist_sample) and calculates with mean(x$x)
+# must be accessing the sample??
