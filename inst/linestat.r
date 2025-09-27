@@ -58,6 +58,19 @@ fc <- fit |> forecast(h = 30, times=10, bootstrap = TRUE)
 # default plot
 autoplot(fc, google_2015)
 
+# Using generate to get actual outcomes
+sim <- google_2015 |>
+  model(NAIVE(Close)) |> 
+  generate(h = 30, times = 30, bootstrap = TRUE)
+
+google_2015 |>
+  ggplot(aes(x = day)) +
+  geom_line(aes(y = Close)) +
+  geom_line(aes(y = .sim, group = as.factor(.rep)),
+            colour="blue", data = sim, alpha=0.7) +
+  labs(title="Google daily closing stock price", y="$US" ) +
+  guides(colour = "none")
+
 # Work With...
     # bootstrapped data
     # distribution
