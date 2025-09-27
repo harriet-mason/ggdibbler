@@ -9,6 +9,7 @@
 #' @export
 geom_point_sample <- function(mapping = NULL, data = NULL, position = "identity", 
                        ..., na.rm = FALSE, show.legend = NA, inherit.aes = TRUE) {
+  capture_and_filter_warnings({
   ggplot2::layer(
     data = data, 
     mapping = mappingswap(mapping, data), 
@@ -19,5 +20,6 @@ geom_point_sample <- function(mapping = NULL, data = NULL, position = "identity"
     inherit.aes = inherit.aes, 
     params = list(na.rm = na.rm, ...)
   )
+  })
 }
 

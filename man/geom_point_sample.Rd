@@ -4,7 +4,15 @@
 \alias{geom_point_sample}
 \title{Visualise Points Uncertainty}
 \usage{
-geom_point_sample()
+geom_point_sample(
+  mapping = NULL,
+  data = NULL,
+  position = "identity",
+  ...,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
 }
 \value{
 A ggplot2 geom representing a sf_sample which can be added to a ggplot object

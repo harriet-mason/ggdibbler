@@ -61,14 +61,15 @@ test_that("stat_sample tests", {
     stat_sample(data = test_data, ggplot2::aes(x=ken, y=bob, colour=john))
   # no colour scale?? it works for geom_sf. Look into it
   
-  # random colour only 
+  # random colour only + jitter
   p7 <- ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=ken, y=rob, colour=john))
+    stat_sample(data = test_data, ggplot2::aes(x=ken, y=rob, colour=john),
+                position=ggplot2::position_jitter(width=0.1))
   # should add jitter position dodge doesnt work very well. look into it.
   
   # warning message for wrong aesthetic
   p8 <- ggplot2::ggplot() + 
-    +     stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, flat = rob))
+    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, flat = rob))
 }
 )
 

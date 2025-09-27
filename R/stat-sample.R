@@ -17,6 +17,7 @@ StatSample <- ggproto("StatSample", Stat,
                         if(length(distcols)==0) return(data)
                           
                         # Hold old data to add back in to avoid warning
+                        # can't filter warning because it comes from ggplot print step
                         old_data <- data |>
                           dplyr::select(distcols)|>
                           dplyr::slice(rep(1:dplyr::n(), each = n))
@@ -43,7 +44,7 @@ stat_sample <- function(mapping = NULL, data = NULL,
                         geom = "point", position = "identity", 
                         na.rm = FALSE, show.legend = NA, 
                         inherit.aes = TRUE, n=10, ...) {
-  #capture_and_filter_warnings({
+  capture_and_filter_warnings({
     ggplot2::layer(
       stat = StatSample, 
       data = data, 
@@ -55,18 +56,8 @@ stat_sample <- function(mapping = NULL, data = NULL,
       params = list(na.rm = na.rm,
                     n = n, ...)
       )
-  #},
-  #  pattern = "dist"
-  #)
+  })
 }
 
-# internal function that swaps all distributions to *dist naming
-mappingswap <- function(mapping, data){
-  distcols <- names(data)[sapply(data, distributional::is_distribution)]
-  distindex <- as.character(sapply(mapping, rlang::quo_get_expr)) %in% distcols
-  new_mapping <- mapping
-  names(new_mapping)[distindex] <-  paste(names(new_mapping),"dist", sep="")[distindex]
-  new_mapping
-}
 
 
