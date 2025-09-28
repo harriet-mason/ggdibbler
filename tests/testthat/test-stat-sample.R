@@ -70,8 +70,32 @@ test_that("stat_sample tests", {
   # warning message for wrong aesthetic
   p8 <- ggplot2::ggplot() + 
     stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, flat = rob))
+  
+  # geom text
+  ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, label=rob), geom="text")
+  
+  # geom_abline - Janky ass axis
+  p8 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(intercept=john), slope=5, geom=GeomAbline)
+  
 }
 )
 
+test_that("stat_sample alternative geom tests", {
+  set.seed(1)
+  # geom text
+  p1 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, label=rob), geom="text")
+  
+  # geom_abline - Janky ass axis
+  p2 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(intercept=john), slope=5, geom=GeomAbline)
+  
+  # geom col
+  p3 <- ggplot2::ggplot() + 
+    stat_sample(data = test_data, ggplot2::aes(x=ken, y=john, fill=rob), geom="col", n=100)
+}
+)
 
 #ggplot2::ggplot() + stat_sample(data = named_data, ggplot2::aes(x=x, y=y, colour=colour))

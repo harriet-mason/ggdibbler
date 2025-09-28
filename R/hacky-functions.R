@@ -56,7 +56,8 @@ warning_func <- function(w) {
     # remove dist suffix to get actual variable names
     vars <- gsub("dist", "", vars)
     # Check if any variable names are actually not allowed
-    fineaes <- c("x", "y",	"alpha",	"colour",	"fill",	"group", "shape", "size", "stroke")
+    fineaes <- c("x", "y",	"alpha",	"colour",	"fill",	"group", "shape", "size", "stroke",
+                 "slope", "intercept", "label")
     if(!all(vars %in% fineaes)){
       # get correct variables
       bad_vars <- vars[which(!(vars %in% fineaes))]
