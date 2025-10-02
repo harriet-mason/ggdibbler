@@ -8,38 +8,20 @@
 #' @export
 StatSample <- ggproto("StatSample", Stat,
                       compute_group = function(data, scales, n) {
-                    
-                        # Check which variables are distributions
-                        distcols <- names(data)[sapply(data, is_distribution)]
-                        othcols <- setdiff(names(data), distcols)
-                        
-                        # Check for at least one distribution vector
-                        if(length(distcols)==0) return(data)
-                          
-                        # Hold old data to add back in to avoid warning
-                        # can't filter warning because it comes from ggplot print step
-                        old_data <- data |>
-                          dplyr::select(distcols)|>
-                          dplyr::slice(rep(1:dplyr::n(), each = n))
-                        
-                        
-                        # add xdist and ydist to old_data in if not already in
-                        # should I add all aesthetics of them
-                        #
-                      
-                        # Sample from distribution variables
-                        new_data <- data |>
-                          mutate(across(all_of(distcols), ~ generate(.x, times = n))) |>
-                          group_by(across(all_of(othcols))) |>
-                          unnest_longer(all_of(distcols)) |>
-                          dplyr::rename_with(~ sub("dist", "", .x, fixed = TRUE))
-                        
-                        # send off combination of both
-                        cbind(old_data, new_data)
+                        sample_expand(data, n)
                       }
-                      # required_aes = all geom_point aes
 )
 
+#' Visualise Points with Uncertainty
+#' 
+#' Identical to geom_point, except that it visualises a distribution of points. 
+#' 
+#' @importFrom ggplot2 aes layer
+#' @importFrom rlang list2
+#' @param n A parameter used to control the number of samples
+#' @returns A ggplot2 geom representing a sample which can be added to a ggplot object
+#' @inheritParams ggplot2::geom_point
+#' @export
 stat_sample <- function(mapping = NULL, data = NULL, 
                         geom = "point", position = "identity", 
                         na.rm = FALSE, show.legend = NA, 
@@ -59,5 +41,31 @@ stat_sample <- function(mapping = NULL, data = NULL,
   })
 }
 
+sample_expand <- function(data, times=NULL){
 
+  # Check which variables are distributions
+  distcols <- names(data)[sapply(data, is_distribution)]
+  othcols <- setdiff(names(data), distcols)
+
+  # Check for at least one distribution vector
+  if(length(distcols)==0) return(data |> tibble::rowid_to_column(var = "distID"))
+  
+  # Can't filter warning because it comes from ggplot print step
+    # Hold old data to avoid warning
+  old_data <- data |>
+    dplyr::select(distcols)|>
+    dplyr::slice(rep(1:dplyr::n(), each = times))
+
+  # Sample from distribution variables
+  new_data <- data |>
+    mutate(across(all_of(distcols), ~ generate(.x, times = times))) |>
+    group_by(across(all_of(othcols))) |>
+    unnest_longer(all_of(distcols)) |>
+    dplyr::rename_with(~ sub("dist", "", .x, fixed = TRUE)) |>
+    tibble::rowid_to_column(var = "distID") |>
+    mutate(distID = distID%%times + 1)
+  
+  # send off combination of both
+  cbind(old_data, new_data)
+}
 

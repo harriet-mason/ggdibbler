@@ -2,9 +2,12 @@
 
 S3method(ggplot2::scale_type,distribution)
 export(StatSample)
+export(StatSampleDensity)
 export(StatSampleSf)
 export(geom_point_sample)
 export(geom_sf_sample)
+export(stat_sample)
+export(stat_sample_density)
 importFrom(distributional,generate)
 importFrom(distributional,is_distribution)
 importFrom(dplyr,across)
