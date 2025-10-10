@@ -26,11 +26,10 @@ stat_sample <- function(mapping = NULL, data = NULL,
                         geom = "point", position = "identity", 
                         na.rm = FALSE, show.legend = NA, 
                         inherit.aes = TRUE, n=10, ...) {
-  capture_and_filter_warnings({
     ggplot2::layer(
       stat = StatSample, 
       data = data, 
-      mapping = mappingswap(mapping, data), #swap mapping to avoid scale problem
+      mapping = mapping, # mappingswap(mapping, data) swap mapping to avoid scale problem
       geom = geom, 
       position = position, 
       show.legend = show.legend, 
@@ -38,11 +37,9 @@ stat_sample <- function(mapping = NULL, data = NULL,
       params = list(na.rm = na.rm,
                     n = n, ...)
       )
-  })
 }
 
-sample_expand <- function(data, times=NULL){
-
+sample_expand <- function(data, times){ 
   # Check which variables are distributions
   distcols <- names(data)[sapply(data, is_distribution)]
   othcols <- setdiff(names(data), distcols)
@@ -55,7 +52,6 @@ sample_expand <- function(data, times=NULL){
   old_data <- data |>
     dplyr::select(distcols)|>
     dplyr::slice(rep(1:dplyr::n(), each = times))
-
   # Sample from distribution variables
   new_data <- data |>
     mutate(across(all_of(distcols), ~ generate(.x, times = times))) |>
@@ -64,7 +60,7 @@ sample_expand <- function(data, times=NULL){
     dplyr::rename_with(~ sub("dist", "", .x, fixed = TRUE)) |>
     tibble::rowid_to_column(var = "distID") |>
     mutate(distID = distID%%times + 1)
-  
+
   # send off combination of both
   cbind(old_data, new_data)
 }

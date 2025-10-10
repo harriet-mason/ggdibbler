@@ -8,11 +8,17 @@
 #' @importFrom distributional generate
 #' @rdname geom_sf_sample
 StatSampleSf <- ggproto("StatSampleSf", StatSf,
-                               # compute_layer is literally code from stat_sf
-                               compute_panel = function(self, data, scales, coord, n = NULL) {
-                                 if (is.null(n)) {n = 3}
-                                 
-                                 # subdivide and sample data
+                        setup_params = function(data, params) {
+                          print("stat params")
+                          print(params)
+                          if (is.null(params$n)) {
+                            params$n = 3
+                            message("Picking sample of ", params$n)
+                          }
+                          return(params)
+                        },
+                        setup_data = function(self, data, scales, coord, params, ...) {
+                          # subdivide and sample data
                                  data <- data |>
                                    group_by(geometry) |>
                                    reframe(
