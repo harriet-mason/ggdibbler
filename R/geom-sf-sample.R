@@ -5,7 +5,7 @@
 #' 
 #' @importFrom ggplot2 aes layer_sf GeomSf coord_sf
 #' @importFrom rlang list2
-#' @param n A parameter used to control the number of cells in each grid. Each area is broken up into an nxn grid
+#' @param times A parameter used to control the number of cells in each grid. The grid will be as square as possible.
 #' @returns A ggplot2 geom representing a sf_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_sf
 #' @examples
@@ -26,10 +26,10 @@
 #' @export
 geom_sf_sample <- function(mapping = aes(), data = NULL,
                            position = "identity", na.rm = FALSE, show.legend = NA,
-                           inherit.aes = TRUE, n = NULL, ...) {
+                           inherit.aes = TRUE, times = 30, ...) {
   c(
     layer_sf(
-      geom = GeomSf,
+      geom = GeomSfSample,
       data = data,
       mapping = mapping,
       stat = StatSampleSf,
@@ -38,13 +38,19 @@ geom_sf_sample <- function(mapping = aes(), data = NULL,
       inherit.aes = inherit.aes,
       params = list2(
         na.rm = na.rm,
-        n = n,
+        times = times,
         ...
       )
     ),
     coord_sf(default = TRUE)
   )
 }
+
+GeomSfSample <- ggproto("GeomSfSample", GeomSf,
+                             default_aes = aes(
+                               linewidth = 0
+                             )
+)
 
 
 

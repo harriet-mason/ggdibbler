@@ -15,14 +15,14 @@ test_that("geom_sf_sample tests", {
   # check layering with sf is fine
   p2 <- basic_data |>
     ggplot2::ggplot() +
-    geom_sf_sample(ggplot2::aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) +
+    geom_sf_sample(ggplot2::aes(geometry = county_geometry, fill=temp_dist)) +
     ggplot2::geom_sf(ggplot2::aes(geometry=county_geometry), fill=NA, linewidth=1)
   vdiffr::expect_doppelganger("layering sf sample check", p2)
   
-  # check with different n
+  # check with different times
   p3 <- basic_data |>  
     ggplot2::ggplot() + 
-    geom_sf_sample(ggplot2::aes(geometry = county_geometry, fill=temp_dist), n=5)
+    geom_sf_sample(ggplot2::aes(geometry = county_geometry, fill=temp_dist), times=12)
   vdiffr::expect_doppelganger("n change sample check", p3)
   
   # check with palette change

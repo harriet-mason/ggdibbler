@@ -8,31 +8,29 @@
 #' @importFrom distributional generate
 #' @rdname geom_sf_sample
 StatSampleSf <- ggproto("StatSampleSf", StatSf,
-                        setup_params = function(data, params) {
-                          print("stat params")
-                          print(params)
-                          if (is.null(params$n)) {
-                            params$n = 3
-                            message("Picking sample of ", params$n)
-                          }
-                          return(params)
+                        setup_data = function(data, params) {
+                          sample_expand_sf(data, params$times)
                         },
-                        setup_data = function(self, data, scales, coord, params, ...) {
-                          # subdivide and sample data
-                                 data <- data |>
-                                   group_by(geometry) |>
-                                   reframe(
-                                     geometry = subdivide(geometry, d=c(n,n)), 
-                                     across(everything())
-                                   ) |>
-                                   mutate(fill = as.double(generate(fill, 1))) |>
-                                   st_sf() |>
-                                   st_zm()
-                                 
-                                 ggproto_parent(StatSf, self)$compute_panel(data, scales, coord)
-                               },
-                               required_aes = c("geometry")
+                        # This is just here so setup_data has access to n
+                        compute_panel = function(self, data, scales, coord, times) {
+                          ggproto_parent(StatSf, self)$compute_panel(data, scales, coord)
+                          },
+                        
 )
+
+# Sample expand for sf objects
+sample_expand_sf <- function(data, times){ 
+  d <- square_grid(times)
+  data |>
+    group_by(geometry) |>
+    reframe(
+      geometry = subdivide(geometry, d=d), 
+      across(everything())
+    ) |>
+    mutate(fill = as.double(generate(fill, 1))) |>
+    st_sf() |>
+    st_zm()
+}
 
 # internal function for subdividing geometry grid
 subdivide <- function(geometry, d){
@@ -50,3 +48,24 @@ subdivide <- function(geometry, d){
     filter(st_geometry_type(comb_data) %in% c("POLYGON", "MULTIPOLYGON")) # get rid of other weird line stuff
   subdivided$comb_data
 }
+
+square_grid <- function(x) {
+  # get factors
+  x <- as.integer(x)
+  div <- seq_len(abs(x))
+  factors <- div[x %% div == 0L]
+  
+  # midpoint
+  mid <- length(factors)%/%2
+  
+  # if odd, middle number is square, return square factor
+  if(length(factors)%%2==1) return(rep(factors[mid+1],2))
+  
+  # If even, get middle factors that are not
+  grid <- factors[c(mid, mid+1)]
+  #print(diff(grid))
+  
+  return(grid)
+}
+
+
