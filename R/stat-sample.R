@@ -1,3 +1,30 @@
+#' Visualise Points with Uncertainty
+#' 
+#' Identical to geom_point, except that it visualises a distribution of points. 
+#' 
+#' @importFrom ggplot2 aes layer
+#' @importFrom rlang list2
+#' @param times A parameter used to control the number of samples
+#' @returns A ggplot2 geom representing a sample which can be added to a ggplot object
+#' @inheritParams ggplot2::geom_point
+#' @export
+stat_sample <- function(mapping = NULL, data = NULL, 
+                        geom = "point", position = "identity", 
+                        na.rm = FALSE, show.legend = NA, 
+                        inherit.aes = TRUE, times = 30, ...) {
+  ggplot2::layer(
+    stat = StatSample, 
+    data = data, 
+    mapping = mapping, # mappingswap(mapping, data) swap mapping to avoid scale problem
+    geom = geom, 
+    position = position, 
+    show.legend = show.legend, 
+    inherit.aes = inherit.aes, 
+    params = list(na.rm = na.rm,
+                  times = times, ...)
+  )
+}
+
 #' @usage NULL
 #' @format NULL
 #' @importFrom ggplot2 ggproto Stat
@@ -7,37 +34,15 @@
 #' @importFrom distributional is_distribution generate
 #' @export
 StatSample <- ggproto("StatSample", Stat,
-                      compute_group = function(data, scales, n) {
-                        sample_expand(data, n)
+                      setup_data = function(data, params) {
+                        
+                        sample_expand(data, params$times)
+                      },
+                      compute_group = function(self, data, scales, times) {
+                        data
                       }
 )
 
-#' Visualise Points with Uncertainty
-#' 
-#' Identical to geom_point, except that it visualises a distribution of points. 
-#' 
-#' @importFrom ggplot2 aes layer
-#' @importFrom rlang list2
-#' @param n A parameter used to control the number of samples
-#' @returns A ggplot2 geom representing a sample which can be added to a ggplot object
-#' @inheritParams ggplot2::geom_point
-#' @export
-stat_sample <- function(mapping = NULL, data = NULL, 
-                        geom = "point", position = "identity", 
-                        na.rm = FALSE, show.legend = NA, 
-                        inherit.aes = TRUE, n=10, ...) {
-    ggplot2::layer(
-      stat = StatSample, 
-      data = data, 
-      mapping = mapping, # mappingswap(mapping, data) swap mapping to avoid scale problem
-      geom = geom, 
-      position = position, 
-      show.legend = show.legend, 
-      inherit.aes = inherit.aes, 
-      params = list(na.rm = na.rm,
-                    n = n, ...)
-      )
-}
 
 sample_expand <- function(data, times){ 
   # Check which variables are distributions
@@ -45,23 +50,24 @@ sample_expand <- function(data, times){
   othcols <- setdiff(names(data), distcols)
 
   # Check for at least one distribution vector
-  if(length(distcols)==0) return(data |> tibble::rowid_to_column(var = "distID"))
+  if(length(distcols)==0) return(data |> dplyr::rename_with(~ sub("dist", "", .x, fixed = TRUE)))
   
   # Can't filter warning because it comes from ggplot print step
     # Hold old data to avoid warning
-  old_data <- data |>
-    dplyr::select(distcols)|>
-    dplyr::slice(rep(1:dplyr::n(), each = times))
+  #old_data <- data |>
+  #  dplyr::select(distcols)|>
+  #  dplyr::slice(rep(1:dplyr::n(), each = times))
   # Sample from distribution variables
   new_data <- data |>
     mutate(across(all_of(distcols), ~ generate(.x, times = times))) |>
     group_by(across(all_of(othcols))) |>
     unnest_longer(all_of(distcols)) |>
     dplyr::rename_with(~ sub("dist", "", .x, fixed = TRUE)) |>
-    tibble::rowid_to_column(var = "distID") |>
-    mutate(distID = distID%%times + 1)
+    tibble::rowid_to_column(var = "drawID") |>
+    mutate(drawID = drawID%%times + 1)
 
   # send off combination of both
-  cbind(old_data, new_data)
+  #cbind(old_data, new_data)
+  new_data
 }
 

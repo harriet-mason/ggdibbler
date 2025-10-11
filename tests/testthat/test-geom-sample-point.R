@@ -10,26 +10,32 @@ test_data <- data.frame(
   rob = c("A", "B", "C")
 )
 
+# not random
+ggplot2::ggplot() + 
+  stat_sample(data = test_data, 
+                    ggplot2::aes(x=ken, y=rob))
+# random
+ggplot2::ggplot() + 
+  stat_sample(data = test_data, 
+                    ggplot2::aes(xdist=bob, ydist=john))
 
 test_that("stat_sample tests", {
   set.seed(1)
-  
   # basic check with dist x and y
   # no random variables used - just return normal points
   p1 <- ggplot2::ggplot() + 
     geom_sample_point(data = test_data, 
-                ggplot2::aes(xdist=ken, ydist=rob))
+                ggplot2::aes(x=ken, y=rob))
   
   # random variables x and y
   p2 <- ggplot2::ggplot() + 
     geom_sample_point(data = test_data, 
                       ggplot2::aes(xdist=bob, ydist=john))
-  ggplot2::ggplot() + 
-    geom_sample_point(data = test_data, ggplot2::aes(xdist=bob, ydist=john, colour=rob))
+
   
   # random variables only x
   p3 <- ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=bob, y=ken))
+    stat_sample(data = test_data, ggplot2::aes(xdist=bob, y=ken))
   
   # deterministic colour, random x and y
   p4 <- ggplot2::ggplot() + 
@@ -37,11 +43,12 @@ test_that("stat_sample tests", {
   
   # colour by distribution
   p5 <- ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, colour=as.factor(john)))
+    stat_sample(data = test_data, ggplot2::aes(xdist=bob, ydist=john, colour=as.factor(john)))
   
   # random x and colour, deterministic x
   p6 <- ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=ken, y=bob, colour=john))
+    stat_sample(data = test_data, ggplot2::aes(x=ken, ydist=bob, colour=john))
+  # works when variable is just colour. Does weird identity colour thing for colourdist
   # no colour scale?? it works for geom_sf. Look into it
   
   # random colour only + jitter
@@ -52,7 +59,7 @@ test_that("stat_sample tests", {
   
   # warning message for wrong aesthetic
   p8 <- ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, flat = rob))
+    stat_sample(data = test_data, ggplot2::aes(xdist=bob, ydist=john, flat = rob))
   
   # geom text
   ggplot2::ggplot() + 
@@ -69,7 +76,7 @@ test_that("stat_sample alternative geom tests", {
   set.seed(1)
   # geom text
   p1 <- ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, label=rob), geom="text")
+    stat_sample(data = test_data, ggplot2::aes(xdist=bob, ydist=john, label=rob), geom="text")
   
   # geom_abline - Janky ass axis
   p2 <- ggplot2::ggplot() + 
@@ -77,6 +84,6 @@ test_that("stat_sample alternative geom tests", {
   
   # geom col
   p3 <- ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=ken, y=john, fill=rob), geom="col", n=100)
+    stat_sample(data = test_data, ggplot2::aes(x=ken, ydist=john, fill=rob), geom="col", times=100)
 }
 )
