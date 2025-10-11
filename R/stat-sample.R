@@ -35,10 +35,13 @@ stat_sample <- function(mapping = NULL, data = NULL,
 #' @export
 StatSample <- ggproto("StatSample", Stat,
                       setup_data = function(data, params) {
-                        
                         sample_expand(data, params$times)
                       },
                       compute_group = function(self, data, scales, times) {
+                        #print(scales)
+                        #scale_x <- scales$get_scales("x")
+                        #print()
+                        #print(scales$x$dimension())
                         data
                       }
 )
@@ -54,9 +57,9 @@ sample_expand <- function(data, times){
   
   # Can't filter warning because it comes from ggplot print step
     # Hold old data to avoid warning
-  #old_data <- data |>
-  #  dplyr::select(distcols)|>
-  #  dplyr::slice(rep(1:dplyr::n(), each = times))
+  old_data <- data |>
+    dplyr::select(distcols)|>
+    dplyr::slice(rep(1:dplyr::n(), each = times))
   # Sample from distribution variables
   new_data <- data |>
     mutate(across(all_of(distcols), ~ generate(.x, times = times))) |>
@@ -67,7 +70,7 @@ sample_expand <- function(data, times){
     mutate(drawID = drawID%%times + 1)
 
   # send off combination of both
-  #cbind(old_data, new_data)
-  new_data
+  cbind(old_data, new_data)
+  # new_data
 }
 

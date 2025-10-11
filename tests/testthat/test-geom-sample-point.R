@@ -10,22 +10,13 @@ test_data <- data.frame(
   rob = c("A", "B", "C")
 )
 
-# not random
-ggplot2::ggplot() + 
-  stat_sample(data = test_data, 
-                    ggplot2::aes(x=ken, y=rob))
-# random
-ggplot2::ggplot() + 
-  stat_sample(data = test_data, 
-                    ggplot2::aes(xdist=bob, ydist=john))
-
 test_that("stat_sample tests", {
   set.seed(1)
   # basic check with dist x and y
   # no random variables used - just return normal points
   p1 <- ggplot2::ggplot() + 
     geom_sample_point(data = test_data, 
-                ggplot2::aes(x=ken, y=rob))
+                ggplot2::aes(x=ken, y=rob, colour=rob))
   
   # random variables x and y
   p2 <- ggplot2::ggplot() + 
