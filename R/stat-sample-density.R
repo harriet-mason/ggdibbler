@@ -1,29 +1,48 @@
 
 #' @export
 StatSampleDensity <- ggproto("StatSampleDensity", ggplot2::StatDensity,
+                             required_aes = c("x|xdist|y|ydist"),
+                             default_aes = aes(x = after_stat(density), 
+                                               y = after_stat(density), 
+                                               fill = NA, 
+                                               weight = 1),
+                             
+                             dropped_aes = "weight",
+                             
                              setup_params = function(self, data, params) {
                                params$flipped_aes <- has_flipped_aes(data, params, main_is_orthogonal = FALSE, main_is_continuous = TRUE)
+                               
                                has_x <- !(is.null(data$x) && is.null(params$x))
                                has_xdist <- !(is.null(data$xdist) && is.null(params$xdist))
                                has_y <- !(is.null(data$y) && is.null(params$y))
-                               has_ydist <- !(is.null(data$ydist) && is.null(params$ydist))
+                               has_y <- !(is.null(data$ydist) && is.null(params$ydist))
                                if (!(has_x|has_xdist) && !(has_y|has_ydist)) {
                                  cli::cli_abort("{.fn {snake_class(self)}} requires an {.field x} or {.field y} aesthetic.")
                                }
-                               
                                params
                              },
-                             extra_params = c("na.rm", "orientation", "times"),
+                               
+                             setup_data = function(data, params) {
+                               sample_expand(data, params$times)
+                               
+                             },
+                             compute_group = function(self, data, scales, times, bw = "nrd0", adjust = 1, kernel = "gaussian",
+                                                      n = 512, trim = TRUE, na.rm = FALSE, bounds = c(-Inf, Inf),
+                                                      flipped_aes = FALSE, ...) {
+                               #print(scales)
+                               stats <- ggproto_parent(StatDensity, self)$compute_group(data, scales, bw = "nrd0", adjust = 1, kernel = "gaussian",
+                                                                               n = 512, trim = trim, na.rm = FALSE, bounds = c(-Inf, Inf),
+                                                                               flipped_aes = FALSE, ...)
+                               #draws <- split(data, data$drawID)
+                               #stats <- lapply(draws, function(draw) {
+                               #  ggproto_parent(StatDensity, self)$compute_group(data = draw, scales = scales, bw = bw, adjust = adjust, 
+                              #                                                   kernel = kernel, n = n, trim = trim, na.rm = na.rm, bounds = bounds,
+                              #                                                   flipped_aes = flipped_aes, ...)
+                               print(stats)
+                               }
+)
                              
-                             compute_layer = function(self, data, params, layout) {
-                               print(params)
-                               print(data)
-                               data <- sample_expand(data, params$times) 
-                                #select(-distID)
-                               print(ggproto_parent(StatDensity, self)$compute_layer)
-                               ggproto_parent(StatDensity, self)$compute_layer(self, data, params, layout)
-                              }
-      )
+                
 
 #' Visualise Densities with Uncertainty
 #' 
@@ -36,20 +55,18 @@ StatSampleDensity <- ggproto("StatSampleDensity", ggplot2::StatDensity,
 #' @returns A ggplot2 geom representing a density sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_density
 #' @export
-stat_sample_density <- function(mapping = NULL, data = NULL, geom = "area",
+stat_sample_density <- function(mapping = NULL, data = NULL, geom = "density",
                                 position = "stack", ..., na.rm = FALSE, 
-                                show.legend = NA, inherit.aes = TRUE, times = 10) {
-  capture_and_filter_warnings({
+                                show.legend = NA, inherit.aes = TRUE, times = 30) {
     ggplot2::layer(
       stat = StatSampleDensity, 
       data = data, 
-      mapping = mappingswap(mapping, data), #swap mapping to avoid scale problem
+      mapping = mapping, 
       geom = geom, 
       position = position, 
       show.legend = show.legend, 
       inherit.aes = inherit.aes, 
       params = list(times = times, ...)
     )
-  })
 }
   
