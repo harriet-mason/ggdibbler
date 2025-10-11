@@ -9,17 +9,18 @@
 #' @rdname geom_sf_sample
 StatSampleSf <- ggproto("StatSampleSf", StatSf,
                         setup_data = function(data, params) {
-                          sample_expand_sf(data, params$times)
+                          sample_subdivide_sf(data, params$times)
                         },
                         # This is just here so setup_data has access to n
                         compute_panel = function(self, data, scales, coord, times) {
                           ggproto_parent(StatSf, self)$compute_panel(data, scales, coord)
                           },
+                        required_aes = c("geometry")
                         
 )
 
 # Sample expand for sf objects
-sample_expand_sf <- function(data, times){ 
+sample_subdivide_sf <- function(data, times){ 
   d <- square_grid(times)
   data |>
     group_by(geometry) |>
@@ -31,6 +32,7 @@ sample_expand_sf <- function(data, times){
     st_sf() |>
     st_zm()
 }
+
 
 # internal function for subdividing geometry grid
 subdivide <- function(geometry, d){
@@ -63,8 +65,8 @@ square_grid <- function(x) {
   
   # If even, get middle factors that are not
   grid <- factors[c(mid, mid+1)]
-  #print(diff(grid))
   
+  # Maybe include a check to make values more square?
   return(grid)
 }
 

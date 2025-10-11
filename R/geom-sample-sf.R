@@ -24,12 +24,12 @@
 #'   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1, n=4) + 
 #'   geom_sf(aes(geometry=county_geometry), fill=NA, linewidth=1)
 #' @export
-geom_sf_sample <- function(mapping = aes(), data = NULL,
+geom_sample_sf <- function(mapping = aes(), data = NULL,
                            position = "identity", na.rm = FALSE, show.legend = NA,
                            inherit.aes = TRUE, times = 30, ...) {
   c(
     layer_sf(
-      geom = GeomSfSample,
+      geom = GeomSampleSf,
       data = data,
       mapping = mapping,
       stat = StatSampleSf,
@@ -46,10 +46,18 @@ geom_sf_sample <- function(mapping = aes(), data = NULL,
   )
 }
 
-GeomSfSample <- ggproto("GeomSfSample", GeomSf,
-                             default_aes = aes(
-                               linewidth = 0
-                             )
+GeomSampleSf <- ggproto("GeomSampleSf", GeomSf,
+                        required_aes = "geometry",
+                        default_aes = aes(
+                          shape = NULL,
+                          colour = NULL,
+                          fill = NULL,
+                          size = NULL,
+                          linewidth = 0,
+                          linetype = from_theme(linetype),
+                          alpha = NA,
+                          stroke = 0.5
+                        )
 )
 
 

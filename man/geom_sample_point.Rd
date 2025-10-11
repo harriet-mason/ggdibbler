@@ -7,15 +7,20 @@
 geom_sample_point(
   mapping = NULL,
   data = NULL,
+  stat = "identity",
   position = "identity",
-  ...,
   na.rm = FALSE,
+  n = 30,
   show.legend = NA,
-  inherit.aes = TRUE
+  inherit.aes = TRUE,
+  ...
 )
 }
+\arguments{
+\item{n}{A parameter used to control the number of values sampled from each distribution.}
+}
 \value{
-A ggplot2 geom representing a sf_sample which can be added to a ggplot object
+A ggplot2 geom representing a point_sample which can be added to a ggplot object
 }
 \description{
 Identical to geom_point, except that it will accept a distribution in place of any of the usual aesthetics.
