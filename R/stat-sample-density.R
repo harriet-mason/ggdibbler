@@ -27,9 +27,12 @@ StatSampleDensity <- ggproto("StatSampleDensity", ggplot2::StatDensity,
                                
                              },
                              compute_group = function(self, data, scales, times, bw = "nrd0", adjust = 1, kernel = "gaussian",
-                                                      n = 512, trim = TRUE, na.rm = FALSE, bounds = c(-Inf, Inf),
+                                                      n = 512, trim = FALSE, na.rm = FALSE, bounds = c(-Inf, Inf),
                                                       flipped_aes = FALSE, ...) {
-                               #print(scales)
+                               print(scales)
+                               scales$x <- scale_x_continuous()
+                               print(scales)
+
                                stats <- ggproto_parent(StatDensity, self)$compute_group(data, scales, bw = "nrd0", adjust = 1, kernel = "gaussian",
                                                                                n = 512, trim = trim, na.rm = FALSE, bounds = c(-Inf, Inf),
                                                                                flipped_aes = FALSE, ...)
@@ -38,7 +41,7 @@ StatSampleDensity <- ggproto("StatSampleDensity", ggplot2::StatDensity,
                                #  ggproto_parent(StatDensity, self)$compute_group(data = draw, scales = scales, bw = bw, adjust = adjust, 
                               #                                                   kernel = kernel, n = n, trim = trim, na.rm = na.rm, bounds = bounds,
                               #                                                   flipped_aes = flipped_aes, ...)
-                               print(stats)
+                               
                                }
 )
                              

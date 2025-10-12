@@ -7,10 +7,15 @@ estimate_data <- tibble(xmean = rnorm(50),
                         xse = rep(0.5, 50))|>
   mutate(xdist = distributional::dist_normal(xmean, xse))
 
+expanded_data <- estimate_data |>
+  # ggdibbler internal sample_expand
+  ggdibbler:::sample_expand(times=1) |>
+  select(-c(xmean, xse)) 
+
 # ggplot of density for comparison
-plot <- ggplot(data = expanded_data, aes(x=x)) +
-  geom_density(linewidth = 0.1, colour="indianred1") +
-  coord_cartesian(xlim =c(-3,3), ylim=c(0,0.7)) 
+#plot <- ggplot(data = expanded_data, aes(x=x)) +
+#  geom_density(linewidth = 0.1, colour="indianred1") +
+#  coord_cartesian(xlim =c(-3,3), ylim=c(0,0.7)) 
 
 # using stat_sample but with normal x values
 plot <- ggplot(data = expanded_data, aes(x=x)) +
@@ -62,7 +67,6 @@ data <- .expose_data(data)
 
 # Apply and map statistics
 data <- ggplot2:::by_layer(function(l, d) l$compute_statistic(d, layout), layers, data, "computing stat")
-data <- ggplot2:::by_layer(function(l, d) l$map_statistic(d, plot), layers, data, "mapping stat to aesthetics")
 
 ################################################################
 # inside map stastistics
@@ -71,6 +75,8 @@ data <- ggplot2:::by_layer(function(l, d) l$map_statistic(d, plot), layers, data
 # ggplot version is different
 data_orig <- plot@scales$backtransform_df(data)
 ################################################################
+data <- ggplot2:::by_layer(function(l, d) l$map_statistic(d, plot), layers, data, "mapping stat to aesthetics")
+
 
 # Make sure missing (but required) aesthetics are added
 plot@scales$add_missing(c("x", "y"), plot@plot_env)
