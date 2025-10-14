@@ -17,15 +17,9 @@ expanded_data <- estimate_data |>
 #  geom_density(linewidth = 0.1, colour="indianred1") +
 #  coord_cartesian(xlim =c(-3,3), ylim=c(0,0.7)) 
 
-# using stat_sample but with normal x values
-plot <- ggplot(data = expanded_data, aes(x=x)) +
-  stat_sample_density(linewidth = 0.1, colour="indianred1") +
-  coord_cartesian(xlim =c(-3,3), ylim=c(0,0.7)) 
 
-# ggdibbler of density with distribution
-plot <- ggplot(data = estimate_data) +
-  stat_sample_density(aes(xdist=xdist), times=1)+
-  coord_cartesian(xlim =c(-3,3), ylim=c(0,0.7)) 
+plot <- ggplot(data = estimate_data) + 
+  geom_sample_density(aes(x=xdist), times=3) 
 
 # ggbuild code
 plot <- ggplot2:::plot_clone(plot)
@@ -67,14 +61,6 @@ data <- .expose_data(data)
 
 # Apply and map statistics
 data <- ggplot2:::by_layer(function(l, d) l$compute_statistic(d, layout), layers, data, "computing stat")
-
-################################################################
-# inside map stastistics
-
-# Issue here
-# ggplot version is different
-data_orig <- plot@scales$backtransform_df(data)
-################################################################
 data <- ggplot2:::by_layer(function(l, d) l$map_statistic(d, plot), layers, data, "mapping stat to aesthetics")
 
 

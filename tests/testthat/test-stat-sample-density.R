@@ -11,8 +11,7 @@ estimate_data <- tibble(xmean = rnorm(50),
 
 # ggdibbler of density
 ggplot(data = estimate_data) +
-  stat_sample_density(aes(xdist=xdist), times=1)+
-  coord_cartesian(xlim =c(-3,3), ylim=c(0,0.7)) 
+  stat_sample_density(aes(x=xdist), times=3) 
 
 
 expanded_data <- estimate_data |>

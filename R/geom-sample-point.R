@@ -27,6 +27,6 @@ geom_sample_point <- function(mapping = NULL, data = NULL, stat = "identity", po
 }
 
 GeomSamplePoint <- ggproto("GeomSamplePoint", GeomPoint,
-                           required_aes = c()
-)
+                           required_aes = c("x|xdist", "y|ydist")
+                           )
 
