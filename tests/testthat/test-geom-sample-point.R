@@ -30,7 +30,7 @@ test_that("stat_sample tests", {
   # random variables x and y
   p2a <- ggplot2::ggplot() + 
     geom_sample_point(data = test_data, 
-                      ggplot2::aes(xdist=bob, ydist=john))
+                      ggplot2::aes(x=bob, y=john))
   p2b <- ggplot2::ggplot() + 
     geom_sample_point(data = test2, 
                       ggplot2::aes(x=bob, y=john))
