@@ -16,12 +16,12 @@
 #' dplyr::filter(county_name %in% c("Pottawattamie County", "Mills County", "Cass County"))
 #' basic_data |>
 #'   ggplot() + 
-#'   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist))
+#'   geom_sample_sf(aes(geometry = county_geometry, fill=temp_dist))
 #' # The original borders of the sf object can be hard to see, 
 #'  # so layering the original geometry on top can help to see the original boundaries
 #' basic_data |>  
 #'   ggplot() + 
-#'   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1, n=4) + 
+#'   geom_sample_sf(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1, n=4) + 
 #'   geom_sf(aes(geometry=county_geometry), fill=NA, linewidth=1)
 #' @export
 geom_sample_sf <- function(mapping = aes(), data = NULL,
@@ -46,6 +46,7 @@ geom_sample_sf <- function(mapping = aes(), data = NULL,
   )
 }
 
+#' @export
 GeomSampleSf <- ggproto("GeomSampleSf", GeomSf,
                         required_aes = "geometry",
                         default_aes = aes(
@@ -57,8 +58,29 @@ GeomSampleSf <- ggproto("GeomSampleSf", GeomSf,
                           linetype = from_theme(linetype),
                           alpha = NA,
                           stroke = 0.5
-                        )
-)
+                        ),
+                        draw_panel = function(data, panel_params, coord, ...) {
+                          
+                          # which aes are only inner or outer
+                          inner <- c("fill")
+                          outer <- c("colour", "stroke", "linetype", "linewidth")
 
+                          # Set inner and outer SF aesthetics
+                          all_names <- names(data)
+                          inner_names <- all_names[!all_names %in% outer]
+                          outer_names <- all_names[!all_names %in% inner]
+                          
+                          # make internal and external data
+                          inner_df <- data |> select(any_of(inner_names))
+                          outer_df <- data |> select(any_of(outer_names))
+                        
+                          # Return all three components
+                          grid::gList(
+                            GeomSf$draw_panel(inner_df, panel_params, coord, ...),
+                            GeomSf$draw_panel(outer_df, panel_params, coord, fill=NULL, ...)
+                          )
+                        }
+                        
+)
 
 
