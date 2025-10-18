@@ -11,7 +11,7 @@ estimate_data <- tibble(xmean = rnorm(50),
 
 # ggdibbler of density
 ggplot(data = estimate_data) +
-  stat_sample_density(aes(x=xdist), times=3) 
+  stat_density_sample(aes(x=xdist), times=3) 
 
 
 expanded_data <- estimate_data |>
