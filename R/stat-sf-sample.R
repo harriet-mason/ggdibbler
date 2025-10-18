@@ -14,8 +14,7 @@ StatSfSample <- ggproto("StatSfSample", StatSf,
                         # This is just here so setup_data has access to n
                         compute_panel = function(self, data, scales, coord, times) {
                           ggproto_parent(StatSf, self)$compute_panel(data, scales, coord)
-                          },
-                        required_aes = c("geometry")
+                          }
                         
 )
 
