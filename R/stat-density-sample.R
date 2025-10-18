@@ -1,6 +1,6 @@
 
 #' @export
-StatSampleDensity <- ggproto("StatSampleDensity", ggplot2::StatDensity,
+StatDensitySample <- ggproto("StatDensitySample", ggplot2::StatDensity,
  
                              setup_data = function(data, params) {
                                set_data <- sample_expand(data, params$times)
@@ -94,11 +94,11 @@ StatSampleDensity <- ggproto("StatSampleDensity", ggplot2::StatDensity,
 #' @returns A ggplot2 geom representing a density sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_density
 #' @export
-stat_sample_density <- function(mapping = NULL, data = NULL, geom = "density",
+stat_density_sample <- function(mapping = NULL, data = NULL, geom = "density",
                                 position = "stack", ..., na.rm = FALSE, 
                                 show.legend = NA, inherit.aes = TRUE, times = 30) {
     ggplot2::layer(
-      stat = StatSampleDensity, 
+      stat = StatDensitySample, 
       data = data, 
       mapping = mapping, 
       geom = geom, 

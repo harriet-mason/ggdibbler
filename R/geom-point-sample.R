@@ -8,12 +8,12 @@
 #' @importFrom dplyr rename_with
 #' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
 #' @export
-geom_sample_point <- function(mapping = NULL, data = NULL, stat = "identity", position = "identity",
+geom_point_sample <- function(mapping = NULL, data = NULL, stat = "identity", position = "identity",
                               na.rm = FALSE, times=30, show.legend = NA, inherit.aes = TRUE, ...) {
   ggplot2::layer(
     data = data, 
     mapping = mapping, 
-    geom = GeomSamplePoint, 
+    geom = GeomPointSample, 
     stat = StatSample, 
     position = position, 
     show.legend = show.legend, 
@@ -26,7 +26,7 @@ geom_sample_point <- function(mapping = NULL, data = NULL, stat = "identity", po
   )
 }
 
-GeomSamplePoint <- ggproto("GeomSamplePoint", GeomPoint,
+GeomPointSample <- ggproto("GeomPointSample", GeomPoint,
                            required_aes = c("x|xdist", "y|ydist")
                            )
 

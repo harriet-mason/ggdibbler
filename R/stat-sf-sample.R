@@ -7,7 +7,7 @@
 #' @importFrom sf st_sf st_zm st_make_grid st_intersection st_geometry_type
 #' @importFrom distributional generate
 #' @rdname geom_sf_sample
-StatSampleSf <- ggproto("StatSampleSf", StatSf,
+StatSfSample <- ggproto("StatSfSample", StatSf,
                         setup_data = function(data, params) {
                           sample_subdivide_sf(data, params$times)
                         },

@@ -1,6 +1,6 @@
 #' @export
-GeomSampleDensity <- ggproto(
-  "GeomSampleDensity", ggplot2::GeomDensity,
+GeomDensitySample <- ggproto(
+  "GeomDensitySample", ggplot2::GeomDensity,
   default_aes = aes(
     colour = from_theme(colour %||% ink),
     fill   = from_theme(fill %||% NA),
@@ -15,8 +15,8 @@ GeomSampleDensity <- ggproto(
 #' the histogram. This is a useful alternative to the histogram for continuous
 #' data that comes from an underlying smooth distribution.
 #' @export
-geom_sample_density <- ggplot2::make_constructor(
-  GeomSampleDensity, 
+geom_density_sample <- ggplot2::make_constructor(
+  GeomDensitySample, 
   stat = "sample_density", 
   outline.type = "upper",
   checks = rlang::exprs(
