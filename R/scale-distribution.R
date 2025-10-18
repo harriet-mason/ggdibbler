@@ -154,17 +154,6 @@ transform_distribution <- function() {
   )
 }
 
-#' @export
-#' @rdname transform_date
-distribution_trans <- transform_distribution
-
-
-
-
-# tests
-# ScaleContinuousDistribution$transform(dists)
-# ScaleContinuousDistribution$train(dists)
-# ScaleContinuousDistribution$map(dists, NULL)
 
 #' @keywords internal
 ScaleContinuousDistribution <- ggproto( 
