@@ -12,7 +12,7 @@ stat_sample(
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE,
-  n = 10,
+  times = 30,
   ...
 )
 }
@@ -66,7 +66,7 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
-\item{n}{A parameter used to control the number of samples}
+\item{times}{A parameter used to control the number of samples}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}'s \code{params} argument. These
 arguments broadly fall into one of 4 categories below. Notably, further
