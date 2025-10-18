@@ -29,7 +29,7 @@ geom_sf_sample <- function(mapping = aes(), data = NULL,
                            inherit.aes = TRUE, times = 30, ...) {
   c(
     layer_sf(
-      geom = GeomSfSample,
+      geom = GeomSf,
       data = data,
       mapping = mapping,
       stat = StatSfSample,
@@ -46,42 +46,7 @@ geom_sf_sample <- function(mapping = aes(), data = NULL,
   )
 }
 
-#' @export
-GeomSfSample <- ggproto("GeomSfSample", GeomSf,
-                        required_aes = "geometry",
-                        default_aes = aes(
-                          shape = NULL,
-                          colour = NULL,
-                          fill = NULL,
-                          size = NULL,
-                          linewidth = 0,
-                          linetype = from_theme(linetype),
-                          alpha = NA,
-                          stroke = 0.5
-                        ),
-                        draw_panel = function(data, panel_params, coord, ...) {
-                          
-                          # which aes are only inner or outer
-                          inner <- c("fill")
-                          outer <- c("colour", "stroke", "linetype", "linewidth")
 
-                          # Set inner and outer SF aesthetics
-                          all_names <- names(data)
-                          inner_names <- all_names[!all_names %in% outer]
-                          outer_names <- all_names[!all_names %in% inner]
-                          
-                          # make internal and external data
-                          inner_df <- data |> select(any_of(inner_names))
-                          outer_df <- data |> select(any_of(outer_names))
-                        
-                          # Return all three components
-                          grid::gList(
-                            GeomSf$draw_panel(inner_df, panel_params, coord, 
-                                              colour=NULL, stroke=0, linetype=NULL, linewidth=0 ...),
-                            GeomSf$draw_panel(outer_df, panel_params, coord, fill=NULL, ...)
-                          )
-                        }
-                        
-)
+
 
 
