@@ -31,7 +31,7 @@ geom_sf_sample <- function(mapping = aes(), data = NULL,
   if (lifecycle::is_present(n)) {
     
     # Signal the deprecation to the user
-    lifecycle::deprecate_soft("0.2.0", "ggdibbler::geom_sf_sample(n = )", "ggdibbler::geom_sf_sample(times = )")
+    lifecycle::deprecate_soft("0.1.1", "ggdibbler::geom_sf_sample(n = )", "ggdibbler::geom_sf_sample(times = )")
     
     # Deal with the deprecated argument for compatibility
     times <- n^2
