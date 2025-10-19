@@ -2,9 +2,6 @@
 #' @usage NULL
 #' @format NULL
 #' @importFrom ggplot2 ggproto StatSf ggproto_parent
-#' @importFrom dplyr group_by reframe across everything mutate filter
-#' @importFrom tidyselect everything
-#' @importFrom sf st_sf st_zm st_make_grid st_intersection st_geometry_type
 #' @importFrom distributional generate
 #' @rdname geom_sf_sample
 StatSfSample <- ggproto("StatSfSample", StatSf,
@@ -18,7 +15,13 @@ StatSfSample <- ggproto("StatSfSample", StatSf,
                         
 )
 
-# Sample expand for sf objects
+
+#'  Sample expand function for sf objects
+#'  
+#' @keywords internal
+#' @importFrom dplyr group_by reframe across everything mutate
+#' @importFrom tidyselect everything
+#' @importFrom sf st_sf st_zm 
 sample_subdivide_sf <- function(data, times){ 
   d <- square_grid(times)
   data |>
@@ -33,7 +36,11 @@ sample_subdivide_sf <- function(data, times){
 }
 
 
-# internal function for subdividing geometry grid
+#'  Internal function for subdividing geometry grid
+#'  
+#' @keywords internal
+#' @importFrom sf st_sf st_make_grid st_intersection st_geometry_type
+#' @importFrom dplyr filter
 subdivide <- function(geometry, d){
   n.overlaps <- NULL #to avoid binding error
   # make n*n grid
@@ -50,6 +57,9 @@ subdivide <- function(geometry, d){
   subdivided$comb_data
 }
 
+#'  Internal function for finding the "most square" factors of a number
+#'  
+#' @keywords internal
 square_grid <- function(x) {
   # get factors
   x <- as.integer(x)

@@ -1,13 +1,6 @@
-#' Visualise Points with Uncertainty
-#' 
-#' Identical to geom_point, except that it visualises a distribution of points. 
-#' 
-#' @importFrom ggplot2 aes layer
-#' @importFrom rlang list2
-#' @param times A parameter used to control the number of samples
-#' @returns A ggplot2 geom representing a sample which can be added to a ggplot object
-#' @inheritParams ggplot2::geom_point
 #' @export
+#' @rdname geom_sf_sample
+#' @inheritParams geom_sf_sample
 stat_sample <- function(mapping = NULL, data = NULL, 
                         geom = "point", position = "identity", 
                         na.rm = FALSE, show.legend = NA, 
@@ -26,14 +19,11 @@ stat_sample <- function(mapping = NULL, data = NULL,
   )
 }
 
+#' @export
 #' @usage NULL
 #' @format NULL
 #' @importFrom ggplot2 ggproto Stat
-#' @importFrom dplyr mutate group_by reframe across filter rename_with select slice n
-#' @importFrom tidyselect all_of
-#' @importFrom tidyr unnest_longer
-#' @importFrom distributional is_distribution generate
-#' @export
+#' @rdname geom_sf_sample
 StatSample <- ggproto("StatSample", Stat,
                       setup_data = function(data, params) {
                         sample_expand(data, params$times)
@@ -43,7 +33,11 @@ StatSample <- ggproto("StatSample", Stat,
                       }
 )
 
-
+#' @keywords internal
+#' @importFrom dplyr mutate group_by reframe across filter rename_with select slice n
+#' @importFrom tidyselect all_of
+#' @importFrom tidyr unnest_longer
+#' @importFrom distributional is_distribution generate
 sample_expand <- function(data, times){ 
   # Check which variables are distributions
   distcols <- names(data)[sapply(data, is_distribution)]
