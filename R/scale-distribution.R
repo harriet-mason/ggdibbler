@@ -72,7 +72,7 @@ distribution_scale <- function(
     ...
     ) {
   call <- call %||% current_call()
-  print(aesthetics)
+
   # x/y position aesthetics should use ScaleContinuousDistribution; others use ScaleContinuous
   if (all(aesthetics %in% c(ggplot_global$x_aes, ggplot_global$y_aes))) {
     scale_class <- ScaleContinuousDistribution
@@ -203,16 +203,6 @@ ScaleContinuousDistribution <- ggproto(
   # output:  a vector of mapped values in aesthetics space.
   map = function(self, x, limits = self$get_limits()) {
     x
-    # if statement for 2nd pass, idk why it does it though
-    #if(distributional::is_distribution(x)){
-    #  map_vals <- self$oob(unlist(distributional::generate(x, times = 1)), limits)
-    #}
-    #if(is.double(x)|is.numeric(x)){
-    #  map_vals <- self$oob(x, limits)
-    #}
-    #print("map_vals")
-    #print(map_vals)
-    #map_vals
   }
   
   # Might be OK to just ignore these three, as the range is already numeric?

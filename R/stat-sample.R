@@ -36,18 +36,9 @@ stat_sample <- function(mapping = NULL, data = NULL,
 #' @export
 StatSample <- ggproto("StatSample", Stat,
                       setup_data = function(data, params) {
-                        print("stat_pre_transform")
-                        print(data)
                         sample_expand(data, params$times)
                       },
                       compute_group = function(self, data, scales, times) {
-                        print("stat_post_transform")
-                        print(data)
-                        #print(scales)
-                        #print(scales)
-                        #scale_x <- scales$get_scales("x")
-                        #print()
-                        #print(scales$x$dimension())
                         data
                       }
 )
