@@ -26,12 +26,11 @@ You can install the development version of ggdibbler from [GitHub](https://githu
 pak::pak("harriet-mason/ggdibbler")
 ```
 
-## Examples
-
-It may not be obvious from the outset why we would want this package, after all, there are plenty of geoms and plenty of ways to visualise distributions, so what is the point of this? The value of `ggdibbler` becomes aparent when we look at a couples of use cases for the software.
 
 
-Currently, the primary useage of ggdibbler is to provide several variations on `geom_sf`. There are other use cases for `ggdibbler` as we will see below, but as of right now, the variation on other geoms are not as fleshed out.
+## Why use `ggdibbler` at all?
+
+It may not be obvious from the outset why we would want this package, after all, there are plenty of geoms and plenty of ways to visualise distributions, so what is the point of this? The value of `ggdibbler` becomes aparent when we look at a use cases for the software.
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(ggdibbler)
@@ -115,7 +114,46 @@ ggplot(toy_temp_dist) +
   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) + 
   geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) 
 ```
+## Other examples
+We used `geom_sf_sample` for the motivating example of `ggdibbler`, but this approach goes beyond just spatial maps. We can apply this technique to any `ggplot` graphic. Additionally, `ggdibbler` works with any `distributional` object, and I would argue that `distributional` works with any and all types of uncertainty.
 
-### Scatter plot example
+- Bounded values? use `dist_uniform(lowerbound, upperbound)`
+- Uncertain predicted classes? use `dist_categorical`
+- Want to sample values from a specific vector of values (such as a posterior)? use `dist_sample`
+
+If you have an uncertainty that can be expressed numerically (which is unfortunately the most basic prerequisite for plotting anything, not just uncertainty) then it can almost certainly be captured with a distribution.
+
+
+### `geom_point` variations
+
+
+```{r, message=FALSE, warning=FALSE}
+point_data <- data.frame(
+  random_x = c(dist_uniform(2,3),
+               dist_normal(3,2), 
+             dist_exponential(3)),
+  random_y = c(dist_gamma(2,1),
+             dist_sample(x = list(rnorm(100, 5, 1))),
+             dist_exponential(1)),
+   # have some uncertainty as to which category each value belongs to
+  random_colour = dist_categorical(prob = list(c(0.8,0.15,0.05),
+                                                 c(0.25,0.7,0.05),
+                                                 c(0.25,0,0.75)), 
+                                     outcomes = list(c("A", "B", "C"))),
+  deterministic_xy = c(1,2,3),
+  deterministic_colour = c("A", "B", "C"))
+ 
+
+# basic random variables x and y
+ggplot() + 
+  geom_point_sample(data = point_data, aes(x=random_x, y=random_y))
+#
+  
+# random x, y, and colour
+ggplot() + 
+  geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = random_colour), 
+                    times=1000, alpha=0.3)
+```
+
 
 ### Distribution example
