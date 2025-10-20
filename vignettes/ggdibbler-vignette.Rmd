@@ -114,6 +114,8 @@ ggplot(toy_temp_dist) +
   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) + 
   geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) 
 ```
+Currently `geom_sf` only accepts a random fill, as it subdivides the geometry to fill it with a sample. This will eventually be extended to all the `geom_sf` aesthetics.
+
 ## Other examples
 We used `geom_sf_sample` for the motivating example of `ggdibbler`, but this approach goes beyond just spatial maps. We can apply this technique to any `ggplot` graphic. Additionally, `ggdibbler` works with any `distributional` object, and I would argue that `distributional` works with any and all types of uncertainty.
 
@@ -124,10 +126,10 @@ We used `geom_sf_sample` for the motivating example of `ggdibbler`, but this app
 If you have an uncertainty that can be expressed numerically (which is unfortunately the most basic prerequisite for plotting anything, not just uncertainty) then it can almost certainly be captured with a distribution.
 
 
-### `geom_point` variations
+### `geom_point` examples
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r}
 point_data <- data.frame(
   random_x = c(dist_uniform(2,3),
                dist_normal(3,2), 
@@ -143,17 +145,23 @@ point_data <- data.frame(
   deterministic_xy = c(1,2,3),
   deterministic_colour = c("A", "B", "C"))
  
-
-# basic random variables x and y
+  
+# deterministic colour, random x and y
 ggplot() + 
-  geom_point_sample(data = point_data, aes(x=random_x, y=random_y))
-#
+  geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = deterministic_colour))
+  
+# random x, y, and colour
+ggplot() + 
+  geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = random_colour), 
+                    times=1000, alpha=0.3)
   
 # random x, y, and colour
 ggplot() + 
   geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = random_colour), 
                     times=1000, alpha=0.3)
 ```
+
+If you pass random variables to aesthetics like colour or label, but not position aesthetics such as x or y, you might want to add a jitter so that you can see all the points (otherwise you will only see one outcome of the sample).
 
 
 ### Distribution example

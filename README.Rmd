@@ -45,7 +45,7 @@ pak::pak("harriet-mason/ggdibbler")
 ```
 
 ## Examples
-For a proper discussion of how to use `distributional` and `ggdibbler` to incorporate uncertainty into your plots, feel free to check out the vignette. For the short version, you can just replace the `geom_*` with `geom_*_sample` and replace a variable that was once values with distributions.
+In essence, `ggdibbler` makes visualising uncertainty easy, as you just replace the `geom_*` with `geom_*_sample` and replace your deterministic variable with a `distributional` variable, and you get an uncertainty visualisation. Woweee.
 
 ```{r, message=FALSE, warning=FALSE}
 library(distributional)
