@@ -15,7 +15,6 @@ StatSfSample <- ggproto("StatSfSample", StatSf,
                         
 )
 
-
 #'  Sample expand function for sf objects
 #'  
 #' @keywords internal
