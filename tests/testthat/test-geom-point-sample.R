@@ -1,77 +1,63 @@
-set.seed(28)
+# load ggplot2 and distributional
+library(ggplot2)
+library(distributional)
+library(vdiffr)
+# Make test data for geom_point_sample
+set.seed(1997)
 test_data <- data.frame(
-  bob = c(distributional::dist_uniform(2,3), 
-          distributional::dist_normal(3,2), 
-          distributional::dist_exponential(3)),
-  john = c(distributional::dist_gamma(2,1), 
-           distributional::dist_normal(5,1), 
-           distributional::dist_exponential(1)),
+  bob = c(dist_uniform(2,3),
+               dist_normal(3,2), 
+             dist_exponential(3)),
+  john = c(dist_gamma(2,1),
+             dist_sample(x = list(rnorm(100, 5, 1))),
+             dist_exponential(1)),
+  barry = dist_categorical(prob = list(c(0.8,0.15,0.05),
+                                       c(0.25,0.7,0.05),
+                                       c(0.25,0,0.75)), 
+                           outcomes = list(c("A", "B", "C"))),
   ken = c(1,2,3),
   rob = c("A", "B", "C")
 )
+  
 
-point_data <- data.frame(
-  random_x = c(distributional::dist_uniform(2,3),
-               distributional::dist_normal(3,2), 
-               distributional::dist_exponential(3)),
-  random_y = c(distributional::dist_gamma(2,1),
-               dist_sample(x = list(rnorm(100, 5, 1))),
-               distributional::dist_exponential(1)),
-#'    # have some uncertainty as to which category each value belongs to
-#'   random_colour = dist_categorical(prob = list(c(0.9,0.05,0.05),
-#'                                                  c(0.15,0.8,0.05),
-#'                                                  c(0.05,0,0.95)), 
-#'                                      outcomes = list(c("A", "B", "C"))),
-#'   deterministic_xy = c(1,2,3),
-#'   deterministic_colour = c("A", "B", "C"))
-#'   )
-
-test_that("stat_sample tests", {
+test_that("geom_point_sample tests", {
   set.seed(1)
-  # basic check with dist x and y
   # no random variables used - just return normal points
-  p1 <- ggplot2::ggplot() + 
+  p1 <- ggplot() + 
     geom_point_sample(data = test_data, 
-                ggplot2::aes(x=ken, y=rob, colour=rob))
+                aes(x=ken, y=rob, colour=rob)) 
+  expect_doppelganger("all deterministic variables", p1)
   
   # random variables x and y
-  p2a <- ggplot2::ggplot() + 
+  p2 <- ggplot() + 
     geom_point_sample(data = test_data, 
-                      ggplot2::aes(x=bob, y=john))
+                      aes(x=bob, y=john)) 
+  expect_doppelganger("random variables x and y", p2)
   
   # random variables only x
-  p3 <- ggplot2::ggplot() + 
-    geom_point_sample(data = test_data, ggplot2::aes(x=bob, y=ken))
+  p3 <- ggplot() + 
+    geom_point_sample(data = test_data, aes(x=bob, y=ken))
+  expect_doppelganger("random variables only x", p3)
   
   # deterministic colour, random x and y
-  p4 <- ggplot2::ggplot() + 
-    geom_point_sample(data = test_data, ggplot2::aes(x=bob, y=john, colour=rob))
+  p4 <- ggplot() + 
+    geom_point_sample(data = test_data, aes(x=bob, y=john, colour=rob))
+  expect_doppelganger("deterministic colour, random x and y", p4)
   
   # colour by distribution
-  p5 <- ggplot2::ggplot() + 
-    geom_point_sample(data = test_data, ggplot2::aes(x=bob, y=john, colour=as.factor(john)))
+  p5 <- ggplot() + 
+    geom_point_sample(data = test_data, aes(x=bob, y=john, colour=as.factor(john)))
+  expect_doppelganger("colour by distribution", p5)
   
   # random y and colour, deterministic x
-  p6 <- ggplot2::ggplot() + 
-    geom_point_sample(data = test_data, ggplot2::aes(x=ken, y=bob, colour=john))
-  # works when variable is just colour. Does weird identity colour thing for colourdist
-  # no colour scale?? it works for geom_sf. Look into it
+  p6 <- ggplot() + 
+    geom_point_sample(data = test_data, aes(x=ken, y=bob, colour=john))
+  expect_doppelganger("random y and colour, deterministic x", p6)
   
   # random colour only + jitter
-  p7 <- ggplot2::ggplot() + 
-    geom_point_sample(data = test_data, ggplot2::aes(x=ken, y=rob, colour=john),
-                position=ggplot2::position_jitter(width=0.1, height=0.1))
-  # should add jitter position dodge doesnt work very well. look into it.
-
-  
-  # geom text
-  ggplot2::ggplot() + 
-    stat_sample(data = test_data, ggplot2::aes(x=bob, y=john, label=rob), geom="text")
-  
-  # BUG - HMMM NOT SURE I WANT IT APPEARING 3 TIMES
-  p8 <- ggplot2::ggplot() + 
-    geom_point_sample(data = test_data, ggplot2::aes(x=john, y=bob, colour=rob)) +
-    stat_sample(data = test_data, ggplot2::aes(intercept=bob, slope = 1, colour=rob),  geom=ggplot2::GeomAbline,
-                times=3)
+  p7 <- ggplot() + 
+    geom_point_sample(data = test_data, aes(x=ken, y=rob, colour=barry),
+                position=position_jitter(width=0.1, height=0.1))
+  expect_doppelganger("random colour only + jitter", p7)
 }
 )

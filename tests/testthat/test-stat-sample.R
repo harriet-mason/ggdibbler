@@ -8,10 +8,11 @@ named_data <- data.frame(
         distributional::dist_exponential(1)),
   colour = c(1,2,3)
 )
+check <- sample_expand(named_data, times=100)
+
 
 test_that("StatSample tests", {
   set.seed(1)
-  check <- StatSample$compute_group(named_data, n=100)
   
   # basic check with dist x and y
   p1 <- ggplot2::ggplot() +
@@ -21,4 +22,3 @@ test_that("StatSample tests", {
 )
 
 
-#ggplot2::ggplot() + stat_sample(data = named_data, ggplot2::aes(x=x, y=y, colour=colour))
