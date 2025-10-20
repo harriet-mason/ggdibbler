@@ -1,7 +1,31 @@
+#' Position scales for distributions
+#' 
+#' These scales allow for distributions to be passed to the x and y position by mapping distribution objects
+#' to continuous aesthetics.
+#' These scale can be used similarly to the scale_*_continuous functions, but they do not
+#' accept transformations. Since transformations are done before the Stat is applied,
+#' transformations applied to distributions are the only kind of transformations that make sense.
+#' If you want to transform your scale, you should apply a transformation through the coord_* functions,
+#' as they are applied after the stat, so the existing ggplot infastructure can be used.
+#' For example, if you would like a log transformation of the x axis, plot + coord_transform(x = "log")
+#' would work fine.
+#' 
+#' @examples
+#' library(ggplot2)
+#' library(distributional)
+#' set.seed(1997)
+#' point_data <- data.frame(xvar = c(dist_uniform(2,3),dist_normal(3,2),dist_exponential(3)),
+#'                          yvar = c(dist_gamma(2,1), dist_sample(x = list(rnorm(100, 5, 1))), dist_exponential(1)))
+#' ggplot(data = point_data) + 
+#'   geom_point_sample(aes(x=xvar, y=yvar)) +
+#'   scale_x_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +
+#'   scale_y_distribution(name="I am also a random variable")
+#' 
 #' @name scale_distribution
 NULL
 
 #' @export
+#' @inheritParams ggplot2::scale_x_continuous
 #' @rdname scale_distribution
 scale_x_distribution <- function(
     name = ggplot2::waiver(), 
@@ -16,7 +40,7 @@ scale_x_distribution <- function(
     ) {
   sc <- distribution_scale(
     aesthetics = ggplot_global$x_aes,
-    transform = "distribution",
+    transform = "identity",
     name = name,
     palette = identity,
     breaks = breaks,
@@ -31,6 +55,7 @@ scale_x_distribution <- function(
 
 
 #' @export
+#' @inheritParams ggplot2::scale_y_continuous
 #' @rdname scale_distribution
 scale_y_distribution <- function(
     name = ggplot2::waiver(), 
@@ -45,7 +70,7 @@ scale_y_distribution <- function(
 ) {
   sc <- distribution_scale(
     aesthetics = ggplot_global$y_aes,
-    transform = "distribution",
+    transform = "identity",
     name = name,
     palette = identity,
     breaks = breaks,
@@ -88,7 +113,7 @@ distribution_scale <- function(
     minor_breaks = minor_breaks,
     labels = labels,
     guide = guide,
-    transform = transform_distribution(),
+    transform = transform,
     trans = trans,
     call = call,
     ...
@@ -134,25 +159,6 @@ train_distribution <- function(new, existing = NULL, call = rlang::caller_env())
   }
 }
 
-
-#' Transformation for distributions (class Distribution)
-#'
-#' @export
-#' @examples
-#' dists <- distributional::dist_normal(seq(1:10), 1)
-#' t <- transform_distribution()
-#' t$transform(dists)
-#' t$inverse(t$transform(dists))
-transform_distribution <- function() {
-  scales::new_transform(
-    "distribution",
-    transform = "force",
-    #transform = function(x){
-    #  unlist(distributional::generate(x,times = times))
-    #  },
-    inverse = "force"
-  )
-}
 
 
 #' @keywords internal
@@ -205,10 +211,6 @@ ScaleContinuousDistribution <- ggproto(
     x
   }
   
-  # Might be OK to just ignore these three, as the range is already numeric?
-  # get_limits() 
-  # get_breaks()
-  # get_labels()
 )
 
 
