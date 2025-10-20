@@ -1,4 +1,6 @@
 #' @export
+#' @importFrom ggplot2 layer 
+#' @importFrom rlang list2
 #' @rdname geom_sf_sample
 #' @inheritParams geom_sf_sample
 stat_sample <- function(mapping = NULL, data = NULL, 
@@ -6,7 +8,7 @@ stat_sample <- function(mapping = NULL, data = NULL,
                         na.rm = FALSE, show.legend = NA, 
                         inherit.aes = TRUE, times = 30, ...) {
   
-  ggplot2::layer(
+  layer(
     stat = StatSample, 
     data = data, 
     mapping = mapping, # mappingswap(mapping, data) swap mapping to avoid scale problem
@@ -14,7 +16,7 @@ stat_sample <- function(mapping = NULL, data = NULL,
     position = position, 
     show.legend = show.legend, 
     inherit.aes = inherit.aes, 
-    params = list(na.rm = na.rm,
+    params = list2(na.rm = na.rm,
                   times = times, ...)
   )
 }
@@ -34,13 +36,9 @@ StatSample <- ggproto("StatSample", Stat,
 )
 
 #' @keywords internal
-#' @importFrom dplyr mutate group_by reframe across filter rename_with select slice n
-#' @importFrom tidyselect all_of
-#' @importFrom tidyr unnest_longer
-#' @importFrom distributional is_distribution generate
 sample_expand <- function(data, times){ 
   # Check which variables are distributions
-  distcols <- names(data)[sapply(data, is_distribution)]
+  distcols <- names(data)[sapply(data, distributional::is_distribution)]
   othcols <- setdiff(names(data), distcols)
 
   # Check for at least one distribution vector
@@ -48,12 +46,11 @@ sample_expand <- function(data, times){
   
   # Sample from distribution variables
   data |>
-    mutate(across(all_of(distcols), ~ generate(.x, times = times))) |>
-    group_by(across(all_of(othcols))) |>
-    unnest_longer(all_of(distcols)) |>
-    dplyr::rename_with(~ sub("dist", "", .x, fixed = TRUE)) |>
+    dplyr::mutate(dplyr::across(dplyr::all_of(distcols), ~ distributional::generate(.x, times = times))) |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(othcols))) |>
+    tidyr::unnest_longer(dplyr::all_of(distcols)) |>
     tibble::rowid_to_column(var = "drawID") |>
-    mutate(drawID = drawID%%times + 1)
+    dplyr::mutate(drawID = drawID%%times + 1)
 
 }
 

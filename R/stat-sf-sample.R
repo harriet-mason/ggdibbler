@@ -15,44 +15,38 @@ StatSfSample <- ggproto("StatSfSample", StatSf,
                         
 )
 
-#'  Sample expand function for sf objects
-#'  
+
 #' @keywords internal
-#' @importFrom dplyr group_by reframe across everything mutate
-#' @importFrom tidyselect everything
-#' @importFrom sf st_sf st_zm 
 sample_subdivide_sf <- function(data, times){ 
   d <- square_grid(times)
   data |>
-    group_by(geometry) |>
-    reframe(
+    dplyr::group_by(geometry) |>
+    dplyr::reframe(
       geometry = subdivide(geometry, d=d), 
-      across(everything())
+      dplyr::across(dplyr::everything())
     ) |>
-    mutate(fill = as.double(generate(fill, 1))) |>
-    st_sf() |>
-    st_zm()
+    dplyr::mutate(fill = as.double(generate(fill, 1))) |>
+    sf::st_sf() |>
+    sf::st_zm()
 }
 
 
 #'  Internal function for subdividing geometry grid
 #'  
 #' @keywords internal
-#' @importFrom sf st_sf st_make_grid st_intersection st_geometry_type
-#' @importFrom dplyr filter
 subdivide <- function(geometry, d){
   n.overlaps <- NULL #to avoid binding error
   # make n*n grid
-  nn_grid <- st_make_grid(geometry, n=d)
+  nn_grid <- sf::st_make_grid(geometry, n=d)
   # combine grid and original geometry into sf
   comb_data <- c(geometry, nn_grid)
-  comb_sf <- st_sf(comb_data)
+  comb_sf <- sf::st_sf(comb_data)
   # get interactions of grid and orginal geometry
-  inter_sf <- st_intersection(comb_sf)
+  inter_sf <- sf::st_intersection(comb_sf)
   # new subdivided geometry 
   subdivided <- inter_sf |> 
-    filter(n.overlaps >=2) |> #get grid elements that overlap with original shape
-    filter(st_geometry_type(comb_data) %in% c("POLYGON", "MULTIPOLYGON")) # get rid of other weird line stuff
+    dplyr::filter(n.overlaps >=2) |> #get grid elements that overlap with original shape
+    dplyr::filter(sf::st_geometry_type(comb_data) %in% c("POLYGON", "MULTIPOLYGON")) # get rid of other weird line stuff
   subdivided$comb_data
 }
 

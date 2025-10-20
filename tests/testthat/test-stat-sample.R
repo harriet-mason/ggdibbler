@@ -1,9 +1,9 @@
 # Distribution data frame to test stat-sample
 named_data <- data.frame(
-  xdist = c(distributional::dist_uniform(2,3), 
+  x = c(distributional::dist_uniform(2,3), 
         distributional::dist_normal(3,2), 
         distributional::dist_exponential(3)),
-  ydist = c(distributional::dist_gamma(2,1), 
+  y = c(distributional::dist_gamma(2,1), 
         distributional::dist_normal(5,1), 
         distributional::dist_exponential(1)),
   colour = c(1,2,3)

@@ -32,6 +32,9 @@ Imports:
     ggplot2,
     rlang,
     lifecycle,
+    scales,
+    tidyr,
+    tibble,
     sf
 Suggests: 
     knitr,

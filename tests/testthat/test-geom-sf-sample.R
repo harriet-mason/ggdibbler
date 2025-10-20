@@ -1,10 +1,12 @@
 # load libraries
 library(vdiffr)
 library(ggplot2)
+library(dplyr)
+library(sf)
 
 # Compute data
 basic_data <- toy_temp_dist |>
-  dplyr::filter(county_name %in% c("Pottawattamie County", "Mills County", "Cass County", "Harrison County"))
+  filter(county_name %in% c("Pottawattamie County", "Mills County", "Cass County", "Harrison County"))
 
 # test geom
 test_that("geom_sf_sample tests", {

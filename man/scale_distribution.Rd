@@ -7,27 +7,27 @@
 \title{Position scales for distributions}
 \usage{
 scale_x_distribution(
-  name = ggplot2::waiver(),
-  breaks = ggplot2::waiver(),
-  labels = ggplot2::waiver(),
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
   limits = NULL,
-  expand = ggplot2::waiver(),
-  oob = scales::oob_keep,
-  guide = ggplot2::waiver(),
+  expand = waiver(),
+  oob = oob_keep,
+  guide = waiver(),
   position = "bottom",
-  sec.axis = ggplot2::waiver()
+  sec.axis = waiver()
 )
 
 scale_y_distribution(
-  name = ggplot2::waiver(),
-  breaks = ggplot2::waiver(),
-  labels = ggplot2::waiver(),
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
   limits = NULL,
-  expand = ggplot2::waiver(),
+  expand = waiver(),
   oob = scales::oob_keep,
-  guide = ggplot2::waiver(),
+  guide = waiver(),
   position = "left",
-  sec.axis = ggplot2::waiver()
+  sec.axis = waiver()
 )
 }
 \arguments{
@@ -116,8 +116,12 @@ would work fine.
 library(ggplot2)
 library(distributional)
 set.seed(1997)
-point_data <- data.frame(xvar = c(dist_uniform(2,3),dist_normal(3,2),dist_exponential(3)),
-                         yvar = c(dist_gamma(2,1), dist_sample(x = list(rnorm(100, 5, 1))), dist_exponential(1)))
+point_data <- data.frame(xvar = c(dist_uniform(2,3),
+                                  dist_normal(3,2),
+                                  dist_exponential(3)),
+                         yvar = c(dist_gamma(2,1), 
+                                  dist_sample(x = list(rnorm(100, 5, 1))), 
+                                  dist_exponential(1)))
 ggplot(data = point_data) + 
   geom_point_sample(aes(x=xvar, y=yvar)) +
   scale_x_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +

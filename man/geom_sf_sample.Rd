@@ -17,7 +17,7 @@ geom_sf_sample(
   show.legend = NA,
   inherit.aes = TRUE,
   times = 30,
-  n = lifecycle::deprecated(),
+  n = deprecated(),
   ...
 )
 
@@ -84,6 +84,8 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 
 \item{times}{A parameter used to control the number of cells in each grid. The geom will find the factors of times and select the ones that make the grid as square as possible. By default, times is set to 30.}
 
+\item{n}{Deprecated in favour of times.}
+
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}'s \code{params} argument. These
 arguments broadly fall into one of 4 categories below. Notably, further
 arguments to the \code{position} argument, or aesthetics that are required
@@ -136,8 +138,9 @@ This function will replace the fill area with a grid, where each cell is filled 
 # In it's most basic form, the geom will make a subdivision 
 library(ggplot2)
 library(dplyr)
+library(sf)
 basic_data <- toy_temp_dist |>
-dplyr::filter(county_name \%in\% c("Pottawattamie County", "Mills County", "Cass County"))
+  filter(county_name \%in\% c("Pottawattamie County", "Mills County", "Cass County"))
 basic_data |>
   ggplot() + 
   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist))

@@ -14,8 +14,12 @@
 #' library(ggplot2)
 #' library(distributional)
 #' set.seed(1997)
-#' point_data <- data.frame(xvar = c(dist_uniform(2,3),dist_normal(3,2),dist_exponential(3)),
-#'                          yvar = c(dist_gamma(2,1), dist_sample(x = list(rnorm(100, 5, 1))), dist_exponential(1)))
+#' point_data <- data.frame(xvar = c(dist_uniform(2,3),
+#'                                   dist_normal(3,2),
+#'                                   dist_exponential(3)),
+#'                          yvar = c(dist_gamma(2,1), 
+#'                                   dist_sample(x = list(rnorm(100, 5, 1))), 
+#'                                   dist_exponential(1)))
 #' ggplot(data = point_data) + 
 #'   geom_point_sample(aes(x=xvar, y=yvar)) +
 #'   scale_x_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +
@@ -25,18 +29,20 @@
 NULL
 
 #' @export
+#' @importFrom ggplot2 waiver
+#' @importFrom scales oob_keep
 #' @inheritParams ggplot2::scale_x_continuous
 #' @rdname scale_distribution
 scale_x_distribution <- function(
-    name = ggplot2::waiver(), 
-    breaks = ggplot2::waiver(),
-    labels = ggplot2::waiver(),
+    name = waiver(), 
+    breaks = waiver(),
+    labels = waiver(),
     limits = NULL, 
-    expand = ggplot2::waiver(),
-    oob = scales::oob_keep, 
-    guide = ggplot2::waiver(), 
+    expand = waiver(),
+    oob = oob_keep, 
+    guide = waiver(), 
     position = "bottom", 
-    sec.axis = ggplot2::waiver()
+    sec.axis = waiver()
     ) {
   sc <- distribution_scale(
     aesthetics = ggplot_global$x_aes,
@@ -55,18 +61,20 @@ scale_x_distribution <- function(
 
 
 #' @export
+#' @importFrom ggplot2 waiver
+#' @importFrom scales oob_keep
 #' @inheritParams ggplot2::scale_y_continuous
 #' @rdname scale_distribution
 scale_y_distribution <- function(
-    name = ggplot2::waiver(), 
-    breaks = ggplot2::waiver(),
-    labels = ggplot2::waiver(),
+    name = waiver(), 
+    breaks = waiver(),
+    labels = waiver(),
     limits = NULL, 
-    expand = ggplot2::waiver(),
+    expand = waiver(),
     oob = scales::oob_keep, 
-    guide = ggplot2::waiver(), 
+    guide = waiver(), 
     position = "left", 
-    sec.axis = ggplot2::waiver()
+    sec.axis = waiver()
 ) {
   sc <- distribution_scale(
     aesthetics = ggplot_global$y_aes,
@@ -96,7 +104,7 @@ distribution_scale <- function(
     call = rlang::caller_call(),
     ...
     ) {
-  call <- call %||% current_call()
+  call <- call %||% rlang::current_call()
 
   # x/y position aesthetics should use ScaleContinuousDistribution; others use ScaleContinuous
   if (all(aesthetics %in% c(ggplot_global$x_aes, ggplot_global$y_aes))) {
@@ -122,9 +130,7 @@ distribution_scale <- function(
   sc
 }
 
-#' @export
 #' @keywords internal
-#' @importFrom scales ContinuousRange
 DistributionRange <- R6::R6Class(
   "DistributionRange",
   inherit = scales::ContinuousRange,
@@ -144,7 +150,7 @@ train_distribution <- function(new, existing = NULL, call = rlang::caller_env())
     return(existing)
   }
   # Transformed space is still distribution space
-  if(is_distribution(new)){
+  if(distributional::is_distribution(new)){
     new <- rlang::try_fetch(
       suppressWarnings(range(unlist(distributional::generate(new, times = 1000)), 
                              na.rm = TRUE, finite = TRUE)),
@@ -201,7 +207,7 @@ ScaleContinuousDistribution <- ggproto(
         call = self$call
       )
     }
-    ggproto_parent(ggplot2::ScaleContinuous, self)$transform(x)
+    ggplot2::ggproto_parent(ggplot2::ScaleContinuous, self)$transform(x)
   },
   
   # Map

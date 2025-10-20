@@ -1,4 +1,4 @@
-#' Visualise Points Uncertainty
+#' Visualise Uncertain Points
 #' 
 #' Identical to geom_point, except that it will accept a distribution in place of any of the usual aesthetics.
 
@@ -9,7 +9,6 @@
 #' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_point
 #' @examples
-#' # In it's most basic form, the geom will make a subdivision 
 #' library(ggplot2)
 #' library(dplyr)
 #' library(distributional)
@@ -52,7 +51,7 @@
 #' @export
 geom_point_sample <- function(mapping = NULL, data = NULL, stat = "identity", position = "identity",
                               na.rm = FALSE, times=30, show.legend = NA, inherit.aes = TRUE, ...) {
-  ggplot2::layer(
+  layer(
     data = data, 
     mapping = mapping, 
     geom = GeomPointSample, 
@@ -67,7 +66,12 @@ geom_point_sample <- function(mapping = NULL, data = NULL, stat = "identity", po
     )
   )
 }
-#' @keywords internal
+
+#' @rdname geom_point_sample
+#' @format NULL
+#' @usage NULL
+#' @importFrom ggplot2 ggproto GeomPoint
+#' @export
 GeomPointSample <- ggproto("GeomPointSample", GeomPoint,
                            required_aes = c("x|xdist", "y|ydist")
                            )

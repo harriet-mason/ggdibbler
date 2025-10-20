@@ -8,8 +8,6 @@
 #' @return A character vector of scale types. The scale type is the ggplot scale type of the outcome of the distribution.
 #' @exportS3Method ggplot2::scale_type
 scale_type.distribution <- function(x) {
-  # first try and set distribution
   # generate a single value from a distribution and use it's class to set scale
-  c("distribution", scale_type(unlist(distributional::generate(x,1)))) #breaks position scale
-   # "identity"
+  c("distribution", scale_type(unlist(generate(x,1))))
 }
