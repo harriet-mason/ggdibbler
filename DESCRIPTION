@@ -35,6 +35,7 @@ Imports:
     scales,
     tidyr,
     tibble,
+    cli,
     sf
 Suggests: 
     knitr,
