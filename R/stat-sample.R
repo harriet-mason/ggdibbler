@@ -13,11 +13,15 @@
 #'              dist_exponential(3)),
 #'   random_y = c(dist_gamma(2,1),
 #'              dist_sample(x = list(rnorm(100, 5, 1))),
-#'              dist_exponential(1)))
+#'              dist_exponential(1)),
+#'   class = c("A", "B", "C"))
 #'   
 #' # basic random variables x and y
 #' ggplot() + 
 #'   stat_sample(data = point_data, aes(x=random_x, y=random_y))
+#'   
+#' ggplot() + 
+#'   stat_sample(data = point_data, aes(x=random_x, y=random_y, label=class), geom="text")
 #' 
 #' @importFrom ggplot2 layer 
 #' @importFrom rlang list2
