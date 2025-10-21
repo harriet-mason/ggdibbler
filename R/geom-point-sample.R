@@ -45,30 +45,8 @@
 #'   geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = random_colour), 
 #'                     times=1000, alpha=0.3)
 #' @export
-geom_point_sample <- function(mapping = NULL, data = NULL, stat = "identity", position = "identity",
-                              na.rm = FALSE, times=30, show.legend = NA, inherit.aes = TRUE, ...) {
-  layer(
-    data = data, 
-    mapping = mapping, 
-    geom = GeomPointSample, 
-    stat = StatSample, 
-    position = position, 
-    show.legend = show.legend, 
-    inherit.aes = inherit.aes, 
-    params = list2(
-      na.rm = na.rm,
-      times = times,
-      ...
-    )
-  )
-}
+geom_point_sample <- make_constructor(GeomPoint, stat = "sample", times=30)
 
-#' @rdname geom_point_sample
-#' @format NULL
-#' @usage NULL
-#' @importFrom ggplot2 ggproto GeomPoint
-#' @export
-GeomPointSample <- ggproto("GeomPointSample", GeomPoint,
-                           )
+
 
 
