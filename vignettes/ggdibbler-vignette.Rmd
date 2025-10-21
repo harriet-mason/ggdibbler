@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 ## About
@@ -127,8 +128,7 @@ If you have an uncertainty that can be expressed numerically (which is unfortuna
 
 
 ### `geom_point` examples
-
-
+In its most basic form, a `geom_point` just displays individual samples from a distribution.
 ```{r}
 point_data <- data.frame(
   random_x = c(dist_uniform(2,3),
@@ -149,11 +149,11 @@ point_data <- data.frame(
 # deterministic colour, random x and y
 ggplot() + 
   geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = deterministic_colour))
-  
-# random x, y, and colour
-ggplot() + 
-  geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = random_colour), 
-                    times=1000, alpha=0.3)
+```
+
+Any variable can be random, not just x and y. You can have any combination of random and deterministic variables, from all random to all deterministic. The `ggdibbler` package works out which variables are random on your behalf.
+
+```{r}
   
 # random x, y, and colour
 ggplot() + 
@@ -163,5 +163,11 @@ ggplot() +
 
 If you pass random variables to aesthetics like colour or label, but not position aesthetics such as x or y, you might want to add a jitter so that you can see all the points (otherwise you will only see one outcome of the sample).
 
+```{r}
+ggplot() + 
+  geom_point_sample(data = point_data, 
+                    aes(x=deterministic_xy, y=deterministic_xy, colour = random_colour),
+                    position = position_jitter(width=0.1, height=0.1))
+```
 
 ### Distribution example
