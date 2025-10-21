@@ -3,6 +3,7 @@ library(ggplot2)
 library(distributional)
 library(vdiffr)
 
+set.seed(1)
 # set up data
 point_data <- data.frame(
   random_x = c(dist_uniform(2,3),
@@ -21,7 +22,7 @@ point_data <- data.frame(
   
 
 test_that("geom_text_sample tests", {
-  set.seed(1)
+  set.seed(2)
   # no random variables used - just return normal points
   p1 <- ggplot() + 
     geom_text_sample(data = point_data, aes(x=random_x, y=random_y, colour = deterministic_colour,

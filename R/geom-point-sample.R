@@ -1,7 +1,7 @@
 #' Visualise Uncertain Points
 #' 
 #' Identical to geom_point, except that it will accept a distribution in place of any of the usual aesthetics.
-
+#' 
 #' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
 #' @importFrom ggplot2 aes layer GeomPoint
 #' @importFrom rlang list2

@@ -2,7 +2,7 @@
 library(ggplot2)
 library(distributional)
 library(vdiffr)
-
+set.seed(1)
 # set up data
 point_data <- data.frame(
   random_x = c(dist_uniform(2,3),
@@ -21,8 +21,8 @@ point_data <- data.frame(
 
 
 test_that("geom_label_sample tests", {
-  set.seed(1)
   # no random variables used - just return normal points
+  set.seed(2)
   p1 <- ggplot() + 
     geom_label_sample(data = point_data, aes(x=random_x, y=random_y, colour = deterministic_colour,
                                             label = deterministic_colour)) 

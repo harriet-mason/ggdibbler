@@ -1,8 +1,11 @@
-#' @rdname geom_text_sample
-#' @importFrom ggplot2 make_constructor GeomLabel
-#' @inheritParams ggplot2::geom_label
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' Uncertain Label
 #' 
+#' Identical to geom_label, except that it will accept a distribution in place of any of the usual aesthetics.
+#' 
+#' 
+#' @inheritParams ggplot2::geom_label 
+#' @importFrom ggplot2 make_constructor GeomLabel
+#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
 #' @examples
 #' library(ggplot2)
 #' library(distributional)

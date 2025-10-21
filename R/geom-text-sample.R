@@ -1,7 +1,6 @@
 #' Uncertain Text
 #' 
 #' Identical to geom_text, except that it will accept a distribution in place of any of the usual aesthetics.
-#' See the documentation of `ggplot2::geom_text` for more details.
 #' 
 #' @importFrom ggplot2 make_constructor GeomText
 #' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
