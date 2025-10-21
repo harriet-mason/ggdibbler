@@ -63,7 +63,7 @@ sample_expand <- function(data, times){
   # Check which variables are distributions
   distcols <- names(data)[sapply(data, distributional::is_distribution)]
   othcols <- setdiff(names(data), distcols)
-
+  
   # Check for at least one distribution vector
   if(length(distcols)==0) return(data)
   
