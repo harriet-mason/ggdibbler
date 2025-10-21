@@ -10,7 +10,6 @@
 #' @inheritParams ggplot2::geom_point
 #' @examples
 #' library(ggplot2)
-#' library(dplyr)
 #' library(distributional)
 #' set.seed(1997)
 #' point_data <- data.frame(
@@ -27,9 +26,6 @@
 #'                                      outcomes = list(c("A", "B", "C"))),
 #'   deterministic_xy = c(1,2,3),
 #'   deterministic_colour = c("A", "B", "C"))
-#'  
-#' # check the data to see the random variables
-#' point_data
 #'   
 #' # basic random variables x and y
 #' ggplot() + 

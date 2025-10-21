@@ -1,8 +1,27 @@
+#' Generates a sample then leaves data as is
+#' 
+#' Can think of as the ggdibbler equivalent to "stat_identity". It is the default stat
+#' that we used for most geoms.
 #' @export
+#' @examples
+#' library(ggplot2)
+#' library(distributional)
+#' set.seed(1997)
+#' point_data <- data.frame(
+#'   random_x = c(dist_uniform(2,3),
+#'                dist_normal(3,2), 
+#'              dist_exponential(3)),
+#'   random_y = c(dist_gamma(2,1),
+#'              dist_sample(x = list(rnorm(100, 5, 1))),
+#'              dist_exponential(1)))
+#'   
+#' # basic random variables x and y
+#' ggplot() + 
+#'   stat_sample(data = point_data, aes(x=random_x, y=random_y))
+#' 
 #' @importFrom ggplot2 layer 
 #' @importFrom rlang list2
-#' @rdname geom_sf_sample
-#' @inheritParams geom_sf_sample
+#' @inheritParams geom_point_sample
 stat_sample <- function(mapping = NULL, data = NULL, 
                         geom = "point", position = "identity", 
                         na.rm = FALSE, show.legend = NA, 
@@ -25,7 +44,7 @@ stat_sample <- function(mapping = NULL, data = NULL,
 #' @usage NULL
 #' @format NULL
 #' @importFrom ggplot2 ggproto Stat
-#' @rdname geom_sf_sample
+#' @rdname stat_sample
 StatSample <- ggproto("StatSample", Stat,
                       setup_data = function(data, params) {
                         sample_expand(data, params$times)
