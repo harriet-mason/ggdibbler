@@ -73,7 +73,6 @@ geom_point_sample <- function(mapping = NULL, data = NULL, stat = "identity", po
 #' @importFrom ggplot2 ggproto GeomPoint
 #' @export
 GeomPointSample <- ggproto("GeomPointSample", GeomPoint,
-                           required_aes = c("x|xdist", "y|ydist")
                            )
 
 
