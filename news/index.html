@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,32 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ggdibbler-development-version">ggdibbler (development version)<a class="anchor" aria-label="anchor" href="#ggdibbler-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="version-v020">Version v0.2.0<a class="anchor" aria-label="anchor" href="#version-v020"></a></h2>
+<div class="section level3">
+<h3 id="new-featues-0-2-0">New Featues<a class="anchor" aria-label="anchor" href="#new-featues-0-2-0"></a></h3>
+<div class="section level4">
+<h4 id="functions-0-2-0">Functions<a class="anchor" aria-label="anchor" href="#functions-0-2-0"></a></h4>
+<ul><li>
+<code>geom_point_sample</code> and <code>stat_sample</code>
+<ul><li>an alternative version of <code>geom_point</code> that allows a distribution to be passed to any aesthetic</li>
+</ul></li>
+<li>
+<code>scale_x_distribution</code> and <code>scale_y_distribution</code>
+<ul><li>scale functions that allow distributions to be passed to the position axis</li>
+</ul></li>
+</ul></div>
+</div>
+<div class="section level3">
+<h3 id="changes-0-2-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-2-0"></a></h3>
+<ul><li>The <code>n</code> variable in <code>geom_sf_sample</code> has changed to the <code>times</code>
+<ul><li>This avoids confusion as <code>n</code> is used by some <code>ggplot2</code> functions as a parameter.</li>
+<li>
+<code>times</code> actually represents the sample size, while <code>n</code> was the dimension of the grid (so the actual sample used was <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>n</mi><mn>2</mn></msup><annotation encoding="application/x-tex">n^2</annotation></semantics></math>)</li>
+<li>The most square factors of <code>times</code> will be used to generate the subdivided grid</li>
+</ul></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="version-v010">Version v0.1.0<a class="anchor" aria-label="anchor" href="#version-v010"></a></h2><p class="text-muted">CRAN release: 2025-07-31</p>

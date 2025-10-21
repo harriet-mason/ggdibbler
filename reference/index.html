@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,9 +35,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="geoms">Geoms<a class="anchor" aria-label="anchor" href="#geoms"></a></h2>
 
-
+      <div class="section-desc"><p>The uncertainty equivalent of the ggplot geom functions. This is how you will typically interact with ggdibbler, as it is how you usually interact with ggplot2.</p></div>
 
 
     </div><div class="section level2">
@@ -47,30 +47,82 @@
 
       <dl><dt>
 
-          <code><a href="geom_sf_sample.html">geom_sf_sample()</a></code>
+          <code><a href="geom_point_sample.html">geom_point_sample()</a></code>
+
+        </dt>
+        <dd>Visualise Uncertain Points</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_sf_sample.html">geom_sf_sample()</a></code> <code><a href="geom_sf_sample.html">stat_sample()</a></code>
 
         </dt>
         <dd>Visualise Sf Objectjects with Uncertainty</dd>
+      </dl></div><div class="section level2">
+      <h2 id="stats">Stats<a class="anchor" aria-label="anchor" href="#stats"></a></h2>
+
+      <div class="section-desc"><p>This is where most of the methods used to make uncertainty visualisation in ggdibbler work. These stat functions convert a distribution to a sample before running through their non-uncertainty counterpart.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="geom_sf_sample.html">geom_sf_sample()</a></code> <code><a href="geom_sf_sample.html">stat_sample()</a></code>
+
+        </dt>
+        <dd>Visualise Sf Objectjects with Uncertainty</dd>
+      </dl></div><div class="section level2">
+      <h2 id="scale">Scale<a class="anchor" aria-label="anchor" href="#scale"></a></h2>
+
+      <div class="section-desc"><p>These scales support allow distributions to be passed to ggplot with ease. They identify the scale type needed, and allow you to personalise the limits/labels of continuous x and y axis.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="scale_distribution.html">scale_x_distribution()</a></code> <code><a href="scale_distribution.html">scale_y_distribution()</a></code>
+
+        </dt>
+        <dd>Position scales for distributions</dd>
       </dl><dl><dt>
 
           <code><a href="scale_type.distribution.html">scale_type(<i>&lt;distribution&gt;</i>)</a></code>
 
         </dt>
         <dd>Sets scale for distributions</dd>
+      </dl></div><div class="section level2">
+      <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
+
+      <div class="section-desc"><p>ggdibbler comes with a handful of data sets with uncertain values to show the use of the package.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="toy_temp_dist.html">toy_temp_dist</a></code>
+
+        </dt>
+        <dd>A toy data set that provides data for a map with the temperature of each area represented by a random variable.</dd>
       </dl><dl><dt>
 
           <code><a href="toy_temp.html">toy_temp</a></code>
 
         </dt>
         <dd>A toy data set that has the ambient temperature as measured by a collection of citizen scientists for each Iowa county</dd>
-      </dl><dl><dt>
-
-          <code><a href="toy_temp_dist.html">toy_temp_dist</a></code>
-
-        </dt>
-        <dd>A toy data set that provides data for a map with the temperature of each area represented by a random variable.</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

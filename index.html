@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,26 +65,38 @@
 </div>
 <!-- badges: start -->
 
-<p><code>ggdibbler</code> is an R package for implementing signal suppression in ggplot2. Usually, uncertainty visualisation focuses on expressing uncertainty as a distribution or probability, whereas ggdibble differentiates itself by viewing an uncertainty visualisation as a transformation of an existing graphic that incorperates uncertainty. The package allows you to replace any existing variable of observations in a graphic, with a variable of distributons. It is particularly useful for visualisations of estimates, such as a mean. You provide ggdibble with code for an existing plot, but repalace one of the variables with a distribution, and it will convert the visualisation into it’s signal supression counterpart.</p>
+<p><code>ggdibbler</code> is an R package for implementing signal suppression in ggplot2. Usually, uncertainty visualisation focuses on expressing uncertainty as a distribution or probability, whereas ggdibble differentiates itself by viewing an uncertainty visualisation as a transformation of an existing graphic that incorperates uncertainty. The package allows you to replace any existing variable of observations in a graphic, with a variable of distributons. It is particularly useful for visualisations of estimates.</p>
+<p>You provide <code>ggdibbler</code> with code for an existing plot, but repalace one of the variables with a distribution, and it will convert the visualisation into it’s signal supression counterpart.</p>
+<div class="section level3">
+<h3 id="future-additions-to-the-package">Future additions to the package<a class="anchor" aria-label="anchor" href="#future-additions-to-the-package"></a>
+</h3>
+<p>The eventual goal of <code>ggdibbler</code> is to allows any distribution object to be passed to any aesthetic in a <code>ggplot2</code> geom (so long as I have gotten to that geom). The status of this goal is regularly updated in the <a href="https://github.com/harriet-mason/ggdibbler/issues/28" class="external-link">All Geometries - Status List</a> issue.</p>
+<p>I am happy to expedite any specific geoms that you might want, just post a request in a github issue.</p>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of ggdibbler from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the stable version of <code>ggdibbler</code> from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ggdibbler"</span><span class="op">)</span></span></code></pre></div>
+<p>or you can install the development version of ggdibbler from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"harriet-mason/ggdibbler"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<p>Currently, the primary useage of ggdibbler is a variation on <code>geom_sf</code>, by having several alternatives to the standard fill.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://harriet-mason.github.io/ggdibbler/">ggdibbler</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
-<p>Typically, if we had an average estimate for a series of areas, we would simply display the average, or keep the average separate. Below is an example of this with a choropleth map.</p>
+<p>In essence, <code>ggdibbler</code> makes visualising uncertainty easy, as you just replace the <code>geom_*</code> with <code>geom_*_sample</code> and replace your deterministic variable with a <code>distributional</code> variable, and you get an uncertainty visualisation. Woweee.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.mitchelloharawild.com/distributional/" class="external-link">distributional</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://harriet-mason.github.io/ggdibbler/">ggdibbler</a></span><span class="op">)</span></span></code></pre></div>
+<p>Typically, if we had an average estimate for a series of areas, we would simply display the average, or keep the average separate. Below is an example of this with a choropleth map.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Make average summary of data</span></span>
 <span><span class="va">toy_temp_mean</span> <span class="op">&lt;-</span> <span class="va">toy_temp</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">county_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -95,21 +107,38 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<p>We can use <code>geom_sf_sample</code> from the ggdibbler package to instead view each estimate as a sample of values from its sampling distribution.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>We can use <code>geom_sf_sample</code> from the ggdibbler package to instead view each estimate as a sample of values from its sampling distribution. If you want to see the original geometry lines, I would recommend layering a <code>geom_sf</code> with NA fill over the top.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co"># sample map</span></span>
 <span><span class="va">toy_temp_dist</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span>, linewidth<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span>, linewidth<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span><span class="op">)</span>, fill<span class="op">=</span><span class="cn">NA</span>, linewidth<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
-</div>
-<div class="section level2">
-<h2 id="additions-to-the-package">Additions to the package<a class="anchor" aria-label="anchor" href="#additions-to-the-package"></a>
-</h2>
-<p>As <code>ggdibbler</code> is designed to alter existing graphic types to accept distributions as inputs there is a near infinite number of plots that could be changed with the package. At the moment the focus is on alterations to <code>geom_sf</code>, but we are happy to add any other functionality that users would like to have as a ggplot geom. If you have a suggestion, feel free to add it in the github issues.</p>
+<p>Currently <code>geom_sf</code> only accepts a random fill, as it subdivides the geometry to fill it with a sample. This will eventually be extended to all the <code>geom_sf</code> aesthetics. Other <code>geoms</code>, such as <code>geom_point_sample</code> do accept random variables to any <code>aes</code>. You can feed any combination of random and deterministic variables to a <code>geom_*_sample</code> layer.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">point_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>deterministic_x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>,</span>
+<span>                         uncertain_y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_gamma.html" class="external-link">dist_gamma</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>,</span>
+<span>                                      <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_sample.html" class="external-link">dist_sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                                      <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_exponential.html" class="external-link">dist_exponential</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                         uncertain_class <span class="op">=</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_categorical.html" class="external-link">dist_categorical</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>,<span class="fl">0.15</span>,<span class="fl">0.05</span><span class="op">)</span>,</span>
+<span>                                                                      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>,<span class="fl">0.7</span>,<span class="fl">0.05</span><span class="op">)</span>,</span>
+<span>                                                                      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>,<span class="fl">0</span>,<span class="fl">0.75</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                                                          outcomes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># A geom_point with random varianles</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="reference/geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">point_data</span>, </span>
+<span>                    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">deterministic_x</span>, y<span class="op">=</span><span class="va">uncertain_y</span>, colour <span class="op">=</span> <span class="va">uncertain_class</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+<p>If you pass random variables to aesthetics like colour or label, but not position aesthetics such as x or y, you might want to add a jitter so that you can see all the points (otherwise you will only see one outcome of the sample).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="reference/geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">point_data</span>, </span>
+<span>                    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">deterministic_x</span>, y<span class="op">=</span><span class="va">deterministic_x</span>, colour <span class="op">=</span> <span class="va">uncertain_class</span><span class="op">)</span>,</span>
+<span>                    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.1</span>, height<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
