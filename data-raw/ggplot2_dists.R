@@ -6,8 +6,7 @@ library(distributional)
 mpg <- ggplot2::mpg
 mpg_dist <- ggplot2::mpg
 
-# Character Variables
-
+# Categorical Variables
 # manufacturer # model # trans # drv # fl # class
 manufacturer_names <- unique(mpg_dist$manufacturer)
 model_names <- unique(mpg_dist$model)
@@ -29,36 +28,35 @@ prob_vals <- function(name, all_names){
   probs/sum(probs)
 }
 
+# test
+# prob_vals('audi',manufacturer_names)
 
-prob_vals('audi',manufacturer_names)
+class_var <- c("manufacturer", "model", "trans", "drv", "fl", "class")
 
-
-plist <- prob_list(mpg$manufacturer, manufacturer_names)
-
-mpg_dist$manufacturer <- mpg |>
-  group_by(displ, model_names)
-  mutate(manufacturer = dist_categorical(prob = prob_list(mpg$manufacturer, manufacturer_names),
-                                         outcomes = list(manufacturer_names)))
-df <- data.frame(
-  id = 1:5,
-  value = c(10, 15, 20, 25, 30)
+mpg_dist <- mpg |>
+  tibble::rowid_to_column(var = "id") |>
+  group_by(id) |>
+  mutate(
+# Categorical Variables: # manufacturer # model # trans # drv # fl # class
+         manufacturer = dist_categorical(prob = list(prob_vals(manufacturer, manufacturer_names)),
+                                         outcomes = list(manufacturer_names)),
+         model = dist_categorical(prob = list(prob_vals(model, model_names)),
+                                         outcomes = list(model_names)),
+         trans = dist_categorical(prob = list(prob_vals(trans, trans_names)),
+                                         outcomes = list(trans_names)),
+         drv = dist_categorical(prob = list(prob_vals(drv, drv_names)),
+                                         outcomes = list(drv_names)),
+         fl = dist_categorical(prob = list(prob_vals(fl, fl_names)),
+                                         outcomes = list(fl_names)),
+         class = dist_categorical(prob = list(prob_vals(class, class_names)),
+                               outcomes = list(class_names)),
+# Continuous: # displ
+         displ = dist_uniform(displ - runif(1, 0, 2), displ + runif(1, 0, 2)),
+# Integer: # year # cyl # cty # hwy
+         year = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE)))
 )
 
-df <- df %>%
-  mutate(random_uniform = runif(n = n()))
 
-# Add a new column 'random_normal' with random values from a normal distribution
-# (mean 0, standard deviation 1 by default)
-df_new_2 <- df %>%
-  mutate(random_normal = rnorm(n = n()))
-# Continuous
-  # displ
-
-# Integer
-  # year 
-  # cyl
-  # cty
-  # hwy
 
 
 
