@@ -15,6 +15,9 @@ drv_names <- unique(mpg_dist$drv)
 fl_names <- unique(mpg_dist$fl)
 class_names <- unique(mpg_dist$class)
 
+# Discrete variables (small)
+cyl_vals <- unique(mpg$cyl)
+
 # Convert them into dist_categorical
 # function that takes name and returns a randomly generated prediction uncertainty
 prob_vals <- function(name, all_names){
@@ -28,12 +31,7 @@ prob_vals <- function(name, all_names){
   probs/sum(probs)
 }
 
-# test
-# prob_vals('audi',manufacturer_names)
-
-class_var <- c("manufacturer", "model", "trans", "drv", "fl", "class")
-
-mpg_dist <- mpg |>
+uncertain_mpg <- mpg |>
   tibble::rowid_to_column(var = "id") |>
   group_by(id) |>
   mutate(
@@ -51,10 +49,17 @@ mpg_dist <- mpg |>
          class = dist_categorical(prob = list(prob_vals(class, class_names)),
                                outcomes = list(class_names)),
 # Continuous: # displ
-         displ = dist_uniform(displ - runif(1, 0, 2), displ + runif(1, 0, 2)),
+         displ = dist_uniform(displ - runif(1, 0, 1), displ + runif(1, 0, 1)),
 # Integer: # year # cyl # cty # hwy
-         year = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE)))
-)
+         year = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE))),
+         cyl =  dist_categorical(prob = list(prob_vals(cyl, cyl_vals)),
+                                 outcomes = list(cyl_vals)),
+         cty = dist_binomial(size = round(1+cty/0.9), prob=0.9),
+         hwy = dist_binomial(size = round(1+hwy/0.6), prob=0.6)) |>
+  ungroup() |>
+  select(-id)
+
+usethis::use_data(uncertain_mpg, overwrite = TRUE)
 
 
 
