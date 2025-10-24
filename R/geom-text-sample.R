@@ -5,7 +5,7 @@
 #' @importFrom ggplot2 make_constructor GeomText
 #' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_text
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' @param times A parameter used to control the number of values sampled from each distribution. 
 #' 
 #' @examples
 #' library(ggplot2)
@@ -37,7 +37,7 @@
 #'   geom_point_sample() +
 #'   geom_text_sample(hjust = 0, nudge_x = 0.05, times=1) #ggplot
 #' @export
-geom_text_sample <- make_constructor(GeomText, position = "nudge", stat = "sample", times=30)
+geom_text_sample <- make_constructor(GeomText, position = "nudge", stat = "sample", times=10)
 
 
 

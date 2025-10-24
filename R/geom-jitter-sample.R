@@ -6,7 +6,7 @@
 #' @importFrom ggplot2 make_constructor GeomPoint position_jitter layer
 #' @importFrom rlang list2
 #' @importFrom cli cli_abort
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' @param times A parameter used to control the number of values sampled from each distribution. 
 #' @examples
 #' library(ggplot2)
 #' 
@@ -29,7 +29,7 @@
 #' q + geom_jitter_sample(width = 0.2, times=10) # ggdibbler
 #' @export
 geom_jitter_sample <- function(mapping = NULL, data = NULL, stat = "sample", position = "jitter",
-                        ..., width = NULL, height = NULL, na.rm = FALSE, times=30,
+                        ..., width = NULL, height = NULL, na.rm = FALSE, times=10,
                         show.legend = NA, inherit.aes = TRUE) {
   if (!missing(width) || !missing(height)) {
     if (!missing(position)) {

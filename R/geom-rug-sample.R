@@ -4,7 +4,7 @@
 #' 
 #' @inheritParams ggplot2::geom_rug
 #' @importFrom ggplot2 make_constructor GeomRug
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
 #' library(ggplot2)
 #' 
@@ -28,4 +28,4 @@
 #' p + geom_rug(sides="trbl") #ggplot
 #' q + geom_rug_sample(sides="trbl") #ggdibbler
 #' @export
-geom_rug_sample <- make_constructor(GeomRug, stat = "sample", times=30)
+geom_rug_sample <- make_constructor(GeomRug, stat = "sample", times=10)

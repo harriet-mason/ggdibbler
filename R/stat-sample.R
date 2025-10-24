@@ -9,6 +9,7 @@ StatSample <- ggproto("StatSample", Stat,
                       },
                       compute_group = function(self, data, scales, times) {
                         data
+                        
                       }
 )
 
@@ -27,7 +28,8 @@ sample_expand <- function(data, times){
     dplyr::group_by(dplyr::across(dplyr::all_of(othcols))) |>
     tidyr::unnest_longer(dplyr::all_of(distcols)) |>
     tibble::rowid_to_column(var = "drawID") |>
-    dplyr::mutate(drawID = drawID%%times + 1)
+    dplyr::mutate(drawID = drawID%%times + 1) |>
+    dplyr::mutate(group = abs(group + drawID ))
 
 }
 
@@ -45,13 +47,13 @@ sample_expand <- function(data, times){
 #' p + stat_identity()
 #' 
 #' q <- ggplot(uncertain_mtcars, aes(wt, mpg))
-#' q + stat_sample()
+#' q + stat_sample(aes(colour = after_stat(drawID)))
 #' 
 #' @importFrom ggplot2 layer 
 #' @importFrom rlang list2
 #' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::stat_identity
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
-stat_sample <- make_constructor(StatSample, geom = "point", times = 30)
+#' @param times A parameter used to control the number of values sampled from each distribution.
+stat_sample <- make_constructor(StatSample, geom = "point", times = 10)
 
 

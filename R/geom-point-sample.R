@@ -2,7 +2,7 @@
 #' 
 #' Identical to geom_point, except that it will accept a distribution in place of any of the usual aesthetics.
 #' 
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' @param times A parameter used to control the number of values sampled from each distribution.
 #' @importFrom ggplot2 aes layer GeomPoint
 #' @importFrom rlang list2
 #' @importFrom dplyr rename_with
@@ -53,4 +53,4 @@
 #' # ggdibbler
 #' ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample(colour = "red", size = 3)
 #' @export
-geom_point_sample <- make_constructor(GeomPoint, stat = "sample", times=30)
+geom_point_sample <- make_constructor(GeomPoint, stat = "sample", times=10)
