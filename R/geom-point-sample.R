@@ -15,9 +15,9 @@
 #' p <- ggplot(mtcars, aes(wt, mpg))
 #' p + geom_point()
 #' 
-#'   # ggdibbler
+#'   # ggdibbler - set the sample size with times
 #' q <- ggplot(uncertain_mtcars, aes(wt, mpg))
-#' q + geom_point_sample()
+#' q + geom_point_sample(times=20) 
 #' 
 #' # Add aesthetic mappings
 #' 
@@ -35,7 +35,8 @@
 #'  # ggplot
 #' p + geom_point(aes(shape = factor(cyl))) 
 #'   # ggdibbler - a
-#' q + geom_point_sample(aes(shape = cyl)) + scale_shape_binned()
+#' q + geom_point_sample(aes(shape = cyl)) + 
+#'   scale_shape_binned()
 #'   # ggdibbler - b
 #' ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distshape=cyl)) +
 #'   geom_point_sample(aes(shape = factor(after_stat(distshape))))
@@ -44,7 +45,7 @@
 #' # ggplot2
 #' p + geom_point(aes(size = qsec))
 #' # ggdibbler
-#' q + geom_point_sample(aes(size = qsec), alpha=0.5, times=5)
+#' q + geom_point_sample(aes(size = qsec), alpha=0.5)
 #' 
 #' Set aesthetics to fixed value
 #' # ggplot
@@ -53,6 +54,3 @@
 #' ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample(colour = "red", size = 3)
 #' @export
 geom_point_sample <- make_constructor(GeomPoint, stat = "sample", times=30)
-
-
-

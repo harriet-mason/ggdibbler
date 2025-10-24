@@ -1,7 +1,7 @@
 # load libraries
 library(tidyverse)
 library(distributional)
-
+set.seed(23102025)
 ######################################################## MPG DATA SET ####################################################
 mpg <- ggplot2::mpg
 mpg_dist <- ggplot2::mpg
@@ -31,6 +31,18 @@ prob_vals <- function(name, all_names){
   probs/sum(probs)
 }
 
+
+prob_vals2 <- function(name, all_names){
+  len <- length(all_names)
+  x <- which(name==all_names)
+  probs <- rep(0, len)
+  probs[x] <- runif(1,0.9,1)
+  for(i in seq(len)[-x]){
+    probs[i] <- runif(1, 0, (1-sum(probs[x])))
+  }
+  probs/sum(probs)
+}
+
 uncertain_mpg <- mpg |>
   tibble::rowid_to_column(var = "id") |>
   group_by(id) |>
@@ -52,10 +64,10 @@ uncertain_mpg <- mpg |>
          displ = dist_uniform(displ - runif(1, 0, 1), displ + runif(1, 0, 1)),
 # Integer: # year # cyl # cty # hwy
          year = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE))),
-         cyl =  dist_categorical(prob = list(prob_vals(cyl, cyl_vals)),
+         cyl =  dist_categorical(prob = list(prob_vals2(cyl, cyl_vals)),
                                  outcomes = list(cyl_vals)),
          cty = dist_binomial(size = round(1+cty/0.9), prob=0.9),
-         hwy = dist_binomial(size = round(1+hwy/0.6), prob=0.6)) |>
+         hwy = dist_binomial(size = round(1+hwy/0.99), prob=0.99)) |>
   ungroup() |>
   select(-id)
 

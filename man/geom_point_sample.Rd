@@ -122,9 +122,9 @@ library(ggplot2)
 p <- ggplot(mtcars, aes(wt, mpg))
 p + geom_point()
 
-  # ggdibbler
+  # ggdibbler - set the sample size with times
 q <- ggplot(uncertain_mtcars, aes(wt, mpg))
-q + geom_point_sample()
+q + geom_point_sample(times=20) 
 
 # Add aesthetic mappings
 
@@ -134,14 +134,16 @@ p + geom_point(aes(colour = factor(cyl)))
 q + geom_point_sample(aes(colour = cyl))
   # ggdibbler - b
   # If you want the categorical colour for a factor,
-  # You would need to have a categorical rand variable, do compute with after_stat
+  # You would need to have a categorical rand variable 
+  # If you dont, you can always just compute the colour with after_stat()
 ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distcol=cyl)) + 
   geom_point_sample(aes(colour = factor(after_stat(distcol))))
   
  # ggplot
 p + geom_point(aes(shape = factor(cyl))) 
   # ggdibbler - a
-q + geom_point_sample(aes(shape = cyl)) + scale_shape_binned()
+q + geom_point_sample(aes(shape = cyl)) + 
+  scale_shape_binned()
   # ggdibbler - b
 ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distshape=cyl)) +
   geom_point_sample(aes(shape = factor(after_stat(distshape))))
@@ -150,7 +152,7 @@ ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distshape=cyl)) +
 # ggplot2
 p + geom_point(aes(size = qsec))
 # ggdibbler
-q + geom_point_sample(aes(size = qsec), alpha=0.5, times=5)
+q + geom_point_sample(aes(size = qsec), alpha=0.5)
 
 Set aesthetics to fixed value
 # ggplot

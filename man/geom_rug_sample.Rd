@@ -128,27 +128,24 @@ Identical to geom_rug, except that it will accept a distribution in place of any
 }
 \examples{
 library(ggplot2)
-library(distributional)
 
-point_data <- data.frame(
-  random_x = c(dist_uniform(2,3),
-               dist_normal(3,2), 
-             dist_exponential(3)),
-  random_y = c(dist_gamma(2,1),
-             dist_sample(x = list(rnorm(100, 5, 1))),
-             dist_exponential(1)),
-   # have some uncertainty as to which category each value belongs to
-  random_colour = dist_categorical(prob = list(c(0.8,0.15,0.05),
-                                                 c(0.25,0.7,0.05),
-                                                 c(0.25,0,0.75)), 
-                                     outcomes = list(c("A", "B", "C"))),
-  deterministic_xy = c(1,2,3),
-  deterministic_colour = c("A", "B", "C"))
-  
-# basic random variables x and y
-ggplot() + 
-  geom_point_sample(data = point_data, aes(x=random_x, y=random_y)) +
-  geom_rug_sample(data = point_data, aes(x=random_x, y=random_y))
+# ggplot
+p <- ggplot(mtcars, aes(wt, mpg)) +
+  geom_point()
+p
+# ggdibbler
+q <- ggplot(uncertain_mtcars, aes(wt, mpg)) +
+  geom_point_sample(size=0.7)
+q
 
+p + geom_rug() #ggplot
+q + geom_rug_sample() #ggdibbler
 
+# Rug on bottom only
+p + geom_rug(sides="b") #ggplot
+q + geom_rug_sample(sides="b") #ggdibbler
+
+# All four sides
+p + geom_rug(sides="trbl") #ggplot
+q + geom_rug_sample(sides="trbl") #ggdibbler
 }
