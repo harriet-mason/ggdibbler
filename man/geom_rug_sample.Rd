@@ -147,6 +147,7 @@ point_data <- data.frame(
   
 # basic random variables x and y
 ggplot() + 
+  geom_point_sample(data = point_data, aes(x=random_x, y=random_y)) +
   geom_rug_sample(data = point_data, aes(x=random_x, y=random_y))
 
 
