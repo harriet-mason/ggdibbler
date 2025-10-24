@@ -1,8 +1,20 @@
 ggplot(mpg, aes(cty, hwy)) +
   geom_point()
 
+test <- uncertain_mpg
+test$cyl_det <- mpg$cyl
+
 ggplot(mpg, aes(cty, hwy)) +
-  geom_count()
+  geom_count(alpha=0.5) 
+
+ggplot(uncertain_mpg, aes(cty, hwy, group=cyl)) +
+  geom_point_sample(alpha=0.5)
+
+ggplot(mpg, aes(cty, hwy, group=cyl)) +
+  geom_count_sample(alpha=0.5) 
+
+ggplot(test, aes(cty, hwy)) +
+  geom_count_sample(alpha=0.05, times=30)
 
 
 ggplot(mpg, aes(cty, hwy)) +
