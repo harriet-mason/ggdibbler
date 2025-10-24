@@ -71,17 +71,17 @@ NULL
 #'
 #' @format A data frame with 32 observations and 11 variables:
 #' \describe{
-#'   \item{mpg}{Miles/(US) gallon as}
-#'   \item{cyl}{}
-#'   \item{disp}{}
-#'   \item{hp}{}
-#'   \item{drat}{}
-#'   \item{wt}{}
-#'   \item{qsec}{}
-#'   \item{vs}{}
-#'   \item{am}{}
-#'   \item{gear}{}
-#'   \item{carb}{}
+#'   \item{mpg}{Uniform random variable - Miles/(US) gallon as}
+#'   \item{cyl}{Categorical random variable - Number of cylinders}
+#'   \item{disp}{Uniform random variable - Displacement (cu.in.)}
+#'   \item{hp}{Normal random variable - Gross horsepower}
+#'   \item{drat}{Uniform random variable - Rear axle ratio}
+#'   \item{wt}{Uniform random variable - Weight (1000 lbs)}
+#'   \item{qsec}{Uniform random variable - 1/4 mile time}
+#'   \item{vs}{Bernouli random variable - Engine (0 = V-shaped, 1 = straight)}
+#'   \item{am}{Bernouli random variable - Transmission (0 = automatic, 1 = manual)}
+#'   \item{gear}{Categorical random variable - Number of forward gears}
+#'   \item{carb}{Categorical random variable- Number of carburetors}
 #' }
 #' @name uncertain_mtcars
 NULL
