@@ -2,7 +2,7 @@
 library(tidyverse)
 library(distributional)
 
-# make mpg_dist
+######################################################## MPG DATA SET ####################################################
 mpg <- ggplot2::mpg
 mpg_dist <- ggplot2::mpg
 
@@ -60,8 +60,6 @@ uncertain_mpg <- mpg |>
   select(-id)
 
 usethis::use_data(uncertain_mpg, overwrite = TRUE)
-
-
 
 
 
