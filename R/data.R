@@ -58,4 +58,30 @@ NULL
 #'   \item{fl}{fuel type, as a categorical random variable}
 #'   \item{class}{"type" of car, as a categorical random variable}
 #' }
-"uncertain_mpg"
+#' @docType data
+#' @name uncertain_mpg
+NULL
+
+#' An uncertain version of the mtcars data from base R `datasets` 
+#' 
+#' This dataset is identical to the mtcars data, except that every  variable in the data set
+#' is represented by a categorical, discrete, or continuous random variable. The
+#' original `mtcars` dataset in datasets is based on real data extracted from the 1974 Motor Trend US
+#' magazine, but the uncertainty we added is hypothetical and included for illustrative purposes.
+#'
+#' @format A data frame with 32 observations and 11 variables:
+#' \describe{
+#'   \item{mpg}{Miles/(US) gallon as}
+#'   \item{cyl}{}
+#'   \item{disp}{}
+#'   \item{hp}{}
+#'   \item{drat}{}
+#'   \item{wt}{}
+#'   \item{qsec}{}
+#'   \item{vs}{}
+#'   \item{am}{}
+#'   \item{gear}{}
+#'   \item{carb}{}
+#' }
+#' @name uncertain_mtcars
+NULL
