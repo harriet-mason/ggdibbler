@@ -4,7 +4,7 @@
 #' @format NULL
 #' @usage NULL
 #' @export
-StatSumSample <- ggproto("StatSumSample", StatSum,
+StatSumSample <- ggplot2::ggproto("StatSumSample", ggplot2::StatSum,
                          setup_data = function(data, params) {
                            sample_expand(data, params$times)
                            },
