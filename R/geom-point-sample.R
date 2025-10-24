@@ -27,7 +27,8 @@
 #' q + geom_point_sample(aes(colour = cyl))
 #'   # ggdibbler - b
 #'   # If you want the categorical colour for a factor,
-#'   # You would need to have a categorical rand variable, do compute with after_stat
+#'   # You would need to have a categorical rand variable 
+#'   # If you dont, you can always just compute the colour with after_stat()
 #' ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distcol=cyl)) + 
 #'   geom_point_sample(aes(colour = factor(after_stat(distcol))))
 #'   
