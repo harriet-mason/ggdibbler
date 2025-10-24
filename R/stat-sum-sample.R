@@ -6,21 +6,10 @@
 #' @export
 StatSumSample <- ggplot2::ggproto("StatSumSample", ggplot2::StatSum,
                          setup_data = function(data, params) {
-                           data_new <- sample_expand(data, params$times) 
-                           print(data_new)
-                           data_new
+                           sample_expand(data, params$times) 
                            },
                          
                          compute_panel = function(self, data, scales, times) {
-                           #draws <- split(data, data$drawID)
-                           #stats <- lapply(draws, function(draw){
-                          #   new_data <- ggproto_parent(StatSum, self)$compute_panel(data, scales)
-                           #})
-                           #stats <- mapply(map_func, stats, draws, SIMPLIFY = FALSE)
-                           
-                           #data_new <- vctrs::vec_rbind(!!!stats)
-                           #data_new
-                           
                            ggproto_parent(StatSum, self)$compute_panel(data, scales)
                          }
                              
