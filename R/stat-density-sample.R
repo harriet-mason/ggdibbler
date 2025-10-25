@@ -1,0 +1,28 @@
+#' @importFrom ggplot2 ggproto StatDensity
+#' @rdname geom_count_sample
+#' @format NULL
+#' @usage NULL
+#' @export
+StatDensitySample <- ggproto("StatDensitySample", ggplot2::StatDensity,
+ 
+                             setup_data = function(data, params) {
+                               sample_expand(data, params$times)
+                               },
+                               
+                               compute_panel = function(self, data, scales, times) {
+                                 ggproto_parent(StatDensity, self)$compute_panel(data, scales)
+                               }
+                               
+)
+            
+#' @importFrom ggplot2 make_constructor 
+#' @param times A parameter used to control the number of samples
+#' @inheritParams ggplot2::geom_density
+#' @rdname geom_density_sample
+#' @export
+stat_density_sample <- make_constructor(
+  GeomDensity, stat = "density_sample", times=10
+)
+
+
+  

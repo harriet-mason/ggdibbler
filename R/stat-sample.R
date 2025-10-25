@@ -29,7 +29,7 @@ sample_expand <- function(data, times){
     tidyr::unnest_longer(dplyr::all_of(distcols)) |>
     tibble::rowid_to_column(var = "drawID") |>
     dplyr::mutate(drawID = drawID%%times + 1) |>
-    dplyr::mutate(group = abs(group + drawID ))
+    dplyr::mutate(group = abs(group*drawID ))
 
 }
 

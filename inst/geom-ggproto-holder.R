@@ -25,3 +25,16 @@ GeomSfSample <- ggproto("GeomSfSample", GeomSf,
                         }
                         
 )
+
+#' @export
+GeomDensitySample <- ggproto(
+  "GeomDensitySample", ggplot2::GeomDensity,
+  default_aes = aes(
+    colour = from_theme(colour %||% ink),
+    fill   = from_theme(fill %||% NA),
+    weight = 1,
+    alpha  = NA,
+    linewidth = from_theme(linewidth),
+    linetype  = from_theme(linetype)
+  )
+)
