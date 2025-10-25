@@ -1,8 +1,9 @@
 # load libraries
 library(tidyverse)
 library(distributional)
-set.seed(23102025)
+
 ######################################################## MPG DATA SET ####################################################
+set.seed(23102025)
 mpg <- ggplot2::mpg
 mpg_dist <- ggplot2::mpg
 
@@ -73,6 +74,65 @@ uncertain_mpg <- mpg |>
 
 usethis::use_data(uncertain_mpg, overwrite = TRUE)
 
+################################### DIAMONDS DATA SET ################################################
+set.seed(25102025)
+ 
+uncertain_diamonds <- ggplot2::diamonds
+uncertain_diamonds <- uncertain_diamonds[sample(nrow(uncertain_diamonds), size = 1000),]
+# interleave function for unequal lengths
+riffle <- function(a, b) {
+  n <- min(length(a), length(b))
+  p1 <- as.vector(rbind(a[1:n], b[1:n]))
+  p2 <- c(a[-(1:n)], b[-(1:n)]) # Remaining elements
+  c(p1, p2)
+}
 
+# for ordered random variables
+prob_vals3 <- function(name, all_names){
+  len <- length(all_names)
+  x <- which(name==all_names)
+  probs <- rep(0, len)
+  probs[x] <- runif(1,0.7,0.8)
+  posvec <- riffle(rev(seq(x-1)), seq((x+1),len))
+  if(x == 1) posvec <- 2:len
+  if(x == 5) posvec <- rev(1:(len-1))
+  for(i in posvec){
+    probs[i] <- runif(1, 0, (1-sum(probs)))
+  }
+  probs/sum(probs)
+}
+
+cut_names <- levels(uncertain_diamonds$cut)
+color_names <- levels(uncertain_diamonds$color)
+clarity_names <- levels(uncertain_diamonds$clarity)
+sd_carat <- sd(uncertain_diamonds$carat)
+sd_depth <- sd(uncertain_diamonds$depth)
+sd_table <- sd(uncertain_diamonds$table)
+sd_x <- sd(uncertain_diamonds$x)
+sd_y <- sd(uncertain_diamonds$y)
+sd_z <- sd(uncertain_diamonds$z)
+
+
+uncertain_diamonds <- uncertain_diamonds |>
+  tibble::rowid_to_column(var = "id") |>
+  group_by(id) |>
+  mutate(
+    price = dist_binomial(size = round(1+price/0.9), prob=0.9),
+    carat = dist_normal(mu = carat, runif(1,0,sd_carat)),
+    cut = dist_categorical(prob = list(prob_vals3(cut, cut_names)),
+                             outcomes = list(cut_names)),
+    color = dist_categorical(prob = list(prob_vals3(color, color_names)),
+                           outcomes = list(color_names)),
+    clarity = dist_categorical(prob = list(prob_vals3(clarity, clarity_names)),
+                          outcomes = list(clarity_names)),
+    depth = dist_normal(mu = depth, runif(1,0,sd_depth)),
+    table = dist_normal(mu = table, runif(1,0,sd_table)),
+    x = dist_normal(mu = x, runif(1,0,sd_x)),
+    y = dist_normal(mu = y, runif(1,0,sd_y)),
+    z = dist_normal(mu = z, runif(1,0,sd_z))) |>
+  ungroup() |>
+  select(-id)
+
+usethis::use_data(uncertain_diamonds, overwrite = TRUE)
 
 
