@@ -78,7 +78,8 @@ usethis::use_data(uncertain_mpg, overwrite = TRUE)
 set.seed(25102025)
  
 uncertain_diamonds <- ggplot2::diamonds
-uncertain_diamonds <- uncertain_diamonds[sample(nrow(uncertain_diamonds), size = 1000),]
+diamond_ind <- sample(nrow(uncertain_diamonds), size = 1000)
+uncertain_diamonds <- uncertain_diamonds[diamond_ind,]
 # interleave function for unequal lengths
 riffle <- function(a, b) {
   n <- min(length(a), length(b))
@@ -119,11 +120,11 @@ uncertain_diamonds <- uncertain_diamonds |>
   mutate(
     price = dist_binomial(size = round(1+price/0.9), prob=0.9),
     carat = dist_normal(mu = carat, runif(1,0,sd_carat)),
-    cut = dist_categorical(prob = list(prob_vals3(cut, cut_names)),
+    cut = dist_categorical(prob = list(prob_vals2(cut, cut_names)),
                              outcomes = list(cut_names)),
-    color = dist_categorical(prob = list(prob_vals3(color, color_names)),
+    color = dist_categorical(prob = list(prob_vals2(color, color_names)),
                            outcomes = list(color_names)),
-    clarity = dist_categorical(prob = list(prob_vals3(clarity, clarity_names)),
+    clarity = dist_categorical(prob = list(prob_vals2(clarity, clarity_names)),
                           outcomes = list(clarity_names)),
     depth = dist_normal(mu = depth, runif(1,0,sd_depth)),
     table = dist_normal(mu = table, runif(1,0,sd_table)),
