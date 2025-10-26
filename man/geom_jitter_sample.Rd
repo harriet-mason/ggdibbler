@@ -13,7 +13,7 @@ geom_jitter_sample(
   width = NULL,
   height = NULL,
   na.rm = FALSE,
-  times = 30,
+  times = 10,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -105,7 +105,7 @@ data so it's not possible to see the distinction between the categories.}
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.}
+\item{times}{A parameter used to control the number of values sampled from each distribution.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.

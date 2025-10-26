@@ -10,7 +10,7 @@ geom_point_sample(
   stat = "sample",
   position = "identity",
   ...,
-  times = 30,
+  times = 10,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -91,7 +91,7 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.}
+\item{times}{A parameter used to control the number of values sampled from each distribution.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}

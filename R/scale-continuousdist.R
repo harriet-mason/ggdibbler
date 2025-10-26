@@ -25,15 +25,15 @@
 #'   scale_x_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +
 #'   scale_y_distribution(name="I am also a random variable")
 #' 
-#' @name scale_distribution
+#' @name scale_continuousdist
 NULL
 
 #' @export
 #' @importFrom ggplot2 waiver
 #' @importFrom scales oob_keep
 #' @inheritParams ggplot2::scale_x_continuous
-#' @rdname scale_distribution
-scale_x_distribution <- function(
+#' @rdname scale_continuousdist
+scale_x_continuousdist <- function(
     name = waiver(), 
     breaks = waiver(),
     labels = waiver(),
@@ -44,7 +44,7 @@ scale_x_distribution <- function(
     position = "bottom", 
     sec.axis = waiver()
     ) {
-  sc <- distribution_scale(
+  sc <- continuousdist_scale(
     aesthetics = ggplot_global$x_aes,
     transform = "identity",
     name = name,
@@ -64,8 +64,8 @@ scale_x_distribution <- function(
 #' @importFrom ggplot2 waiver
 #' @importFrom scales oob_keep
 #' @inheritParams ggplot2::scale_y_continuous
-#' @rdname scale_distribution
-scale_y_distribution <- function(
+#' @rdname scale_continuousdist
+scale_y_continuousdist <- function(
     name = waiver(), 
     breaks = waiver(),
     labels = waiver(),
@@ -76,7 +76,7 @@ scale_y_distribution <- function(
     position = "left", 
     sec.axis = waiver()
 ) {
-  sc <- distribution_scale(
+  sc <- continuousdist_scale(
     aesthetics = ggplot_global$y_aes,
     transform = "identity",
     name = name,
@@ -92,7 +92,7 @@ scale_y_distribution <- function(
 }
 
 #' @keywords internal
-distribution_scale <- function(
+continuousdist_scale <- function(
     aesthetics,
     transform,
     trans = lifecycle::deprecated(),
@@ -126,13 +126,13 @@ distribution_scale <- function(
     call = call,
     ...
     )
-  sc$range <- DistributionRange$new()
+  sc$range <- ContinuousdistRange$new()
   sc
 }
 
 #' @keywords internal
-DistributionRange <- R6::R6Class(
-  "DistributionRange",
+ContinuousdistRange <- R6::R6Class(
+  "ContinuousdistRange",
   inherit = scales::ContinuousRange,
   list(
     train = function(x, call = rlang::caller_env()) {
@@ -176,12 +176,12 @@ ScaleContinuousDistribution <- ggproto(
   # According to scale documentation, we need to override...
   
   # Range
-  range = DistributionRange$new(),
+  range = ContinuousdistRange$new(),
   
   # included this
   clone = function(self) {
     new <- ggproto(NULL, self)
-    new$range <- DistributionRange$new()
+    new$range <- ContinuousdistRange$new()
     new
   },
   

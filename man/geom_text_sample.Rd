@@ -11,7 +11,7 @@ geom_label_sample(
   stat = "sample",
   position = "nudge",
   ...,
-  times = 30,
+  times = 10,
   parse = FALSE,
   label.padding = unit(0.25, "lines"),
   label.r = unit(0.15, "lines"),
@@ -29,7 +29,7 @@ geom_text_sample(
   stat = "sample",
   position = "nudge",
   ...,
-  times = 30,
+  times = 10,
   parse = FALSE,
   check_overlap = FALSE,
   size.unit = "mm",
@@ -113,7 +113,7 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.}
+\item{times}{A parameter used to control the number of values sampled from each distribution.}
 
 \item{parse}{If \code{TRUE}, the labels will be parsed into expressions and
 displayed as described in \code{?plotmath}.}

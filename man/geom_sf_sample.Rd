@@ -13,7 +13,7 @@ geom_sf_sample(
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE,
-  times = 30,
+  times = 10,
   n = deprecated(),
   ...
 )
@@ -67,7 +67,7 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
-\item{times}{A parameter used to control the number of cells in each grid. The geom will find the factors of times and select the ones that make the grid as square as possible. By default, times is set to 30.}
+\item{times}{A parameter used to control the number of cells in each grid. The geom will find the factors of times and select the ones that make the grid as square as possible.}
 
 \item{n}{Deprecated in favour of times.}
 
