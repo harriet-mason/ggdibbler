@@ -21,6 +21,3 @@ StatSumSample <- ggplot2::ggproto("StatSumSample", ggplot2::StatSum,
 stat_sum_sample <- make_constructor(StatSumSample, geom = "point", times = 10)
 
 
-
-
-

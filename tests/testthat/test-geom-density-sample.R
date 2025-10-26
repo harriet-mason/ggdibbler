@@ -21,4 +21,3 @@ ggplot(diamonds, aes(carat)) +
 ggplot(uncertain_diamonds, aes(carat)) +
   geom_density_sample(adjust = 1/5)
 
-# FIX WEIRD LINE AT THE BOTTOM OF THE DISTRIBUTION

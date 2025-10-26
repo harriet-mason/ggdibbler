@@ -36,3 +36,5 @@
 #'   scale_size_area()
 #' @export
 geom_count_sample <- make_constructor(GeomPoint, stat = "sum_sample", times=10)
+
+

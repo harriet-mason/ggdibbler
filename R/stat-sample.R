@@ -9,7 +9,6 @@ StatSample <- ggproto("StatSample", Stat,
                       },
                       compute_group = function(self, data, scales, times) {
                         data
-                        
                       }
 )
 
@@ -25,12 +24,11 @@ sample_expand <- function(data, times){
   # Sample from distribution variables
   data |>
     dplyr::mutate(dplyr::across(dplyr::all_of(distcols), ~ distributional::generate(.x, times = times))) |>
-    dplyr::group_by(dplyr::across(dplyr::all_of(othcols))) |>
     tidyr::unnest_longer(dplyr::all_of(distcols)) |>
     tibble::rowid_to_column(var = "drawID") |>
     dplyr::mutate(drawID = drawID%%times + 1) |>
-    dplyr::mutate(group = abs(group*drawID ))
-
+    dplyr::mutate(group = abs(group*drawID )) |>
+    as.data.frame()
 }
 
 #' Generates a sample from a distribution

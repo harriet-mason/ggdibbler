@@ -15,14 +15,16 @@ StatDensitySample <- ggproto("StatDensitySample", ggplot2::StatDensity,
                                
 )
             
-#' @importFrom ggplot2 make_constructor 
+#' @importFrom ggplot2 make_constructor GeomDensity
 #' @param times A parameter used to control the number of samples
 #' @inheritParams ggplot2::geom_density
 #' @rdname geom_density_sample
 #' @export
 stat_density_sample <- make_constructor(
-  GeomDensity, stat = "density_sample", times=10
+  ggplot2::GeomDensity, stat = "density_sample", times=10
 )
+
+
 
 
   
