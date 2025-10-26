@@ -10,6 +10,6 @@
 scale_type.distribution <- function(x) {
   datatype <- scale_type(unlist(generate(x,1)))
   # generate a single value from a distribution and use it's class to set scale
-  if("discrete" %in% datatype) return(c("discretedist", datatype))
-  if("continuous" %in% datatype) return(c("continuousdist", datatype))
+  if("discrete" %in% datatype) return(c("discrete_distribution", datatype))
+  if("continuous" %in% datatype) return(c("continuous_distribution", datatype))
 }

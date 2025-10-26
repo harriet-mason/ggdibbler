@@ -1,10 +1,9 @@
-#' Position scales for distributions
+#' Position scales for continuous distributions
 #' 
 #' These scales allow for distributions to be passed to the x and y position by mapping distribution objects
 #' to continuous aesthetics.
 #' These scale can be used similarly to the scale_*_continuous functions, but they do not
-#' accept transformations. Since transformations are done before the Stat is applied,
-#' transformations applied to distributions are the only kind of transformations that make sense.
+#' accept transformations.
 #' If you want to transform your scale, you should apply a transformation through the coord_* functions,
 #' as they are applied after the stat, so the existing ggplot infastructure can be used.
 #' For example, if you would like a log transformation of the x axis, plot + coord_transform(x = "log")
@@ -25,15 +24,15 @@
 #'   scale_x_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +
 #'   scale_y_distribution(name="I am also a random variable")
 #' 
-#' @name scale_continuousdist
+#' @name scale_continuous_distribution
 NULL
 
 #' @export
 #' @importFrom ggplot2 waiver
 #' @importFrom scales oob_keep
 #' @inheritParams ggplot2::scale_x_continuous
-#' @rdname scale_continuousdist
-scale_x_continuousdist <- function(
+#' @rdname scale_continuous_distribution
+scale_x_continuous_distribution <- function(
     name = waiver(), 
     breaks = waiver(),
     labels = waiver(),
@@ -42,9 +41,10 @@ scale_x_continuousdist <- function(
     oob = oob_keep, 
     guide = waiver(), 
     position = "bottom", 
-    sec.axis = waiver()
+    sec.axis = waiver(),
+    ...
     ) {
-  sc <- continuousdist_scale(
+  sc <- continuous_distribution_scale(
     aesthetics = ggplot_global$x_aes,
     transform = "identity",
     name = name,
@@ -64,8 +64,8 @@ scale_x_continuousdist <- function(
 #' @importFrom ggplot2 waiver
 #' @importFrom scales oob_keep
 #' @inheritParams ggplot2::scale_y_continuous
-#' @rdname scale_continuousdist
-scale_y_continuousdist <- function(
+#' @rdname scale_continuous_distribution
+scale_y_continuous_distribution <- function(
     name = waiver(), 
     breaks = waiver(),
     labels = waiver(),
@@ -74,9 +74,10 @@ scale_y_continuousdist <- function(
     oob = scales::oob_keep, 
     guide = waiver(), 
     position = "left", 
-    sec.axis = waiver()
+    sec.axis = waiver(),
+    ...
 ) {
-  sc <- continuousdist_scale(
+  sc <- continuous_distribution_scale(
     aesthetics = ggplot_global$y_aes,
     transform = "identity",
     name = name,
@@ -92,7 +93,7 @@ scale_y_continuousdist <- function(
 }
 
 #' @keywords internal
-continuousdist_scale <- function(
+continuous_distribution_scale <- function(
     aesthetics,
     transform,
     trans = lifecycle::deprecated(),
@@ -100,15 +101,13 @@ continuousdist_scale <- function(
     breaks = ggplot2::waiver(),
     minor_breaks = ggplot2::waiver(),
     labels = ggplot2::waiver(),
-    guide = guide,
+    guide = "legend",
     call = rlang::caller_call(),
-    ...
-    ) {
-  call <- call %||% rlang::current_call()
+    ...) {
 
-  # x/y position aesthetics should use ScaleContinuousDistribution; others use ScaleContinuous
+  # x/y position aesthetics should use ScaleContinuousDistributionPosition; others use ScaleContinuous
   if (all(aesthetics %in% c(ggplot_global$x_aes, ggplot_global$y_aes))) {
-    scale_class <- ScaleContinuousDistribution
+    scale_class <- ScaleContinuousDistributionPosition
   } else {
     scale_class <- ggplot2::ScaleContinuous
   }
@@ -126,17 +125,17 @@ continuousdist_scale <- function(
     call = call,
     ...
     )
-  sc$range <- ContinuousdistRange$new()
+  sc$range <- ContinuousDistributionRange$new()
   sc
 }
 
 #' @keywords internal
-ContinuousdistRange <- R6::R6Class(
-  "ContinuousdistRange",
+ContinuousDistributionRange <- R6::R6Class(
+  "ContinuousDistributionRange",
   inherit = scales::ContinuousRange,
   list(
     train = function(x, call = rlang::caller_env()) {
-      self$range <- train_distribution(x, self$range, call = call)
+      self$range <- train_continuous_distribution(x, self$range, call = call)
     },
     reset = function() {
       self$range <- NULL
@@ -145,7 +144,7 @@ ContinuousdistRange <- R6::R6Class(
 )
 
 #' @keywords internal
-train_distribution <- function(new, existing = NULL, call = rlang::caller_env()) {
+train_continuous_distribution <- function(new, existing = NULL, call = rlang::caller_env()) {
   if (is.null(new)) {
     return(existing)
   }
@@ -168,20 +167,20 @@ train_distribution <- function(new, existing = NULL, call = rlang::caller_env())
 
 
 #' @keywords internal
-ScaleContinuousDistribution <- ggproto( 
-  "ScaleContinuousDistribution", 
-  ggplot2::ScaleContinuous,
+ScaleContinuousDistributionPosition <- ggproto( 
+  "ScaleContinuousDistributionPosition", 
+  ggplot2::ScaleContinuousPosition,
   secondary.axis = ggplot2::waiver(),
   # Distributions don't work with range training, so we override
   # According to scale documentation, we need to override...
   
   # Range
-  range = ContinuousdistRange$new(),
+  range = ContinuousDistributionRange$new(),
   
   # included this
   clone = function(self) {
     new <- ggproto(NULL, self)
-    new$range <- ContinuousdistRange$new()
+    new$range <- ContinuousDistributionRange$new()
     new
   },
   
@@ -207,7 +206,7 @@ ScaleContinuousDistribution <- ggproto(
         call = self$call
       )
     }
-    ggplot2::ggproto_parent(ggplot2::ScaleContinuous, self)$transform(x)
+    ggplot2::ggproto_parent(ggplot2::ScaleContinuousPosition, self)$transform(x)
   },
   
   # Map
