@@ -8,7 +8,7 @@
 #' @importFrom ggplot2 make_constructor GeomDensity
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
-#' library(ggplot)
+#' library(ggplot2)
 #' ggplot(mpg, aes(hwy)) + geom_density() #ggplot
 #' ggplot(uncertain_mpg, aes(hwy)) + geom_density_sample() #ggdibbler
 geom_density_sample <- make_constructor(
