@@ -1,11 +1,16 @@
 
-# CARAT DISTRIBUTION LOOKS WEIRD
+# make data smaller because otherwise there is no uncertainty
+set.seed(248)
+index <- sample(nrow(uncertain_diamonds), size = 1000)
+smaller_diamonds <- diamonds[index,]
+smaller_uncertain_diamonds <- uncertain_diamonds[index,]
+
 # GGPLOT
-ggplot(diamonds, aes(carat)) +
+ggplot(smaller_diamonds, aes(carat)) +
   geom_density()
 # GGDIBBLER
-ggplot(uncertain_diamonds, aes(carat)) +
-  geom_density_sample()
+ggplot(smaller_uncertain_diamonds, aes(carat)) +
+  geom_density_sample(size=0.2)
 
 # ORIENTATION FLIP RETURNS AN ERROR
 # GGPLOT
