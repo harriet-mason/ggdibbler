@@ -2,24 +2,8 @@
 library(tidyverse)
 library(distributional)
 
-######################################################## MPG DATA SET ####################################################
-set.seed(23102025)
-mpg <- ggplot2::mpg
-mpg_dist <- ggplot2::mpg
 
-# Categorical Variables
-# manufacturer # model # trans # drv # fl # class
-manufacturer_names <- unique(mpg_dist$manufacturer)
-model_names <- unique(mpg_dist$model)
-trans_names <- unique(mpg_dist$trans)
-drv_names <- unique(mpg_dist$drv)
-fl_names <- unique(mpg_dist$fl)
-class_names <- unique(mpg_dist$class)
-
-# Discrete variables (small)
-cyl_vals <- unique(mpg$cyl)
-
-# Convert them into dist_categorical
+# FUNCTIONS USED IN DATA CLEANING
 # function that takes name and returns a randomly generated prediction uncertainty
 prob_vals <- function(name, all_names){
   lambda <- which(name==all_names)
@@ -43,6 +27,47 @@ prob_vals2 <- function(name, all_names){
   }
   probs/sum(probs)
 }
+
+# for ordered random variables
+prob_vals3 <- function(name, all_names){
+  len <- length(all_names)
+  x <- which(name==all_names)
+  probs <- rep(0, len)
+  probs[x] <- runif(1,0.7,0.8)
+  posvec <- riffle(rev(seq(x-1)), seq((x+1),len))
+  if(x == 1) posvec <- 2:len
+  if(x == 5) posvec <- rev(1:(len-1))
+  for(i in posvec){
+    probs[i] <- runif(1, 0, (1-sum(probs)))
+  }
+  probs/sum(probs)
+}
+
+# interleave function for unequal lengths
+riffle <- function(a, b) {
+  n <- min(length(a), length(b))
+  p1 <- as.vector(rbind(a[1:n], b[1:n]))
+  p2 <- c(a[-(1:n)], b[-(1:n)]) # Remaining elements
+  c(p1, p2)
+}
+
+######################################################## MPG DATA SET ####################################################
+set.seed(23102025)
+mpg <- ggplot2::mpg
+mpg_dist <- ggplot2::mpg
+
+# Categorical Variables
+# manufacturer # model # trans # drv # fl # class
+manufacturer_names <- unique(mpg_dist$manufacturer)
+model_names <- unique(mpg_dist$model)
+trans_names <- unique(mpg_dist$trans)
+drv_names <- unique(mpg_dist$drv)
+fl_names <- unique(mpg_dist$fl)
+class_names <- unique(mpg_dist$class)
+
+# Discrete variables (small)
+cyl_vals <- unique(mpg$cyl)
+
 
 uncertain_mpg <- mpg |>
   tibble::rowid_to_column(var = "id") |>
@@ -78,40 +103,18 @@ usethis::use_data(uncertain_mpg, overwrite = TRUE)
 set.seed(25102025)
  
 uncertain_diamonds <- ggplot2::diamonds
-diamond_ind <- sample(nrow(uncertain_diamonds), size = 1000)
-uncertain_diamonds <- uncertain_diamonds[diamond_ind,]
-# interleave function for unequal lengths
-riffle <- function(a, b) {
-  n <- min(length(a), length(b))
-  p1 <- as.vector(rbind(a[1:n], b[1:n]))
-  p2 <- c(a[-(1:n)], b[-(1:n)]) # Remaining elements
-  c(p1, p2)
-}
-
-# for ordered random variables
-prob_vals3 <- function(name, all_names){
-  len <- length(all_names)
-  x <- which(name==all_names)
-  probs <- rep(0, len)
-  probs[x] <- runif(1,0.7,0.8)
-  posvec <- riffle(rev(seq(x-1)), seq((x+1),len))
-  if(x == 1) posvec <- 2:len
-  if(x == 5) posvec <- rev(1:(len-1))
-  for(i in posvec){
-    probs[i] <- runif(1, 0, (1-sum(probs)))
-  }
-  probs/sum(probs)
-}
+# diamond_ind <- sample(nrow(uncertain_diamonds), size = 1000)
+# uncertain_diamonds <- uncertain_diamonds[diamond_ind,]
 
 cut_names <- levels(uncertain_diamonds$cut)
 color_names <- levels(uncertain_diamonds$color)
 clarity_names <- levels(uncertain_diamonds$clarity)
-sd_carat <- sd(uncertain_diamonds$carat)
-sd_depth <- sd(uncertain_diamonds$depth)
-sd_table <- sd(uncertain_diamonds$table)
-sd_x <- sd(uncertain_diamonds$x)
-sd_y <- sd(uncertain_diamonds$y)
-sd_z <- sd(uncertain_diamonds$z)
+sd_carat <- sd(uncertain_diamonds$carat)/10
+sd_depth <- sd(uncertain_diamonds$depth)/10
+sd_table <- sd(uncertain_diamonds$table)/10
+sd_x <- sd(uncertain_diamonds$x)/10
+sd_y <- sd(uncertain_diamonds$y)/10
+sd_z <- sd(uncertain_diamonds$z)/10
 
 
 uncertain_diamonds <- uncertain_diamonds |>
