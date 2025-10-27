@@ -158,7 +158,6 @@ train_discrete_distribution <- function(
   if (!is_discrete(new)) {
     example <- unique(new)
     example <- example[seq_len(pmin(length(example), 5))]
-    print(example)
     cli::cli_abort(
       c(
         "Continuous value supplied to a discrete scale.",
@@ -180,7 +179,8 @@ ScaleDiscreteDistributionPosition <- ggproto(
   
   # Train
   train = function(self, x) {
-    if (is_discrete(unlist(generate(dist,1)))) {
+    if (ifelse(distributional::is_distribution(x), is_discrete(unlist(generate(x,1))),
+               is_discrete(x))) {
       self$range$train(x, drop = self$drop, na.rm = !self$na.translate)
     } else {
       self$range_c$train(x)
@@ -202,9 +202,7 @@ ScaleDiscreteDistributionPosition <- ggproto(
   # output:  a vector of mapped values in aesthetics space.
   map = function(self, x, limits = self$get_limits()) {
     if (is_discrete(x)){
-      a <- ggplot2::ggproto_parent(ggplot2::ScaleDiscretePosition, self)$map(x)
-      print(a)
-      a
+      ggplot2::ggproto_parent(ggplot2::ScaleDiscretePosition, self)$map(x)
     } else {
       x
     }
@@ -228,7 +226,6 @@ rescale.character <- function(
     from = range(x, na.rm = TRUE, finite = TRUE),
     ...
 ) {
-  print(x)
   if (zero_range(from) || zero_range(to)) {
     return(ifelse(is.na(x), NA, mean(to)))
   }
