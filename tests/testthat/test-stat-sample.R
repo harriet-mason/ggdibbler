@@ -6,7 +6,8 @@ named_data <- data.frame(
   y = c(distributional::dist_gamma(2,1), 
         distributional::dist_normal(5,1), 
         distributional::dist_exponential(1)),
-  colour = c(1,2,3)
+  colour = c(1,2,3),
+  group = 1
 )
 check <- sample_expand(named_data, times=100)
 

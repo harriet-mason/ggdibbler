@@ -12,8 +12,8 @@ test_that("geom_point_sample tests", {
   # no random variables used - just return normal points
   p1 <- ggplot(data = point_data) + 
     geom_point_sample(aes(x=xvar, y=yvar)) +
-    scale_x_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +
-    scale_y_distribution(name="I am also a random variable")
+    scale_x_continuous_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +
+    scale_y_continuous_distribution(name="I am also a random variable")
   expect_doppelganger("basic scale_x_distribution test", p1)
 }
 )
