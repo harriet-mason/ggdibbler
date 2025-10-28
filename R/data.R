@@ -85,3 +85,46 @@ NULL
 #' }
 #' @name uncertain_mtcars
 NULL
+
+#' An uncertain (and shrunk down) version of the diamonds data from`ggplot2` 
+#' 
+#' This dataset is a subset of the diamonds data. There is a deterministic version that is only 
+#' a subset (smaller_diamonds) and a version that has random variables (uncertain_smaller_diamonds). 
+#' The data is only a subset as the ggdibbler approach can take quite a long time when applied to
+#' the full sized diamonds data set. 
+#'
+#' @format A data frame with almost 54000 observations and 10 variables:
+#' \describe{
+#'   \item{price}{Binomial random variable - price in US dollars ($326–$18,823)}
+#'   \item{carat}{Normal random variable - weight of the diamond (0.2–5.01)}
+#'   \item{cut}{Categorical random variable - quality of the cut (Fair, Good, Very Good, Premium, Ideal)}
+#'   \item{colour}{Categorical random variable - diamond colour, from D (best) to J (worst)}
+#'   \item{clarity}{Categorical random variable - a measurement of how clear the diamond is (I1 (worst), SI2, SI1, VS2, VS1, VVS2, VVS1, IF (best))}
+#'   \item{x}{Normal random variable - length in mm (0–10.74)}
+#'   \item{y}{Normal random variable - width in mm (0–58.9)}
+#'   \item{z}{Normal random variable - depth in mm (0–31.8)}
+#'   \item{depth}{Normal random variable - total depth percentage = z / mean(x, y) = 2 * z / (x + y) (43–79)}
+#'   \item{table}{Normal random variable - width of top of diamond relative to widest point (43–95)}
+#' }
+#' @name smaller_diamonds
+#' @name smaller_uncertain_diamonds
+NULL
+
+#' An uncertain version of the economics data from`ggplot2`
+#' 
+#' This dataset is identical to the economics data, except that every  
+#' variable in the data set is represented by a normal
+#' random variable. The original `economics` dataset is based on real 
+#' US economic time series data, but the uncertainty we added is hypothetical 
+#' and included for illustrative purposes.
+#'
+#' @format A data frame with almost 574 observations and 6 variables:
+#' \describe{
+#'   \item{date}{A deterministic variable - Month of data collection}
+#'   \item{pce}{Normal random variable - personal consumption expenditures, in billions of dollars}
+#'   \item{pop}{Normal random variable - total population, in thousands}
+#'   \item{psavert}{Normal random variable - personal savings rate}
+#'   \item{uempmed}{Normal random variable - median duration of unemployment, in weeks}
+#'   \item{unemploy}{Normal random variable - number of unemployed in thousands}
+#' @name uncertain_economics
+NULL

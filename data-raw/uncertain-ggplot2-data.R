@@ -143,19 +143,34 @@ smaller_uncertain_diamonds <- uncertain_diamonds[diamond_ind,]
 usethis::use_data(smaller_diamonds, overwrite = TRUE)
 usethis::use_data(smaller_uncertain_diamonds, overwrite = TRUE)
 
-####################################################################################
+################################ ECONOMICS #######################################
+set.seed(28102025)
 
-#### Potential solution to ordinal problem? ####
-get_rownames <- attr_getter("row.names")
-get_rownames(mtcars)
-attr(uncertain_diamonds, "level")
+uncertain_economics <- ggplot2::economics
+
+sd_pce <- sd(uncertain_economics$pce)/5
+sd_pop <- sd(uncertain_economics$pop)/5
+sd_psavert <- sd(uncertain_economics$psavert)/5
+sd_uempmed <- sd(uncertain_economics$uempmed)/5
+sd_unemploy <- sd(uncertain_economics$unemploy)/5
+
+uncertain_economics <- uncertain_economics |>
+  tibble::rowid_to_column(var = "id") |>
+  group_by(id) |>
+  mutate(
+    pce = dist_normal(mu = pce, runif(1,0,sd_pce)),
+    pop = dist_normal(mu = pop, runif(1,0,sd_pop)),
+    psavert = dist_normal(mu = psavert, runif(1,0,sd_psavert)),
+    uempmed = dist_normal(mu = uempmed, runif(1,0,sd_uempmed)),
+    unemploy = dist_normal(mu = unemploy, runif(1,0,sd_unemploy))) |>
+  ungroup() |>
+  select(-id)
+
+usethis::use_data(uncertain_economics, overwrite = TRUE)
 
 
-# make level attribute
+uncertain_economics_long <- uncertain_economics |>
+  pivot_longer(cols = pce:unemploy, 
+               names_to = "variable", values_to = "value") 
 
-attr(uncertain_diamonds$cut, "level") <- cut_names
-attr(uncertain_diamonds$color, "level") <- color_names
-attr(uncertain_diamonds$clarity, "level") <- clarity_names
-
-get_level <- attr_getter("level")
-get_level(t(uncertain_diamonds))
+usethis::use_data(uncertain_economics_long , overwrite = TRUE)
