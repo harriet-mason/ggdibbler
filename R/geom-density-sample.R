@@ -19,9 +19,24 @@
 #' # Basic density plot
 #' # GGPLOT
 #' ggplot(smaller_diamonds, aes(carat)) + geom_density()
-#' 
 #' # GGDIBBLER
 #' ggplot(smaller_uncertain_diamonds, aes(carat)) + geom_density_sample()
+#' 
+#' # Flipped orientation
+#' # GGPLOT
+#' ggplot(smaller_diamonds, aes(y = carat)) +
+#'   geom_density()
+#' # GGDIBBLER
+#' ggplot(smaller_uncertain_diamonds, aes(y = carat)) +
+#'   geom_density_sample()
+#' 
+#' # Adjust smoothness
+#' #GGPLOT
+#' ggplot(smaller_diamonds, aes(carat)) +
+#'   geom_density(adjust = 1/5)
+#' #GGDIBBLER
+#' ggplot(smaller_uncertain_diamonds, aes(carat)) +
+#'   geom_density_sample(adjust = 1/5)
 geom_density_sample <- make_constructor(
   ggplot2::GeomDensity, stat = "density_sample", times = 10, outline.type = "upper",
   checks = rlang::exprs(

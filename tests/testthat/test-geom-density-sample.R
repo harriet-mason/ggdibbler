@@ -14,21 +14,20 @@ ggplot(smaller_diamonds, aes(carat)) +
 ggplot(smaller_uncertain_diamonds, aes(carat)) +
   geom_density_sample(size=0.2)
 
-####################### FAIL #################
-
-# ORIENTATION FLIP RETURNS AN ERROR
 # GGPLOT
-ggplot(diamonds, aes(y = carat)) +
+ggplot(smaller_diamonds, aes(y = carat)) +
   geom_density()
 # GGDIBBLER
-ggplot(uncertain_diamonds, aes(y = carat)) +
+ggplot(smaller_uncertain_diamonds, aes(y = carat)) +
   geom_density_sample()
 
-# DONT ACCEPT ADJUST PARAMETER
-ggplot(diamonds, aes(carat)) +
+# ACCEPTS ADJUST PARAMETER BUT DOESN'T DO ANYTHING
+ggplot(smaller_diamonds, aes(carat)) +
   geom_density(adjust = 1/5)
-ggplot(uncertain_diamonds, aes(carat)) +
+ggplot(smaller_uncertain_diamonds, aes(carat)) +
   geom_density_sample(adjust = 1/5)
+
+####################### FAIL #################
 
 
 # INTERACTING THE DRAWS WITH THE GROUPS SEEMS TO CREATE ISSUES HERE

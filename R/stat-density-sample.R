@@ -8,10 +8,9 @@ StatDensitySample <- ggproto("StatDensitySample", ggplot2::StatDensity,
                              setup_data = function(data, params) {
                                sample_expand(data, params$times)
                                },
-                               
-                               compute_panel = function(self, data, scales, times) {
-                                 ggproto_parent(StatDensity, self)$compute_panel(data, scales)
-                               }
+                             
+                             extra_params = c("na.rm", "times", "bw", "adjust", "kernel",
+                                              "n", "trim", "bounds", "flipped_aes")
                                
 )
             
