@@ -1,4 +1,7 @@
 library(vdiffr)
+library(ggplot2)
+library(distributional)
+
 test_that("geom_line_sample tests", {
   # no random variables used - just return normal points
   set.seed(24)

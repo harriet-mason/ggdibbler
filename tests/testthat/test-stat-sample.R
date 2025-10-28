@@ -1,3 +1,6 @@
+library(ggplot2)
+library(distributional)
+
 # Distribution data frame to test stat-sample
 named_data <- data.frame(
   x = c(distributional::dist_uniform(2,3), 

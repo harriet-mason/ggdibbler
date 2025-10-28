@@ -1,4 +1,6 @@
 library(vdiffr)
+library(ggplot2)
+library(distributional)
 
 test_that("geom_density_sample tests", {
   set.seed(323894)
