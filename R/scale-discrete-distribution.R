@@ -2,25 +2,24 @@
 #' 
 #' These scales allow for discrete distributions to be passed to the x and y position by mapping distribution objects
 #' to discrete aesthetics.
-#' These scale can be used similarly to the scale_*_discrete functions, but they do not
-#' accept transformations.
+#' These scale can be used similarly to the scale_*_discrete functions.
 #' If you want to transform your scale, you should apply a transformation through the coord_* functions,
 #' as they are applied after the stat, so the existing ggplot infastructure can be used.
 #' 
 #' @examples
 #' library(ggplot2)
-#' # GGPLOT
-#' p <- ggplot(diamonds, aes(x = cut, y = clarity))
-#' p + geom_count(aes(size = after_stat(prop)))
-#' # GGDIBBLER
-#' q <- ggplot(uncertain_diamonds, aes(x = cut, y = clarity))
-#' q + geom_count_sample(aes(size = after_stat(prop)), times=1, alpha=0.1)
+#' # ggplot
+#' ggplot(smaller_diamonds, aes(x = cut, y = clarity)) +
+#'  geom_count(aes(size = after_stat(prop)))
+#' # ggdibbler
+#' ggplot(smaller_uncertain_diamonds, aes(x = cut, y = clarity)) + 
+#'  geom_count_sample(aes(size = after_stat(prop)), times=10, alpha=0.1)
 #' @name scale_discrete_distribution
 NULL
 
 #' @export
-#' @importFrom ggplot2 waiver
-#' @importFrom scales oob_keep
+#' @importFrom ggplot2 waiver 
+#' @importFrom scales DiscreteRange
 #' @inheritParams ggplot2::scale_x_discrete
 #' @rdname scale_discrete_distribution
 scale_x_discrete_distribution <- function(
@@ -49,8 +48,8 @@ scale_x_discrete_distribution <- function(
 
 
 #' @export
-#' @importFrom ggplot2 waiver
-#' @importFrom scales oob_keep
+#' @importFrom ggplot2 waiver ScaleDiscretePosition discrete_scale ggproto_parent
+#' @importFrom distributional parameters generate is_distribution
 #' @inheritParams ggplot2::scale_y_discrete
 #' @rdname scale_discrete_distribution
 scale_y_discrete_distribution <- function(
@@ -145,7 +144,7 @@ train_discrete_distribution <- function(
     na.rm = FALSE,
     fct = NA,
     call = rlang::caller_env()
-) {
+    ) {
   if (is.null(new)) {
     return(existing)
   }
@@ -167,6 +166,7 @@ train_discrete_distribution <- function(
   scales:::discrete_range(existing, new, drop = drop, na.rm = na.rm, fct = fct)
 
 }
+
 
 #' @keywords internal
 ScaleDiscreteDistributionPosition <- ggproto( 
@@ -201,9 +201,9 @@ ScaleDiscreteDistributionPosition <- ggproto(
   map = function(self, x, limits = self$get_limits()) {
     if (distributional::is_distribution(x)){
       disc_to_int <- function(x) ggplot2::ggproto_parent(ggplot2::ScaleDiscretePosition, self)$map(x)
-      disc_levels <- parameters(x)$x
+      disc_levels <- distributional::parameters(x)$x
       int_to_disc <- function(int) {disc_levels[int]}
-      dist_transformed(x, disc_to_int, int_to_disc)
+      distributional::dist_transformed(x, disc_to_int, int_to_disc)
     } else if (is_discrete(x)){
       ggplot2::ggproto_parent(ggplot2::ScaleDiscretePosition, self)$map(x)
     } else {
@@ -211,8 +211,6 @@ ScaleDiscreteDistributionPosition <- ggproto(
     }
   }
 )
-
-#' @keywords internal
 
 
 # stole from ggplot

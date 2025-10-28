@@ -127,17 +127,16 @@ notation.
 \description{
 These scales allow for discrete distributions to be passed to the x and y position by mapping distribution objects
 to discrete aesthetics.
-These scale can be used similarly to the scale_*_discrete functions, but they do not
-accept transformations.
+These scale can be used similarly to the scale_*_discrete functions.
 If you want to transform your scale, you should apply a transformation through the coord_* functions,
 as they are applied after the stat, so the existing ggplot infastructure can be used.
 }
 \examples{
 library(ggplot2)
-# GGPLOT
-p <- ggplot(diamonds, aes(x = cut, y = clarity))
-p + geom_count(aes(size = after_stat(prop)))
-# GGDIBBLER
-q <- ggplot(uncertain_diamonds, aes(x = cut, y = clarity))
-q + geom_count_sample(aes(size = after_stat(prop)), times=1, alpha=0.1)
+# ggplot
+ggplot(smaller_diamonds, aes(x = cut, y = clarity)) +
+ geom_count(aes(size = after_stat(prop)))
+# ggdibbler
+ggplot(smaller_uncertain_diamonds, aes(x = cut, y = clarity)) + 
+ geom_count_sample(aes(size = after_stat(prop)), times=10, alpha=0.1)
 }
