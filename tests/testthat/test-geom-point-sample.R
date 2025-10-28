@@ -2,6 +2,7 @@
 library(ggplot2)
 library(distributional)
 library(vdiffr)
+
 # Make test data for geom_point_sample
 set.seed(1997)
 test_data <- data.frame(

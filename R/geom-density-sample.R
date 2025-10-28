@@ -1,0 +1,42 @@
+#' Visualise Densities with Uncertainty
+#' 
+#' Identical to geom_density, except that the fill for each density will be represented by
+#' a sample from each distribution. 
+#' 
+#' @inheritParams ggplot2::geom_density
+#' @importFrom rlang exprs arg_match0
+#' @importFrom ggplot2 make_constructor GeomDensity
+#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @examples
+#' library(ggplot2)
+#' 
+#' # Basic density plot
+#' # GGPLOT
+#' ggplot(smaller_diamonds, aes(carat)) + geom_density()
+#' # GGDIBBLER
+#' ggplot(smaller_uncertain_diamonds, aes(carat)) + geom_density_sample()
+#' 
+#' # Flipped orientation
+#' # GGPLOT
+#' ggplot(smaller_diamonds, aes(y = carat)) +
+#'   geom_density()
+#' # GGDIBBLER
+#' ggplot(smaller_uncertain_diamonds, aes(y = carat)) +
+#'   geom_density_sample()
+#' 
+#' # Adjust smoothness
+#' #GGPLOT
+#' ggplot(smaller_diamonds, aes(carat)) +
+#'   geom_density(adjust = 1/5)
+#' #GGDIBBLER
+#' ggplot(smaller_uncertain_diamonds, aes(carat)) +
+#'   geom_density_sample(adjust = 1/5)
+#' @export
+geom_density_sample <- make_constructor(
+  ggplot2::GeomDensity, stat = "density_sample", times = 10, outline.type = "upper",
+  checks = rlang::exprs(
+    outline.type <- rlang::arg_match0(outline.type, c("both", "upper", "lower", "full"))
+  )
+)
+
+

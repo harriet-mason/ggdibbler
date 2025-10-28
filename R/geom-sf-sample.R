@@ -7,7 +7,7 @@
 #' @importFrom rlang list2
 #' @importFrom lifecycle deprecated is_present deprecate_soft
 #' @param n Deprecated in favour of times.
-#' @param times A parameter used to control the number of cells in each grid. The geom will find the factors of times and select the ones that make the grid as square as possible. By default, times is set to 30.
+#' @param times A parameter used to control the number of cells in each grid. The geom will find the factors of times and select the ones that make the grid as square as possible.
 #' @returns A ggplot2 geom representing a sf_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_sf
 #' @examples
@@ -29,7 +29,7 @@
 #' @export
 geom_sf_sample <- function(mapping = aes(), data = NULL,
                            position = "identity", na.rm = FALSE, show.legend = NA,
-                           inherit.aes = TRUE, times = 30, n = deprecated(), ...) {
+                           inherit.aes = TRUE, times = 10, n = deprecated(), ...) {
   if (is_present(n)) {
     
     # Signal the deprecation to the user

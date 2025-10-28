@@ -1,8 +1,8 @@
 #' Visualise Uncertain Points
 #' 
 #' Identical to geom_point, except that it will accept a distribution in place of any of the usual aesthetics.
-
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' 
+#' @param times A parameter used to control the number of values sampled from each distribution.
 #' @importFrom ggplot2 aes layer GeomPoint
 #' @importFrom rlang list2
 #' @importFrom dplyr rename_with
@@ -10,69 +10,47 @@
 #' @inheritParams ggplot2::geom_point
 #' @examples
 #' library(ggplot2)
-#' library(dplyr)
-#' library(distributional)
-#' set.seed(1997)
-#' point_data <- data.frame(
-#'   random_x = c(dist_uniform(2,3),
-#'                dist_normal(3,2), 
-#'              dist_exponential(3)),
-#'   random_y = c(dist_gamma(2,1),
-#'              dist_sample(x = list(rnorm(100, 5, 1))),
-#'              dist_exponential(1)),
-#'    # have some uncertainty as to which category each value belongs to
-#'   random_colour = dist_categorical(prob = list(c(0.8,0.15,0.05),
-#'                                                  c(0.25,0.7,0.05),
-#'                                                  c(0.25,0,0.75)), 
-#'                                      outcomes = list(c("A", "B", "C"))),
-#'   deterministic_xy = c(1,2,3),
-#'   deterministic_colour = c("A", "B", "C"))
+#' 
+#'   # ggplot
+#' p <- ggplot(mtcars, aes(wt, mpg))
+#' p + geom_point()
+#' 
+#'   # ggdibbler - set the sample size with times
+#' q <- ggplot(uncertain_mtcars, aes(wt, mpg))
+#' q + geom_point_sample(times=20) 
+#' 
+#' # Add aesthetic mappings
+#' 
+#'  # ggplot
+#' p + geom_point(aes(colour = factor(cyl)))
+#'   # ggdibbler - a
+#' q + geom_point_sample(aes(colour = cyl))
+#'   # ggdibbler - b
+#'   # If you want the categorical colour for a factor,
+#'   # You would need to have a categorical rand variable 
+#'   # If you dont, you can always just compute the colour with after_stat()
+#' ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distcol=cyl)) + 
+#'   geom_point_sample(aes(colour = factor(after_stat(distcol))))
+#'   
+#'  # ggplot
+#' p + geom_point(aes(shape = factor(cyl))) 
+#'   # ggdibbler - a
+#' q + geom_point_sample(aes(shape = cyl)) + 
+#'   scale_shape_binned()
+#'   # ggdibbler - b
+#' ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distshape=cyl)) +
+#'   geom_point_sample(aes(shape = factor(after_stat(distshape))))
 #'  
-#' # check the data to see the random variables
-#' point_data
-#'   
-#' # basic random variables x and y
-#' ggplot() + 
-#'   geom_point_sample(data = point_data, aes(x=random_x, y=random_y))
-#'
-#' # random variables only x
-#' ggplot() + 
-#'   geom_point_sample(data = point_data, aes(x=random_x, y=deterministic_xy), 
-#'                     alpha = 0.3, times=50)
-#'   
-#' # deterministic colour, random x and y
-#' ggplot() + 
-#'   geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = deterministic_colour))
-#'   
-#' # random x, y, and colour
-#' ggplot() + 
-#'   geom_point_sample(data = point_data, aes(x=random_x, y=random_y, colour = random_colour), 
-#'                     times=1000, alpha=0.3)
+#' # A "bubblechart":
+#' # ggplot2
+#' p + geom_point(aes(size = qsec))
+#' # ggdibbler
+#' q + geom_point_sample(aes(size = qsec), alpha=0.5)
+#' 
+#' # Set aesthetics to fixed value
+#' # ggplot
+#' ggplot(mtcars, aes(wt, mpg)) + geom_point(colour = "red", size = 3)
+#' # ggdibbler
+#' ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample(colour = "red", size = 3)
 #' @export
-geom_point_sample <- function(mapping = NULL, data = NULL, stat = "identity", position = "identity",
-                              na.rm = FALSE, times=30, show.legend = NA, inherit.aes = TRUE, ...) {
-  layer(
-    data = data, 
-    mapping = mapping, 
-    geom = GeomPointSample, 
-    stat = StatSample, 
-    position = position, 
-    show.legend = show.legend, 
-    inherit.aes = inherit.aes, 
-    params = list2(
-      na.rm = na.rm,
-      times = times,
-      ...
-    )
-  )
-}
-
-#' @rdname geom_point_sample
-#' @format NULL
-#' @usage NULL
-#' @importFrom ggplot2 ggproto GeomPoint
-#' @export
-GeomPointSample <- ggproto("GeomPointSample", GeomPoint,
-                           )
-
-
+geom_point_sample <- make_constructor(GeomPoint, stat = "sample", times=10)

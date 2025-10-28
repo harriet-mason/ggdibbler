@@ -1,5 +1,8 @@
 # Define variables to stop CRAN checks from having a big ol' whinge
-utils::globalVariables(c("geometry", "drawID", "fill"))
+utils::globalVariables(c("geometry", "drawID", "fill", "unit"))
+
+##################### THINGS I HAD TO STEAL FROM GGPLOT ############
+
 
 # ggplot2:::ggplot_global
 ggplot_global <- list(
