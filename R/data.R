@@ -98,7 +98,7 @@ NULL
 #'   \item{price}{Binomial random variable - price in US dollars ($326–$18,823)}
 #'   \item{carat}{Normal random variable - weight of the diamond (0.2–5.01)}
 #'   \item{cut}{Categorical random variable - quality of the cut (Fair, Good, Very Good, Premium, Ideal)}
-#'   \item{colour}{Categorical random variable - diamond colour, from D (best) to J (worst)}
+#'   \item{color}{Categorical random variable - diamond colour, from D (best) to J (worst)}
 #'   \item{clarity}{Categorical random variable - a measurement of how clear the diamond is (I1 (worst), SI2, SI1, VS2, VS1, VVS2, VVS1, IF (best))}
 #'   \item{x}{Normal random variable - length in mm (0–10.74)}
 #'   \item{y}{Normal random variable - width in mm (0–58.9)}
@@ -106,9 +106,11 @@ NULL
 #'   \item{depth}{Normal random variable - total depth percentage = z / mean(x, y) = 2 * z / (x + y) (43–79)}
 #'   \item{table}{Normal random variable - width of top of diamond relative to widest point (43–95)}
 #' }
-#' @name smaller_diamonds
 #' @name smaller_uncertain_diamonds
 NULL
+
+#' @rdname smaller_uncertain_diamonds
+"smaller_diamonds"
 
 #' An uncertain version of the economics data from`ggplot2`
 #' 
@@ -126,5 +128,9 @@ NULL
 #'   \item{psavert}{Normal random variable - personal savings rate}
 #'   \item{uempmed}{Normal random variable - median duration of unemployment, in weeks}
 #'   \item{unemploy}{Normal random variable - number of unemployed in thousands}
+#'   }
 #' @name uncertain_economics
 NULL
+
+#' @rdname uncertain_economics
+"uncertain_economics_long"
