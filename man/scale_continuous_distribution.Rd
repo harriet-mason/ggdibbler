@@ -127,7 +127,7 @@ point_data <- data.frame(xvar = c(dist_uniform(2,3),
                                   dist_exponential(1)))
 ggplot(data = point_data) + 
   geom_point_sample(aes(x=xvar, y=yvar)) +
-  scale_x_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +
-  scale_y_distribution(name="I am also a random variable")
+  scale_x_continuous_distribution(name="Hello, I am a random variable", limits = c(-5, 10)) +
+  scale_y_continuous_distribution(name="I am also a random variable")
 
 }

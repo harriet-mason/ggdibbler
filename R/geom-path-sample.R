@@ -6,6 +6,7 @@
 #' @importFrom ggplot2 make_constructor GeomPath
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
+#' library(ggplot2)
 #' # geom_line() is suitable for time series
 #' #ggplot
 #' ggplot(economics, aes(date, unemploy)) + geom_line() 

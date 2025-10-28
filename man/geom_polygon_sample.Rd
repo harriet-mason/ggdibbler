@@ -133,6 +133,7 @@ Identical to geom_polygon, except that it will accept a distribution in place of
 # other the values associated with each polygon (values).  An id
 # variable links the two together
 library(distributional)
+library(ggplot2)
 library(dplyr)
 ids <- factor(c("1.1", "2.1", "1.2", "2.2", "1.3", "2.3"))
 values <- data.frame(

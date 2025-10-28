@@ -33,11 +33,11 @@ reference:
     use of the package. Most of these datasets are ggplot2 datasets with uncertainty
     added in.
   contents:
-  - toy_temp_dist
-  - toy_temp
+  - toy_temp_dist 
+  - toy_temp 
   - smaller_uncertain_diamonds 
-  - smaller_diamonds
+  - smaller_diamonds 
   - uncertain_mpg 
-  - uncertain_mtcars is a random variable
+  - uncertain_mtcars 
   - uncertain_economics 
-  - uncertain_economics_long
+  - uncertain_economics_long 

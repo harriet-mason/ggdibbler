@@ -154,7 +154,7 @@ p + geom_point(aes(size = qsec))
 # ggdibbler
 q + geom_point_sample(aes(size = qsec), alpha=0.5)
 
-Set aesthetics to fixed value
+# Set aesthetics to fixed value
 # ggplot
 ggplot(mtcars, aes(wt, mpg)) + geom_point(colour = "red", size = 3)
 # ggdibbler

@@ -177,6 +177,7 @@ adjacent x-values.}
 Identical to geom_path, except that it will accept a distribution in place of any of the usual aesthetics.
 }
 \examples{
+library(ggplot2)
 # geom_line() is suitable for time series
 #ggplot
 ggplot(economics, aes(date, unemploy)) + geom_line() 

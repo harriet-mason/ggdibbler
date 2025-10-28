@@ -129,6 +129,9 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 Identical to geom_bar, except that it will accept a distribution in place of any of the usual aesthetics.
 }
 \examples{
+library(distributional)
+library(ggplot2)
+
 g <- ggplot(mpg, aes(class)) #ggplot
 q <- ggplot(uncertain_mpg, aes(class)) #ggdibbler
 

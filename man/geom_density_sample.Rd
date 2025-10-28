@@ -132,13 +132,7 @@ Identical to geom_density, except that the fill for each density will be represe
 a sample from each distribution.
 }
 \examples{
-library(ggplot)
-
-# make diamonds data smaller because otherwise there is no uncertainty and takes too long
-set.seed(248)
-index <- sample(nrow(uncertain_diamonds), size = 100)
-smaller_diamonds <- diamonds[index,]
-smaller_uncertain_diamonds <- uncertain_diamonds[index,]
+library(ggplot2)
 
 # Basic density plot
 # GGPLOT

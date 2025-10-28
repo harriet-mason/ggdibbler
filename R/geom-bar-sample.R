@@ -6,6 +6,9 @@
 #' @importFrom ggplot2 make_constructor GeomBar
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
+#' library(distributional)
+#' library(ggplot2)
+#' 
 #' g <- ggplot(mpg, aes(class)) #ggplot
 #' q <- ggplot(uncertain_mpg, aes(class)) #ggdibbler
 #' 
