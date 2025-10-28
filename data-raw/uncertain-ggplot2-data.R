@@ -74,17 +74,17 @@ uncertain_mpg <- mpg |>
   group_by(id) |>
   mutate(
 # Categorical Variables: # manufacturer # model # trans # drv # fl # class
-         manufacturer = dist_categorical(prob = list(prob_vals(manufacturer, manufacturer_names)),
+         manufacturer = dist_categorical(prob = list(prob_vals2(manufacturer, manufacturer_names)),
                                          outcomes = list(manufacturer_names)),
-         model = dist_categorical(prob = list(prob_vals(model, model_names)),
+         model = dist_categorical(prob = list(prob_vals2(model, model_names)),
                                          outcomes = list(model_names)),
-         trans = dist_categorical(prob = list(prob_vals(trans, trans_names)),
+         trans = dist_categorical(prob = list(prob_vals2(trans, trans_names)),
                                          outcomes = list(trans_names)),
-         drv = dist_categorical(prob = list(prob_vals(drv, drv_names)),
+         drv = dist_categorical(prob = list(prob_vals2(drv, drv_names)),
                                          outcomes = list(drv_names)),
-         fl = dist_categorical(prob = list(prob_vals(fl, fl_names)),
+         fl = dist_categorical(prob = list(prob_vals2(fl, fl_names)),
                                          outcomes = list(fl_names)),
-         class = dist_categorical(prob = list(prob_vals(class, class_names)),
+         class = dist_categorical(prob = list(prob_vals2(class, class_names)),
                                outcomes = list(class_names)),
 # Continuous: # displ
          displ = dist_uniform(displ - runif(1, 0, 1), displ + runif(1, 0, 1)),
@@ -101,10 +101,6 @@ usethis::use_data(uncertain_mpg, overwrite = TRUE)
 
 ################################### DIAMONDS DATA SET ################################################
 set.seed(25102025)
- 
-uncertain_diamonds <- ggplot2::diamonds
-# diamond_ind <- sample(nrow(uncertain_diamonds), size = 1000)
-# uncertain_diamonds <- uncertain_diamonds[diamond_ind,]
 
 cut_names <- levels(uncertain_diamonds$cut)
 color_names <- levels(uncertain_diamonds$color)
@@ -137,6 +133,29 @@ uncertain_diamonds <- uncertain_diamonds |>
   ungroup() |>
   select(-id)
 
-usethis::use_data(uncertain_diamonds, overwrite = TRUE)
+
+# usethis::use_data(uncertain_diamonds, overwrite = TRUE)
+
+diamond_ind <- sample(nrow(ggplot2::diamonds), size = 1000)
+smaller_diamonds <- ggplot2::diamonds[diamond_ind,]
+smaller_uncertain_diamonds <- uncertain_diamonds[diamond_ind,]
+
+usethis::use_data(smaller_diamonds, overwrite = TRUE)
+usethis::use_data(smaller_uncertain_diamonds, overwrite = TRUE)
+
+####################################################################################
+
+#### Potential solution to ordinal problem? ####
+get_rownames <- attr_getter("row.names")
+get_rownames(mtcars)
+attr(uncertain_diamonds, "level")
 
 
+# make level attribute
+
+attr(uncertain_diamonds$cut, "level") <- cut_names
+attr(uncertain_diamonds$color, "level") <- color_names
+attr(uncertain_diamonds$clarity, "level") <- clarity_names
+
+get_level <- attr_getter("level")
+get_level(t(uncertain_diamonds))
