@@ -23,8 +23,6 @@ NULL
 #' @importFrom scales oob_keep
 #' @inheritParams ggplot2::scale_x_discrete
 #' @rdname scale_discrete_distribution
-
-
 scale_x_discrete_distribution <- function(
     name = waiver(), 
     palette = seq_len,
@@ -201,16 +199,20 @@ ScaleDiscreteDistributionPosition <- ggproto(
   # input: x = dist vector, limits = dist vector as limits
   # output:  a vector of mapped values in aesthetics space.
   map = function(self, x, limits = self$get_limits()) {
-    if (is_discrete(x)){
+    if (distributional::is_distribution(x)){
+      disc_to_int <- function(x) ggplot2::ggproto_parent(ggplot2::ScaleDiscretePosition, self)$map(x)
+      disc_levels <- parameters(x)$x
+      int_to_disc <- function(int) {disc_levels[int]}
+      dist_transformed(x, disc_to_int, int_to_disc)
+    } else if (is_discrete(x)){
       ggplot2::ggproto_parent(ggplot2::ScaleDiscretePosition, self)$map(x)
     } else {
       x
     }
   }
-  
-
-  
 )
+
+#' @keywords internal
 
 
 # stole from ggplot
@@ -219,17 +221,6 @@ is_discrete <- function(x) {
   is.factor(x) || is.character(x) || is.logical(x)
 }
 
-#' @exportS3Method scales::rescale
-rescale.character <- function(
-    x,
-    to = c(0, 1),
-    from = range(x, na.rm = TRUE, finite = TRUE),
-    ...
-) {
-  if (zero_range(from) || zero_range(to)) {
-    return(ifelse(is.na(x), NA, mean(to)))
-  }
-  (x - from[1]) / diff(from) * diff(to) + to[1]
-}
+
 
 
