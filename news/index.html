@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,63 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="ggdibbler-development-version">ggdibbler (development version)<a class="anchor" aria-label="anchor" href="#ggdibbler-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3.0" id="ggdibbler-030">ggdibbler 0.3.0<a class="anchor" aria-label="anchor" href="#ggdibbler-030"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="version-v030">Version v0.3.0<a class="anchor" aria-label="anchor" href="#version-v030"></a></h2>
+<div class="section level3">
+<h3 id="new-featues-0-3-0">New Featues<a class="anchor" aria-label="anchor" href="#new-featues-0-3-0"></a></h3>
+<div class="section level4">
+<h4 id="functions-0-3-0">Functions<a class="anchor" aria-label="anchor" href="#functions-0-3-0"></a></h4>
+<p>These functions are all heavily in development, and I cannot (and do not) guarantee their usability beyond the use cases presented in the example code. There are still some kinks to work out with the grouping solution. You are welcome to use them, but I would stick to the example cases for the next few weeks (don’t go crazy with any random fill or group aesthetics is all I will say). New additions to stats and geoms include:</p>
+<ul><li>
+<code>geom_bar_sample</code>, <code>geom_col_sample</code> and <code>stat_count_sample</code>
+</li>
+<li>
+<code>geom_count_sample</code> and <code>stat_sum_sample</code>
+</li>
+<li><code>geom_jitter_sample</code></li>
+<li>
+<code>geom_density_sample</code> and <code>stat_density_sample</code>
+</li>
+<li>
+<code>geom_text_sample</code> and <code>geom_label_sample</code>
+</li>
+<li><code>geom_polygon_sample</code></li>
+<li><code>geom_rug_sample</code></li>
+<li>
+<code>geom_path_sample</code>, <code>geom_line_sample</code>, and <code>geom_step_sample</code>
+</li>
+</ul><p>We also have the addition of a discrete position distribution scale:</p>
+<ul><li>
+<code>scale_x_discrete_distribution</code> &amp; <code>scale_y_discrete_distribution</code>
+</li>
+</ul></div>
+<div class="section level4">
+<h4 id="data-sets-0-3-0">Data sets<a class="anchor" aria-label="anchor" href="#data-sets-0-3-0"></a></h4>
+<p>As we go through and replicate the <code>ggplot2</code> examples, we have been adding random versions of the <code>ggplot2</code> data sets. This will make it clear to the users how the package works, and highlight that the uncertainty visualisation is a function of an existing graphic.</p>
+<ul><li>
+<code>smaller_diamonds</code> is a subset of <code><a href="https://ggplot2.tidyverse.org/reference/diamonds.html" class="external-link">ggplot2::diamonds</a></code>
+</li>
+<li>
+<code>smaller_uncertain_diamonds</code> is a random variable version of <code>smaller_diamonds</code>
+</li>
+<li>
+<code>uncertain_mpg</code> is a random variable version of <code><a href="https://ggplot2.tidyverse.org/reference/mpg.html" class="external-link">ggplot2::mpg</a></code>
+</li>
+<li>
+<code>uncertain_mtcars</code> is a random variable</li>
+<li>
+<code>uncertain_economics</code> and <code>uncertain_economics_longer</code> are random variable version of <code><a href="https://ggplot2.tidyverse.org/reference/economics.html" class="external-link">ggplot2::economics</a></code>
+</li>
+</ul></div>
+</div>
+<div class="section level3">
+<h3 id="changes-0-3-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-3-0"></a></h3>
+<ul><li>We changed <code>scale_*_distribution</code> to <code>scale_*_continuous_distribution</code>
+<ul><li>This is because we have included <code>scale_*_discrete_distribution</code> to allow plotting of discrete random variables</li>
+</ul></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="version-v020">Version v0.2.0<a class="anchor" aria-label="anchor" href="#version-v020"></a></h2>

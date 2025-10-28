@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,16 +47,64 @@
 
       <dl><dt>
 
+          <code><a href="geom_bar_sample.html">geom_bar_sample()</a></code> <code><a href="geom_bar_sample.html">geom_col_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain Bar Charts</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_count_sample.html">geom_count_sample()</a></code> <code><a href="geom_count_sample.html">stat_count()</a></code> <code><a href="geom_count_sample.html">stat_sum_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain Count overlapping points</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_density_sample.html">geom_density_sample()</a></code> <code><a href="geom_density_sample.html">stat_density_sample()</a></code>
+
+        </dt>
+        <dd>Visualise Densities with Uncertainty</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_jitter_sample.html">geom_jitter_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain Jittered Points</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_path_sample.html">geom_path_sample()</a></code> <code><a href="geom_path_sample.html">geom_line_sample()</a></code> <code><a href="geom_path_sample.html">geom_step_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain Connected observations</dd>
+      </dl><dl><dt>
+
           <code><a href="geom_point_sample.html">geom_point_sample()</a></code>
 
         </dt>
         <dd>Visualise Uncertain Points</dd>
       </dl><dl><dt>
 
-          <code><a href="geom_sf_sample.html">geom_sf_sample()</a></code> <code><a href="geom_sf_sample.html">stat_sample()</a></code>
+          <code><a href="geom_polygon_sample.html">geom_polygon_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain Polygons</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_rug_sample.html">geom_rug_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain Rug plots in the margins</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_sf_sample.html">geom_sf_sample()</a></code>
 
         </dt>
         <dd>Visualise Sf Objectjects with Uncertainty</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_text_sample.html">geom_label_sample()</a></code> <code><a href="geom_text_sample.html">geom_text_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain Text</dd>
       </dl></div><div class="section level2">
       <h2 id="stats">Stats<a class="anchor" aria-label="anchor" href="#stats"></a></h2>
 
@@ -70,10 +118,10 @@
 
       <dl><dt>
 
-          <code><a href="geom_sf_sample.html">geom_sf_sample()</a></code> <code><a href="geom_sf_sample.html">stat_sample()</a></code>
+          <code><a href="stat_sample.html">stat_sample()</a></code>
 
         </dt>
-        <dd>Visualise Sf Objectjects with Uncertainty</dd>
+        <dd>Generates a sample from a distribution</dd>
       </dl></div><div class="section level2">
       <h2 id="scale">Scale<a class="anchor" aria-label="anchor" href="#scale"></a></h2>
 
@@ -87,10 +135,16 @@
 
       <dl><dt>
 
-          <code><a href="scale_distribution.html">scale_x_distribution()</a></code> <code><a href="scale_distribution.html">scale_y_distribution()</a></code>
+          <code><a href="scale_continuous_distribution.html">scale_x_continuous_distribution()</a></code> <code><a href="scale_continuous_distribution.html">scale_y_continuous_distribution()</a></code>
 
         </dt>
-        <dd>Position scales for distributions</dd>
+        <dd>Position scales for continuous distributions</dd>
+      </dl><dl><dt>
+
+          <code><a href="scale_discrete_distribution.html">scale_x_discrete_distribution()</a></code> <code><a href="scale_discrete_distribution.html">scale_y_discrete_distribution()</a></code>
+
+        </dt>
+        <dd>Position scales for discrete distributions</dd>
       </dl><dl><dt>
 
           <code><a href="scale_type.distribution.html">scale_type(<i>&lt;distribution&gt;</i>)</a></code>
@@ -100,7 +154,7 @@
       </dl></div><div class="section level2">
       <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
 
-      <div class="section-desc"><p>ggdibbler comes with a handful of data sets with uncertain values to show the use of the package.</p></div>
+      <div class="section-desc"><p>ggdibbler comes with a handful of data sets with uncertain values to show the use of the package. Most of these datasets are ggplot2 datasets with uncertainty added in.</p></div>
 
 
     </div><div class="section level2">
@@ -120,6 +174,30 @@
 
         </dt>
         <dd>A toy data set that has the ambient temperature as measured by a collection of citizen scientists for each Iowa county</dd>
+      </dl><dl><dt>
+
+          <code><a href="smaller_uncertain_diamonds.html">smaller_diamonds</a></code>
+
+        </dt>
+        <dd>An uncertain (and shrunk down) version of the diamonds data from`ggplot2`</dd>
+      </dl><dl><dt>
+
+          <code><a href="uncertain_mpg.html">uncertain_mpg</a></code>
+
+        </dt>
+        <dd>An uncertain version of the MPG data from `ggplot2`</dd>
+      </dl><dl><dt>
+
+          <code><a href="uncertain_mtcars.html">uncertain_mtcars</a></code>
+
+        </dt>
+        <dd>An uncertain version of the mtcars data from base R `datasets`</dd>
+      </dl><dl><dt>
+
+          <code><a href="uncertain_economics.html">uncertain_economics_long</a></code>
+
+        </dt>
+        <dd>An uncertain version of the economics data from`ggplot2`</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
