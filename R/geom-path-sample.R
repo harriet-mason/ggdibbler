@@ -56,12 +56,12 @@ geom_path_sample <- make_constructor(ggplot2::GeomPath, stat = "sample", times=1
 
 #' @export
 #' @inheritParams ggplot2::geom_line
-#' @importFrom ggplot2 make_constructor GeomPath
+#' @importFrom ggplot2 make_constructor GeomLine
 #' @rdname geom_path_sample
-geom_line_sample <- make_constructor(GeomLine, stat = "sample", times=10, orientation = NA)
+geom_line_sample <- make_constructor(ggplot2::GeomLine, stat = "sample", times=10, orientation = NA)
 
 #' @export
 #' @inheritParams ggplot2::geom_line
 #' @importFrom ggplot2 make_constructor GeomStep
 #' @rdname geom_path_sample
-geom_step_sample <- make_constructor(GeomStep, stat = "sample", times=10, orientation = NA)
+geom_step_sample <- make_constructor(ggplot2::GeomStep, stat = "sample", times=10, orientation = NA)
