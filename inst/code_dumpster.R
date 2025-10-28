@@ -1,3 +1,20 @@
+
+# Potential solution to ordinal problem? - Level attributes
+get_rownames <- attr_getter("row.names")
+get_rownames(mtcars)
+attr(uncertain_diamonds, "level")
+
+attr(uncertain_diamonds$cut, "level") <- cut_names
+attr(uncertain_diamonds$color, "level") <- color_names
+attr(uncertain_diamonds$clarity, "level") <- clarity_names
+
+get_level <- attr_getter("level")
+get_level(t(uncertain_diamonds))
+
+
+
+
+# Idk something to do with the discrete scale
 onedist <- smaller_uncertain_diamonds$cut[1]
 generate(t_dist,5)
 
@@ -5,7 +22,7 @@ manydist <- smaller_uncertain_diamonds$cut[1:5]
 tm_dist <- dist_transformed(manydist, disc_to_int, int_to_disc)
 generate(tm_dist,5)
 
-DIST_TRAN_ALTERNATIVE <- function(dist){
+dist_tran alternative <- function(dist){
   # categorical integers
   if(unique(family(x)) == "categorical"){
     dist_param <- parameters(x)
