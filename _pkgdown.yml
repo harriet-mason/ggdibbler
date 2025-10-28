@@ -9,8 +9,7 @@ reference:
     you will typically interact with ggdibbler, as it is how you usually
     interact with ggplot2. 
   contents:
-  - geom_point_sample
-  - geom_sf_sample
+  - starts_with("geom_")
 
 - title: Stats
   desc: >
@@ -31,7 +30,14 @@ reference:
 - title: Data
   desc: >
     ggdibbler comes with a handful of data sets with uncertain values to show the
-    use of the package.
+    use of the package. Most of these datasets are ggplot2 datasets with uncertainty
+    added in.
   contents:
   - toy_temp_dist
   - toy_temp
+  - smaller_uncertain_diamonds 
+  - smaller_diamonds
+  - uncertain_mpg 
+  - uncertain_mtcars is a random variable
+  - uncertain_economics 
+  - uncertain_economics_long
