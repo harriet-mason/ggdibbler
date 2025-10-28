@@ -1,6 +1,7 @@
 
-# 1) check ggplot code and see which geom/stat are used
-# 2) if stat is used, make new stat with
+# 1) Check ggplot code and see which geom/stat are used
+
+# 2) If stat is used, Make new R file with:
 #  --------- STAT ---------
 
 #' @importFrom ggplot2 ggproto Stat***
@@ -22,11 +23,10 @@ Stat***Sample <- ggplot2::ggproto("Stat***Sample", ggplot2::Stat***,
 #' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
 stat_sum_sample <- make_constructor(StatSumSample, geom = "point", times = 10)
 
-#  ------------------
 
 
 
-# 3) Make new geom with
+# 3) Make new geom in a new R file with:
 
 #  --------- GEOM ---------
 
@@ -38,12 +38,13 @@ stat_sum_sample <- make_constructor(StatSumSample, geom = "point", times = 10)
 #' @importFrom ggplot2 make_constructor Geom***
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
+#' print("replace me")
 #' @export
 geom_***_sample <- make_constructor(ggplot2::Geom***, stat = "***_sample", times=10)
 
 
 # 4) Test function. First open a test file with
-# usethis::use_test
+# usethis::use_test()
 
 # Get geom examples with ?geom_* and populate test file
 
