@@ -1,5 +1,5 @@
 #' @importFrom ggplot2 ggproto StatCount
-#' @rdname geom_count_sample
+#' @rdname geom_bar_sample
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -19,15 +19,15 @@ StatCountSample <- ggplot2::ggproto("StatCountSample", ggplot2::StatCount,
                                         x <- if (params$flipped_aes) "y" else "x"
                                         params$width <- resolution_dist(data[[x]], discrete = TRUE) * 0.9
                                       }
-                                      # print(params$width)
                                       
                                       params
                                     },
                                   
                                   
-                                  setup_data = function(data, params) {
-                                    sample_expand(data, params$times) 
-                                  },
+                                    
+                                    setup_data = function(data, params) {
+                                      dibble_to_tibble(data, params)
+                                    },
                                   
                                   extra_params = c("na.rm", "times", "orientation",
                                                    "width", "flipped_aes"),

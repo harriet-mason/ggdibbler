@@ -4,14 +4,11 @@
 #' @usage NULL
 #' @export
 StatSumSample <- ggplot2::ggproto("StatSumSample", ggplot2::StatSum,
-                         setup_data = function(data, params) {
-                           sample_expand(data, params$times) 
-                           },
-                         
-                         compute_panel = function(self, data, scales, times) {
-                           ggproto_parent(StatSum, self)$compute_panel(data, scales)
-                         }
-                             
+                                  setup_data = function(data, params) {
+                                    dibble_to_tibble(data, params)
+                                  },
+                                  
+                                  extra_params = c("na.rm", "times")
 )
 
 #' @export

@@ -1,35 +1,15 @@
 #' @export
 #' @usage NULL
 #' @format NULL
-#' @importFrom ggplot2 ggproto Stat
+#' @importFrom ggplot2 ggproto StatIdentity
 #' @rdname stat_sample
-StatSample <- ggproto("StatSample", Stat,
-                      setup_data = function(data, params) {
-                        sample_expand(data, params$times)
-                      },
-                      compute_group = function(self, data, scales, times) {
-                        data
-                      }
+StatSample <- ggplot2::ggproto("StatSample", ggplot2::StatIdentity,
+                               setup_data = function(data, params) {
+                                 dibble_to_tibble(data, params)
+                                 },
+                               
+                               extra_params = c("na.rm", "times")
 )
-
-#' @keywords internal
-sample_expand <- function(data, times){ 
-  # Check which variables are distributions
-  distcols <- names(data)[sapply(data, distributional::is_distribution)]
-  othcols <- setdiff(names(data), distcols)
-  
-  # Check for at least one distribution vector
-  if(length(distcols)==0) return(data)
-  
-  # Sample from distribution variables
-  data |>
-    dplyr::mutate(dplyr::across(dplyr::all_of(distcols), ~ distributional::generate(.x, times = times))) |>
-    tidyr::unnest_longer(dplyr::all_of(distcols)) |>
-    tibble::rowid_to_column(var = "drawID") |>
-    dplyr::mutate(drawID = drawID%%times + 1) |>
-    dplyr::mutate(group = abs(group*drawID )) |>
-    as.data.frame()
-}
 
 #' Generates a sample from a distribution
 #' 

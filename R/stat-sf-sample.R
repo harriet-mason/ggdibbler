@@ -9,6 +9,7 @@ StatSfSample <- ggproto("StatSfSample", StatSf,
                           sample_subdivide_sf(data, params$times)
                         },
                         # This is just here so setup_data has access to n
+                        extra_params = c("na.rm", "times"),
                         compute_panel = function(self, data, scales, coord, times) {
                           ggproto_parent(StatSf, self)$compute_panel(data, scales, coord)
                           }

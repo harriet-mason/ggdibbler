@@ -197,15 +197,6 @@ ScaleContinuousDistributionPosition <- ggproto(
   # input: x - A vector of the relevant aesthetics
   # output: a vector of transformed values.
   transform = function(self, x) {
-    if (rlang::is_bare_numeric(x)) {
-      cli::cli_abort(
-        c(
-          "A {.cls numeric} value was passed to a {.field distributional} scale.",
-          i = "Please use the distributional package to create distribution values."
-        ),
-        call = self$call
-      )
-    }
     ggplot2::ggproto_parent(ggplot2::ScaleContinuousPosition, self)$transform(x)
   },
   
