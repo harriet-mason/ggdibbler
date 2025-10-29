@@ -4,7 +4,6 @@
 \docType{data}
 \name{geom_count_sample}
 \alias{geom_count_sample}
-\alias{StatCountSample}
 \alias{stat_count}
 \alias{StatDensitySample}
 \alias{StatSumSample}
