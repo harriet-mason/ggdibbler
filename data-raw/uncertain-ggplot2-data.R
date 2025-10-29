@@ -168,9 +168,18 @@ uncertain_economics <- uncertain_economics |>
 
 usethis::use_data(uncertain_economics, overwrite = TRUE)
 
+rescale_mean <- function(x) (x - min(x)) / diff(range(x))
+rescale_variance <- function(x) x / (diff(range(x)))^2
 
 uncertain_economics_long <- uncertain_economics |>
   pivot_longer(cols = pce:unemploy, 
-               names_to = "variable", values_to = "value") 
+               names_to = "variable", values_to = "value")|>
+  mutate(mean = mean(value),
+         variance = variance(value)) |>
+  group_by(variable) |>
+  mutate(value0 = dist_normal(rescale_mean(mean), sqrt(rescale_variance(variance)))) |>
+  ungroup() |>
+  select(!mean:variance)
+  
 
 usethis::use_data(uncertain_economics_long , overwrite = TRUE)
