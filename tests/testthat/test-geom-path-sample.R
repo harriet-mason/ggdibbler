@@ -1,7 +1,17 @@
 library(vdiffr)
 library(ggplot2)
-library(mutate)
+library(dplyr)
 library(distributional)
+
+# data for last example
+x <- seq(0.01, .99, length.out = 100)
+df <- data.frame(
+  x = rep(x, 2),
+  y = c(qlogis(x), 2 * qlogis(x)),
+  group = rep(c("a","b"),
+              each = 100)
+  )
+uncertain_df <- df |> mutate(y=dist_normal(y, 0.3))
 
 test_that("geom_line_path_step_sample tests", {
   # no random variables used - just return normal points
@@ -63,7 +73,6 @@ test_that("geom_line_path_step_sample tests", {
   p14 <- p12  + geom_path_sample(aes(colour = as.numeric(date)), alpha=0.3)
   expect_doppelganger("example14", p14)
   
-  uncertain_df <- df |> mutate(y=dist_normal(y, 0.3))
   p15 <- ggplot(uncertain_df, aes(x, y)) + geom_point_sample() + geom_line_sample() 
   expect_doppelganger("example15", p15)
   
