@@ -43,8 +43,7 @@ adjust_grouping <- function(data, discretedists){
   
   # get list of variables to interact & edit group
   intvars <- c("group", discretedists, "drawID")
-  data$group <- interaction(data[,intvars])
-  
+  data$group <- as.numeric(interaction(data[,intvars]))
   # convert to data frame for weight warning
   as.data.frame(data)
   }
@@ -59,7 +58,6 @@ get_dist_cols <- function(data){
 get_discrete_cols <- function(data){
   names(data)[sapply(data, is_discrete)]
 }
-
 
 #' @keywords internal
 # Internal function that edits data inside stat
