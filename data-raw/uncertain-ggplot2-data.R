@@ -102,6 +102,8 @@ usethis::use_data(uncertain_mpg, overwrite = TRUE)
 ################################### DIAMONDS DATA SET ################################################
 set.seed(25102025)
 
+uncertain_diamonds <- ggplot2::diamonds
+
 cut_names <- levels(uncertain_diamonds$cut)
 color_names <- levels(uncertain_diamonds$color)
 clarity_names <- levels(uncertain_diamonds$clarity)
