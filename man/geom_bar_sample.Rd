@@ -26,7 +26,7 @@ geom_bar_sample(
 geom_col_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "dodge",
   ...,
   just = 0.5,

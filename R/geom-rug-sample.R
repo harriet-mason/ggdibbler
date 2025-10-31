@@ -28,4 +28,4 @@
 #' p + geom_rug(sides="trbl") #ggplot
 #' q + geom_rug_sample(sides="trbl") #ggdibbler
 #' @export
-geom_rug_sample <- make_constructor(GeomRug, stat = "sample", times=10)
+geom_rug_sample <- make_constructor(GeomRug, stat = "identity_sample", times=10)

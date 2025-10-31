@@ -28,7 +28,7 @@
 #' p + geom_jitter(width = 0.2) # ggplot
 #' q + geom_jitter_sample(width = 0.2, times=10) # ggdibbler
 #' @export
-geom_jitter_sample <- function(mapping = NULL, data = NULL, stat = "sample", position = "jitter",
+geom_jitter_sample <- function(mapping = NULL, data = NULL, stat = "identity_sample", position = "jitter",
                         ..., width = NULL, height = NULL, na.rm = FALSE, times=10,
                         show.legend = NA, inherit.aes = TRUE) {
   if (!missing(width) || !missing(height)) {

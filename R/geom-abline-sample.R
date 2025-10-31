@@ -49,7 +49,7 @@
 #'                        times=30, alpha=0.1)
 #' @export
 geom_abline_sample <- function(mapping = NULL, data = NULL,
-                               stat = "sample", 
+                               stat = "identity_sample", 
                                times = 10,
                                ...,
                                slope,

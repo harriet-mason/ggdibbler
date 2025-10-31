@@ -8,7 +8,7 @@
 geom_label_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "nudge",
   ...,
   times = 10,
@@ -26,7 +26,7 @@ geom_label_sample(
 geom_text_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "nudge",
   ...,
   times = 10,

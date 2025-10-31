@@ -5,7 +5,7 @@
 #' @export
 #' @rdname geom_abline_sample
 geom_vline_sample <- function(mapping = NULL, data = NULL,
-                       stat = "sample", position = "identity",
+                       stat = "identity_sample", position = "identity",
                        ...,
                        times = 10,
                        xintercept,

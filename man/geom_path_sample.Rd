@@ -9,7 +9,7 @@
 geom_path_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,
@@ -26,7 +26,7 @@ geom_path_sample(
 geom_line_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,
@@ -44,7 +44,7 @@ geom_line_sample(
 geom_step_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,

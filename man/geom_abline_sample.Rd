@@ -10,7 +10,7 @@
 geom_abline_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   times = 10,
   ...,
   slope,
@@ -23,7 +23,7 @@ geom_abline_sample(
 geom_hline_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,
@@ -36,7 +36,7 @@ geom_hline_sample(
 geom_vline_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,

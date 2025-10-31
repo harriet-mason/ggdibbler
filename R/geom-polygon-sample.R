@@ -60,4 +60,4 @@
 #' q + geom_line_sample(data = uncertain_stream, colour = "grey30", linewidth = 1)
 #' 
 #' @export
-geom_polygon_sample <- make_constructor(ggplot2::GeomPolygon, stat = "sample", times=10)
+geom_polygon_sample <- make_constructor(ggplot2::GeomPolygon, stat = "identity_sample", times=10)

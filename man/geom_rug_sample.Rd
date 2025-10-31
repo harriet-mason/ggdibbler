@@ -7,7 +7,7 @@
 geom_rug_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,

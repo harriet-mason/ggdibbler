@@ -84,16 +84,16 @@
 #' # ggdibbler
 #' ggplot(uncertain_df, aes(x, y)) + geom_point_sample() + geom_line_sample() 
 #' @export
-geom_path_sample <- make_constructor(ggplot2::GeomPath, stat = "sample", times=10)
+geom_path_sample <- make_constructor(ggplot2::GeomPath, stat = "identity_sample", times=10)
 
 #' @export
 #' @inheritParams ggplot2::geom_line
 #' @importFrom ggplot2 make_constructor GeomLine
 #' @rdname geom_path_sample
-geom_line_sample <- make_constructor(ggplot2::GeomLine, stat = "sample", times=10, orientation = NA)
+geom_line_sample <- make_constructor(ggplot2::GeomLine, stat = "identity_sample", times=10, orientation = NA)
 
 #' @export
 #' @inheritParams ggplot2::geom_line
 #' @importFrom ggplot2 make_constructor GeomStep
 #' @rdname geom_path_sample
-geom_step_sample <- make_constructor(ggplot2::GeomStep, stat = "sample", times=10, orientation = NA)
+geom_step_sample <- make_constructor(ggplot2::GeomStep, stat = "identity_sample", times=10, orientation = NA)
