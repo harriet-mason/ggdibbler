@@ -2,6 +2,7 @@
 PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdentity,
                                 
                                 compute_layer = function(data, params, panel) {
+                                  print(data)
                                   # set up values
                                   hold_drawID <- unique(data$drawID)
                                   times = max(as.numeric(hold_drawID))
@@ -15,6 +16,7 @@ PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdenti
                                     summarise(fill = sample(fill, size=1),
                                               drawID = drawID,
                                               PANEL = PANEL) 
+                                  print(values)
                                 
                                   
                                   # Convert data into polygon (might use this later)
@@ -24,15 +26,16 @@ PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdenti
                                     sf::st_as_sf(coords=c("x","y")) |>
                                     summarise(do_union=FALSE) |>
                                     sf::st_cast("POLYGON") 
-                                  
+                                  print(base_polygon)
                                   # Subdivide the polygon and convert to coordinates
                                   grid_points <- base_polygon |>
                                     group_by(group) |>
                                     dplyr::reframe(
                                       geometry = subdivide(geometry, d=d)) |>
-                                    sf::st_as_sf() |>
-                                    sf::st_coordinates() |>
-                                    as_tibble() 
+                                    sf::st_as_sf() #|>
+                                    #sf::st_coordinates() |>
+                                    #as_tibble() 
+                                  print(grid_points)
                                   # make group interaction of l1 and l2
                                   grid_points$group <- as.numeric(interaction(factor(grid_points$L1), factor(grid_points$L2)))
                                   

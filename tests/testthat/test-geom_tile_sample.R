@@ -26,6 +26,8 @@ library(ggplot2)
 # ############### FAIL #################
 # ############## UNTESTED #################
 
+library(distributional)
+library(dplyr)
 # The most common use for rectangles is to draw a surface. You always want
 # to use geom_raster here because it's so much faster, and produces
 # smaller output when saving to PDF
@@ -43,10 +45,21 @@ df <- data.frame(
   z = factor(rep(1:5, each = 2)),
   w = rep(diff(c(0, 4, 6, 8, 10, 14)), 2)
 )
+
+uncertain_df <- df |>
+  mutate(
+    x = dist_sample(list(sample(seq(from=x, to = x+5), replace = TRUE))),
+    y = dist_sample(list(sample(seq(from=y, to = y+5), replace = TRUE))),
+    z = dist_sample(list(sample(seq(from=z, to = z+5), replace = TRUE))),
+    w = dist_sample(list(sample(seq(from=w, to = w+5), replace = TRUE)))
+    )
+dist_sample(list(sample(seq(from=df$x[1], to = df$x[1]+5), replace = TRUE)))
+year_dist = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE)))
+
 ggplot(df, aes(x, y)) +
   geom_tile(aes(fill = z), colour = "grey50")
 ggplot(df, aes(x, y)) +
-  geom_tile_sample(aes(fill = z), colour = "grey50")
+  geom_tile_sample(aes(fill = dist_binomial(as.numeric(z), 0.5)), colour = "grey50")
 ggplot(df, aes(x, y, width = w)) +
   geom_tile(aes(fill = z), colour = "grey50")
 ggplot(df, aes(xmin = x - w / 2, xmax = x + w / 2, ymin = y, ymax = y + 1)) +

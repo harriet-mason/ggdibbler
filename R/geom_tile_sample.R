@@ -27,5 +27,8 @@ geom_rect_sample <- make_constructor(ggplot2::GeomRect, stat = "identity_sample"
 #' @export
 #' @rdname geom_tile_sample
 geom_raster_sample <- make_constructor(
-  ggplot2::GeomRaster, stat = "identity_sample", times=10, position = "identity_subdivide",
-  checks = exprs(check_number_decimal(hjust), check_number_decimal(vjust)))
+  ggplot2::GeomRaster, stat = "identity_sample", times=10,
+  checks = exprs(
+    check_number_decimal(hjust), 
+    check_number_decimal(vjust))
+  )
