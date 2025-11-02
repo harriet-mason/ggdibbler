@@ -1,16 +1,16 @@
-#' @export
-PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdentity,
-                                
-                                compute_layer = function(data, params, panel) {
-                                  # set up values
-                                  hold_drawID <- unique(data$drawID)
-                                  times = max(as.numeric(hold_drawID))
-                                  if(times %in% c(0, 1)) return(data)
-                                  
-                                  sample_subdivide_polygon(data, times)
-                                  
-                                }
-)
+# #' @export
+# PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdentity,
+#                                 
+#                                 compute_layer = function(data, params, panel) {
+#                                   # set up values
+#                                   hold_drawID <- unique(data$drawID)
+#                                   times = max(as.numeric(hold_drawID))
+#                                   if(times %in% c(0, 1)) return(data)
+#                                   
+#                                   sample_subdivide_polygon(data, times)
+#                                   
+#                                 }
+# )
 
 sample_subdivide_polygon <- function(data, times){
   d = square_grid(times) 
