@@ -178,6 +178,7 @@ Identical to geom_path, except that it will accept a distribution in place of an
 }
 \examples{
 library(ggplot2)
+library(dplyr)
 # geom_line() is suitable for time series
 #ggplot
 ggplot(economics, aes(date, unemploy)) + geom_line() 

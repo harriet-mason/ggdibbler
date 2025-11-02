@@ -4,7 +4,7 @@
 \docType{data}
 \name{geom_count_sample}
 \alias{geom_count_sample}
-\alias{stat_count}
+\alias{stat_count_sample}
 \alias{StatDensitySample}
 \alias{StatSumSample}
 \alias{stat_sum_sample}
@@ -22,7 +22,7 @@ geom_count_sample(
   inherit.aes = TRUE
 )
 
-stat_count(
+stat_count_sample(
   mapping = NULL,
   data = NULL,
   geom = "bar",
