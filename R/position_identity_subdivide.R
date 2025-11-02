@@ -7,39 +7,41 @@ PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdenti
                                   if(times == 0) return(data)
                                   d = square_grid(times) 
                                 
-                                  the_grid <- data |>
-                                    dplyr::mutate(sub_group = 
-                                                    as.factor(1 + as.numeric(drawID) %% as.numeric(group)))|>
+                                  # If multiple fills for each polygon, take a random sample of them
+                                  values <- data |>
+                                    select(-c(x,y)) |>
+                                    group_by(group) |>
+                                    summarise(fill = sample(fill, size=1)) 
+                                  print(values)
+                                
+                                  # Convert data into polygon (might use this later)
+                                  base_polygon <- data |>
                                     dplyr::filter(drawID==1) |>
-                                    dplyr::group_by(sub_group) |>
-                                    sf::st_as_sf(coords=c("x","y"))|>
-                                    dplyr::summarise() %>%
-                                    sf::st_cast("POLYGON") |>
+                                    dplyr::group_by(group) |>
+                                    sf::st_as_sf(coords=c("x","y")) |>
+                                    summarise(do_union=FALSE) |>
+                                    sf::st_cast("POLYGON") 
+                                  
+                                  # Subdivide the polygon and convert to coordinates
+                                  grid_points <- base_polygon |>
+                                    group_by(group) |>
                                     dplyr::reframe(
-                                      geometry = subdivide(geometry, d=d), 
-                                      sub_group = sub_group,
-                                      dplyr::across(dplyr::everything())
-                                    ) #|> 
-                                    #sf::st_as_sfc() |>
-                                    #sf::st_cast("POLYGON") |>
-                                    #sf::st_sf() #|>
-                                    #sf::st_zm()
-                                    #st_cast("POLYGON") #|>
-                                    #dplyr::mutate(drawID = hold_drawID)
-                                    
-                                    
-                                    
-                                  #the_grid <- subdivide(the_grid$geometry , d)
-                          
-                                  #ggplot2::ggplot(the_grid, ggplot2::aes(x = x, y = y, group=sub)group) +
-                                  #  ggplot2::geom_polygon()
-                                  #data <- data |>
-                                  #  dplyr::group_by(sub_group)|>
-                                  #  dplyr::summarise(
-                                  #    x = subdivide_xy(x, gridd[2]), 
-                                  #    y = subdivide_xy(y, gridd[1]),
-                                  #    dplyr::across(dplyr::everything()))
-                                  the_grid
+                                      geometry = subdivide(geometry, d=d)) |>
+                                    sf::st_as_sf() |>
+                                    sf::st_coordinates() |>
+                                    as_tibble() 
+                                  # make group interaction of l1 and l2
+                                  grid_points$group <- as.numeric(interaction(factor(grid_points$L1), factor(grid_points$L2)))
+                                  
+                                  # rename and remove old columns
+                                  grid_points <- grid_points |>
+                                    rename("x" = "X", "y" = "Y") |>
+                                    select(-c(L1, L2))
+                                  
+                                  # Join subdivided polygon with values
+                                  grid_points |>
+                                    left_join(values, by = "group")
+                                  
                                 }
 )
 
