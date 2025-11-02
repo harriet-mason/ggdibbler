@@ -17,7 +17,7 @@ sample_expand <- function(data, times){
   
   # Check for at least one distribution vector
   distcols <- get_dist_cols(data)
-  if(length(distcols)==0) return(data)
+  if(length(distcols)==0) return(data |> dplyr::mutate(drawID=0))
   
   # get deterministic variables
   othcols <- setdiff(names(data), distcols)
@@ -64,7 +64,7 @@ get_discrete_cols <- function(data){
 dibble_to_tibble <- function(data, params) {
   # return data if deterministic
   distcols <- get_dist_cols(data)
-  if(length(distcols)==0) return(data)
+  if(length(distcols)==0) return(data|> dplyr::mutate(drawID=0))
   
   # expand data
   data <- sample_expand(data, params$times) 
