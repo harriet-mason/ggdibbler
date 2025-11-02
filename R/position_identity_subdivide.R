@@ -2,18 +2,21 @@
 PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdentity,
                                 
                                 compute_layer = function(data, params, panel) {
+                                  # set up values
                                   hold_drawID <- unique(data$drawID)
                                   times = max(as.numeric(hold_drawID))
-                                  if(times == 0) return(data)
+                                  if(times %in% c(0, 1)) return(data)
                                   d = square_grid(times) 
                                 
                                   # If multiple fills for each polygon, take a random sample of them
                                   values <- data |>
                                     select(-c(x,y)) |>
                                     group_by(group) |>
-                                    summarise(fill = sample(fill, size=1)) 
-                                  print(values)
+                                    summarise(fill = sample(fill, size=1),
+                                              drawID = drawID,
+                                              PANEL = PANEL) 
                                 
+                                  
                                   # Convert data into polygon (might use this later)
                                   base_polygon <- data |>
                                     dplyr::filter(drawID==1) |>
@@ -39,9 +42,12 @@ PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdenti
                                     select(-c(L1, L2))
                                   
                                   # Join subdivided polygon with values
-                                  grid_points |>
-                                    left_join(values, by = "group")
-                                  
+                                  new_data <- grid_points |>
+                                    left_join(values, by = "group") |>
+                                    as.data.frame()
+                                    # add draw ID back in
+
+                                  new_data
                                 }
 )
 
