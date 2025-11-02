@@ -3,5 +3,4 @@
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @export
 #' @rdname geom_tile_sample
-geom_rect_sample <- make_constructor(ggplot2::GeomRect, stat = "identity_sample", times=10,
-                                     position = "identity_subdivide")
+geom_rect_sample <- make_constructor(ggplot2::GeomRect, stat = "identity_sample", times=10)

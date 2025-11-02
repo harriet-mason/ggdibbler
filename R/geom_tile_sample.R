@@ -8,5 +8,4 @@
 #' @examples
 #' print("replace me")
 #' @export
-geom_tile_sample <- make_constructor(ggplot2::GeomTile, stat = "identity_sample", times=10,
-                                     position = "identity_subdivide")
+geom_tile_sample <- make_constructor(ggplot2::GeomTile, stat = "identity_sample", times=10)
