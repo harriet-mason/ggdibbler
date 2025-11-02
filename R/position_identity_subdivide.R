@@ -2,59 +2,61 @@
 PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdentity,
                                 
                                 compute_layer = function(data, params, panel) {
-                                  print(data)
                                   # set up values
                                   hold_drawID <- unique(data$drawID)
                                   times = max(as.numeric(hold_drawID))
                                   if(times %in% c(0, 1)) return(data)
-                                  d = square_grid(times) 
-                                
-                                  # If multiple fills for each polygon, take a random sample of them
-                                  values <- data |>
-                                    select(-c(x,y)) |>
-                                    group_by(group) |>
-                                    summarise(fill = sample(fill, size=1),
-                                              drawID = drawID,
-                                              PANEL = PANEL) 
-                                  print(values)
-                                
                                   
-                                  # Convert data into polygon (might use this later)
-                                  base_polygon <- data |>
-                                    dplyr::filter(drawID==1) |>
-                                    dplyr::group_by(group) |>
-                                    sf::st_as_sf(coords=c("x","y")) |>
-                                    summarise(do_union=FALSE) |>
-                                    sf::st_cast("POLYGON") 
-                                  print(base_polygon)
-                                  # Subdivide the polygon and convert to coordinates
-                                  grid_points <- base_polygon |>
-                                    group_by(group) |>
-                                    dplyr::reframe(
-                                      geometry = subdivide(geometry, d=d)) |>
-                                    sf::st_as_sf() #|>
-                                    #sf::st_coordinates() |>
-                                    #as_tibble() 
-                                  print(grid_points)
-                                  # make group interaction of l1 and l2
-                                  grid_points$group <- as.numeric(interaction(factor(grid_points$L1), factor(grid_points$L2)))
+                                  sample_subdivide_polygon(data, times)
                                   
-                                  # rename and remove old columns
-                                  grid_points <- grid_points |>
-                                    rename("x" = "X", "y" = "Y") |>
-                                    select(-c(L1, L2))
-                                  
-                                  # Join subdivided polygon with values
-                                  new_data <- grid_points |>
-                                    left_join(values, by = "group") |>
-                                    as.data.frame()
-                                    # add draw ID back in
-
-                                  new_data
                                 }
 )
 
-
+sample_subdivide_polygon <- function(data, times){
+  d = square_grid(times) 
+  
+  # If multiple fills for each polygon, take a random sample of them
+  values <- data |>
+    select(-c(x,y)) |>
+     group_by(group) |>
+    summarise(fill = sample(fill, size=1),
+              # panel and drawID should be constant
+              drawID = unique(drawID, size=1),
+              PANEL = unique(PANEL, size=1))
+  
+  # Convert data into polygon (might use this later)
+  base_polygon <- data |>
+    dplyr::filter(drawID==1) |>
+    dplyr::group_by(group) |>
+    sf::st_as_sf(coords=c("x","y")) |>
+    summarise(do_union=FALSE) |>
+    sf::st_cast("POLYGON") 
+  
+  # Subdivide the polygon and convert to coordinates
+  grid_points <- base_polygon |>
+    group_by(group) |>
+    dplyr::reframe(
+      geometry = subdivide(geometry, d=d)) |>
+    sf::st_as_sf() |>
+    sf::st_coordinates() |>
+    as_tibble() 
+  
+  # make group interaction of l1 and l2
+  grid_points$group <- as.numeric(interaction(factor(grid_points$L1), factor(grid_points$L2)))
+  
+  # rename and remove old columns
+  grid_points <- grid_points |>
+    rename("x" = "X", "y" = "Y") |>
+    select(-c(L1, L2))
+  
+  # Join subdivided polygon with values
+  new_data <- grid_points |>
+    left_join(values, by = "group") |>
+    as.data.frame()
+  # add draw ID back in
+  
+  new_data
+}
 #' @keywords internal
 sample_subdivide_sf <- function(data, times){ 
   d <- square_grid(times)
@@ -110,18 +112,4 @@ square_grid <- function(x) {
   
   # Maybe include a check to make values more square?
   return(grid)
-}
-
-subdivide_y <- function(y , gridd){
-  npoints = prod(gridd)
-  y <- seq(from = min(y), to = max(y), length.out = gridd[1])
-  y <- rep(y, times = gridd[2])
-  return(y)
-}
-
-subdivide_x <- function(x, gridd){
-  npoints = prod(gridd)
-  x <- seq(from = min(x), to = max(x), length.out = gridd[2])
-  x <- rep(x, each = gridd[1])
-  return(x)
 }

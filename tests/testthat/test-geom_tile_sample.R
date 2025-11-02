@@ -53,13 +53,17 @@ uncertain_df <- df |>
     z = dist_sample(list(sample(seq(from=z, to = z+5), replace = TRUE))),
     w = dist_sample(list(sample(seq(from=w, to = w+5), replace = TRUE)))
     )
-dist_sample(list(sample(seq(from=df$x[1], to = df$x[1]+5), replace = TRUE)))
-year_dist = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE)))
+#dist_sample(list(sample(seq(from=df$x[1], to = df$x[1]+5), replace = TRUE)))
+#year_dist = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE)))
+
+# POSITION DODGE WORKS
+ggplot(df, aes(x, y)) +
+  geom_tile_sample(aes(fill = dist_binomial(as.numeric(z), 0.5)), 
+                   colour = "grey50", position="dodge") +
+  theme(legend.position = "none")
 
 ggplot(df, aes(x, y)) +
   geom_tile(aes(fill = z), colour = "grey50")
-ggplot(df, aes(x, y)) +
-  geom_tile_sample(aes(fill = dist_binomial(as.numeric(z), 0.5)), colour = "grey50")
 ggplot(df, aes(x, y, width = w)) +
   geom_tile(aes(fill = z), colour = "grey50")
 ggplot(df, aes(xmin = x - w / 2, xmax = x + w / 2, ymin = y, ymax = y + 1)) +

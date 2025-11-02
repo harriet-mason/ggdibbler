@@ -1,3 +1,4 @@
+library(vdiffr)
 library(ggplot2)
 library(distributional)
 library(dplyr)
@@ -19,8 +20,6 @@ datapoly <- merge(values, positions, by = c("id"))
 # Make uncertain version of datapoly
  uncertain_datapoly <- datapoly |>
   mutate(value = dist_uniform(value-0.1, value + 0.1))
-
- library(vdiffr)
  
  test_that("position_identity_subdivide tests", {
    
@@ -33,4 +32,8 @@ datapoly <- merge(values, positions, by = c("id"))
    
  }
  )
+ 
+# ggplot(uncertain_datapoly , aes(x = x, y = y)) +
+#   geom_polygon_sample(aes(fill = value, group = id), times=40,
+#                       position = "identity_subdivide")
  
