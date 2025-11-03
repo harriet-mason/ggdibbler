@@ -14,7 +14,7 @@ y_to_logic <- function(x){
 
 uncertain_df <- data.frame(
   x = dist_binomial(rep(c(2, 5, 7, 9, 12), 2), 0.9),
-  y = dist_transformed(dist_bernoulli(0.4*df$y), logic_to_y , y_to_logic),
+  y = dist_transformed(dist_bernoulli(0.4*rep(c(1, 2), each = 5)), logic_to_y , y_to_logic),
   z = dist_binomial(rep(1:5, each = 2), 0.9),
   w = dist_binomial(rep(diff(c(0, 4, 6, 8, 10, 14)), 2), 0.9)
 )

@@ -11,17 +11,17 @@
 #' @export
 Stat***Sample <- ggplot2::ggproto("Stat***Sample", ggplot2::Stat***,
                                   setup_data = function(data, params) {
-                                    sample_expand(data, params$times) 
+                                    dibble_to_tibble(data, params) 
                                     },
                                   
                                   extra_params = c("na.rm", "times")
 )
 
 #' @export
-#' @rdname geom_count_sample
-#' @inheritParams ggplot2::stat_sum
+#' @rdname geom_***_sample
+#' @inheritParams ggplot2::stat_***
 #' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
-stat_sum_sample <- make_constructor(StatSumSample, geom = "point", times = 10)
+stat_***_sample <- make_constructor(Stat***Sample, geom = "***", times = 10)
 
 
 
@@ -62,7 +62,7 @@ test_that("geom_**_sample tests", {
   set.seed(***)
   
   p* <- ggplot()
-  expect_doppelganger("example1", p1)
+  expect_doppelganger("Example 1", p1)
 
 }
 )

@@ -13,3 +13,12 @@ scale_type.distribution <- function(x) {
   if("discrete" %in% datatype) return(c("discrete_distribution", datatype))
   if("continuous" %in% datatype) return(c("continuous_distribution", datatype))
 }
+
+
+#' @rdname scales::rescale
+#' @importFrom ggplot2 scale_type
+#' @exportS3Method scales::rescale
+rescale.distribution <- function(x, to, from, ...) {
+  x <- unlist(generate(x,100))
+  rescale(x)
+}
