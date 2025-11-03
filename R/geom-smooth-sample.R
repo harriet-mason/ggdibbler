@@ -5,7 +5,6 @@
 #' @inheritParams ggplot2::geom_smooth
 #' @importFrom ggplot2 GeomSmooth aes layer
 #' @importFrom rlang list2
-#' @importFrom ggplot2 make_constructor GeomSmooth
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
 #' library(ggplot2)

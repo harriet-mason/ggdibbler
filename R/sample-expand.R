@@ -5,7 +5,7 @@
 #' used to make an uncertainty visualisation for a geom that doesn't exist.
 #' 
 #' @importFrom dplyr mutate across all_of
-#' @importFrom distributional generate is_distribution
+#' @importFrom distributional generate is_distribution family
 #' @importFrom tibble rowid_to_column
 #' @importFrom tidyr unnest_longer
 #' @param data Distribution dataset to expand into samples
@@ -40,10 +40,14 @@ adjust_grouping <- function(data, discretedists){
     # make sure all discrete distributions are factors (and)
     dplyr::mutate(dplyr::across(dplyr::all_of(discretedists), as.factor),
                   group = as.factor(group)) 
-  
+  print("in grouping 1")
+  print(table(data$group))
   # get list of variables to interact & edit group
   intvars <- c("group", discretedists, "drawID")
   data$group <- as.numeric(interaction(data[,intvars]))
+  print("in grouping 2")
+  print(discretedists)
+  print(table(data$group))
   # convert to data frame for weight warning
   as.data.frame(data)
   }
@@ -56,12 +60,15 @@ get_dist_cols <- function(data){
 
 #' @keywords internal
 get_discrete_cols <- function(data){
-  names(data)[sapply(data, is_discrete)]
+  a <- names(data)[sapply(data, is_discrete)]
+  b <- names(data)[sapply(data, ggplot2:::is_mapped_discrete)]
+  c(a,b)
 }
 
 #' @keywords internal
 # Internal function that edits data inside stat
 dibble_to_tibble <- function(data, params) {
+  print(as_tibble(data))
   # return data if deterministic
   distcols <- get_dist_cols(data)
   if(length(distcols)==0) return(data|> dplyr::mutate(drawID=0))
@@ -71,8 +78,13 @@ dibble_to_tibble <- function(data, params) {
   
   # check for discrete distribution columns for group adjust
   discretecols <- get_discrete_cols(data)
-  discretedists <- discretecols[which(get_discrete_cols(data)  %in% distcols)]
   
+  # check for transformed discrete
+  
+  
+  discretedists <- discretecols[which(get_discrete_cols(data)  %in% distcols)]
+  print(distcols)
+  print(discretecols)
   if(length(discretedists)==0) discretedists = NULL
   
   # If discrete distribution, then fix grouping

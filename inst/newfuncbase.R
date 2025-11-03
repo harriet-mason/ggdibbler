@@ -23,6 +23,10 @@ Stat***Sample <- ggplot2::ggproto("Stat***Sample", ggplot2::Stat***,
 #' @param times A parameter used to control the number of values sampled from each distribution.
 stat_***_sample <- make_constructor(Stat***Sample, geom = "***", times = 10)
 
+
+### IF THE STAT USES SETUP DATA ADD
+ggproto_parent(Stat**, self)$setup_data(data, scales)
+
 ### REMEMBER TO ADD PARAMS TO EXTRA PARAMS!!!
 
 
