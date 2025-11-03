@@ -31,7 +31,7 @@ q + geom_boxplot_sample(alpha=0.01, position="identity") +
 uncertain_mpg_new <- uncertain_mpg
 uncertain_mpg_new$class <- mpg$class
 q <- ggplot(uncertain_mpg_new, aes(class, hwy))
-q + geom_boxplot_sample(aes(fill = as.factor(after_stat(x))), alpha=0.1, position="dodge") +
+q + geom_boxplot_sample(aes(fill = as.factor(after_stat(x))), alpha=0.05) +
   scale_y_continuous_distribution(limits=c(11,50)) +
   labs(fill = "class")
 
