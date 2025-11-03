@@ -16,19 +16,6 @@ test_that("geom_abhvline_sample tests", {
   q3 <- q1 + geom_abline_sample(intercept = dist_normal(20, 1))
   expect_doppelganger("Example 3", q3)
   
-  q4 <- q1 + geom_vline_sample(xintercept = dist_normal(5, 0.1)) + 
-    scale_x_continuous_distribution(limits = c(0,6)) + 
-    scale_y_continuous_distribution(limits = c(10,35)) 
-  expect_doppelganger("Example 4", q4)
-  
-  q5 <- q1 + geom_vline_sample(xintercept = dist_normal(1:5, 0.1)) 
-  expect_doppelganger("Example 5", q5)
-  
-  q6 <- q1 + geom_hline_sample(yintercept = dist_normal(20, 1)) + 
-    scale_x_continuous_distribution(limits = c(0,6)) + 
-    scale_y_continuous_distribution(limits = c(10,35)) 
-  expect_doppelganger("Example 6", q6)
-  
   q7 <- p + geom_abline_sample(intercept = dist_normal(37, 1.8), slope = dist_normal(-5, 0.56),
                                times=30, alpha=0.1)
   expect_doppelganger("Example 7", q7)

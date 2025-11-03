@@ -23,7 +23,7 @@ Stat***Sample <- ggplot2::ggproto("Stat***Sample", ggplot2::Stat***,
 #' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
 stat_***_sample <- make_constructor(Stat***Sample, geom = "***", times = 10)
 
-
+### REMEMBER TO ADD PARAMS TO EXTRA PARAMS!!!
 
 
 # 3) Make new geom in a new R file with:
