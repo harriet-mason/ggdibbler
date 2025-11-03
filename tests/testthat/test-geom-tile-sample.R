@@ -1,105 +1,88 @@
 # load library
-# library(vdiffr)
-# library(ggplot2)
+library(vdiffr)
+library(ggplot2)
+library(distributional)
+library(dplyr)
 
-# test_that("geom_tile_sample tests", {
-#   
-#   set.seed(***)
-#   
-#   p* <- ggplot()
-#   expect_doppelganger("example1", p1)
-#   
-# }
-# )
-# 
-# test_that("geom_rect_sample tests", {
-#   
-#   set.seed(***)
-#   
-#   p* <- ggplot()
-#   expect_doppelganger("example1", p1)
-#   
-# }
-# )
 
-# ################ PASS #################
-# 
-# 
-# 
-# library(ggplot2)
-# #library(ggdibbler)
-# library(distributional)
-# 
-# # deterministic x & y, random z
-# df <- data.frame(
-#   x = rep(c(2, 5, 7, 9, 12), 2),
-#   y = rep(c(1, 2), each = 5),
-#   z = dist_binomial(rep(1:5, each = 2), 0.5)
-# )
-# # plot using geom_tile_sample & geom_tile
-# ggplot(df, aes(x, y)) +
-#   geom_tile_sample(aes(fill = z), position="dodge") +
-#   geom_tile(fill = NA, colour = "black", linewidth=1) +
-#   scale_fill_distiller(palette = "Spectral") 
-#     # not needed, the dark colours just look ugly
-# 
-# 
+logic_to_y <- function(x){
+  as.integer(x) + 1
+}
+y_to_logic <- function(x){
+  rlang::as_logical(x-1)
+}
+
+uncertain_df <- data.frame(
+  x = dist_binomial(rep(c(2, 5, 7, 9, 12), 2), 0.9),
+  y = dist_transformed(dist_bernoulli(0.4*df$y), logic_to_y , y_to_logic),
+  z = dist_binomial(rep(1:5, each = 2), 0.9),
+  w = dist_binomial(rep(diff(c(0, 4, 6, 8, 10, 14)), 2), 0.9)
+)
+
+# More likely that the positions are deterministic and the colour is random
+# deterministic x & y, random z
+uncertain_df2 <- data.frame(
+  x = rep(c(2, 5, 7, 9, 12), 2),
+  y = rep(c(1, 2), each = 5),
+  z = dist_binomial(rep(1:5, each = 2), 0.5),
+  w = rep(diff(c(0, 4, 6, 8, 10, 14)), 2)
+)
+
+uncertain_df3 <- mutate(uncertain_df2, z =  dist_binomial(rep(1:5, each = 2), 0.99))
+
+
+test_that("geom_tile_sample tests", {
+  set.seed(12345)
+  
+  p1 <- ggplot(uncertain_df2, aes(x, y)) +
+    geom_tile_sample(aes(fill = z), position="dodge") +
+    geom_tile(fill = NA, colour = "black", linewidth=1) +
+    scale_fill_distiller(palette = "Spectral")
+  expect_doppelganger("Example 1", p1)
+  
+  p2 <- ggplot(uncertain_df, aes(x, y)) +
+    geom_tile_sample(aes(fill = z), colour = "grey50", alpha=0.2) +
+    scale_y_continuous_distribution(limits= c(0.5,2.5)) +
+    scale_x_continuous_distribution(limits= c(0,13))
+  expect_doppelganger("Example 2", p2)
+  
+  p3 <- ggplot(uncertain_df3, aes(x, y, f = z, width = w)) +
+    geom_tile_sample(aes(fill = as.factor(after_stat(f)+1)), colour = "grey50", alpha=0.2) +
+    labs(fill = "z")
+  expect_doppelganger("Example 3", p3)
+  
+  p4 <- ggplot(uncertain_df2, aes(x, y, f = z, width = w)) +
+    geom_tile_sample(aes(fill = as.factor(after_stat(f)+1)), colour = "grey50", alpha=0.2) +
+    labs(fill = "z")
+  expect_doppelganger("Example 4", p4)
+  
+  p5 <- ggplot(uncertain_df, aes(x, y, f = z, width = w)) +
+    geom_tile_sample(aes(fill = as.factor(after_stat(f))), colour = "grey50", alpha=0.1) +
+    scale_y_continuous_distribution(limits= c(0.5,2.5)) +
+    scale_x_continuous_distribution(limits= c(0,13)) 
+  expect_doppelganger("Example 5", p5)
+}
+)
+
+
+# ################ PASS ################
 # # ############### FAIL #################
 # # ############## UNTESTED #################
-# 
-# library(distributional)
-# library(dplyr)
-# 
-# # If you want to draw arbitrary rectangles, use geom_tile() or geom_rect()
-# df <- data.frame(
-#   x = rep(c(2, 5, 7, 9, 12), 2),
-#   y = rep(c(1, 2), each = 5),
-#   z = factor(rep(1:5, each = 2)),
-#   w = rep(diff(c(0, 4, 6, 8, 10, 14)), 2)
-# )
-# 
-# uncertain_df <- df |>
-#   mutate(
-#     x = dist_sample(list(sample(seq(from=x, to = x+5), replace = TRUE))),
-#     y = dist_sample(list(sample(seq(from=y, to = y+5), replace = TRUE))),
-#     z = dist_sample(list(sample(seq(from=z, to = z+5), replace = TRUE))),
-#     w = dist_sample(list(sample(seq(from=w, to = w+5), replace = TRUE)))
-#     )
-# #dist_sample(list(sample(seq(from=df$x[1], to = df$x[1]+5), replace = TRUE)))
-# #year_dist = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE)))
-# uncertain_df <- df |>
-#   mutate(
-#     x = dist_sample(list(sample(seq(from=x, to = x+5), replace = TRUE))),
-#     y = dist_sample(list(sample(seq(from=y, to = y+5), replace = TRUE))),
-#     z = dist_sample(list(sample(seq(from=z, to = z+5), replace = TRUE))),
-#     w = dist_sample(list(sample(seq(from=w, to = w+5), replace = TRUE)))
-#   )
-# 
-# # POSITION DODGE WORKS
-# # deterministic x & y, random z
-# 
-# 
-# ggplot(df, aes(x, y, pre_fill = dist_binomial(as.integer(z), 0.5))) +
-#   # sample from distribution layer
-#   geom_tile_sample(aes(fill = after_stat(factor(pre_fill))), position="dodge") +
-#   # Overlay boundaries layer
-#   geom_tile(fill = NA, colour = "black", linewidth=1) +
-#   labs(fill = "z")
-# 
-# ggplot(df, aes(x, y)) +
-#   geom_tile(aes(fill = z), colour = "grey50")
-# ggplot(df, aes(x, y, width = w)) +
-#   geom_tile(aes(fill = z), colour = "grey50")
-# ggplot(df, aes(xmin = x - w / 2, xmax = x + w / 2, ymin = y, ymax = y + 1)) +
-#   geom_rect(aes(fill = z), colour = "grey50")
-
-
-
 
 # # Inspired by the image-density plots of Ken Knoblauch
 # cars <- ggplot(mtcars, aes(mpg, factor(cyl)))
 # cars + geom_point()
 # cars + stat_bin_2d(aes(fill = after_stat(count)), binwidth = c(3,1))
 # cars + stat_bin_2d(aes(fill = after_stat(density)), binwidth = c(3,1))
-
-
+# cars +
+#   stat_density(
+#     aes(fill = after_stat(density)),
+#     geom = "raster",
+#     position = "identity"
+#   )
+# cars +
+#   stat_density(
+#     aes(fill = after_stat(count)),
+#     geom = "raster",
+#     position = "identity"
+#   )

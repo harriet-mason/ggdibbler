@@ -43,19 +43,3 @@ test_that("geom_raster_sample tests", {
 # ############### FAIL #################
 # ############## UNTESTED #################
 
-# cars <- ggplot(mtcars, aes(mpg, factor(cyl)))
-# cars + geom_point()
-# cars + stat_bin_2d(aes(fill = after_stat(count)), binwidth = c(3,1))
-# cars + stat_bin_2d(aes(fill = after_stat(density)), binwidth = c(3,1))
-# cars +
-#   stat_density(
-#     aes(fill = after_stat(density)),
-#     geom = "raster",
-#     position = "identity"
-#   )
-# cars +
-#   stat_density(
-#     aes(fill = after_stat(count)),
-#     geom = "raster",
-#     position = "identity"
-#   )
