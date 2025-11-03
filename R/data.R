@@ -134,3 +134,19 @@ NULL
 
 #' @rdname uncertain_economics
 "uncertain_economics_long"
+
+#' 2d density estimate of Old Faithful data with Uncertainty
+#'
+#' A 2d density estimate of the waiting and eruptions variables data
+#' \link{faithful}. Unlike other uncertain datasets, the only uncertain variable is
+#' density. Since this is based on a model, it wouldn't make sense for erruptions or
+#' waiting to be represented as random variables.
+#'
+#' @format A data frame with 5,625 observations and 3 variables:
+#' \describe{
+#'   \item{eruptions}{Eruption time in mins}
+#'   \item{waiting}{Waiting time to next eruption in mins}
+#'   \item{density}{A 2d density estimate that is normally distributed with a low variance}
+#'   \item{density}{A 2d density estimate that is normally distributed with a high variance}
+#' }
+#' @name uncertain_faithfuld
