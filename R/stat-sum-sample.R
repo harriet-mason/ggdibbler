@@ -14,7 +14,7 @@ StatSumSample <- ggplot2::ggproto("StatSumSample", ggplot2::StatSum,
 #' @export
 #' @rdname geom_count_sample
 #' @inheritParams ggplot2::stat_sum
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' @param times A parameter used to control the number of values sampled from each distribution.
 stat_sum_sample <- make_constructor(StatSumSample, geom = "point", times = 10)
 
 

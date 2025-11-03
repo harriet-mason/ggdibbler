@@ -18,5 +18,5 @@ StatSmoothSample <- ggplot2::ggproto("StatSmoothSample", ggplot2::StatSmooth,
 #' @export
 #' @rdname geom_smooth_sample
 #' @inheritParams ggplot2::stat_smooth
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' @param times A parameter used to control the number of values sampled from each distribution. 
 stat_smooth_sample <- make_constructor(StatSmoothSample, geom = "smooth", times = 10)

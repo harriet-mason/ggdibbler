@@ -39,7 +39,7 @@ StatCountSample <- ggplot2::ggproto("StatCountSample", ggplot2::StatCount,
 #' @rdname geom_count_sample
 #' @importFrom ggplot2 make_constructor StatCount
 #' @inheritParams ggplot2::stat_count
-#' @param times A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.
+#' @param times A parameter used to control the number of values sampled from each distribution. 
 stat_count_sample <- make_constructor(
   ggplot2::StatCount, geom = "bar", # position = "stack",
   orientation = NA, omit = "width", times=10,
