@@ -1,50 +1,61 @@
 library(vdiffr)
+library(ggplot2)
+library(distributional)
+library(dplyr)
 
-test_that("geom_**_sample tests", {
+# Extra data for last example
+df <- expand.grid(x = 0:5, y = 0:5)
+set.seed(1)
+df$z <- runif(nrow(df))
+uncertain_df <- df |> 
+  group_by(x,y) |>
+  mutate(z = dist_normal(z, runif(1, 0, 0.1))) |>
+  ungroup()
+
+
+test_that("geom_raster_sample tests", {
   
-  set.seed(***)
+  set.seed(342)
+  p1 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
+    geom_raster_sample(aes(fill = density)) 
+  expect_doppelganger("Example 1", p1)
   
-  p* <- ggplot()
-  expect_doppelganger("example1", p1)
+  p2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
+    geom_raster_sample(aes(fill = density2)) 
+  expect_doppelganger("Example 2", p2)
   
+  p3 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
+    geom_raster_sample(aes(fill = density), position="dodge", interpolate = TRUE)
+  expect_doppelganger("Example 3", p3)
+  
+  p4 <- ggplot(uncertain_df, aes(x, y, fill = z)) +
+    geom_raster_sample()
+  expect_doppelganger("Example 4", p4)
+  
+  p5 <- ggplot(uncertain_df, aes(x, y, fill = z)) +
+    geom_raster_sample(hjust = 0, vjust = 0)
+  expect_doppelganger("Example 5", p5)
 }
 )
+
 
 # ################ PASS #################
 # ############### FAIL #################
 # ############## UNTESTED #################
 
-# The most common use for rectangles is to draw a surface. You always want
-# to use geom_raster here because it's so much faster, and produces
-# smaller output when saving to PDF
-ggplot(faithfuld, aes(waiting, eruptions)) +
-  geom_raster(aes(fill = density))
-
-# Interpolation smooths the surface & is most helpful when rendering images.
-ggplot(faithfuld, aes(waiting, eruptions)) +
-  geom_raster(aes(fill = density), interpolate = TRUE)
-
-
-# Justification controls where the cells are anchored
-df <- expand.grid(x = 0:5, y = 0:5)
-set.seed(1)
-df$z <- runif(nrow(df))
-# default is compatible with geom_tile()
-ggplot(df, aes(x, y, fill = z)) +
-  geom_raster()
-# zero padding
-ggplot(df, aes(x, y, fill = z)) +
-  geom_raster(hjust = 0, vjust = 0)
-
-cars +
-  stat_density(
-    aes(fill = after_stat(density)),
-    geom = "raster",
-    position = "identity"
-  )
-cars +
-  stat_density(
-    aes(fill = after_stat(count)),
-    geom = "raster",
-    position = "identity"
-  )
+# cars <- ggplot(mtcars, aes(mpg, factor(cyl)))
+# cars + geom_point()
+# cars + stat_bin_2d(aes(fill = after_stat(count)), binwidth = c(3,1))
+# cars + stat_bin_2d(aes(fill = after_stat(density)), binwidth = c(3,1))
+# cars +
+#   stat_density(
+#     aes(fill = after_stat(density)),
+#     geom = "raster",
+#     position = "identity"
+#   )
+# cars +
+#   stat_density(
+#     aes(fill = after_stat(count)),
+#     geom = "raster",
+#     position = "identity"
+#   )
