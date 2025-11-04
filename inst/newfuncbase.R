@@ -24,6 +24,17 @@ Stat***Sample <- ggplot2::ggproto("Stat***Sample", ggplot2::Stat***,
 stat_***_sample <- make_constructor(Stat***Sample, geom = "***", times = 10)
 
 
+### IF THE STAT USES SETUP PARAMS ADD
+setup_params = function(self, data, params) {
+  times <- params$times
+  params$times <- 1
+  data <- dibble_to_tibble(data, params)
+  params <- ggplot2::ggproto_parent(ggplot2::Stat**, self)$setup_params(data, params)
+  params$times <- times
+  params
+}
+
+
 ### IF THE STAT USES SETUP DATA ADD
 ggproto_parent(Stat**, self)$setup_data(data, scales)
 
