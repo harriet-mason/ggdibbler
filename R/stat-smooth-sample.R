@@ -1,4 +1,4 @@
-#' @importFrom ggplot2 ggproto Stat***
+#' @importFrom ggplot2 ggproto StatSmooth
 #' @rdname geom_smooth_sample
 #' @format NULL
 #' @usage NULL

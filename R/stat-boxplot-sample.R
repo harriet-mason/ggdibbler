@@ -1,47 +1,26 @@
-#' @importFrom ggplot2 ggproto StatBoxplot self
+#' @importFrom ggplot2 ggproto StatBoxplot
 #' @rdname geom_boxplot_sample
 #' @format NULL
 #' @usage NULL
 #' @export
 StatBoxplotSample <- ggplot2::ggproto("StatBoxplotSample", ggplot2::StatBoxplot,
                                       setup_params = function(self, data, params) {
-                                        params$flipped_aes <- has_flipped_aes(data, params, main_is_orthogonal = TRUE,
-                                                                              group_has_equal = TRUE,
-                                                                              main_is_optional = TRUE,
-                                                                              default = NA)
-                                        
-                                        if (is.na(params$flipped_aes) && any(c("x", "y") %in% names(data))) {
-                                          cli::cli_warn("Orientation is not uniquely specified when both the x and y aesthetics are continuous. Picking default orientation 'x'.")
-                                          params$flipped_aes <- FALSE
-                                        }
-                                        data <- flip_data(data, params$flipped_aes)
-                                        
-                                        has_x <- !(is.null(data$x) && is.null(params$x))
-                                        has_y <- !(is.null(data$y) && is.null(params$y))
-                                        if (!has_x && !has_y) {
-                                          cli::cli_abort("{.fn {snake_class(self)}} requires an {.field x} or {.field y} aesthetic.")
-                                        }
-                                        
-                                        params$width <- params$width %||% (resolution_dist(data$x %||% 0, discrete = TRUE) * 0.75)
-                                        
-                                        if (!ggplot2:::is_mapped_discrete(data$x) && is.double(data$x) && !has_groups(data) && any(data$x != data$x[1L])) {
-                                          cli::cli_warn(c(
-                                            "Continuous {.field {flipped_names(params$flipped_aes)$x}} aesthetic",
-                                            "i" = "did you forget {.code aes(group = ...)}?"
-                                          ))
-                                        }
-                                        
+                                        # minimum param times for param training to reduce computations
+                                        times <- params$times
+                                        params$times <- 1
+                                        # sample expand data for parameter training
+                                        data <- dibble_to_tibble(data, params)
+                                        # train parameters on original boxplot
+                                        params <- ggplot2::ggproto_parent(ggplot2::StatBoxplot, self)$setup_params(data, params)
+                                        params$times <- times
                                         params
                                       },
                                       
                                   setup_data = function(self, data, params) {
+                                    # convert distributions to samples that can be plot
                                     data <- dibble_to_tibble(data, params)
-                                    print("groups 1")
-                                    print(table(data$group))
-                                    data <- ggplot2::ggproto_parent(ggplot2::StatBoxplot, self)$setup_data(data, params)
-                                    print("groups 2")
-                                    print(table(data$group))
-                                    data
+                                    # run through geom_boxplot setup data function
+                                    ggplot2::ggproto_parent(ggplot2::StatBoxplot, self)$setup_data(data, params)
                                   },
                                   
                                   extra_params = c("na.rm", "times", "outliers", "notch", 

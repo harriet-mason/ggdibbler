@@ -5,7 +5,7 @@
 #' used to make an uncertainty visualisation for a geom that doesn't exist.
 #' 
 #' @importFrom dplyr mutate across all_of
-#' @importFrom distributional generate is_distribution family
+#' @importFrom distributional generate is_distribution
 #' @importFrom tibble rowid_to_column
 #' @importFrom tidyr unnest_longer
 #' @param data Distribution dataset to expand into samples
@@ -36,18 +36,13 @@ sample_expand <- function(data, times){
 # Internal function that fixes the grouping and interacts it with drawID
 adjust_grouping <- function(data, discretedists){
   # convert all variables into factors
-  data <- data |>
+  factor_data <- data |>
     # make sure all discrete distributions are factors (and)
     dplyr::mutate(dplyr::across(dplyr::all_of(discretedists), as.factor),
                   group = as.factor(group)) 
-  print("in grouping 1")
-  print(table(data$group))
   # get list of variables to interact & edit group
   intvars <- c("group", discretedists, "drawID")
-  data$group <- as.numeric(interaction(data[,intvars]))
-  print("in grouping 2")
-  print(discretedists)
-  print(table(data$group))
+  data$group <- as.numeric(interaction(factor_data[,intvars]))
   # convert to data frame for weight warning
   as.data.frame(data)
   }
@@ -68,7 +63,6 @@ get_discrete_cols <- function(data){
 #' @keywords internal
 # Internal function that edits data inside stat
 dibble_to_tibble <- function(data, params) {
-  print(as_tibble(data))
   # return data if deterministic
   distcols <- get_dist_cols(data)
   if(length(distcols)==0) return(data|> dplyr::mutate(drawID=0))
@@ -83,8 +77,6 @@ dibble_to_tibble <- function(data, params) {
   
   
   discretedists <- discretecols[which(get_discrete_cols(data)  %in% distcols)]
-  print(distcols)
-  print(discretecols)
   if(length(discretedists)==0) discretedists = NULL
   
   # If discrete distribution, then fix grouping

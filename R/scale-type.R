@@ -15,10 +15,3 @@ scale_type.distribution <- function(x) {
 }
 
 
-#' @rdname scales::rescale
-#' @importFrom ggplot2 scale_type
-#' @exportS3Method scales::rescale
-rescale.distribution <- function(x, to, from, ...) {
-  x <- unlist(generate(x,100))
-  rescale(x)
-}
