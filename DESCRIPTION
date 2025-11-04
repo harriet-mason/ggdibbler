@@ -5,11 +5,11 @@ Version: 0.3.0
 Authors@R: c(
     person("Harriet", "Mason", , "harriet.m.mason@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-4568-8215")),
-    person("Dianne", "Cook", , "dicook@monash.edu", role = "aut",
+    person("Dianne", "Cook", , "dicook@monash.edu", role = c("aut", "ths"),
            comment = c(ORCID = "0000-0002-3813-7155")),
-    person("Sarah", "Goodwin", , "sarah.goodwin@monash.edu", role = "aut",
+    person("Sarah", "Goodwin", , "sarah.goodwin@monash.edu", role = c("aut", "ths"),
            comment = c(ORCID = "0000-0001-8894-8282")),
-    person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = "aut",
+    person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = c("aut", "ths"),
            comment = c(ORCID = "0000-0002-3803-0972"))
   )
 Maintainer: Harriet Mason <harriet.m.mason@gmail.com>
