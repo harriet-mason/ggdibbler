@@ -27,7 +27,7 @@ stat_***_sample <- make_constructor(Stat***Sample, geom = "***", times = 10)
 ### IF THE STAT USES SETUP DATA ADD
 ggproto_parent(Stat**, self)$setup_data(data, scales)
 
-### REMEMBER TO ADD PARAMS TO EXTRA PARAMS!!!
+### IF STAT HAS EXTRA PARAMS, REMEMBER TO ADD THEM TO EXTRA PARAMS!!!
 
 
 # 3) Make new geom in a new R file with:
@@ -52,9 +52,9 @@ geom_***_sample <- make_constructor(ggplot2::Geom***, stat = "***_sample", times
 
 # Get geom examples with ?geom_* and populate test file
 
-# ################ PASS #################
-# ############### FAIL #################
-# ############## UNTESTED #################
+################ PASS #################
+############### FAIL #################
+############## UNTESTED #################
 
 # Once sorted, properly write passing tests up in:
 
