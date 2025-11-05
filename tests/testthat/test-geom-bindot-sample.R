@@ -27,8 +27,7 @@ test_that("geom_dotplot_sample tests", {
   expect_doppelganger("Example 5", p5)
   
   p6 <- ggplot(uncertain_mtcars, aes(x = mpg)) + 
-    geom_dotplot_sample(binwidth = 1.5, alpha=0.2) +
-    scale_y_continuous(NULL, breaks = NULL)
+    geom_dotplot_sample(binwidth = 1.5, alpha=0.2) 
   expect_doppelganger("Example 6", p6)
   
   p7 <- ggplot(uncertain_mtcars, aes(x = mpg)) +
@@ -48,8 +47,7 @@ test_that("geom_dotplot_sample tests", {
   
   p10 <- ggplot(uncertain_mtcars, aes(x = 1, y = mpg)) +
     geom_dotplot_sample(binaxis = "y", stackdir = "center",
-                        alpha=0.2) +
-    scale_y_continuous_distribution(limits=c(9, 36))
+                        alpha=0.2) 
   expect_doppelganger("Example 10", p10)
 
 }

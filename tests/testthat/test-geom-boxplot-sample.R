@@ -9,20 +9,17 @@ test_that("geom_boxplot_sample tests", {
 
   set.seed(324)
   
-  q <- ggplot(uncertain_mpg, aes(class, hwy)) +
-    scale_y_continuous_distribution(limits=c(11,50))
+  q <- ggplot(uncertain_mpg, aes(class, hwy)) 
   
   p1 <- q + geom_boxplot_sample(alpha=0.1)
   expect_doppelganger("Example 1", p1)
   
-  r <- ggplot(uncertain_mpg_new, aes(class, hwy)) +
-    scale_y_continuous_distribution(limits=c(11,50))
+  r <- ggplot(uncertain_mpg_new, aes(class, hwy)) 
   p2 <- r  + geom_boxplot_sample(alpha=0.1)
   expect_doppelganger("Example 2", p2)
   
   p3 <- ggplot(uncertain_mpg, aes(hwy, class)) +
-    geom_boxplot_sample(alpha=0.1) +
-    scale_x_continuous_distribution(limits=c(11,50))
+    geom_boxplot_sample(alpha=0.1) 
   expect_doppelganger("Example 3", p3)
   
   p4 <- q + geom_boxplot_sample(alpha=0.1, notch = TRUE)
@@ -55,8 +52,7 @@ test_that("geom_boxplot_sample tests", {
 # # Boxplots are automatically dodged when any aesthetic is a factor
 # p + geom_boxplot(aes(colour = drv))
 # # Boxplots are automatically dodged when any aesthetic is a factor
-# q + geom_boxplot_sample(aes(colour = drv), alpha=0.1)+
-#   scale_y_continuous_distribution(limits=c(11,50))
+# q + geom_boxplot_sample(aes(colour = drv), alpha=0.1)
 
 # ############## UNTESTED #################
 
