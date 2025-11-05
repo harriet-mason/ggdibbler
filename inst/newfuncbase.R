@@ -59,15 +59,8 @@ geom_***_sample <- make_constructor(ggplot2::Geom***, stat = "***_sample", times
 
 
 # 4) Test function. First open a test file with
-# usethis::use_test()
+# usethis::use_test() and paste in:
 
-# Get geom examples with ?geom_* and populate test file
-
-################ PASS #################
-############### FAIL #################
-############## UNTESTED #################
-
-# Once sorted, properly write passing tests up in:
 
 # ---------- TEST FILE ---------
 library(vdiffr)
@@ -81,5 +74,9 @@ test_that("geom_**_sample tests", {
 
 }
 )
+
+################ PASS #################
+############### FAIL #################
+############## UNTESTED #################
 
 
