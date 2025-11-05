@@ -1,7 +1,7 @@
 #' @export
 #' @usage NULL
 #' @format NULL
-#' @importFrom ggplot2 ggproto StatIdentity
+#' @importFrom ggplot2 ggproto Stat
 #' @rdname stat_identity_sample
 StatIdentitySample <- ggplot2::ggproto("StatIdentitySample", ggplot2::StatIdentity,
                                setup_data = function(data, params) {

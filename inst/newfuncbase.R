@@ -69,7 +69,6 @@ test_that("geom_**_sample tests", {
 
   set.seed(***)
   
-  p* <- ggplot()
   expect_doppelganger("Example 1", p1)
 
 }

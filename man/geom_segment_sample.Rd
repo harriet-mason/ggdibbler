@@ -165,9 +165,7 @@ b <- ggplot(mtcars, aes(wt, mpg)) +
   geom_point()
 # ggdibbler
 a <- ggplot(uncertain_mtcars, aes(wt, mpg)) +
-  geom_point_sample(size=0.1) +
-  scale_x_continuous_distribution(limits = c(1,6)) +
-  scale_y_continuous_distribution(limits = c(8,36))
+  geom_point_sample(size=0.1)
 
 
 df <- data.frame(x1 = 2.62, x2 = 3.57, 
@@ -231,7 +229,5 @@ ggplot(counts, aes(x, Freq)) +
 
 # ggdibbler
 ggplot(uncertain_counts, aes(x, Freq)) +
-  geom_segment_sample(aes(xend = x, yend = 0), linewidth = 10, lineend = "butt", alpha=0.1) +
-  scale_x_continuous_distribution(limits = c(0,12)) +
-  scale_y_continuous_distribution(limits = c(0,25)) 
+  geom_segment_sample(aes(xend = x, yend = 0), linewidth = 10, lineend = "butt", alpha=0.1) 
 }

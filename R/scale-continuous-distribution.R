@@ -151,7 +151,7 @@ train_continuous_distribution <- function(new, existing = NULL, call = rlang::ca
   # Transformed space is still distribution space
   if(distributional::is_distribution(new)){
     new <- rlang::try_fetch(
-      suppressWarnings(range(unlist(distributional::generate(new, times = 1000)), 
+      suppressWarnings(range(unlist(distributional::generate(new, times = 100)), 
                              na.rm = TRUE, finite = TRUE)),
       error = function(cnd) new
     )
@@ -162,6 +162,12 @@ train_continuous_distribution <- function(new, existing = NULL, call = rlang::ca
       error = function(cnd) new
     )
   }
+  suppressWarnings(range(
+    existing,
+    as.numeric(new),
+    na.rm = TRUE,
+    finite = TRUE
+  ))
 }
 
 
@@ -191,7 +197,7 @@ ScaleContinuousDistributionPosition <- ggproto(
     }
     self$range$train(x, call = self$call)
   },
-
+  
   # (transform_df just applies the transformation to each column of data frame - it's fine as is)
   # Transform
   # input: x - A vector of the relevant aesthetics

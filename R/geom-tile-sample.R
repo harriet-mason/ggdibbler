@@ -106,10 +106,7 @@
 #' 
 #' # ggdibbler
 #' ggplot(uncertain_df, aes(x, y)) +
-#'   geom_tile_sample(aes(fill = z), colour = "grey50", alpha=0.2) +
-#'   #' weird zoom in bug
-#'   scale_y_continuous_distribution(limits= c(0.5,2.5)) +
-#'   scale_x_continuous_distribution(limits= c(0,13))
+#'   geom_tile_sample(aes(fill = z), colour = "grey50", alpha=0.2) 
 #' 
 #' # control width with z
 #' # ggplot all deterministic variables
@@ -129,9 +126,7 @@
 #' # ggdibbler all random variables  (yes, it looks terrible but that's what it looks like, 
 #' # why do you even have data like this? what is wrong with you)
 #' ggplot(uncertain_df, aes(x, y, f = z, width = w)) +
-#'   geom_tile_sample(aes(fill = as.factor(after_stat(f))), colour = "grey50", alpha=0.1) +
-#'   scale_y_continuous_distribution(limits= c(0.5,2.5)) +
-#'   scale_x_continuous_distribution(limits= c(0,13)) 
+#'   geom_tile_sample(aes(fill = as.factor(after_stat(f))), colour = "grey50", alpha=0.1)
 #' 
 #' 
 #' rect_df  <- df|>

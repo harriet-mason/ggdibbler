@@ -192,12 +192,10 @@ ggplot(uncertain_mtcars, aes(x = mpg)) +
 # y axis isn't really meaningful, so hide it
 # ggplot
 ggplot(mtcars, aes(x = mpg)) + 
-  geom_dotplot(binwidth = 1.5) +
-  scale_y_continuous(NULL, breaks = NULL)
+  geom_dotplot(binwidth = 1.5)
 # ggdibbler
 ggplot(uncertain_mtcars, aes(x = mpg)) + 
-  geom_dotplot_sample(binwidth = 1.5, alpha=0.2) +
-  scale_y_continuous(NULL, breaks = NULL)
+  geom_dotplot_sample(binwidth = 1.5, alpha=0.2)
 
 # Overlap dots vertically
 # ggplot
@@ -233,7 +231,6 @@ ggplot(mtcars, aes(x = 1, y = mpg)) +
 # ggdibbler
 ggplot(uncertain_mtcars, aes(x = 1, y = mpg)) +
   geom_dotplot_sample(binaxis = "y", stackdir = "center",
-                      alpha=0.2) +
-  scale_y_continuous_distribution(limits=c(9, 36))
+                      alpha=0.2) 
 }
 \keyword{datasets}

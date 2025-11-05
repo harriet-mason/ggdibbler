@@ -151,7 +151,7 @@ datapoly <- merge(values, positions, by = c("id"))
 uncertain_datapoly <- datapoly |>
   mutate(x = dist_uniform(x-0.1, x + 0.1),
          y = dist_uniform(y-0.1, y + 0.1),
-         value = dist_uniform(value-0.1, value + 0.1))
+         value = dist_uniform(value-0.5, value + 0.5))
 
 
 p <- ggplot(datapoly, aes(x = x, y = y)) +
@@ -184,8 +184,8 @@ q + geom_line_sample(data = uncertain_stream, colour = "grey30", linewidth = 1)
 # If the outline of your polygon is deterministic but the fill is random, 
 # You should use position subdivide rather than varying the alpha value 
 uncertain_datapoly2 <- datapoly |>
-  mutate(value = dist_uniform(value-0.3, value + 0.3)) 
+  mutate(value = dist_uniform(value-0.5, value + 0.5)) 
 ggplot(uncertain_datapoly2 , aes(x = x, y = y)) +
-  geom_polygon_sample(aes(fill = value, group = id), times=20,
+  geom_polygon_sample(aes(fill = value, group = id), times=50,
                       position = "identity_subdivide")
 }

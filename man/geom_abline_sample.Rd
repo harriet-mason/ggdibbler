@@ -145,17 +145,11 @@ q + geom_abline_sample(intercept = dist_normal(20, 1))
 # Fixed values
 # ggplot
 p + geom_vline(xintercept = 5) #ggplot
-q + geom_vline_sample(xintercept = dist_normal(5, 0.1)) + #ggdibbler
-  # need to add in limit control because of weird plot zooming proble
-  scale_x_continuous_distribution(limits = c(0,6)) + 
-  scale_y_continuous_distribution(limits = c(10,35)) 
+q + geom_vline_sample(xintercept = dist_normal(5, 0.1)) 
 p + geom_vline(xintercept = 1:5) #ggplot
 q + geom_vline_sample(xintercept = dist_normal(1:5, 0.1)) #ggdibbler
 p + geom_hline(yintercept = 20) #' ggplot
-q + geom_hline_sample(yintercept = dist_normal(20, 1)) + #' ggdibbler
-  #' need to add in limit control because of weird plot zooming problem
-  scale_x_continuous_distribution(limits = c(0,6)) + 
-  scale_y_continuous_distribution(limits = c(10,35)) 
+q + geom_hline_sample(yintercept = dist_normal(20, 1)) 
 
 # Calculate slope and intercept of line of best fit
 # get coef and standard error

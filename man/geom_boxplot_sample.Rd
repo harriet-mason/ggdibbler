@@ -203,16 +203,14 @@ p <- ggplot(mpg, aes(class, hwy))
 p + geom_boxplot(alpha=0.5)
 
 # using alpha to manage overplotting
-q <- ggplot(uncertain_mpg, aes(class, hwy)) +
-  scale_y_continuous_distribution(limits=c(11,50))
+q <- ggplot(uncertain_mpg, aes(class, hwy)) 
 q + geom_boxplot_sample(alpha=0.1) 
 
 # ggdibbler: e.g. only one random variable 
 # (If you only have one random variable, there is less uncertainty)
 uncertain_mpg_new <- uncertain_mpg
 uncertain_mpg_new$class <- mpg$class
-r <- ggplot(uncertain_mpg_new, aes(class, hwy)) +
-  scale_y_continuous_distribution(limits=c(11,50)) 
+r <- ggplot(uncertain_mpg_new, aes(class, hwy))  
 r  + geom_boxplot_sample(alpha=0.1) 
 
 # Orientation follows the discrete axis
@@ -221,8 +219,7 @@ ggplot(mpg, aes(hwy, class)) +
   geom_boxplot()
 # ggdibbler
 ggplot(uncertain_mpg, aes(hwy, class)) + 
-  geom_boxplot_sample(alpha=0.1) +
-  scale_x_continuous_distribution(limits=c(11,50)) 
+  geom_boxplot_sample(alpha=0.1)
 
 # ggplot
 p + geom_boxplot(notch = TRUE)

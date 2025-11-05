@@ -30,9 +30,7 @@
 #' # ggdibbler
 #' ggplot(uncertain_mpg, aes(displ, hwy)) +
 #'   geom_point_sample(alpha=0.5, size=0.2) +
-#'   geom_smooth_sample(linewidth=0.2, alpha=0.1, orientation = "y")+
-#'   scale_y_continuous_distribution(limits=c(12,46)) +
-#'   scale_x_continuous_distribution(limits=c(1,7))
+#'   geom_smooth_sample(linewidth=0.2, alpha=0.1, orientation = "y")
 #' 
 #' # Use span to control the "wiggliness" of the default loess smoother.
 #' # The span is the fraction of points used to fit each local regression:
@@ -44,9 +42,7 @@
 #' # ggdibbler
 #' ggplot(uncertain_mpg, aes(displ, hwy)) +
 #'   geom_point_sample(alpha=0.5, size=0.2) +
-#'   geom_smooth_sample(linewidth=0.2, alpha=0.1, span = 0.3)+
-#'   scale_y_continuous_distribution(limits=c(12,46)) +
-#'   scale_x_continuous_distribution(limits=c(1,7))
+#'   geom_smooth_sample(linewidth=0.2, alpha=0.1, span = 0.3)
 #' 
 #' # Instead of a loess smooth, you can use any other modelling function:
 #' # ggplot
@@ -56,9 +52,7 @@
 #' # ggdibbler
 #' ggplot(uncertain_mpg, aes(displ, hwy)) +
 #'   geom_point_sample(alpha=0.5, size=0.2) +
-#'   geom_smooth_sample(linewidth=0.2, alpha=0.1, method = lm, se = FALSE)+
-#'   scale_y_continuous_distribution(limits=c(12,46)) +
-#'   scale_x_continuous_distribution(limits=c(1,7))
+#'   geom_smooth_sample(linewidth=0.2, alpha=0.1, method = lm, se = FALSE)
 #' 
 #' # ggplot
 #' ggplot(mpg, aes(displ, hwy)) +
@@ -68,9 +62,7 @@
 #' ggplot(uncertain_mpg, aes(displ, hwy)) +
 #'   geom_point_sample(alpha=0.5, size=0.2) +
 #'   geom_smooth_sample(linewidth=0.2, alpha=0.1,
-#'                      method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)+
-#'   scale_y_continuous_distribution(limits=c(12,46)) +
-#'   scale_x_continuous_distribution(limits=c(1,7))
+#'                      method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
 #' 
 #' 
 #' # Smooths are automatically fit to each group (defined by categorical
@@ -82,9 +74,7 @@
 #' # ggdibbler
 #' ggplot(uncertain_mpg, aes(displ, hwy, colour = class)) +
 #'   geom_point_sample(alpha=0.5, size=0.2) +
-#'   geom_smooth_sample(linewidth=0.2, alpha=0.1, se = FALSE, method = lm) +
-#'   scale_y_continuous_distribution(limits=c(12,46)) +
-#'   scale_x_continuous_distribution(limits=c(1,7))
+#'   geom_smooth_sample(linewidth=0.2, alpha=0.1, se = FALSE, method = lm)
 #' 
 #' # ggplot
 #' ggplot(mpg, aes(displ, hwy)) +
