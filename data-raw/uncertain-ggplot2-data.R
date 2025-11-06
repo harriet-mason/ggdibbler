@@ -68,7 +68,7 @@ class_names <- unique(mpg_dist$class)
 # Discrete variables (small)
 cyl_vals <- unique(mpg$cyl)
 
-
+round1 <- function(x) round(x, digits=1)
 uncertain_mpg <- mpg |>
   tibble::rowid_to_column(var = "id") |>
   group_by(id) |>
@@ -87,7 +87,8 @@ uncertain_mpg <- mpg |>
          class = dist_categorical(prob = list(prob_vals2(class, class_names)),
                                outcomes = list(class_names)),
 # Continuous: # displ
-         displ = dist_uniform(displ - runif(1, 0, 1), displ + runif(1, 0, 1)),
+         displ = dist_transformed(dist_uniform(displ - runif(1, 0, 1), displ + runif(1, 0, 1)),
+                                  round1, identity),
 # Integer: # year # cyl # cty # hwy
          year = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE))),
          cyl =  dist_categorical(prob = list(prob_vals2(cyl, cyl_vals)),
