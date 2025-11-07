@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,8 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ggdibbler-vignette.html">An introduction to ggdibbler</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ggdibbler-intro.html">An introduction to ggdibbler</a></li>
+    <li><a class="dropdown-item" href="../articles/random-plots.html">Unexpected by products of uncertain plots</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -47,13 +48,25 @@
 
       <dl><dt>
 
+          <code><a href="geom_abline_sample.html">geom_abline_sample()</a></code> <code><a href="geom_abline_sample.html">geom_hline_sample()</a></code> <code><a href="geom_abline_sample.html">geom_vline_sample()</a></code>
+
+        </dt>
+        <dd>Reference lines with uncertainty: horizontal, vertical, and diagonal</dd>
+      </dl><dl><dt>
+
           <code><a href="geom_bar_sample.html">geom_bar_sample()</a></code> <code><a href="geom_bar_sample.html">geom_col_sample()</a></code>
 
         </dt>
         <dd>Uncertain Bar Charts</dd>
       </dl><dl><dt>
 
-          <code><a href="geom_count_sample.html">geom_count_sample()</a></code> <code><a href="geom_count_sample.html">stat_count()</a></code> <code><a href="geom_count_sample.html">stat_sum_sample()</a></code>
+          <code><a href="geom_boxplot_sample.html">geom_boxplot_sample()</a></code> <code><a href="geom_boxplot_sample.html">stat_boxplot_sample()</a></code>
+
+        </dt>
+        <dd>An uncertain box and whiskers plot (in the style of Tukey)</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_count_sample.html">geom_count_sample()</a></code> <code><a href="geom_count_sample.html">stat_count_sample()</a></code> <code><a href="geom_count_sample.html">stat_sum_sample()</a></code>
 
         </dt>
         <dd>Uncertain Count overlapping points</dd>
@@ -65,10 +78,28 @@
         <dd>Visualise Densities with Uncertainty</dd>
       </dl><dl><dt>
 
+          <code><a href="geom_dotplot_sample.html">geom_dotplot_sample()</a></code>
+
+        </dt>
+        <dd>Dot plot with uncertainty</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_histogram_sample.html">geom_freqpoly_sample()</a></code> <code><a href="geom_histogram_sample.html">geom_histogram_sample()</a></code> <code><a href="geom_histogram_sample.html">stat_bin_sample()</a></code>
+
+        </dt>
+        <dd>Histograms and frequency polygons with uncertainty</dd>
+      </dl><dl><dt>
+
           <code><a href="geom_jitter_sample.html">geom_jitter_sample()</a></code>
 
         </dt>
         <dd>Uncertain Jittered Points</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_linerange_sample.html">geom_crossbar_sample()</a></code> <code><a href="geom_linerange_sample.html">geom_errorbar_sample()</a></code> <code><a href="geom_linerange_sample.html">geom_linerange_sample()</a></code> <code><a href="geom_linerange_sample.html">geom_pointrange_sample()</a></code>
+
+        </dt>
+        <dd>Vertical intervals: lines, crossbars &amp; errorbars with uncertainty</dd>
       </dl><dl><dt>
 
           <code><a href="geom_path_sample.html">geom_path_sample()</a></code> <code><a href="geom_path_sample.html">geom_line_sample()</a></code> <code><a href="geom_path_sample.html">geom_step_sample()</a></code>
@@ -89,10 +120,34 @@
         <dd>Uncertain Polygons</dd>
       </dl><dl><dt>
 
+          <code><a href="geom_qq_sample.html">geom_qq_line_sample()</a></code> <code><a href="geom_qq_sample.html">stat_qq_line_sample()</a></code> <code><a href="geom_qq_sample.html">geom_qq_sample()</a></code> <code><a href="geom_qq_sample.html">stat_qq_sample()</a></code>
+
+        </dt>
+        <dd>A quantile-quantile plot with uncertainty</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_quantile_sample.html">geom_quantile_sample()</a></code> <code><a href="geom_quantile_sample.html">stat_quantile_sample()</a></code>
+
+        </dt>
+        <dd>Quantile regression with uncertainty</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_ribbon_sample.html">geom_ribbon_sample()</a></code> <code><a href="geom_ribbon_sample.html">geom_area_sample()</a></code> <code><a href="geom_ribbon_sample.html">stat_align_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain ***</dd>
+      </dl><dl><dt>
+
           <code><a href="geom_rug_sample.html">geom_rug_sample()</a></code>
 
         </dt>
         <dd>Uncertain Rug plots in the margins</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_segment_sample.html">geom_curve_sample()</a></code> <code><a href="geom_segment_sample.html">geom_segment_sample()</a></code>
+
+        </dt>
+        <dd>Line segments and curves with uncertainty</dd>
       </dl><dl><dt>
 
           <code><a href="geom_sf_sample.html">geom_sf_sample()</a></code>
@@ -101,10 +156,34 @@
         <dd>Visualise Sf Objectjects with Uncertainty</dd>
       </dl><dl><dt>
 
+          <code><a href="geom_smooth_sample.html">geom_smooth_sample()</a></code> <code><a href="geom_smooth_sample.html">stat_smooth_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain Smooth</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_spoke_sample.html">geom_spoke_sample()</a></code>
+
+        </dt>
+        <dd>Line segments parameterised by location, direction and distance, with uncertainty</dd>
+      </dl><dl><dt>
+
           <code><a href="geom_text_sample.html">geom_label_sample()</a></code> <code><a href="geom_text_sample.html">geom_text_sample()</a></code>
 
         </dt>
         <dd>Uncertain Text</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_tile_sample.html">geom_raster_sample()</a></code> <code><a href="geom_tile_sample.html">geom_rect_sample()</a></code> <code><a href="geom_tile_sample.html">geom_tile_sample()</a></code>
+
+        </dt>
+        <dd>Rectangles with Uncertainty</dd>
+      </dl><dl><dt>
+
+          <code><a href="geom_violin_sample.html">geom_violin_sample()</a></code> <code><a href="geom_violin_sample.html">stat_ydensity_sample()</a></code>
+
+        </dt>
+        <dd>Violin plots with uncertainty</dd>
       </dl></div><div class="section level2">
       <h2 id="stats">Stats<a class="anchor" aria-label="anchor" href="#stats"></a></h2>
 
@@ -118,10 +197,33 @@
 
       <dl><dt>
 
-          <code><a href="stat_sample.html">stat_sample()</a></code>
+          <code><a href="stat_identity_sample.html">stat_identity_sample()</a></code>
 
         </dt>
         <dd>Generates a sample from a distribution</dd>
+      </dl><dl><dt>
+
+          <code><a href="sample_expand.html">sample_expand()</a></code>
+
+        </dt>
+        <dd>Simulate outcomes from dibble to make a tibble</dd>
+      </dl></div><div class="section level2">
+      <h2 id="position">Position<a class="anchor" aria-label="anchor" href="#position"></a></h2>
+
+      <div class="section-desc"><p>These positions allow you to nest the distribution overplotting within a different ggplot2 position adjustment</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="position_identity_subdivide.html">position_identity_subdivide()</a></code>
+
+        </dt>
+        <dd>Subdivide position aesthetic in a geometry</dd>
       </dl></div><div class="section level2">
       <h2 id="scale">Scale<a class="anchor" aria-label="anchor" href="#scale"></a></h2>
 
@@ -176,7 +278,7 @@
         <dd>A toy data set that has the ambient temperature as measured by a collection of citizen scientists for each Iowa county</dd>
       </dl><dl><dt>
 
-          <code><a href="smaller_uncertain_diamonds.html">smaller_diamonds</a></code>
+          <code><a href="smaller_uncertain_diamonds.html">smaller_diamonds</a></code> <code><a href="smaller_uncertain_diamonds.html">uncertain_diamonds</a></code>
 
         </dt>
         <dd>An uncertain (and shrunk down) version of the diamonds data from`ggplot2`</dd>
@@ -198,6 +300,12 @@
 
         </dt>
         <dd>An uncertain version of the economics data from`ggplot2`</dd>
+      </dl><dl><dt>
+
+          <code><a href="uncertain_faithfuld.html">uncertain_faithfuld</a></code>
+
+        </dt>
+        <dd>2d density estimate of Old Faithful data with uncertainty</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
