@@ -1,3 +1,45 @@
+#' Subdivide position aesthetic in a geometry
+#' 
+#' If the outline of a polygon is deterministic but the fill is random,
+#' you should use position subdivide rather than varying the alpha value.
+#' This subdivide position can be used with geom_polygon_sample (soon to
+#' be extended to others such as geom_sf, geom_map, etc).
+#' 
+#' @examples
+#' library(ggplot2)
+#' library(distributional)
+#' library(dplyr)
+#' 
+#' # make data polygon with uncertain fill values
+#' ids <- factor(c("1.1", "2.1", "1.2", "2.2", "1.3", "2.3"))
+#' 
+#' values <- data.frame(
+#'   id = ids,
+#'   value = c(3, 3.1, 3.1, 3.2, 3.15, 3.5)
+#' )
+#' positions <- data.frame(
+#'   id = rep(ids, each = 4),
+#'   x = c(2, 1, 1.1, 2.2, 1, 0, 0.3, 1.1, 2.2, 1.1, 1.2, 2.5, 1.1, 0.3,
+#'         0.5, 1.2, 2.5, 1.2, 1.3, 2.7, 1.2, 0.5, 0.6, 1.3),
+#'   y = c(-0.5, 0, 1, 0.5, 0, 0.5, 1.5, 1, 0.5, 1, 2.1, 1.7, 1, 1.5,
+#'         2.2, 2.1, 1.7, 2.1, 3.2, 2.8, 2.1, 2.2, 3.3, 3.2)
+#' )
+#' datapoly <- merge(values, positions, by = c("id"))
+#' uncertain_datapoly2 <- datapoly |>
+#'   mutate(value = dist_uniform(value-0.5, value + 0.5)) 
+#'   
+#' # visualise with geom_polygon
+#' ggplot(uncertain_datapoly2 , aes(x = x, y = y)) +
+#'   geom_polygon_sample(aes(fill = value, group = id), times=50,
+#'                       position = "identity_subdivide")
+#' @export
+position_identity_subdivide <- function() {
+  PositionIdentitySubdivide
+}
+
+#' @rdname position_identity_subdivide
+#' @format NULL
+#' @usage NULL
 #' @export
 PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdentity,
 
@@ -12,14 +54,15 @@ PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdenti
                                 }
 )
 
+#' @keywords internal
 sample_subdivide_polygon <- function(data, times){
   d = square_grid(times) 
   
   # If multiple fills for each polygon, take a random sample of them
   values <- data |>
-    select(-c(x,y)) |>
-     group_by(group) |>
-    summarise(fill = sample(fill, size=1),
+    dplyr::select(-c(x,y)) |>
+    dplyr::group_by(group) |>
+    dplyr::summarise(fill = sample(fill, size=1),
               # panel and drawID should be constant
               drawID = unique(drawID, size=1),
               PANEL = unique(PANEL, size=1))
@@ -29,34 +72,35 @@ sample_subdivide_polygon <- function(data, times){
     dplyr::filter(drawID==1) |>
     dplyr::group_by(group) |>
     sf::st_as_sf(coords=c("x","y")) |>
-    summarise(do_union=FALSE) |>
+    dplyr::summarise(do_union=FALSE) |>
     sf::st_cast("POLYGON") 
   
   # Subdivide the polygon and convert to coordinates
   grid_points <- base_polygon |>
-    group_by(group) |>
+    dplyr::group_by(group) |>
     dplyr::reframe(
       geometry = subdivide(geometry, d=d)) |>
     sf::st_as_sf() |>
     sf::st_coordinates() |>
-    as_tibble() 
+    tibble::as_tibble() 
   
   # make group interaction of l1 and l2
   grid_points$group <- as.numeric(interaction(factor(grid_points$L1), factor(grid_points$L2)))
   
   # rename and remove old columns
   grid_points <- grid_points |>
-    rename("x" = "X", "y" = "Y") |>
-    select(-c(L1, L2))
+    dplyr::rename("x" = "X", "y" = "Y") |>
+    dplyr::select(-c(L1, L2))
   
   # Join subdivided polygon with values
   new_data <- grid_points |>
-    left_join(values, by = "group") |>
+    dplyr::left_join(values, by = "group") |>
     as.data.frame()
   # add draw ID back in
   
   new_data
 }
+
 #' @keywords internal
 sample_subdivide_sf <- function(data, times){ 
   d <- square_grid(times)
@@ -72,8 +116,7 @@ sample_subdivide_sf <- function(data, times){
 }
 
 
-#'  Internal function for subdividing geometry grid
-#'  
+# Internal function for subdividing geometry grid
 #' @keywords internal
 subdivide <- function(geometry, d){
   n.overlaps <- NULL #to avoid binding error
@@ -92,8 +135,7 @@ subdivide <- function(geometry, d){
   subdivided$comb_data
 }
 
-#'  Internal function for finding the "most square" factors of a number
-#'  
+# Internal function for finding the "most square" factors of a number
 #' @keywords internal
 square_grid <- function(x) {
   # get factors

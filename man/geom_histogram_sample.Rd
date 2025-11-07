@@ -198,6 +198,8 @@ Identical to geom_histogram, geom_freqpoly, and stat-bin except that
 it will accept a distribution in place of any of the usual aesthetics.
 }
 \examples{
+# load ggplot
+library(ggplot2)
 # ggplot
 ggplot(smaller_diamonds, aes(carat)) +
   geom_histogram()

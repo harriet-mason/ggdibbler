@@ -7,6 +7,8 @@
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
 #' library(ggplot2)
+#' library(dplyr)
+#' library(distributional)
 #' 
 #' # deterministic data
 #' set.seed(1)

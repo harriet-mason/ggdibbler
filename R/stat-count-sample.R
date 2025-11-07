@@ -5,26 +5,14 @@
 #' @export
 StatCountSample <- ggplot2::ggproto("StatCountSample", ggplot2::StatCount,
                                     setup_params = function(self, data, params) {
-                                      params$flipped_aes <- has_flipped_aes(data, params, main_is_orthogonal = FALSE)
-                                      
-                                      has_x <- !(is.null(data$x) && is.null(params$x))
-                                      has_y <- !(is.null(data$y) && is.null(params$y))
-                                      if (!has_x && !has_y) {
-                                        cli::cli_abort("{.fn {snake_class(self)}} requires an {.field x} or {.field y} aesthetic.")
-                                      }
-                                      if (has_x && has_y) {
-                                        cli::cli_abort("{.fn {snake_class(self)}} must only have an {.field x} {.emph or} {.field y} aesthetic.")
-                                      }
-                                      if (is.null(params$width)) {
-                                        x <- if (params$flipped_aes) "y" else "x"
-                                        params$width <- resolution_dist(data[[x]], discrete = TRUE) * 0.9
-                                      }
-                                      
+                                      times <- params$times
+                                      params$times <- 1
+                                      data <- dibble_to_tibble(data, params)
+                                      params <- ggplot2::ggproto_parent(ggplot2::StatCount, self)$setup_params(data, params)
+                                      params$times <- times
                                       params
                                     },
                                   
-                                  
-                                    
                                     setup_data = function(data, params) {
                                       dibble_to_tibble(data, params)
                                     },
@@ -45,11 +33,3 @@ stat_count_sample <- make_constructor(
   orientation = NA, omit = "width", times=10,
 )
 
-
-#' @keywords internal
-resolution_dist <- function(x, zero = TRUE, discrete = FALSE) {
-  if(distributional::is_distribution(x)){
-    x <- unlist(generate(x, 10))
-  }
-  resolution(x)
-}

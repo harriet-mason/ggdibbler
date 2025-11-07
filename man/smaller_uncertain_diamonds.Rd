@@ -4,6 +4,7 @@
 \name{smaller_uncertain_diamonds}
 \alias{smaller_uncertain_diamonds}
 \alias{smaller_diamonds}
+\alias{uncertain_diamonds}
 \title{An uncertain (and shrunk down) version of the diamonds data from`ggplot2`}
 \format{
 A data frame with almost 54000 observations and 10 variables:
@@ -21,14 +22,19 @@ A data frame with almost 54000 observations and 10 variables:
 }
 
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1000 rows and 10 columns.
+
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 5000 rows and 20 columns.
 }
 \usage{
 smaller_diamonds
+
+uncertain_diamonds
 }
 \description{
 This dataset is a subset of the diamonds data. There is a deterministic version that is only 
 a subset (smaller_diamonds) and a version that has random variables (uncertain_smaller_diamonds). 
 The data is only a subset as the ggdibbler approach can take quite a long time when applied to
-the full sized diamonds data set.
+the full sized diamonds data set. An uncertain version of the original diamonds data is also
+available as uncertain_diamonds, although it isn't used in any examples.
 }
 \keyword{datasets}

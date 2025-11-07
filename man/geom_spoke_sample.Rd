@@ -127,6 +127,8 @@ Identical to geom_spoke except that it will accept a distribution in place of an
 }
 \examples{
 library(ggplot2)
+library(dplyr)
+library(distributional)
 
 # deterministic data
 set.seed(1)

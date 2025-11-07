@@ -7,6 +7,8 @@
 #' @importFrom ggplot2 make_constructor GeomBar
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
+#' # load ggplot
+#' library(ggplot2)
 #' # ggplot
 #' ggplot(smaller_diamonds, aes(carat)) +
 #'   geom_histogram()

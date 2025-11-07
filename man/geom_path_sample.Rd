@@ -174,11 +174,12 @@ to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more 
 adjacent x-values.}
 }
 \description{
-Identical to geom_path, except that it will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_path, geom_line, and geom_step, except that it will accept a distribution in place of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
 library(dplyr)
+library(distributional)
 # geom_line() is suitable for time series
 #ggplot
 ggplot(economics, aes(date, unemploy)) + geom_line() 

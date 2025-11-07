@@ -19,7 +19,7 @@ Description: A 'ggplot2' extension for visualising uncertainty with the goal
     'ggdibbler' differentiates itself by viewing an uncertainty
     visualisation as an adjustment to an existing graphic that
     incorporates the inherent uncertainty in the estimates.  You provide
-    the code for an existing plot, but replace one of the variables with a
+    the code for an existing plot, but replace any of the variables with a
     vector of distributions, and it will convert the visualisation into
     it's signal suppression counterpart.
 License: GPL-3
@@ -36,6 +36,7 @@ Imports:
     tidyr,
     tibble,
     cli,
+    quantreg,
     sf
 Suggests: 
     knitr,

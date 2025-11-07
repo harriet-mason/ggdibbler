@@ -1,6 +1,6 @@
 #' Uncertain Connected observations
 #' 
-#' Identical to geom_path, except that it will accept a distribution in place of any of the usual aesthetics.
+#' Identical to geom_path, geom_line, and geom_step, except that it will accept a distribution in place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_path
 #' @importFrom ggplot2 make_constructor GeomPath
@@ -8,6 +8,7 @@
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)
+#' library(distributional)
 #' # geom_line() is suitable for time series
 #' #ggplot
 #' ggplot(economics, aes(date, unemploy)) + geom_line() 
