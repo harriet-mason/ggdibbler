@@ -1,4 +1,23 @@
-# ggdibbler 0.3.0
+# ggdibbler 0.4.0
+
+# Version v0.4.0
+## New Featues
+### Functions
+- `geom_abline_sample`/ `geom_hline_sample` / `geom_vline_sample`
+- `geom_smooth_sample`
+- `geom_spoke_sample`
+- `geom_segment_sample`/`geom_curve`
+- `geom_ribbon_sample`/`geom_area`
+- `geom_boxplot_sample`
+- `geom_freqpolly_sample` / `geom_histogram_sample`
+- `geom_dotplot_sample`
+- `geom_crossbar_sample` / `geom_errorbar_sample` / `geom_linerange_sample` / `geom_pointrange_sample`
+- `geom_qqline_sample` / `geom_quantile_sample`
+- `geom_violin_sample`
+- `geom_raster_sample` / `geom_rect_sample` / `geom_tile_sample`
+
+### Data sets
+- `uncertain_faithfuld` an uncertain version of `ggplot2::faithfuld`
 
 # Version v0.3.0
 
