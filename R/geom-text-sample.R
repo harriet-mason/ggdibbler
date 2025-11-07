@@ -37,7 +37,7 @@
 #'   geom_point_sample() +
 #'   geom_text_sample(hjust = 0, nudge_x = 0.05, times=1) #ggplot
 #' @export
-geom_text_sample <- make_constructor(GeomText, position = "nudge", stat = "sample", times=10)
+geom_text_sample <- make_constructor(GeomText, position = "nudge", stat = "identity_sample", times=10)
 
 
 

@@ -116,7 +116,7 @@ DiscreteDistributionRange <- R6::R6Class(
   inherit = scales::DiscreteRange,
   list(
     factor = NULL,
-    train = function(x, drop = FALSE, na.rm = FALSE, call = caller_env()) {
+    train = function(x, drop = FALSE, na.rm = FALSE, call = rlang::caller_env()) {
       self$factor <- ifelse(distributional::is_distribution(new),
                             self$factor %||% is.factor(unlist(generate(x,1))),
                             self$factor %||% is.factor(x)) 

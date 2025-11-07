@@ -9,7 +9,7 @@
 geom_path_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,
@@ -26,7 +26,7 @@ geom_path_sample(
 geom_line_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,
@@ -44,7 +44,7 @@ geom_line_sample(
 geom_step_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "identity",
   ...,
   times = 10,
@@ -174,10 +174,12 @@ to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more 
 adjacent x-values.}
 }
 \description{
-Identical to geom_path, except that it will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_path, geom_line, and geom_step, except that it will accept a distribution in place of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
+library(dplyr)
+library(distributional)
 # geom_line() is suitable for time series
 #ggplot
 ggplot(economics, aes(date, unemploy)) + geom_line() 
@@ -197,10 +199,10 @@ ggplot(uncertain_economics, aes(unemploy, date)) +
 recent <- economics[economics$date > as.Date("2013-01-01"), ]
 uncertain_recent <- uncertain_economics[uncertain_economics$date > as.Date("2013-01-01"), ]
 # geom line
-ggplot(recent, aes(date, unemploy)) + geom_line() #ggplot
-ggplot(uncertain_recent, aes(date, unemploy)) + geom_line_sample(alpha=0.3) #ggdibbler
-ggplot(recent, aes(date, unemploy)) + geom_step() #ggplot
-ggplot(uncertain_recent, aes(date, unemploy)) + geom_step_sample(alpha=0.3) #ggdibbler
+ggplot(recent, aes(date, unemploy)) + geom_line()#ggplot
+ggplot(uncertain_recent, aes(date, unemploy)) + geom_line_sample(alpha=0.3)#ggdibbler
+ggplot(recent, aes(date, unemploy)) + geom_step()#ggplot
+ggplot(uncertain_recent, aes(date, unemploy)) + geom_step_sample(alpha=0.3)#ggdibbler
 
 # Changing parameters 
 # ggplot
@@ -215,11 +217,42 @@ ggplot(uncertain_economics, aes(date, unemploy)) +
 # ggplot
 c <- ggplot(economics, aes(x = date, y = pop))
 c + geom_line(arrow = arrow())
-c + geom_line(
-  arrow = arrow(angle = 15, ends = "both", type = "closed"))
 # ggdibbler
 d <- ggplot(uncertain_economics, aes(x = date, y = pop))
 d + geom_line_sample(arrow = arrow(), alpha=0.1)
+# ggplot
+c + geom_line(
+  arrow = arrow(angle = 15, ends = "both", type = "closed"))
+# ggdibbler
 d + geom_line_sample(arrow = arrow(angle = 15, ends = "both", type = "closed"),
                      alpha=0.1)
+                     
+# separate by colour and use "timeseries" legend key glyph
+# ggplot
+ggplot(economics_long, aes(date, value01, colour = variable)) +
+  geom_line(key_glyph = "timeseries")
+# ggdibbler (this looks bad because of my poorly chosen variance, not the plot
+ggplot(uncertain_economics_long, aes(date, value0, colour = variable)) +
+  geom_line_sample(key_glyph = "timeseries", alpha=0.1) 
+
+# geom_path lets you explore how two variables are related over time,
+# e.g. unemployment and personal savings rate
+# ggplot
+m <- ggplot(economics, aes(unemploy, psavert))
+m + geom_path()
+# ggdibbler
+n <- ggplot(uncertain_economics, aes(unemploy, psavert))
+n + geom_path_sample(alpha=0.3)
+# ggplot
+m + geom_path(aes(colour = as.numeric(date)))
+# ggdibbler
+n  + geom_path_sample(aes(colour = as.numeric(date)), alpha=0.3)
+
+# You can use NAs to break the line.
+df <- data.frame(x = 1:5, y = c(1, 2, NA, 4, 5))
+uncertain_df <- df |> mutate(y=dist_normal(y, 0.3))
+# ggplot
+ggplot(df, aes(x, y)) + geom_point() + geom_line()
+# ggdibbler
+ggplot(uncertain_df, aes(x, y)) + geom_point_sample() + geom_line_sample() 
 }

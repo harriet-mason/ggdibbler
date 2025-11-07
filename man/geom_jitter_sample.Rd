@@ -7,7 +7,7 @@
 geom_jitter_sample(
   mapping = NULL,
   data = NULL,
-  stat = "sample",
+  stat = "identity_sample",
   position = "jitter",
   ...,
   width = NULL,

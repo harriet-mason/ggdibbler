@@ -17,8 +17,16 @@ reference:
     in ggdibbler work. These stat functions convert a distribution to a sample
     before running through their non-uncertainty counterpart. 
   contents:
-  - stat_sample
+  - stat_identity_sample
+  - sample_expand
 
+- title: Position
+  desc: >
+    These positions allow you to nest the distribution overplotting within a
+    different ggplot2 position adjustment
+  contents:
+  - starts_with("position_")
+  
 - title: Scale
   desc: >
     These scales support allow distributions to be passed to ggplot with ease. 
@@ -41,3 +49,5 @@ reference:
   - uncertain_mtcars 
   - uncertain_economics 
   - uncertain_economics_long 
+  - uncertain_faithfuld
+

@@ -16,7 +16,7 @@ A data frame with almost 574 observations and 6 variables:
   \item{unemploy}{Normal random variable - number of unemployed in thousands}
   }
 
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 2870 rows and 3 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 2870 rows and 4 columns.
 }
 \usage{
 uncertain_economics_long

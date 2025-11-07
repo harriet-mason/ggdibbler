@@ -68,7 +68,7 @@ class_names <- unique(mpg_dist$class)
 # Discrete variables (small)
 cyl_vals <- unique(mpg$cyl)
 
-
+round1 <- function(x) round(x, digits=1)
 uncertain_mpg <- mpg |>
   tibble::rowid_to_column(var = "id") |>
   group_by(id) |>
@@ -87,7 +87,8 @@ uncertain_mpg <- mpg |>
          class = dist_categorical(prob = list(prob_vals2(class, class_names)),
                                outcomes = list(class_names)),
 # Continuous: # displ
-         displ = dist_uniform(displ - runif(1, 0, 1), displ + runif(1, 0, 1)),
+         displ = dist_transformed(dist_uniform(displ - runif(1, 0, 1), displ + runif(1, 0, 1)),
+                                  round1, identity),
 # Integer: # year # cyl # cty # hwy
          year = dist_sample(list(sample(seq(from=year-2, to = year+2), replace = TRUE))),
          cyl =  dist_categorical(prob = list(prob_vals2(cyl, cyl_vals)),
@@ -101,6 +102,8 @@ usethis::use_data(uncertain_mpg, overwrite = TRUE)
 
 ################################### DIAMONDS DATA SET ################################################
 set.seed(25102025)
+
+uncertain_diamonds <- ggplot2::diamonds
 
 cut_names <- levels(uncertain_diamonds$cut)
 color_names <- levels(uncertain_diamonds$color)
@@ -168,9 +171,34 @@ uncertain_economics <- uncertain_economics |>
 
 usethis::use_data(uncertain_economics, overwrite = TRUE)
 
+rescale_mean <- function(x) (x - min(x)) / diff(range(x))
+rescale_variance <- function(x) x / (diff(range(x)))^2
 
 uncertain_economics_long <- uncertain_economics |>
   pivot_longer(cols = pce:unemploy, 
-               names_to = "variable", values_to = "value") 
+               names_to = "variable", values_to = "value")|>
+  mutate(mean = mean(value),
+         variance = variance(value)) |>
+  group_by(variable) |>
+  mutate(value0 = dist_normal(rescale_mean(mean), sqrt(rescale_variance(variance)))) |>
+  ungroup() |>
+  select(!mean:variance)
+  
 
 usethis::use_data(uncertain_economics_long , overwrite = TRUE)
+
+################################ FAITHFUL #######################################
+
+set.seed(3112025)
+
+uncertain_faithfuld <- ggplot2::faithfuld
+
+# density is the only aesthetic that it makes sense to have randomised
+uncertain_faithfuld <- uncertain_faithfuld |>
+  group_by(eruptions, waiting) |>
+  mutate(density2 = dist_normal(density, runif(1,0,0.03)),
+         density = dist_normal(density, runif(1,0,0.007))) |>
+  ungroup()
+
+
+usethis::use_data(uncertain_faithfuld , overwrite = TRUE)

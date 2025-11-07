@@ -9,6 +9,7 @@
 #' library(distributional)
 #' library(ggplot2)
 #' 
+#' # Set up data
 #' g <- ggplot(mpg, aes(class)) #ggplot
 #' q <- ggplot(uncertain_mpg, aes(class)) #ggdibbler
 #' 

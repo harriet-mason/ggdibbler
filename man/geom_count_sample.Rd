@@ -4,8 +4,7 @@
 \docType{data}
 \name{geom_count_sample}
 \alias{geom_count_sample}
-\alias{StatCountSample}
-\alias{stat_count}
+\alias{stat_count_sample}
 \alias{StatDensitySample}
 \alias{StatSumSample}
 \alias{stat_sum_sample}
@@ -23,7 +22,7 @@ geom_count_sample(
   inherit.aes = TRUE
 )
 
-stat_count(
+stat_count_sample(
   mapping = NULL,
   data = NULL,
   geom = "bar",
@@ -110,7 +109,7 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution. By default, times is set to 30.}
+\item{times}{A parameter used to control the number of values sampled from each distribution.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}

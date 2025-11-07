@@ -3,4 +3,4 @@
 #' @importFrom ggplot2 make_constructor GeomLabel
 #' @param times A parameter used to control the number of values sampled from each distribution. 
 #' @export
-geom_label_sample <- make_constructor(GeomLabel, position = "nudge", stat = "sample", times=10)
+geom_label_sample <- make_constructor(GeomLabel, position = "nudge", stat = "identity_sample", times=10)

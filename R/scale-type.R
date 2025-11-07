@@ -13,3 +13,5 @@ scale_type.distribution <- function(x) {
   if("discrete" %in% datatype) return(c("discrete_distribution", datatype))
   if("continuous" %in% datatype) return(c("continuous_distribution", datatype))
 }
+
+

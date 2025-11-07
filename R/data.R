@@ -91,7 +91,8 @@ NULL
 #' This dataset is a subset of the diamonds data. There is a deterministic version that is only 
 #' a subset (smaller_diamonds) and a version that has random variables (uncertain_smaller_diamonds). 
 #' The data is only a subset as the ggdibbler approach can take quite a long time when applied to
-#' the full sized diamonds data set. 
+#' the full sized diamonds data set. An uncertain version of the original diamonds data is also
+#' available as uncertain_diamonds, although it isn't used in any examples.
 #'
 #' @format A data frame with almost 54000 observations and 10 variables:
 #' \describe{
@@ -111,6 +112,9 @@ NULL
 
 #' @rdname smaller_uncertain_diamonds
 "smaller_diamonds"
+
+#' @rdname smaller_uncertain_diamonds
+"uncertain_diamonds"
 
 #' An uncertain version of the economics data from`ggplot2`
 #' 
@@ -134,3 +138,22 @@ NULL
 
 #' @rdname uncertain_economics
 "uncertain_economics_long"
+
+#' 2d density estimate of Old Faithful data with uncertainty
+#'
+#' A 2d density estimate of the waiting and eruptions variables data
+#' \link{faithful}. Unlike other uncertain datasets, the only uncertain variable is
+#' density. Since this is based on a model, it wouldn't make sense for erruptions or
+#' waiting to be represented as random variables.
+#'
+#' @format A data frame with 5,625 observations and 3 variables:
+#' \describe{
+#'   \item{eruptions}{Eruption time in mins}
+#'   \item{waiting}{Waiting time to next eruption in mins}
+#'   \item{density}{A 2d density estimate that is normally distributed with a low variance}
+#'   \item{density2}{A 2d density estimate that is normally distributed with a high variance}
+#' }
+#' @name uncertain_faithfuld
+NULL
+
+

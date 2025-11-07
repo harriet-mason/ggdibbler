@@ -1,15 +1,15 @@
 Type: Package
 Package: ggdibbler
 Title: Add Uncertainty to Data Visualisations
-Version: 0.3.0.9000
+Version: 0.4.0
 Authors@R: c(
     person("Harriet", "Mason", , "harriet.m.mason@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0007-4568-8215")),
-    person("Dianne", "Cook", , "dicook@monash.edu", role = "aut",
+    person("Dianne", "Cook", , "dicook@monash.edu", role = c("aut", "ths"),
            comment = c(ORCID = "0000-0002-3813-7155")),
-    person("Sarah", "Goodwin", , "sarah.goodwin@monash.edu", role = "aut",
+    person("Sarah", "Goodwin", , "sarah.goodwin@monash.edu", role = c("aut", "ths"),
            comment = c(ORCID = "0000-0001-8894-8282")),
-    person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = "aut",
+    person("Susan", "VanderPlas", , "susan.vanderplas@unl.edu", role = c("aut", "ths"),
            comment = c(ORCID = "0000-0002-3803-0972"))
   )
 Maintainer: Harriet Mason <harriet.m.mason@gmail.com>
@@ -19,7 +19,7 @@ Description: A 'ggplot2' extension for visualising uncertainty with the goal
     'ggdibbler' differentiates itself by viewing an uncertainty
     visualisation as an adjustment to an existing graphic that
     incorporates the inherent uncertainty in the estimates.  You provide
-    the code for an existing plot, but replace one of the variables with a
+    the code for an existing plot, but replace any of the variables with a
     vector of distributions, and it will convert the visualisation into
     it's signal suppression counterpart.
 License: GPL-3
@@ -36,12 +36,14 @@ Imports:
     tidyr,
     tibble,
     cli,
+    quantreg,
     sf
 Suggests: 
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    patchwork
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
