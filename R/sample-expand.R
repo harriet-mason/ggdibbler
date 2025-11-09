@@ -42,7 +42,6 @@ adjust_grouping <- function(data, discretedists){
                   group = as.factor(group)) 
   # get list of variables to interact & edit group
   intvars <- c("group", discretedists, "drawID")
-  print(intvars)
   data$group <- as.numeric(interaction(factor_data[,intvars]))
   # convert to data frame for weight warning
   as.data.frame(data)
