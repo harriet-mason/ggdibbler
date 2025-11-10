@@ -40,9 +40,14 @@ adjust_grouping <- function(data, discretedists){
     # make sure all discrete distributions are factors (and)
     dplyr::mutate(dplyr::across(dplyr::all_of(discretedists), as.factor),
                   group = as.factor(group)) 
-  # get list of variables to interact & edit group
-  intvars <- c("group", discretedists, "drawID")
+  # get original group for positioning later
+  ogroup <- c("group", discretedists)
+  data$ogroup <- as.numeric(interaction(factor_data[,ogroup]))
+  
+  # get interact group with drawID for actual groups we will use
+  intvars <- c(ogroup, "drawID")
   data$group <- as.numeric(interaction(factor_data[,intvars]))
+  
   # convert to data frame for weight warning
   as.data.frame(data)
   }

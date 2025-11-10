@@ -15,6 +15,7 @@ StatCountSample <- ggplot2::ggproto("StatCountSample", ggplot2::StatCount,
                                   
                                     setup_data = function(data, params) {
                                       dibble_to_tibble(data, params)
+                                      
                                     },
                                   
                                   extra_params = c("na.rm", "times", "orientation",

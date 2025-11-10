@@ -20,12 +20,15 @@ PositionStackIdentity <- ggplot2::ggproto("PositionStackIdentity", ggplot2::Posi
                               reverse = FALSE,
                               
                               compute_panel = function(self, data, params, scales){
-                                print(table(data$group))
+                                
+                                print(data)
+                                #data <- data |> dplyr::filter(xmax==5.45)
                                 g <- data$drawID
                                 groups <- split(data, g)
                                 new_data <- lapply(groups, function(group){
-                                  #new <- PositionStack$compute_panel(group, params, scales)
-                                  new <- ggproto_parent(PositionStack, self)$compute_panel(group, params, scales)
+                                  print(vars)
+                                  browser()
+                                  new <- ggproto_parent(PositionStack, self)$compute_panel(group, params)
                                   rownames(new) <- rownames(group)
                                   new
                                   }) 
@@ -37,3 +40,5 @@ PositionStackIdentity <- ggplot2::ggproto("PositionStackIdentity", ggplot2::Posi
                               
                               extra_params = c("vjust", "reverse")
 )
+
+
