@@ -28,9 +28,6 @@ PositionIdentityStack <- ggplot2::ggproto("PositionIdentityStack", ggplot2::Posi
                                           
                                           
                                           compute_panel = function(self, data, params, scales){
-                                            # data <- data |>
-                                            #   dplyr::filter(fill == "f") |>
-                                            #   dplyr::filter(x == 1L)
                                             position_by_group(data, "ogroup",
                                                               ggproto_parent(PositionStack, self)$setup_data,
                                                               params)
