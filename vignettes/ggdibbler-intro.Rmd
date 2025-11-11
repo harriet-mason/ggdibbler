@@ -179,6 +179,26 @@ ggplot(toy_temp_dist) +
 
 Currently `geom_sf` only accepts a random fill, as it subdivides the geometry to fill it with a sample. This will eventually be extended to all the `geom_sf` aesthetics (which is the case for all other geometries in `ggdibbler`)
 
+## HOPs plots with `gganimate`
+Hypothetical outcome plots have been suggested as an uncertainty visualisation technique, but they are also simply a subset of the grammar of nested graphics `ggdibbler` implements. In a HOPs plot, it seems that animations replace our distribution specific position adjustment. There really isn't anything special about the animation element, it is the smae as our other distribution specific position adjustments. Implementing the code is trivially easy when we group our position by drawID (which is exactly what we do in the other position adjustments).
+
+```{r}
+library(distributional)
+library(ggplot2)
+library(gganimate)
+# bar chart
+ggplot(uncertain_mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv), 
+                  position = position_stack_identity(), times=30) +
+  transition_states(after_stat(drawID)) 
+
+# line chart
+ggplot(mtcars, aes(wt, mpg)) + geom_point() + 
+  geom_abline_sample(intercept = dist_normal(37, 1.8), 
+                     slope = dist_normal(-5, 0.56),
+                     times=30)+
+  transition_states(after_stat(drawID)) 
+```
 
 ## Limitations of the Package
 There are three primary limitations of the software to keep in mind. First, it only allows you to visualise the distribution as a sample. We are planning to expand this to quantiles in later version, but it is not currently an option. Second, if multiple distributions are passed, they are assumed to be independent. This is also something we are hoping to fix in later versions (possibly with a covariance matrix or a dibble object that represents joint distributions). Finally, replacing a single value with a sample of values (which is functionally what ggdibbler does) results in pervasive overplotting issue. We are hoping to mediate this with nested positions and sensible geom defaults, but this can be difficult to manage depending on the type of plot. In general, we recommend *always* setting `alpha<=0.5` the first time you make a plot.
