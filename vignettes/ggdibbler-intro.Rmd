@@ -205,7 +205,7 @@ ggplot(mtcars, aes(wt, mpg)) + geom_point() +
 ### "Yes. You can also make uncertain versions of visualisations that use other geoms, including graphs" - me getting real tired of you not understanding me when I said yes, literally every plot
 If you represent uncertainty as a distributional object, use the `sample_expand` function, and group by `drawID`, you can apply the signal supression methods to literally any graphic. It won't always work as nicely as `ggdibbler` (please download my package, I need a job) but it works well enough. 
 
-Here is an example with ggraph and uncertain edges represented by a sample of simulated edges. 
+Here is an example with ggraph and uncertain edges represented by a sample of simulated edges. You need to apply `sample_expand` before you convert the data to a graph, because `ggraph` is all totalitarian about what it will keep in its graph data set, and it doesn't allow distributions. 
 
 ```{r}
 library(ggdibbler)
