@@ -11,9 +11,6 @@
 #' @importFrom ggplot2 ggproto PositionDodge Position
 #' @examples
 #' # Standard ggplots often have a position adjustment to fix overplotting
-#' # plot with overplotting
-#' ggplot(mpg, aes(class)) + 
-#'   geom_bar(aes(fill = drv), alpha=0.5, position = "identity")
 #' # plot with dodged positions
 #' ggplot(mpg, aes(class)) + 
 #'   geom_bar(aes(fill = drv), 
@@ -28,73 +25,20 @@
 #' # are used for the plot groups vs the distribution samples
 #' 
 #' ggplot(uncertain_mpg, aes(class)) + 
-#'   geom_bar_sample(aes(fill = drv), position = "identity_dodge", alpha=0.7)
-#' 
-#' ggplot(uncertain_mpg, aes(class)) + 
-#'   geom_bar_sample(aes(fill = drv), position = "stack_dodge")
-#' 
-#' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "dodge_identity", alpha=0.2)
 #' 
 #' # using postion_dodge nests the original plot group inside the distribtion 
-#' # position dodge_dodge does the opposide nesting.
-#' 
+#' # position dodge_dodge does the opposite nesting
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "dodge_dodge")
+#'   
+#' @rdname position_dodge_identity
 #' @export
-position_identity_dodge <- function(width = NULL, preserve = "single", 
-                                    orientation = "x", reverse = FALSE) {
-  ggplot2:::check_bool(reverse)
-  ggplot2::ggproto(NULL, PositionIdentityDodge,
-                   width = width,
-                   preserve = arg_match0(preserve, c("total", "single")),
-                   orientation = arg_match0(orientation, c("x", "y")),
-                   reverse = reverse
-  )
+position_dodge_dodge <- function(vjust = 1, reverse = FALSE, width = NULL,  
+                                 preserve = "single", orientation = "x") {
+  PositionDodgeDodge
 }
-
-#' @rdname position_identity_dodge
-#' @format NULL
-#' @usage NULL
-#' @export
-PositionIdentityDodge <- ggplot2::ggproto("PositionIdentityDodge", 
-                              ggplot2::PositionDodge,
-                              width = NULL,
-                              preserve = "single",
-                              orientation = "x",
-                              reverse = NULL,
-                              
-                              default_aes = aes(order = NULL),
-                              setup_params = function(self, data){
-                                params <- ggproto_parent(PositionDodge, 
-                                                         self)$setup_params(data)
-                                #' set n to be times if preserve = "single"
-                                if(!is.null(params$n)){
-                                  params$n <- max(as.numeric(data$drawID))
-                                }
-                                params
-                              },
-                              
-                              setup_data = function(self, data, params){
-                                position_by_group(data, "ogroup",
-                                                  ggproto_parent(PositionDodge, 
-                                                                 self)$setup_data,
-                                                  params)
-                              },
-                              compute_panel = function(self, data, 
-                                                       params, scales) {
-                                #' set order to be drawID due to order problem
-                                data$order <- as.integer(data$drawID)
-                                position_by_group(data, "ogroup",
-                                                  ggproto_parent(PositionDodge, 
-                                                                 self)$compute_panel,
-                                                  params)
-                              },
-                              
-                              extra_params = c("vjust", "reverse")
-)
-
-#' @rdname position_identity_dodge
+#' @rdname position_dodge_identity
 #' @export
 position_dodge_identity <- function(width = NULL, preserve = "single", orientation = "x",
                                     reverse = FALSE) {
@@ -108,7 +52,7 @@ position_dodge_identity <- function(width = NULL, preserve = "single", orientati
 }
 
 
-#' @rdname position_identity_dodge
+#' @rdname position_dodge_identity
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -152,14 +96,7 @@ PositionDodgeIdentity <- ggplot2::ggproto("PositionDodgeIdentity", ggplot2::Posi
                                           extra_params = c("vjust", "reverse")
 )
 
-#' @rdname position_identity_dodge
-#' @export
-position_dodge_dodge <- function(vjust = 1, reverse = FALSE, width = NULL,  
-                                 preserve = "single", orientation = "x") {
-  PositionDodgeDodge
-}
-
-#' @rdname position_identity_dodge
+#' @rdname position_dodge_identity
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -176,12 +113,6 @@ PositionDodgeDodge <- ggplot2::ggproto("PositionDodgeDodge", ggplot2::Position,
                                        setup_params = function(self,data){
                                          param2 <- PositionDodgeIdentity$setup_params(data)
                                          param1 <- PositionIdentityDodge$setup_params(data)
-                                         
-                                         #' cant use self for single argument
-                                         if (identical(self$preserve, "single")){
-                                           #print()
-                                           #param2$n <- max(as.numeric(data$drawID))
-                                         }
                                          list(param1, param2)
                                        },
                                        

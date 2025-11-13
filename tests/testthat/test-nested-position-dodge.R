@@ -8,10 +8,6 @@ test_that("nested position_dodge tests", {
     geom_bar_sample(aes(fill = drv), position = "dodge")
   expect_doppelganger("Example 0", p0)
   
-  p1 <- ggplot(uncertain_mpg, aes(class)) + 
-    geom_bar_sample(aes(fill = drv), position = "identity_dodge", alpha=0.7)
-  expect_doppelganger("Example 1", p1)
-  
   p2 <- ggplot(uncertain_mpg, aes(class)) + 
     geom_bar_sample(aes(fill = drv), position = "dodge_identity", alpha=0.2)
   expect_doppelganger("Example 2", p2)
