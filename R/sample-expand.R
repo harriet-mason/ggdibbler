@@ -13,17 +13,18 @@
 #' @examples
 #' sample_expand(uncertain_mpg, times=10)
 #' @export
-sample_expand <- function(data, times){ 
-  
+sample_expand <- function(data, times=10){ 
+  print(data)
+  print(times)
   # Check for at least one distribution vector
   distcols <- get_dist_cols(data)
+  print(distcols)
   if(length(distcols)==0) return(data |> dplyr::mutate(drawID=0))
   
-  # get deterministic variables
-  othcols <- setdiff(names(data), distcols)
-  
+  print(data)
   # Sample from distribution variables
   data |>
+    tibble::as_tibble()|>
     # get sample and convert to tidy format
     dplyr::mutate(dplyr::across(dplyr::all_of(distcols), ~ distributional::generate(.x, times = times))) |>
     tidyr::unnest_longer(dplyr::all_of(distcols)) |>

@@ -42,6 +42,49 @@ position_identity_dodge <- function(width = NULL, preserve = "single",
                    reverse = reverse
   )
 }
+
+#' @inheritParams ggplot2::position_dodge
+#' @rdname position_identity_identity
+#' @format NULL
+#' @usage NULL
+#' @export
+PositionIdentityDodge <- ggplot2::ggproto("PositionIdentityDodge", 
+                                          ggplot2::PositionDodge,
+                                          width = NULL,
+                                          preserve = "single",
+                                          orientation = "x",
+                                          reverse = NULL,
+                                          
+                                          default_aes = aes(order = NULL),
+                                          setup_params = function(self, data){
+                                            params <- ggproto_parent(PositionDodge, 
+                                                                     self)$setup_params(data)
+                                            # set n to be times if preserve = "single"
+                                            if(!is.null(params$n)){
+                                              params$n <- max(as.numeric(data$drawID))
+                                            }
+                                            params
+                                          },
+                                          
+                                          setup_data = function(self, data, params){
+                                            position_by_group(data, "ogroup",
+                                                              ggproto_parent(PositionDodge, 
+                                                                             self)$setup_data,
+                                                              params)
+                                          },
+                                          compute_panel = function(self, data, 
+                                                                   params, scales) {
+                                            # set order to be drawID due to order problem
+                                            data$order <- as.integer(data$drawID)
+                                            position_by_group(data, "ogroup",
+                                                              ggproto_parent(PositionDodge, 
+                                                                             self)$compute_panel,
+                                                              params)
+                                          },
+                                          
+                                          extra_params = c("vjust", "reverse")
+)
+
 #' @inheritParams ggplot2::position_dodge
 #' @rdname position_identity_identity
 #' @format NULL

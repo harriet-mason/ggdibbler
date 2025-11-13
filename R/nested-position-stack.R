@@ -79,11 +79,6 @@ PositionStackDodge <- ggplot2::ggproto("PositionStackDodge", ggplot2::Position,
                                        setup_params = function(self,data){
                                          param1 <- PositionStackIdentity$setup_params(data)
                                          param2 <- PositionIdentityDodge$setup_params(data)
-                                         
-                                         # cant use self for single argument
-                                         if (identical(self$preserve, "single")){
-                                           param2$n <- max(as.numeric(data$drawID))
-                                         }
                                          list(param1, param2)
                                        },
                                        
