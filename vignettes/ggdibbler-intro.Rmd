@@ -209,14 +209,14 @@ Here is an example with ggraph and uncertain edges represented by a sample of si
 
 ```{r}
 library(ggdibbler)
-library(ggraph)
-library(distributional)
+library(tidyverse)
+# can't have ggraph loaded for this, it interferes with dplyr for some reason and creates a nightmare
 set.seed(10)
 uncertain_edges <- tibble::tibble(from = sample(5, 20, TRUE),
                     to = sample(5, 20, TRUE),
                     weight = runif(20)) |>
   dplyr::group_by(from, to) |>
-  dplyr::mutate(to = dist_sample(list(sample(seq(from=max(1,to-1), 
+  dplyr::mutate(to = distributional::dist_sample(list(sample(seq(from=max(1,to-1), 
                                                  to = min(to+1, 5)), 
                                       replace = TRUE))))
   
@@ -225,6 +225,9 @@ uncertain_edges
 graph_sample <- uncertain_edges |>
   sample_expand(times=50) |>
   tidygraph::as_tbl_graph()
+
+
+library(ggraph)
 
 # IDEAL case would be if you could add some transparency and jitter
 # but jittering doesnt jitter the line... it does whatever this is
