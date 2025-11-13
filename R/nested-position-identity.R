@@ -1,12 +1,8 @@
 #' Nested identity positions
 #' 
 #' These functions use nested positioning for distributional data, where the
-#' original plot has a position_identity argument. This allows
-#' you to set different position adjustments for your "main plot" i.e. the
-#' position adjustment you would have made in the version of the plot you are
-#' signal supressing, and the "distribution" part of the plot, where the 
-#' overplotting results from showing a set of outcomes where there was once
-#' a single point. 
+#' original plot has a identity position. This allows you to set different 
+#' position adjustments for the "main" and "distribution" parts of your plot.
 #' 
 #' @inheritParams ggplot2::position_identity
 #' @importFrom ggplot2 ggproto PositionDodge Position
