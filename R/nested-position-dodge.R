@@ -61,15 +61,15 @@ PositionDodgeIdentity <- ggplot2::ggproto("PositionDodgeIdentity", ggplot2::Posi
                                           default_aes = aes(order = NULL),
                                           
                                           setup_params = function(self, data){
-                                            #' get params from setup params
+                                            # get params from setup params
                                             params <- ggproto_parent(PositionDodge, self)$setup_params(data)
                                             
-                                            #' edit params if n has been set
+                                            # edit params if n has been set
                                             if(!is.null(params$n)){
                                               times <- max(as.numeric(data$drawID))
                                               params$n <- params$n/times
                                             }
-                                            #' return params
+                                            # return params
                                             params
                                           },
                                           
@@ -79,8 +79,8 @@ PositionDodgeIdentity <- ggplot2::ggproto("PositionDodgeIdentity", ggplot2::Posi
                                                               params)
                                           },
                                           compute_panel = function(self, data, params, scales) {
-                                            #' correct order before positioning by group
-                                            #' make position consistent between draws
+                                            # correct order before positioning by group
+                                            # make position consistent between draws
                                             if(!is.null(params$n)){ #if preserve = single
                                               data$order <- 1 + ((data$ogroup + params$n - 1) %% params$n)
                                             }

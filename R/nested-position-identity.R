@@ -58,7 +58,7 @@ PositionIdentityDodge <- ggplot2::ggproto("PositionIdentityDodge",
                                           setup_params = function(self, data){
                                             params <- ggproto_parent(PositionDodge, 
                                                                      self)$setup_params(data)
-                                            #' set n to be times if preserve = "single"
+                                            # set n to be times if preserve = "single"
                                             if(!is.null(params$n)){
                                               params$n <- max(as.numeric(data$drawID))
                                             }
@@ -73,7 +73,7 @@ PositionIdentityDodge <- ggplot2::ggproto("PositionIdentityDodge",
                                           },
                                           compute_panel = function(self, data, 
                                                                    params, scales) {
-                                            #' set order to be drawID due to order problem
+                                            # set order to be drawID due to order problem
                                             data$order <- as.integer(data$drawID)
                                             position_by_group(data, "ogroup",
                                                               ggproto_parent(PositionDodge, 
