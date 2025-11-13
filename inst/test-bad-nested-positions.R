@@ -1,109 +1,65 @@
-
+# DEBUGGING CODE
 #trace(what = colSums, tracer = browser)
 #untrace(colSums)
 
-g <- ggplot(mpg, aes(class)) #ggplot
-
-g + geom_bar(aes(fill = drv), position = position_dodge())
-
+# load library
 library(ggplot2)
 
-# identity position
+# get stacked plots
+source("inst/bad-nested-positions.R")
+
+# base ggplot
+g <- ggplot(mpg, aes(class)) #ggplot
+
+
+
+# MAIN IS IDENTITY
 g + geom_bar(aes(fill = drv), position="identity", alpha=0.7)
 
-
-set.seed(3)
-ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), position = "identity", alpha=0.25, times=2)
-
 set.seed(3)
 ggplot(uncertain_mpg, aes(class)) +
-  geom_bar_sample(aes(fill = after_stat(drawID)), position = "identity", alpha=0.2, times=10,
-                  colour="black")
+  geom_bar_sample(aes(fill = drv), position = "identity_stack", alpha=0.7)
 
-func <- PositionIdentityStack$compute_panel
-trace(what = ggplot2:::collide, tracer = browser)
-set.seed(3)
-ggplot(uncertain_mpg, aes(class)) +
-  geom_bar_sample(aes(fill = drv), position = "identity_stack", alpha=0.2, times=2)
-untrace(ggplot2:::collide)
 
-trace(what = ggplot2:::collide, tracer = browser)
-set.seed(3)
-ggplot(uncertain_mpg, aes(class)) +
-  geom_bar_sample(aes(fill = after_stat(drawID)), position = "identity_stack", alpha=0.2, times=10,
-                  colour="black")
-untrace(ggplot2:::collide)
 
-trace(what = ggplot2:::collide, tracer = browser)
-set.seed(3)
-ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), position = "identity_dodge", alpha=0.7)
-untrace(ggplot2:::collide)
 
-set.seed(3)
-ggplot(uncertain_mpg, aes(class)) +
-  geom_bar_sample(aes(fill = after_stat(drawID)), position = "identity_dodge", alpha=0.2, times=100)
-
-# main plot dodge
+# MAIN IS DODGE
 g + geom_bar(aes(fill = drv), position=position_dodge(preserve = "single"))
 
 set.seed(3)
 ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), position = "dodge_identity", alpha=0.2)
-
-set.seed(3)
-ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), position = "dodge_dodge")
+  geom_bar_sample(aes(fill = drv), position = "dodge_stack")
 
 
-# set.seed(3)
-# ggplot(uncertain_mpg, aes(class)) + 
-#   geom_bar_sample(aes(fill = drv), position = "dodge_stack")
-
-# main plot stack
+# MAIN IS STACK
 g + geom_bar(aes(fill = drv), position="stack")
 
 set.seed(3)
 ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), position = "stack_identity", alpha=0.2)
+  geom_bar_sample(aes(fill = drv), position = "stack")
 
+set.seed(3)
+ggplot(uncertain_mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv), position = "stack_identity", alpha=0.1)
+
+set.seed(3)
+ggplot(uncertain_mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv), position = "stack_identity", alpha=0.05, times=30)
+
+set.seed(3)
+ggplot(uncertain_mpg, aes(class)) + 
+   geom_bar_sample(aes(fill = drv), position = "stack_stack1", alpha=0.1, times=30)
+set.seed(3)
+ggplot(uncertain_mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv), position = "stack_stack2", alpha=0.1, times=30)
+
+# check when functions not printing
 # set.seed(3)
 # ggplot(uncertain_mpg, aes(class)) + 
-#   geom_bar_sample(aes(fill = drv), position = "stack")
+#   geom_bar_sample(aes(fill = drv), position = "identity_dodge", alpha=0.1)
 # 
 # set.seed(3)
 # ggplot(uncertain_mpg, aes(class)) + 
-#   geom_bar_sample(aes(fill = drv), position = "stack_dodge")
-
-
-
-
-
-
-
-# working case
-set.seed(1)
-ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), position = position_stack_dodge(), 
-                  alpha=0.5, times=2)
-
-# just stack
-set.seed(2)
-ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), position = position_stack_identity(), 
-                  alpha=0.5, times=2)
-
-# broken case
-ggplot(uncertain_mpg, aes(x = class)) + 
-  geom_bar_sample(aes(fill = drv), 
-                  position = "stack_dodge")
-
-ggplot(uncertain_mpg, aes(x = class)) + 
-  geom_bar_sample(aes(fill = drv), 
-                  alpha = 0.05, times = 30,
-                  position = "stack_identity")
-
-
+#   geom_bar_sample(aes(fill = drv), position = position_nest("identity_dodge"))
 
 
