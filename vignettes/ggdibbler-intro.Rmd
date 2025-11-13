@@ -179,7 +179,9 @@ ggplot(toy_temp_dist) +
 
 Currently `geom_sf` only accepts a random fill, as it subdivides the geometry to fill it with a sample. This will eventually be extended to all the `geom_sf` aesthetics (which is the case for all other geometries in `ggdibbler`)
 
-## HOPs plots with `gganimate`
+###  "But but but.. I want an ANIMATED plot!" - you, a chump who didn't hear me when I said literally any plot
+Yeah... you can do that too. Its actually super easy. 
+
 Hypothetical outcome plots have been suggested as an uncertainty visualisation technique, but they are also simply a subset of the grammar of nested graphics `ggdibbler` implements. In a HOPs plot, it seems that animations replace our distribution specific position adjustment. There really isn't anything special about the animation element, it is the smae as our other distribution specific position adjustments. Implementing the code is trivially easy when we group our position by drawID (which is exactly what we do in the other position adjustments).
 
 ```{r}
@@ -199,6 +201,70 @@ ggplot(mtcars, aes(wt, mpg)) + geom_point() +
                      times=30)+
   transition_states(after_stat(drawID)) 
 ```
+
+### "Yes. You can also make uncertain versions of visualisations that use other geoms, including graphs" - me getting real tired of you not understanding me when I said yes, literally every plot
+If you represent uncertainty as a distributional object, use the `sample_expand` function, and group by `drawID`, you can apply the signal supression methods to literally any graphic. It won't always work as nicely as `ggdibbler` (please download my package, I need a job) but it works well enough. 
+
+Here is an example with ggraph and uncertain edges represented by a sample of simulated edges. 
+
+```{r}
+library(ggdibbler)
+library(ggraph)
+library(distributional)
+set.seed(10)
+uncertain_edges <- tibble::tibble(from = sample(5, 20, TRUE),
+                    to = sample(5, 20, TRUE),
+                    weight = runif(20)) |>
+  dplyr::group_by(from, to) |>
+  dplyr::mutate(to = dist_sample(list(sample(seq(from=max(1,to-1), 
+                                                 to = min(to+1, 5)), 
+                                      replace = TRUE))))
+  
+uncertain_edges
+
+graph_sample <- uncertain_edges |>
+  sample_expand(times=50) |>
+  tidygraph::as_tbl_graph()
+
+# IDEAL case would be if you could add some transparency and jitter
+# but jittering doesnt jitter the line... it does whatever this is
+# which kind of works, makes it look a little sketchy or something
+jitter = position_jitter(width=0.01, height=0.01)
+ggraph(graph_sample, layout = 'fr', weights = weight) + 
+  geom_edge_link(aes(group=drawID), position=jitter, alpha=0.1, 
+                 linewidth=0.05) + 
+  geom_node_point(size=5)
+# you can mess around with the alpha/linewidth to get something you are happy
+# with
+
+# The geom_edge_density makes the next most sense...
+# but the example deadass gives me an error
+# oi @thomas why am I being made to suffer like this
+# ggraph(graph_sample, layout = 'fr', weights = weight) + 
+#   geom_edge_density() + 
+#   geom_node_point(size=10)
+
+# There are a few remaining options that kind of capture the sample element
+
+# uncertainty indicated by transparency
+ggraph(graph_sample, layout = 'fr', weights = weight) + 
+  geom_edge_link(aes(group=drawID), alpha=0.01,
+                 linewidth=2) + 
+  geom_node_point()
+
+# Thickness = probability of an edge (thicker = more probable)
+ggraph(graph_sample, layout = 'fr', weights = weight) + 
+  geom_edge_parallel0(aes(group=drawID),
+                      sep = unit(0.05, "mm"), alpha=0.5, linewidth=0.05) + 
+  geom_node_point(size=10)
+
+# kind of like sample? tbh I have no idea what this edge is doing
+ggraph(graph_sample, weights = weight) + 
+  geom_edge_bundle_force(aes(group=drawID), n=300, threshold = 5, alpha=0.2) + 
+  geom_node_point(size=5)
+```
+
+
 
 ## Limitations of the Package
 There are three primary limitations of the software to keep in mind. First, it only allows you to visualise the distribution as a sample. We are planning to expand this to quantiles in later version, but it is not currently an option. Second, if multiple distributions are passed, they are assumed to be independent. This is also something we are hoping to fix in later versions (possibly with a covariance matrix or a dibble object that represents joint distributions). Finally, replacing a single value with a sample of values (which is functionally what ggdibbler does) results in pervasive overplotting issue. We are hoping to mediate this with nested positions and sensible geom defaults, but this can be difficult to manage depending on the type of plot. In general, we recommend *always* setting `alpha<=0.5` the first time you make a plot.
