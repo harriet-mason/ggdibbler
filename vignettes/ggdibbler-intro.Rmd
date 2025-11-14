@@ -3,8 +3,10 @@ title: "An introduction to ggdibbler"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggdibbler-vignette}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -205,11 +207,14 @@ ggplot(mtcars, aes(wt, mpg)) + geom_point() +
 ### "Yes. You can also make uncertain versions of visualisations that use other geoms, including graphs" - me getting real tired of you not understanding me when I said yes, literally every plot
 If you represent uncertainty as a distributional object, use the `sample_expand` function, and group by `drawID`, you can apply the signal supression methods to literally any graphic. It won't always work as nicely as `ggdibbler` (please download my package, I need a job) but it works well enough. 
 
-Here is an example with ggraph and uncertain edges represented by a sample of simulated edges. You need to apply `sample_expand` before you convert the data to a graph, because `ggraph` is all totalitarian about what it will keep in its graph data set, and it doesn't allow distributions. 
+Here is an example with ggraph and uncertain edges represented by a sample of simulated edges. So you have this random data set.
 
 ```{r}
-library(ggdibbler)
+library(distributional)
+library(tidygraph)
 library(tidyverse)
+library(ggraph)
+library(ggdibbler)
 # can't have ggraph loaded for this, it interferes with dplyr for some reason and creates a nightmare
 set.seed(10)
 uncertain_edges <- tibble::tibble(from = sample(5, 20, TRUE),
@@ -218,52 +223,49 @@ uncertain_edges <- tibble::tibble(from = sample(5, 20, TRUE),
   dplyr::group_by(from, to) |>
   dplyr::mutate(to = distributional::dist_sample(list(sample(seq(from=max(1,to-1), 
                                                  to = min(to+1, 5)), 
-                                      replace = TRUE))))
+                                      replace = TRUE)))) |>
+  ungroup()
   
-uncertain_edges
+head(uncertain_edges)
+```
 
+You need to apply `sample_expand` before you convert the data to a graph, because `ggraph` is all totalitarian about what it will keep in its graph data set, and it doesn't allow distributions. 
+
+```{r}
 graph_sample <- uncertain_edges |>
   sample_expand(times=50) |>
-  tidygraph::as_tbl_graph()
+  as_tbl_graph()
+```
 
+Now, the ideal visualisation would allow us to add transparency with a small amount of jitter to straight lines. That doesn't seem to be possible in ggraph as far as I can tell. It seems that, similar to ggplot2, the lines are actually made up of many individual points, and the line geometry simply interpolates between them. When it applies the jitter, it does it to each point, rather than the line as a whole. So, adding the jitter does work, it just doesn't work exactly as I expected it to (or as I would have liked it to). It does produce an uncertainty visualisation, though.
 
-library(ggraph)
-
-# IDEAL case would be if you could add some transparency and jitter
-# but jittering doesnt jitter the line... it does whatever this is
-# which kind of works, makes it look a little sketchy or something
+```{r}
 jitter = position_jitter(width=0.01, height=0.01)
 ggraph(graph_sample, layout = 'fr', weights = weight) + 
   geom_edge_link(aes(group=drawID), position=jitter, alpha=0.1, 
                  linewidth=0.05) + 
   geom_node_point(size=5)
-# you can mess around with the alpha/linewidth to get something you are happy
-# with
+```
 
-# The geom_edge_density makes the next most sense...
-# but the example deadass gives me an error
-# oi @thomas why am I being made to suffer like this
-# ggraph(graph_sample, layout = 'fr', weights = weight) + 
-#   geom_edge_density() + 
-#   geom_node_point(size=10)
+You can mess around with alpha, linewidth, and the times argument in the `sample_expand` function to get something you are happy with. There are some other weird overplotting edge things you can utilise to make the uncertainty implicitly represented by some other aesthetic (like thickness or something), but in general the approaches all look similar (and convey similar information)
 
-# There are a few remaining options that kind of capture the sample element
-
+```{r}
 # uncertainty indicated by transparency
 ggraph(graph_sample, layout = 'fr', weights = weight) + 
-  geom_edge_link(aes(group=drawID), alpha=0.01,
+  geom_edge_link(aes(group=drawID), alpha=0.005,
                  linewidth=2) + 
   geom_node_point()
 
 # Thickness = probability of an edge (thicker = more probable)
 ggraph(graph_sample, layout = 'fr', weights = weight) + 
   geom_edge_parallel0(aes(group=drawID),
-                      sep = unit(0.05, "mm"), alpha=0.5, linewidth=0.05) + 
-  geom_node_point(size=10)
+                      sep = unit(0.05, "mm"), alpha=0.3, linewidth=0.1) + 
+  geom_node_point(size=15)
 
-# kind of like sample? tbh I have no idea what this edge is doing
+# kind of like sample? tbh I have no idea what this edge thing is doing
 ggraph(graph_sample, weights = weight) + 
-  geom_edge_bundle_force(aes(group=drawID), n=300, threshold = 5, alpha=0.2) + 
+  geom_edge_bundle_force(aes(group=drawID), 
+                         n=300, threshold = 5, alpha=0.01) +
   geom_node_point(size=5)
 ```
 
