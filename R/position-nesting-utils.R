@@ -44,9 +44,22 @@ position_dictionary_sample <- function(position){
   pos_dict[[which(names(pos_dict)==position)]]
 }
 
-#' @rdname position_dodge_identity
-#' @format NULL
-#' @usage NULL
+
+#' Any combination of nested positions
+#' 
+#' This function lets you nest any two positions available in ggplot2 (your
+#' results may vary). This allows you to set different position adjustments 
+#' for the "main" and "distribution" parts of your plot.
+#' 
+#' @inheritParams ggplot2::position_identity
+#' @importFrom ggplot2 ggproto
+#' @examples
+#' # nested positions allows us to differentiate which postion adjustments
+#' # are used for the plot groups vs the distribution samples
+#' library(ggplot2)
+#' ggplot(uncertain_mpg, aes(class)) + 
+#'   geom_bar_sample(aes(fill = drv), alpha=0.9,
+#'                   position = position_nest("stack_dodge"))
 #' @export
 position_nest <- function(position = "identity_identity"){
   

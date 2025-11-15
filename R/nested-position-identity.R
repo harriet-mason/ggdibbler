@@ -85,44 +85,41 @@ PositionIdentityDodge <- ggplot2::ggproto("PositionIdentityDodge",
                                           extra_params = c("vjust", "reverse")
 )
 
-#' @inheritParams ggplot2::position_dodge
+#' @inheritParams ggplot2::position_stack
 #' @rdname position_identity_identity
 #' @format NULL
 #' @usage NULL
 #' @export
-PositionIdentityDodge <- ggplot2::ggproto("PositionIdentityDodge", 
-                                          ggplot2::PositionDodge,
-                                          width = NULL,
-                                          preserve = "single",
-                                          orientation = "x",
-                                          reverse = NULL,
-                                          
-                                          default_aes = aes(order = NULL),
-                                          setup_params = function(self, data){
-                                            params <- ggproto_parent(PositionDodge, 
-                                                                     self)$setup_params(data)
-                                            # set n to be times if preserve = "single"
-                                            if(!is.null(params$n)){
-                                              params$n <- max(as.numeric(data$drawID))
-                                            }
-                                            params
-                                          },
-                                          
+position_identity_stack <- function(vjust = 1, reverse = FALSE) {
+  ggproto(NULL, PositionIdentityStack, vjust = vjust, reverse = reverse)
+}
+
+#' @inheritParams ggplot2::PositionStack
+#' @rdname position_identity_identity
+#' @format NULL
+#' @usage NULL
+#' @export
+PositionIdentityStack <- ggplot2::ggproto("PositionIdentityStack", ggplot2::PositionStack,
+                                          type = NULL,
+                                          vjust = 1,
+                                          fill = FALSE,
+                                          reverse = FALSE,
                                           setup_data = function(self, data, params){
+                                            # split into groups
                                             position_by_group(data, "ogroup",
-                                                              ggproto_parent(PositionDodge, 
-                                                                             self)$setup_data,
+                                                              ggproto_parent(PositionStack, self)$setup_data,
                                                               params)
                                           },
-                                          compute_panel = function(self, data, 
-                                                                   params, scales) {
-                                            # set order to be drawID due to order problem
-                                            data$order <- as.integer(data$drawID)
-                                            position_by_group(data, "ogroup",
-                                                              ggproto_parent(PositionDodge, 
-                                                                             self)$compute_panel,
-                                                              params)
+                                          
+                                          
+                                          compute_panel = function(self, data, params, scales){
+                                            data <- position_by_group(data, "ogroup",
+                                                                      ggproto_parent(PositionStack, self)$compute_panel,
+                                                                      params)
+                                            data
                                           },
                                           
                                           extra_params = c("vjust", "reverse")
 )
+
+

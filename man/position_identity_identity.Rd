@@ -5,6 +5,8 @@
 \alias{position_identity_identity}
 \alias{position_identity_dodge}
 \alias{PositionIdentityDodge}
+\alias{position_identity_stack}
+\alias{PositionIdentityStack}
 \title{Nested identity positions}
 \usage{
 position_identity_identity()
@@ -30,6 +32,11 @@ indicate an explicit orientation, like \code{geom_point()}. Can be \code{"x"}
 
 \item{reverse}{If \code{TRUE}, will reverse the default stacking order.
 This is useful if you're rotating both the plot and legend.}
+
+\item{vjust}{Vertical adjustment for geoms that have a position
+(like points or lines), not a dimension (like bars or areas). Set to
+\code{0} to align with the bottom, \code{0.5} for the middle,
+and \code{1} (the default) for the top.}
 }
 \description{
 These functions use nested positioning for distributional data, where the
