@@ -84,7 +84,6 @@ PositionDodgeIdentity <- ggplot2::ggproto("PositionDodgeIdentity", ggplot2::Posi
                                             if(!is.null(params$n)){ #if preserve = single
                                               data$order <- 1 + ((data$ogroup + params$n - 1) %% params$n)
                                             }
-                                            print(self$preserve)
                                             position_by_group(data, "drawID",
                                                               ggproto_parent(PositionDodge, self)$compute_panel,
                                                               params)

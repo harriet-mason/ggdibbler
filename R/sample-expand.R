@@ -14,14 +14,10 @@
 #' sample_expand(uncertain_mpg, times=10)
 #' @export
 sample_expand <- function(data, times=10){ 
-  print(data)
-  print(times)
   # Check for at least one distribution vector
   distcols <- get_dist_cols(data)
-  print(distcols)
   if(length(distcols)==0) return(data |> dplyr::mutate(drawID=0))
   
-  print(data)
   # Sample from distribution variables
   data |>
     tibble::as_tibble()|>
