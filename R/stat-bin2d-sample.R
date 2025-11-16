@@ -14,7 +14,7 @@ StatBin2dSample <- ggplot2::ggproto("StatBin2dSample", ggplot2::StatBin2d,
 )
 
 #' @export
-#' @rdname geom_bin2d_sample
+#' @rdname geom_bin_2d_sample
 #' @inheritParams ggplot2::stat_bin_2d
 #' @param times A parameter used to control the number of values sampled from each distribution.
 stat_bin_2d_sample <- make_constructor(StatBin2dSample, geom = "tile", times = 10)
