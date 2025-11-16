@@ -187,7 +187,7 @@ uncertain_economics_long <- uncertain_economics |>
 
 usethis::use_data(uncertain_economics_long , overwrite = TRUE)
 
-################################ FAITHFUL #######################################
+################################ FAITHFULD #######################################
 
 set.seed(3112025)
 
@@ -196,9 +196,33 @@ uncertain_faithfuld <- ggplot2::faithfuld
 # density is the only aesthetic that it makes sense to have randomised
 uncertain_faithfuld <- uncertain_faithfuld |>
   group_by(eruptions, waiting) |>
-  mutate(density2 = dist_normal(density, runif(1,0,0.03)),
-         density = dist_normal(density, runif(1,0,0.007))) |>
+  mutate(
+    # low error
+    density0 = dist_truncated(dist_normal(density, runif(1,0,0.001)),lower = 0),
+    # high error
+    density2 = dist_truncated(dist_normal(density, runif(1,0,0.005)),lower = 0),
+    # med error
+    density = dist_truncated(dist_normal(density, runif(1,0,0.003)),lower = 0)
+    ) |>
   ungroup()
 
 
 usethis::use_data(uncertain_faithfuld , overwrite = TRUE)
+
+################################ FAITHFUL #######################################
+
+set.seed(17112025)
+
+uncertain_faithful <- faithful
+
+# density is the only aesthetic that it makes sense to have randomised
+uncertain_faithful <- uncertain_faithful |>
+  group_by(eruptions, waiting) |>
+  mutate(
+    waiting = dist_normal(waiting, 2),
+    eruptions = dist_normal(eruptions, 0.8)
+    ) |>
+  ungroup()
+
+usethis::use_data(uncertain_faithful , overwrite = TRUE)
+
