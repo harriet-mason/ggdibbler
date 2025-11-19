@@ -15,7 +15,7 @@
 #' 
 #' values <- data.frame(
 #'   id = ids,
-#'   value = c(3, 3.1, 3.1, 3.2, 3.15, 3.5)
+#'   value = c(1, 2, 3, 4, 5, 6)
 #' )
 #' positions <- data.frame(
 #'   id = rep(ids, each = 4),
@@ -26,8 +26,7 @@
 #' )
 #' datapoly <- merge(values, positions, by = c("id"))
 #' uncertain_datapoly2 <- datapoly |>
-#'   filter(id %in% c("1.1", "2.1")) |>
-#'   mutate(value = dist_uniform(value-0.5, value + 0.5)) 
+#'   mutate(value = dist_uniform(value, value + 0.8)) 
 #'   
 #' # visualise with geom_polygon
 #' ggplot(uncertain_datapoly2 , aes(x = x, y = y)) +
@@ -59,55 +58,74 @@ PositionSubdivide <- ggproto('PositionSubdivide', PositionIdentity,
 sample_subdivide_polygon <- function(data, times){
   d = square_grid(times) 
   
+  # hold onto groups for later
+  group_df <- data |>
+    select(drawID, ogroup, group)
   # If multiple fills for each polygon, take a random sample of them
-  
-  print(table(data$group))
   values <- data |>
-    dplyr::select(-c(x,y)) |>
-    dplyr::group_by(group, drawID) |>
-    dplyr::summarise(fill = sample(fill, size=1)) #,
-  #             # panel and drawID should be constant
-  #             drawID = unique(drawID, size=1),
-  #             PANEL = unique(PANEL, size=1))
-  # print(class(values))
-  print(head(values, 20))
+    dplyr::group_by(ogroup, drawID) |>
+    dplyr::summarise(fill = sample(fill, size=1),
+                     # panel and drawID should be constant
+                     drawID = unique(drawID, size=1),
+                     PANEL = unique(PANEL, size=1),
+                     x = mean(x),
+                     y = mean(y)) |>
+    ungroup()
+  # delete when worked outbug
+  check1 <- values |> 
+    dplyr::group_by(ogroup) |>
+    summarise(val = mean(fill), 
+              x = mean(x), 
+              y = mean(y))
+  print("polygon averages")
+  print(check1)
   
-  mean_vals <- values |>
-    dplyr::mutate(group = as.numeric(drawID) %% as.numeric(group)) |>
-     dplyr::group_by(group) |>
-     dplyr::summarise(mean_val = mean(fill))
-  print(head(mean_vals, 20))
-  
+  values <- values |> select(-c(x,y))
   # Convert data into polygon (might use this later)
   base_polygon <- data |>
+    select(-c(fill, group)) |>
     dplyr::filter(drawID==1) |>
-    dplyr::group_by(group) |>
+    dplyr::group_by(ogroup) |>
     sf::st_as_sf(coords=c("x","y")) |>
     dplyr::summarise(do_union=FALSE) |>
     sf::st_cast("POLYGON") 
+  print("base polygon")
+  print(base_polygon)
   
   # Subdivide the polygon and convert to coordinates
   grid_points <- base_polygon |>
-    dplyr::group_by(group) |>
+    dplyr::group_by(ogroup) |>
     dplyr::reframe(
       geometry = subdivide(geometry, d=d)) |>
-    sf::st_as_sf() |>
-    sf::st_coordinates() |>
-    tibble::as_tibble() 
+     sf::st_as_sf() |>
+     sf::st_coordinates() |>
+     tibble::as_tibble() 
+  # Used to have make group interaction of l1 and l2, I 
+  grid_points$ogroup <-  1 + (grid_points$L2-1) %/% times
   
-  # make group interaction of l1 and l2
-  grid_points$group <- as.numeric(interaction(factor(grid_points$L1), factor(grid_points$L2)))
+  print("grid points")
+  print(grid_points |> group_by(ogroup) |> summarise(X = mean(X), Y = mean(Y)))
   
   # rename and remove old columns
   grid_points <- grid_points |>
     dplyr::rename("x" = "X", "y" = "Y") |>
     dplyr::select(-c(L1, L2))
-  
   # Join subdivided polygon with values
+  print("values")
+  print(head(values))
   new_data <- grid_points |>
-    dplyr::left_join(values, by = "group") |>
+    dplyr::left_join(values, by = "ogroup") |>
+    dplyr::left_join(group_df, by = c("ogroup", "drawID")) |>
     as.data.frame()
   # add draw ID back in
+  print(head(new_data))
+  check <- new_data |> 
+    dplyr::group_by(ogroup) |>
+    summarise(val = mean(fill), 
+              x = mean(x), 
+              y = mean(y))
+  print("final averages")
+  print(check)
   
   new_data
 }
