@@ -156,4 +156,18 @@ NULL
 #' @name uncertain_faithfuld
 NULL
 
+#' Step Counts from Walktober 2025 Challenge
+#'
+#' Daily step counts during October 2025 for five teams of four people 
+#' competing in the Walktober 2025 Challenge.
+#'
+#' @format A data frame with 744 observations and 4 variables:
+#' \describe{
+#'   \item{team}{Team name}
+#'   \item{name}{Name of team member}
+#'   \item{date}{Date steps were recorded}
+#'   \item{steps}{Number of steps recorded on `date`}
+#' }
+#' @name walkathon
+NULL
 
