@@ -26,22 +26,23 @@
 #' )
 #' datapoly <- merge(values, positions, by = c("id"))
 #' uncertain_datapoly2 <- datapoly |>
+#'   filter(id %in% c("1.1", "2.1")) |>
 #'   mutate(value = dist_uniform(value-0.5, value + 0.5)) 
 #'   
 #' # visualise with geom_polygon
 #' ggplot(uncertain_datapoly2 , aes(x = x, y = y)) +
 #'   geom_polygon_sample(aes(fill = value, group = id), times=50,
-#'                       position = "identity_subdivide")
+#'                       position = "subdivide")
 #' @export
-position_identity_subdivide <- function() {
-  PositionIdentitySubdivide
+position_subdivide <- function() {
+  PositionSubdivide
 }
 
-#' @rdname position_identity_subdivide
+#' @rdname position_subdivide
 #' @format NULL
 #' @usage NULL
 #' @export
-PositionIdentitySubdivide <- ggproto('PositionIdentitySubdivide', PositionIdentity,
+PositionSubdivide <- ggproto('PositionSubdivide', PositionIdentity,
 
                                 compute_layer = function(data, params, panel) {
                                   # set up values
@@ -59,13 +60,23 @@ sample_subdivide_polygon <- function(data, times){
   d = square_grid(times) 
   
   # If multiple fills for each polygon, take a random sample of them
+  
+  print(table(data$group))
   values <- data |>
     dplyr::select(-c(x,y)) |>
-    dplyr::group_by(group) |>
-    dplyr::summarise(fill = sample(fill, size=1),
-              # panel and drawID should be constant
-              drawID = unique(drawID, size=1),
-              PANEL = unique(PANEL, size=1))
+    dplyr::group_by(group, drawID) |>
+    dplyr::summarise(fill = sample(fill, size=1)) #,
+  #             # panel and drawID should be constant
+  #             drawID = unique(drawID, size=1),
+  #             PANEL = unique(PANEL, size=1))
+  # print(class(values))
+  print(head(values, 20))
+  
+  mean_vals <- values |>
+    dplyr::mutate(group = as.numeric(drawID) %% as.numeric(group)) |>
+     dplyr::group_by(group) |>
+     dplyr::summarise(mean_val = mean(fill))
+  print(head(mean_vals, 20))
   
   # Convert data into polygon (might use this later)
   base_polygon <- data |>
