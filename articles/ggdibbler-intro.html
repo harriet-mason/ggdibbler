@@ -236,7 +236,7 @@ linear regression. A simple linear regression is actually used in the
 <code class="sourceCode R"><span><span class="co"># plot data</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">p</span></span></code></pre></div>
-<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate slope and intercept of line of best fit</span></span>
 <span><span class="co"># get coef and standard error</span></span>
@@ -266,7 +266,7 @@ linear regression. A simple linear regression is actually used in the
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_abline_sample.html">geom_abline_sample</a></span><span class="op">(</span>intercept <span class="op">=</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html" class="external-link">dist_normal</a></span><span class="op">(</span><span class="fl">37</span>, <span class="fl">1.8</span><span class="op">)</span>, slope <span class="op">=</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html" class="external-link">dist_normal</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">0.56</span><span class="op">)</span>,</span>
 <span>                       times<span class="op">=</span><span class="fl">30</span>, alpha<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
-<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700"></p>
 <p>A fun aspect of this approach, is that we can simultaneously see the
 impact of the variance in the intercept <em>and</em> the wt
 coefficient.</p>
@@ -312,7 +312,7 @@ referece.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">county_longitude</span>, y<span class="op">=</span><span class="va">county_latitude</span>, colour<span class="op">=</span><span class="va">recorded_temp</span><span class="op">)</span>, </span>
 <span>              width<span class="op">=</span><span class="fl">5000</span>, height <span class="op">=</span><span class="fl">5000</span>, alpha<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700"></p>
 <p>Typically, we would not visualise the data this way. A much more
 common approach would be to take the average of each county and display
 that in a choropleth map, displayed below.</p>
@@ -325,7 +325,7 @@ that in a choropleth map, displayed below.</p>
 <span><span class="co"># Plot Mean Data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_mean</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_mean</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="700"></p>
 <p>This plot is fine, but it does loose a key piece of information,
 specifically the understanding that this mean is an estimate. That means
 that this estimate has a sampling distribuiton that is invisible to us
@@ -360,7 +360,7 @@ combine them as a single distribution variable thanks to the
 <span><span class="co"># Plot Distribution Data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_dist</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="700"></p>
 <p>To maintain flexibility, the <code>geom_sf_sample</code> does not
 highlight the original boundary lines, but that can be easily added just
 by adding another layer.</p>
@@ -368,7 +368,7 @@ by adding another layer.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_dist</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span>, linewidth<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span><span class="op">)</span>, fill<span class="op">=</span><span class="cn">NA</span>, linewidth<span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" width="700"></p>
 <p>Currently <code>geom_sf</code> only accepts a random fill, as it
 subdivides the geometry to fill it with a sample. This will eventually
 be extended to all the <code>geom_sf</code> aesthetics (which is the
@@ -403,7 +403,7 @@ time you make a plot.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

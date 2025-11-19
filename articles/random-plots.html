@@ -114,7 +114,7 @@ called when you <em>print</em> the plot.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>times<span class="op">=</span><span class="fl">5</span><span class="op">)</span> </span>
 <span><span class="va">plot</span> <span class="op">+</span> <span class="va">plot</span></span></code></pre></div>
-<p><img src="random-plots_files/figure-html/unnamed-chunk-1-1.png" width="700">
+<p><img src="random-plots_files/figure-html/unnamed-chunk-1-1.png" class="r-plt" width="700">
 The two scatter plots above were called using the same variable
 <code>plot</code> and would be identical if they were a ggplot, but you
 can see they are slightly different.</p>
@@ -131,7 +131,7 @@ they will be different samples.</p>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">wt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>times<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ggdibbler"</span><span class="op">)</span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
-<p><img src="random-plots_files/figure-html/unnamed-chunk-2-1.png" width="700">
+<p><img src="random-plots_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" width="700">
 By the time a column gets to the stat where we draw the samples, we do
 not have the variable names anymore. This means we can’t be sure which
 variables are actually identical versus which variables only appear to
@@ -139,7 +139,7 @@ be identical. You can get the identical behaviour by one of the draws
 using the <code>after_stat</code> function.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>times<span class="op">=</span><span class="fl">5</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="random-plots_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="random-plots_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="700"></p>
 <p>This problem is particularly problematic when you have multiple
 layers using the same variable.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -154,7 +154,7 @@ layers using the same variable.</p>
 <span>  <span class="fu"><a href="../reference/geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ggdibbler"</span><span class="op">)</span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
-<p><img src="random-plots_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="random-plots_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700"></p>
 <p>The simple <code>after_stat</code> trick doesn’t work here, so fixing
 this actually need to implement seeds in the layers (if you have a work
 around for this, please tell me).</p>
@@ -199,7 +199,7 @@ predicted to be in each group. So, you make the following bar chart:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">diamonds_pred</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">cut_pred</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span>times<span class="op">=</span><span class="fl">30</span><span class="op">)</span></span></code></pre></div>
-<p><img src="random-plots_files/figure-html/unnamed-chunk-6-1.png" width="700">
+<p><img src="random-plots_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="700">
 Looking at this plot, it is clear that the count value is uncertain, but
 that uncertainty is coming from the uncertainty in the cut_prediction.
 The cut_pred values don’t look very “uncertainty”, because in this plot,
@@ -214,7 +214,7 @@ the outputs so you can 100% see this is the case.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">diamonds_pred</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">cut_pred</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"cut_pred"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="random-plots_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="random-plots_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700"></p>
 <p>Of course, you can also set the fill to be a second independent draw
 from the prediction distribution, but this would convey the wrong
 information. You would be implying far more uncertainty than is actually
@@ -233,7 +233,7 @@ ground truth value and we colour by the prediction.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">diamonds_pred</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">cut_true</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill<span class="op">=</span> <span class="va">cut_pred</span><span class="op">)</span>, times<span class="op">=</span><span class="fl">10</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, position<span class="op">=</span><span class="st">"identity"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="random-plots_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="random-plots_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="700"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -246,7 +246,7 @@ ground truth value and we colour by the prediction.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

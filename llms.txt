@@ -1,0 +1,342 @@
+# ggdibbler
+
+For information to be passed into ggplot2, or any visualisation
+software, it usually needs to be expressed as data. This restriction
+prevents us from visualising inputs that are too uncertain to be
+expressed as single data values. This can include things like estimates,
+model predictions, bounded values or observations with large measurement
+error.
+
+Now, users can simply replace a vector of data with a vector of random
+variables created using
+[`distributional`](https://github.com/mitchelloharawild/distributional)
+and visualise these types of inputs using `ggdibbler`. Any quantifiable
+uncertainty can be expressed as a distribution, and any distribution can
+be passed to an existing ggplot2 geom with ggdibbler. Users are not
+limited by data type (the data can be a random factor, continuous
+variable, character, etc) or by type of distribution (it can be any
+theoretical distribution, but also an empirical distribution expressed
+as a set of samples).
+
+`ggdibbler` it incorporates uncertainty into your graphic as noise and
+allows you to see how the variation may change the conclusions you take
+away from your graphics. The power of ggdibbler is in its simplicity and
+flexibility. There is no need to learn specific package syntax or new
+functions and you can pass a distribution to ANY combination of
+aesthetics in ggplot2.
+
+## Installation
+
+You can install the stable version of `ggdibbler` from CRAN with:
+
+``` r
+# install.packages("pak")
+install.packages("ggdibbler")
+```
+
+or you can install the development version of ggdibbler from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("harriet-mason/ggdibbler")
+```
+
+## Examples
+
+In essence, `ggdibbler` makes visualising uncertainty easy, as you just
+replace the `geom_*` with `geom_*_sample` and replace your deterministic
+variable with a `distributional` variable, and you get an uncertainty
+visualisation.
+
+Uncertainty visualisation, under this approach, is seen as a function of
+an existing plot. Below are some examples of `ggplot2` code alongside
+its uncertain `ggdibbler` counterpart. The only parameter added by
+`ggdibbler` is the `times` argument, which decides how many samples to
+draw from the distribution.
+
+``` r
+library(distributional)
+library(dplyr)
+library(sf)
+library(ggplot2)
+library(ggdibbler)
+library(patchwork)
+
+set.seed(1343)
+```
+
+``` r
+recent <- economics[economics$date > as.Date("2013-01-01"), ]
+uncertain_recent <- uncertain_economics[uncertain_economics$date > as.Date("2013-01-01"), ]
+p1 <- ggplot(recent, aes(date, unemploy)) + geom_step() +
+  ggtitle("ggplot2")
+p2 <- ggplot(uncertain_recent, aes(date, unemploy)) + geom_step_sample(alpha=0.2) +
+  ggtitle("ggdibbler")
+p1 + p2
+```
+
+![](reference/figures/README-unnamed-chunk-3-1.png)
+
+``` r
+# Make average summary of data
+toy_temp_mean <- toy_temp |> 
+  dplyr::group_by(county_name) |>
+  summarise(temp_mean = mean(recorded_temp))
+
+# plot it
+p1 <- ggplot(toy_temp_mean) +
+  geom_sf(aes(geometry=county_geometry, fill=temp_mean), linewidth=0.7) +
+  scale_fill_distiller(palette = "OrRd") +
+  labs(fill="temp")+
+  ggtitle("ggplot2")+
+  theme(legend.position = "bottom")
+
+# sample map
+p2 <- toy_temp_dist |> 
+  ggplot() + 
+  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0) + 
+  geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=0.7) +
+  scale_fill_distiller(palette = "OrRd") +
+  labs(fill="temp")+
+  ggtitle("ggdibbler")+
+  theme(legend.position = "bottom")
+
+p1+p2
+```
+
+![](reference/figures/README-unnamed-chunk-4-1.png)
+
+If you pass random variables to aesthetics like colour or label, but not
+position aesthetics such as x or y, you might want to add a jitter or
+adjust the alpha value so that you can see all outcomes of the
+distribution. Otherwise you will only see the final layer.
+
+``` r
+point_data <- data.frame(x = c(1,2,3),
+                         y = c(2,5,7),
+                         certain_class = c("A", "B", "C"),
+                         uncertain_class = dist_categorical(prob = list(c(0.8,0.15,0.05),
+                                                                      c(0.25,0.7,0.05),
+                                                                      c(0.25,0,0.75)),
+                                                          outcomes = list(c("A", "B", "C"))))
+p1 <- ggplot(data = point_data, aes(x,y)) + 
+  geom_point(aes(colour = certain_class), size=5)+
+  ggtitle("ggplot2")+
+  theme(legend.position = "bottom")
+  
+p2 <- ggplot(data = point_data, aes(x,y)) + 
+  geom_point_sample(aes(colour = uncertain_class), size=1, times=30,
+                    position = position_jitter(width=0.1, height=0.2))+
+  ggtitle("ggdibbler")+
+  theme(legend.position = "bottom")
+
+p1 + p2
+```
+
+![](reference/figures/README-unnamed-chunk-5-1.png)
+
+Finally, lets see a case where the uncertainty (standard error in this
+example) actually is high enough to change the conclusions we take from
+the visualisation.
+
+``` r
+
+p1 <- ggplot(faithfuld, aes(waiting, eruptions)) + 
+  geom_raster(aes(fill = density)) +
+  ggtitle("ggplot2")+
+  theme(legend.position = "bottom")
+
+p2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
+  geom_raster_sample(aes(fill = density)) +
+  ggtitle("ggdibbler low SE")+
+  theme(legend.position = "bottom")
+
+p3 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
+  geom_raster_sample(aes(fill = density2)) +
+  ggtitle("ggdibbler high SE")+
+  theme(legend.position = "bottom")
+
+p1  + p2 + p3
+```
+
+![](reference/figures/README-unnamed-chunk-6-1.png)
+
+## Limitations
+
+There are three primary limitations of the software to keep in mind.
+First, it only allows you to visualise the distribution as a sample. We
+are planning to expand this to quantiles in later version, but it is not
+currently an option. Second, if multiple distributions are passed, they
+are assumed to be independent. This is also something we are hoping to
+fix in later versions (possibly with a covariance matrix or a dibble
+object that represents joint distributions). Finally, replacing a single
+value with a sample of values (which is functionally what ggdibbler
+does) results in pervasive overplotting issue. We are hoping to mediate
+this with nested positions and sensible geom defaults, but this can be
+difficult to manage depending on the type of plot. In general, we
+recommend *always* setting `alpha<=0.5` the first time you make a plot.
+
+## Future additions to the package
+
+The eventual goal of `ggdibbler` is to allows any distribution object to
+be passed to any aesthetic in a `ggplot2` geom (so long as I have gotten
+to that geom). The main improvements that are currently being made are
+working through the full set of `ggplot2` geometries, the status of
+which is tracked in the [All Geometries - Status
+List](https://github.com/harriet-mason/ggdibbler/issues/28) issue,
+implementing nested positions, which is tracked in the [All Nested
+Positions - Status
+list](https://github.com/harriet-mason/ggdibbler/issues/34) issue, and
+allowing users to represent distributions as quantiles instead of
+samples.
+
+# Package index
+
+## Geoms
+
+The uncertainty equivalent of the ggplot geom functions. This is how you
+will typically interact with ggdibbler, as it is how you usually
+interact with ggplot2.
+
+- [`geom_abline_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_abline_sample.md)
+  [`geom_hline_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_abline_sample.md)
+  [`geom_vline_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_abline_sample.md)
+  : Reference lines with uncertainty: horizontal, vertical, and diagonal
+- [`geom_bar_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bar_sample.md)
+  [`geom_col_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bar_sample.md)
+  : Uncertain Bar Charts
+- [`geom_boxplot_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_boxplot_sample.md)
+  [`stat_boxplot_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_boxplot_sample.md)
+  : An uncertain box and whiskers plot (in the style of Tukey)
+- [`geom_count_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
+  [`stat_count_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
+  [`stat_sum_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
+  : Uncertain Count overlapping points
+- [`geom_density_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_density_sample.md)
+  [`stat_density_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_density_sample.md)
+  : Visualise Densities with Uncertainty
+- [`geom_dotplot_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_dotplot_sample.md)
+  : Dot plot with uncertainty
+- [`geom_freqpoly_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_histogram_sample.md)
+  [`geom_histogram_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_histogram_sample.md)
+  [`stat_bin_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_histogram_sample.md)
+  : Histograms and frequency polygons with uncertainty
+- [`geom_jitter_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_jitter_sample.md)
+  : Uncertain Jittered Points
+- [`geom_crossbar_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_linerange_sample.md)
+  [`geom_errorbar_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_linerange_sample.md)
+  [`geom_linerange_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_linerange_sample.md)
+  [`geom_pointrange_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_linerange_sample.md)
+  : Vertical intervals: lines, crossbars & errorbars with uncertainty
+- [`geom_path_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_path_sample.md)
+  [`geom_line_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_path_sample.md)
+  [`geom_step_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_path_sample.md)
+  : Uncertain Connected observations
+- [`geom_point_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_point_sample.md)
+  : Visualise Uncertain Points
+- [`geom_polygon_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_polygon_sample.md)
+  : Uncertain Polygons
+- [`geom_qq_line_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_qq_sample.md)
+  [`stat_qq_line_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_qq_sample.md)
+  [`geom_qq_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_qq_sample.md)
+  [`stat_qq_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_qq_sample.md)
+  : A quantile-quantile plot with uncertainty
+- [`geom_quantile_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_quantile_sample.md)
+  [`stat_quantile_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_quantile_sample.md)
+  : Quantile regression with uncertainty
+- [`geom_ribbon_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_ribbon_sample.md)
+  [`geom_area_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_ribbon_sample.md)
+  [`stat_align_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_ribbon_sample.md)
+  : Uncertain \*\*\*
+- [`geom_rug_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_rug_sample.md)
+  : Uncertain Rug plots in the margins
+- [`geom_curve_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_segment_sample.md)
+  [`geom_segment_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_segment_sample.md)
+  : Line segments and curves with uncertainty
+- [`geom_sf_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_sf_sample.md)
+  : Visualise Sf Objectjects with Uncertainty
+- [`geom_smooth_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_smooth_sample.md)
+  [`stat_smooth_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_smooth_sample.md)
+  : Uncertain Smooth
+- [`geom_spoke_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_spoke_sample.md)
+  : Line segments parameterised by location, direction and distance,
+  with uncertainty
+- [`geom_label_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_text_sample.md)
+  [`geom_text_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_text_sample.md)
+  : Uncertain Text
+- [`geom_raster_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
+  [`geom_rect_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
+  [`geom_tile_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
+  : Rectangles with Uncertainty
+- [`geom_violin_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_violin_sample.md)
+  [`stat_ydensity_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_violin_sample.md)
+  : Violin plots with uncertainty
+
+## Stats
+
+This is where most of the methods used to make uncertainty visualisation
+in ggdibbler work. These stat functions convert a distribution to a
+sample before running through their non-uncertainty counterpart.
+
+- [`stat_identity_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_identity_sample.md)
+  : Generates a sample from a distribution
+- [`sample_expand()`](https://harriet-mason.github.io/ggdibbler/reference/sample_expand.md)
+  : Simulate outcomes from dibble to make a tibble
+
+## Position
+
+These positions allow you to nest the distribution overplotting within a
+different ggplot2 position adjustment
+
+- [`position_identity_subdivide()`](https://harriet-mason.github.io/ggdibbler/reference/position_identity_subdivide.md)
+  : Subdivide position aesthetic in a geometry
+
+## Scale
+
+These scales support allow distributions to be passed to ggplot with
+ease. They identify the scale type needed, and allow you to personalise
+the limits/labels of continuous x and y axis.
+
+- [`scale_x_continuous_distribution()`](https://harriet-mason.github.io/ggdibbler/reference/scale_continuous_distribution.md)
+  [`scale_y_continuous_distribution()`](https://harriet-mason.github.io/ggdibbler/reference/scale_continuous_distribution.md)
+  : Position scales for continuous distributions
+- [`scale_x_discrete_distribution()`](https://harriet-mason.github.io/ggdibbler/reference/scale_discrete_distribution.md)
+  [`scale_y_discrete_distribution()`](https://harriet-mason.github.io/ggdibbler/reference/scale_discrete_distribution.md)
+  : Position scales for discrete distributions
+- [`scale_type(`*`<distribution>`*`)`](https://harriet-mason.github.io/ggdibbler/reference/scale_type.distribution.md)
+  : Sets scale for distributions
+
+## Data
+
+ggdibbler comes with a handful of data sets with uncertain values to
+show the use of the package. Most of these datasets are ggplot2 datasets
+with uncertainty added in.
+
+- [`toy_temp_dist`](https://harriet-mason.github.io/ggdibbler/reference/toy_temp_dist.md)
+  : A toy data set that provides data for a map with the temperature of
+  each area represented by a random variable.
+- [`toy_temp`](https://harriet-mason.github.io/ggdibbler/reference/toy_temp.md)
+  : A toy data set that has the ambient temperature as measured by a
+  collection of citizen scientists for each Iowa county
+- [`smaller_diamonds`](https://harriet-mason.github.io/ggdibbler/reference/smaller_uncertain_diamonds.md)
+  [`uncertain_diamonds`](https://harriet-mason.github.io/ggdibbler/reference/smaller_uncertain_diamonds.md)
+  : An uncertain (and shrunk down) version of the diamonds data
+  from\`ggplot2\`
+- [`uncertain_mpg`](https://harriet-mason.github.io/ggdibbler/reference/uncertain_mpg.md)
+  : An uncertain version of the MPG data from \`ggplot2\`
+- [`uncertain_mtcars`](https://harriet-mason.github.io/ggdibbler/reference/uncertain_mtcars.md)
+  : An uncertain version of the mtcars data from base R \`datasets\`
+- [`uncertain_economics_long`](https://harriet-mason.github.io/ggdibbler/reference/uncertain_economics.md)
+  : An uncertain version of the economics data from\`ggplot2\`
+- [`uncertain_faithfuld`](https://harriet-mason.github.io/ggdibbler/reference/uncertain_faithfuld.md)
+  : 2d density estimate of Old Faithful data with uncertainty
+
+# Articles
+
+### All vignettes
+
+- [An introduction to
+  ggdibbler](https://harriet-mason.github.io/ggdibbler/articles/ggdibbler-intro.md):
+- [Unexpected by products of uncertain
+  plots](https://harriet-mason.github.io/ggdibbler/articles/random-plots.md):
