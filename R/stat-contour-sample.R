@@ -32,7 +32,7 @@ StatContourFilledSample <- ggplot2::ggproto("StatContourFilledSample", ggplot2::
                                         times <- params$times
                                         params$times <- 1
                                         data <- dibble_to_tibble(data, params)
-                                        params <- ggplot2::ggproto_parent(ggplot2::StatContour, self)$setup_params(data, params)
+                                        params <- ggplot2::ggproto_parent(ggplot2::StatContourFilled, self)$setup_params(data, params)
                                         params$times <- times
                                         params
                                       },

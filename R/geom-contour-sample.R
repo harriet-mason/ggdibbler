@@ -19,17 +19,17 @@
 #' u1 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density))
 #' u2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density2))
 #' # plot them
-#' u0 + geom_contour_sample(alpha=0.2) #' low noise
-#' u1 + geom_contour_sample(alpha=0.2) #' mod noise
-#' u2 + geom_contour_sample(alpha=0.2) #' high noise
+#' u0 + geom_contour_sample(alpha=0.2) # low noise
+#' u1 + geom_contour_sample(alpha=0.2) # mod noise
+#' u2 + geom_contour_sample(alpha=0.2) # high noise
 #' 
 #' # use geom_contour_filled() for filled contours
 #' # ggplot2
-#' v + geom_contour_filled() #' no error (point prediction)
+#' v + geom_contour_filled() # no error (point prediction)
 #' # ggdibbler
-#' u0 + geom_contour_filled_sample(alpha=0.1) #' low se
-#' u1 + geom_contour_filled_sample(alpha=0.1) #' med se
-#' u2 + geom_contour_filled_sample(alpha=0.1) #' high se
+#' u0 + geom_contour_filled_sample(alpha=0.1) # low se
+#' u1 + geom_contour_filled_sample(alpha=0.1) # med se
+#' u2 + geom_contour_filled_sample(alpha=0.1) # high se
 #' 
 #' # Other parameters
 #' v + geom_raster(aes(fill = density)) +
@@ -39,7 +39,7 @@
 #' @export
 geom_contour_sample <- make_constructor(ggplot2::GeomContour, 
                                         stat = "contour_sample", times=10,
-                                        #' Passed to contour stat:
+                                        # Passed to contour stat:
                                         bins = NULL, binwidth = NULL, 
                                         breaks = NULL)
 
@@ -50,6 +50,6 @@ geom_contour_sample <- make_constructor(ggplot2::GeomContour,
 #' @export
 geom_contour_filled_sample <- make_constructor(
   GeomContourFilled, stat = "contour_filled_sample", times=10,
-  #' Passed to contour_filled stat:
+  # Passed to contour_filled stat:
   bins = NULL, binwidth = NULL, breaks = NULL
 )
