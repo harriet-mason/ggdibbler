@@ -30,6 +30,7 @@ StatEcdfSample <- ggplot2::ggproto("StatEcdfSample", ggplot2::StatEcdf,
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)
+#' library(distributional)
 #' set.seed(44)
 #' # df
 #' df <- data.frame(

@@ -7,6 +7,7 @@
 #' @param times A parameter used to control the number of values sampled from each distribution.
 #' @examples
 #' # ggplot
+#' library(ggplot2)
 #' d <- ggplot(smaller_diamonds, aes(x, y)) 
 #' d + geom_bin_2d()
 #' # ggdibbler

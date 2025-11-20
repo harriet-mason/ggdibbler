@@ -8,6 +8,7 @@
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
 #' @examples
+#' library(ggplot2)
 #' d <- ggplot(smaller_diamonds, aes(carat, price))
 #' d + geom_hex()
 #' 

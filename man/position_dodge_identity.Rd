@@ -46,6 +46,7 @@ position adjustments for the "main" and "distribution" parts of your plot.
 \examples{
 # Standard ggplots often have a position adjustment to fix overplotting
 # plot with dodged positions
+library(ggplot2)
 ggplot(mpg, aes(class)) + 
   geom_bar(aes(fill = drv), 
            position = position_dodge(preserve = "single"))

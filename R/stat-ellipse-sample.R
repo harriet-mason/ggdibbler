@@ -31,6 +31,7 @@ StatEllipseSample <- ggplot2::ggproto("StatEllipseSample", ggplot2::StatEllipse,
 #' each distribution.
 #' @examples
 #' library(ggplot2)
+#' library(distributional)
 #' # ggplot
 #' ggplot(faithful, aes(waiting, eruptions)) +
 #'   geom_point() +

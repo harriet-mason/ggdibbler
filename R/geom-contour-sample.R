@@ -34,7 +34,7 @@
 #' # Other parameters
 #' v + geom_raster(aes(fill = density)) +
 #'   geom_contour(colour = "white")
-#' u + geom_raster_sample(aes(fill = density)) +
+#' u1 + geom_raster_sample(aes(fill = density)) +
 #'   geom_contour_sample(colour = "white", alpha=0.1)
 #' @export
 geom_contour_sample <- make_constructor(ggplot2::GeomContour, 

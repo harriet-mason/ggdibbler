@@ -247,7 +247,7 @@ u2 + geom_contour_filled_sample(alpha=0.1) # high se
 # Other parameters
 v + geom_raster(aes(fill = density)) +
   geom_contour(colour = "white")
-u + geom_raster_sample(aes(fill = density)) +
+u1 + geom_raster_sample(aes(fill = density)) +
   geom_contour_sample(colour = "white", alpha=0.1)
 }
 \keyword{datasets}

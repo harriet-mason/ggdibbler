@@ -74,12 +74,14 @@ set.seed(1343)
 ```
 
 ``` r
-recent <- economics[economics$date > as.Date("2013-01-01"), ]
-uncertain_recent <- uncertain_economics[uncertain_economics$date > as.Date("2013-01-01"), ]
-p1 <- ggplot(recent, aes(date, unemploy)) + geom_step() +
-  ggtitle("ggplot2")
-p2 <- ggplot(uncertain_recent, aes(date, unemploy)) + geom_step_sample(alpha=0.2) +
-  ggtitle("ggdibbler")
+p1 <- ggplot(faithfuld, aes(waiting, eruptions, z = density)) + 
+  ggtitle("ggplot2") +
+  geom_contour()
+
+p2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density0))+
+  ggtitle("ggdibbler") +
+  geom_contour_sample(alpha=0.2)
+
 p1 + p2
 ```
 
@@ -99,18 +101,47 @@ p1 <- ggplot(faithfuld, aes(waiting, eruptions)) +
 
 p2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
   geom_raster_sample(aes(fill = density)) +
-  ggtitle("ggdibbler low SE")+
+  ggtitle("ggdibbler some error")+
   theme(legend.position = "bottom")
 
 p3 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
   geom_raster_sample(aes(fill = density2)) +
-  ggtitle("ggdibbler high SE")+
+  ggtitle("ggdibbler more error")+
   theme(legend.position = "bottom")
 
 p1  + p2 + p3
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+`ggdibbler` also have a completely nested positioning system for
+managing overplotting from re sampling. This is usually in the form of
+nested positions:
+
+``` r
+p1 <- ggplot(mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv), 
+                  position = "stack")+
+  theme(legend.position="none")+
+  ggtitle("stack")
+
+
+p2 <- ggplot(uncertain_mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv), alpha=0.1,
+                  position = "stack_identity")+
+  theme(legend.position="none")+
+  ggtitle("stack_identity")
+
+p3 <- ggplot(uncertain_mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv),
+                  position = "stack_dodge")+
+  theme(legend.position="none")+
+  ggtitle("stack_dodge")
+
+p1 | p2 | p3
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 The only geoms that implement new positioning (i.e. not nested versions
 of existing ggplot2 positions) are `geom_sf_sample`, and
@@ -136,7 +167,7 @@ p1 <- ggplot(toy_temp_mean) +
 # sample map
 p2 <- toy_temp_dist |> 
   ggplot() + 
-  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0) + 
+  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0, times=50) + 
   geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=0.7) +
   scale_fill_distiller(palette = "OrRd") +
   labs(fill="temp")+
@@ -146,7 +177,7 @@ p2 <- toy_temp_dist |>
 p1+p2
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ## Limitations
 

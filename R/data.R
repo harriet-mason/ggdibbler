@@ -150,10 +150,25 @@ NULL
 #' \describe{
 #'   \item{eruptions}{Eruption time in mins}
 #'   \item{waiting}{Waiting time to next eruption in mins}
-#'   \item{density}{A 2d density estimate that is normally distributed with a low variance}
+#'   \item{density0}{A 2d density estimate that is normally distributed with a low variance}
+#'   \item{density}{A 2d density estimate that is normally distributed with a medium variance}
 #'   \item{density2}{A 2d density estimate that is normally distributed with a high variance}
 #' }
 #' @name uncertain_faithfuld
+NULL
+
+
+#' Old Faithful data with uncertainty
+#'
+#' The old faithful data from the datasets package but with added 
+#' uncertainty.
+#'
+#' @format A data frame with 5,625 observations and 3 variables:
+#' \describe{
+#'   \item{eruptions}{Eruption time in mins}
+#'   \item{waiting}{Waiting time to next eruption in mins}
+#' }
+#' @name uncertain_faithful
 NULL
 
 

@@ -46,6 +46,7 @@ position adjustments for the "main" and "distribution" parts of your plot.
 \examples{
 # Standard ggplots often have a position adjustment to fix overplotting
 # plot with overplotting
+library(ggplot2)
 ggplot(mpg, aes(class)) + 
   geom_bar(aes(fill = drv), alpha=0.5,
            position = "identity")

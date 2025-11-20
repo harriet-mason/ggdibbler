@@ -39,10 +39,6 @@
 #' n + geom_density_2d_filled_sample(alpha = 0.1) +
 #'   geom_density_2d_sample(linewidth = 0.2, colour = "black", alpha=0.5)
 #' 
-#' # If we turn contouring off, we can use other geoms
-#' d + stat_density_2d(geom = "point", aes(size = after_stat(density)), n = 20, contour = FALSE)
-#' b + stat_density_2d_sample(geom = "point", alpha = 0.15,
-#'                            aes(size = after_stat(density)), n = 20, contour = FALSE)
 #' @export
 geom_density_2d_sample <- function(mapping = NULL, data = NULL,
                                    stat = "density_2d_sample", 

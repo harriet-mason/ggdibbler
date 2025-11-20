@@ -145,6 +145,7 @@ Identical to geom_hex, except that it will accept a distribution in place of
 any of the usual aesthetics.
 }
 \examples{
+library(ggplot2)
 d <- ggplot(smaller_diamonds, aes(carat, price))
 d + geom_hex()
 

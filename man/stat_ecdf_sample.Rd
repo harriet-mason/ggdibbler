@@ -125,6 +125,7 @@ Identical to stat_ecdf, except that it will accept a distribution in place of an
 \examples{
 library(ggplot2)
 library(dplyr)
+library(distributional)
 set.seed(44)
 # df
 df <- data.frame(
