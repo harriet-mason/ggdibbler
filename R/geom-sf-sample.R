@@ -1,7 +1,8 @@
-#' Visualise Sf Objectjects with Uncertainty
+#' Visualise Sf Objects with Uncertainty
 #' 
 #' Identical to geom_sf, except that the fill for each area will be a distribution. 
-#' This function will replace the fill area with a grid, where each cell is filled with an outcome from the fill distribution. 
+#' This function will replace the fill area with a grid, where each cell is filled 
+#' with an outcome from the fill distribution. 
 #' 
 #' @importFrom ggplot2 aes layer_sf GeomSf coord_sf
 #' @importFrom rlang list2
