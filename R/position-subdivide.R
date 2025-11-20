@@ -48,13 +48,16 @@ position_subdivide <- function() {
 PositionSubdivide <- ggproto('PositionSubdivide', PositionIdentity,
 
                                 compute_layer = function(data, params, panel) {
-                                  # set up values
-                                  hold_drawID <- unique(data$drawID)
-                                  times = max(as.numeric(hold_drawID))
+                                  # If 1 or 0 draws, only draw once
+                                  times = max(as.numeric(data$drawID))
                                   if(times %in% c(0, 1)) return(data)
-
-                                  sample_subdivide_polygon(data, times)
-
+                                  
+                                  # Check if polygon or SF
+                                  if("geometry" %in% names(data)) {
+                                    sample_subdivide_sf(data, times)
+                                  } else {
+                                    sample_subdivide_polygon(data, times)
+                                  }
                                 }
 )
 
@@ -112,16 +115,30 @@ sample_subdivide_polygon <- function(data, times){
 
 #' @keywords internal
 sample_subdivide_sf <- function(data, times){ 
-  d <- square_grid(times)
-  data |>
+  # add geometry ID for rejoining later
+  data <- data |> 
     dplyr::group_by(geometry) |>
-    dplyr::reframe(
-      geometry = subdivide(geometry, d=d), 
-      dplyr::across(dplyr::everything())
-    ) |>
-    dplyr::mutate(fill = as.double(generate(fill, 1))) |>
-    sf::st_sf() |>
-    sf::st_zm()
+    dplyr::mutate(geometryID = cur_group_id())
+  
+  # make grid for subdivision
+  d <- square_grid(times)
+  
+  # subdivide geometries
+  # must do separately in case grid cells =/= times
+  geometries <- data |>
+    dplyr::select(geometry, group, geometryID) |>
+    dplyr::group_by(geometry, geometryID) |>
+    dplyr::reframe(geometry = subdivide(unique(geometry), d=d),
+                   group = group[1:length(geometry)]) |>
+    dplyr::ungroup()
+  
+  # remove old geometry column
+  old_data <- data |>
+    tibble::as_tibble() |>
+    dplyr::select(-geometry)
+  
+  # recombine fill values with geometry column
+  dplyr::left_join(geometries, old_data, by = c("geometryID", "group"))
 }
 
 
