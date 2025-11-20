@@ -21,13 +21,13 @@ datapoly <- merge(values, positions, by = c("id"))
  uncertain_datapoly <- datapoly |>
   mutate(value = dist_uniform(value-0.1, value + 0.1))
 
- test_that("position_identity_subdivide tests", {
+ test_that("position_subdivide tests", {
 
    set.seed(444)
 
    p1 <- ggplot(uncertain_datapoly , aes(x = x, y = y)) +
      geom_polygon_sample(aes(fill = value, group = id), alpha=0.1,
-                         position = "identity_subdivide")
+                         position = "subdivide")
    expect_doppelganger("Polygon e.g.", p1)
 
  }
@@ -35,5 +35,5 @@ datapoly <- merge(values, positions, by = c("id"))
  
 # ggplot(uncertain_datapoly , aes(x = x, y = y)) +
 #   geom_polygon_sample(aes(fill = value, group = id), times=40,
-#                       position = "identity_subdivide")
+#                       position = "subdivide")
  

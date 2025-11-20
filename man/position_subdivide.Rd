@@ -24,7 +24,7 @@ ids <- factor(c("1.1", "2.1", "1.2", "2.2", "1.3", "2.3"))
 
 values <- data.frame(
   id = ids,
-  value = c(3, 3.1, 3.1, 3.2, 3.15, 3.5)
+  value = c(1, 2, 3, 4, 5, 6)
 )
 positions <- data.frame(
   id = rep(ids, each = 4),
@@ -34,11 +34,15 @@ positions <- data.frame(
         2.2, 2.1, 1.7, 2.1, 3.2, 2.8, 2.1, 2.2, 3.3, 3.2)
 )
 datapoly <- merge(values, positions, by = c("id"))
-uncertain_datapoly2 <- datapoly |>
-  mutate(value = dist_uniform(value-0.5, value + 0.5)) 
+uncertain_datapoly <- datapoly |>
+  mutate(value = dist_uniform(value, value + 0.8)) 
   
-# visualise with geom_polygon
-ggplot(uncertain_datapoly2 , aes(x = x, y = y)) +
+# ggplot
+ggplot(datapoly , aes(x = x, y = y)) +
+  geom_polygon(aes(fill = value, group = id)) 
+  
+# ggdibbler
+ggplot(uncertain_datapoly , aes(x = x, y = y)) +
   geom_polygon_sample(aes(fill = value, group = id), times=50,
                       position = "subdivide")
 }
