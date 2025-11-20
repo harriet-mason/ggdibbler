@@ -17,8 +17,10 @@ reference:
     in ggdibbler work. These stat functions convert a distribution to a sample
     before running through their non-uncertainty counterpart. 
   contents:
-  - stat_identity_sample
   - sample_expand
+  - stat_identity_sample
+  - stat_ecdf_sample
+  - stat_ellipse_sample
 
 - title: Position
   desc: >

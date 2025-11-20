@@ -4,12 +4,12 @@
 \name{geom_sf_sample}
 \alias{geom_sf_sample}
 \alias{StatSfSample}
-\title{Visualise Sf Objectjects with Uncertainty}
+\title{Visualise Sf Objects with Uncertainty}
 \usage{
 geom_sf_sample(
   mapping = aes(),
   data = NULL,
-  position = "identity",
+  position = "subdivide",
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE,
@@ -67,7 +67,8 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
-\item{times}{A parameter used to control the number of cells in each grid. The geom will find the factors of times and select the ones that make the grid as square as possible.}
+\item{times}{A parameter used to control the number of cells in each grid. 
+The geom will find the factors of times and select the ones that make the grid as square as possible.}
 
 \item{n}{Deprecated in favour of times.}
 
@@ -100,11 +101,13 @@ lists which parameters it can accept.
 }}
 }
 \value{
-A ggplot2 geom representing a sf_sample which can be added to a ggplot object
+A ggplot2 geom representing a sf_sample which can be added to a 
+ggplot object
 }
 \description{
 Identical to geom_sf, except that the fill for each area will be a distribution. 
-This function will replace the fill area with a grid, where each cell is filled with an outcome from the fill distribution.
+This function will replace the fill area with a grid, where each cell is filled 
+with an outcome from the fill distribution.
 }
 \examples{
 # In it's most basic form, the geom will make a subdivision 
@@ -115,7 +118,8 @@ basic_data <- toy_temp_dist |>
   filter(county_name \%in\% c("Pottawattamie County", "Mills County", "Cass County"))
 basic_data |>
   ggplot() + 
-  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist))
+  geom_sf_sample(times=100, linewidth=0,
+                 aes(geometry = county_geometry, fill=temp_dist))
 # The original borders of the sf object can be hard to see, 
  # so layering the original geometry on top can help to see the original boundaries
 basic_data |>  

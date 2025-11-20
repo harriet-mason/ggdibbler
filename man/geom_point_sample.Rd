@@ -11,6 +11,8 @@ geom_point_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 0.7,
+  size = 3/times,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE

@@ -6,13 +6,10 @@
 #' @rdname geom_sf_sample
 StatSfSample <- ggproto("StatSfSample", StatSf,
                         setup_data = function(data, params) {
-                          sample_subdivide_sf(data, params$times)
+                          dibble_to_tibble(data, params)
                         },
                         # This is just here so setup_data has access to n
                         extra_params = c("na.rm", "times"),
-                        compute_panel = function(self, data, scales, coord, times) {
-                          ggproto_parent(StatSf, self)$compute_panel(data, scales, coord)
-                          }
                         
 )
 

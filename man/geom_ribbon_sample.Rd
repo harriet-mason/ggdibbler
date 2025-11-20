@@ -6,7 +6,7 @@
 \alias{geom_area_sample}
 \alias{StatAlignSample}
 \alias{stat_align_sample}
-\title{Uncertain ***}
+\title{Ribbons and area plots with uncertainty}
 \usage{
 geom_ribbon_sample(
   mapping = NULL,

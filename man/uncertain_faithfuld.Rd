@@ -8,7 +8,8 @@ A data frame with 5,625 observations and 3 variables:
 \describe{
   \item{eruptions}{Eruption time in mins}
   \item{waiting}{Waiting time to next eruption in mins}
-  \item{density}{A 2d density estimate that is normally distributed with a low variance}
+  \item{density0}{A 2d density estimate that is normally distributed with a low variance}
+  \item{density}{A 2d density estimate that is normally distributed with a medium variance}
   \item{density2}{A 2d density estimate that is normally distributed with a high variance}
 }
 }

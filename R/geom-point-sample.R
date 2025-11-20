@@ -53,4 +53,5 @@
 #' # ggdibbler
 #' ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample(colour = "red", size = 3)
 #' @export
-geom_point_sample <- make_constructor(GeomPoint, stat = "identity_sample", times=10)
+geom_point_sample <- make_constructor(GeomPoint, stat = "identity_sample", times=10,
+                                      alpha=0.7, size=3/times)
