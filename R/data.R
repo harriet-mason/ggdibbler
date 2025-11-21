@@ -177,7 +177,7 @@ NULL
 #' The old faithful data from the datasets package but with added 
 #' uncertainty.
 #'
-#' @format A data frame with 5,625 observations and 3 variables:
+#' @format A data frame:
 #' \describe{
 #'   \item{eruptions}{Eruption time in mins}
 #'   \item{waiting}{Waiting time to next eruption in mins}
