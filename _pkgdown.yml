@@ -1,56 +1,41 @@
 url: https://harriet-mason.github.io/ggdibbler/
 template:
   bootstrap: 5
-
 reference:
 - title: Geoms
-  desc: >
-    The uncertainty equivalent of the ggplot geom functions. This is how
-    you will typically interact with ggdibbler, as it is how you usually
-    interact with ggplot2. 
-  contents:
-  - starts_with("geom_")
-
+  desc: "The uncertainty equivalent of the ggplot geom functions. This is how you
+    will typically interact with ggdibbler, as it is how you usually interact with
+    ggplot2. \n"
+  contents: starts_with("geom_")
 - title: Stats
-  desc: >
-    This is where most of the methods used to make uncertainty visualisation
-    in ggdibbler work. These stat functions convert a distribution to a sample
-    before running through their non-uncertainty counterpart. 
+  desc: "This is where most of the methods used to make uncertainty visualisation
+    in ggdibbler work. These stat functions convert a distribution to a sample before
+    running through their non-uncertainty counterpart. \n"
   contents:
   - sample_expand
   - stat_identity_sample
   - stat_ecdf_sample
   - stat_ellipse_sample
-
 - title: Position
-  desc: >
-    These positions allow you to nest the distribution overplotting within a
-    different ggplot2 position adjustment
-  contents:
-  - starts_with("position_")
-  
+  desc: |
+    These positions allow you to nest the distribution overplotting within a different ggplot2 position adjustment
+  contents: starts_with("position_")
 - title: Scale
-  desc: >
-    These scales support allow distributions to be passed to ggplot with ease. 
-    They identify the scale type needed, and allow you to personalise the 
-    limits/labels of continuous x and y axis.
-  contents:
-  - starts_with("scale_")
-  
+  desc: |
+    These scales support allow distributions to be passed to ggplot with ease.  They identify the scale type needed, and allow you to personalise the  limits/labels of continuous x and y axis.
+  contents: starts_with("scale_")
 - title: Data
-  desc: >
-    ggdibbler comes with a handful of data sets with uncertain values to show the
-    use of the package. Most of these datasets are ggplot2 datasets with uncertainty
-    added in.
+  desc: |
+    ggdibbler comes with a handful of data sets with uncertain values to show the use of the package. Most of these datasets are ggplot2 datasets with uncertainty added in.
   contents:
-  - toy_temp_dist 
-  - toy_temp 
-  - smaller_uncertain_diamonds 
-  - smaller_diamonds 
-  - uncertain_mpg 
-  - uncertain_mtcars 
-  - uncertain_economics 
-  - uncertain_economics_long 
+  - toy_temp_dist
+  - toy_temp
+  - smaller_uncertain_diamonds
+  - smaller_diamonds
+  - uncertain_mpg
+  - uncertain_mtcars
+  - uncertain_economics
+  - uncertain_economics_long
   - uncertain_faithfuld
   - uncertain_faithful
   - walkathon
