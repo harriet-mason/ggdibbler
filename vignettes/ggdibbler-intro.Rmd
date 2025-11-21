@@ -21,10 +21,11 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 library(ggdibbler)
 library(tidyverse)
 library(sf)
-library(distributional)
 library(patchwork)
 library(tidygraph)
 library(ggraph)
+library(distributional)
+library(gganimate)
 ```
 
 
@@ -198,9 +199,6 @@ Yeah... you can do that too. Its actually super easy.
 [Hypothetical outcome](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://idl.cs.washington.edu/files/2015-HOPs-PLOS.pdf) plots have been suggested as an uncertainty visualisation technique, but they are also simply a subset of the grammar of nested graphics `ggdibbler` implements. In a HOPs plot, it seems that animations replace our distribution specific position adjustment. There really isn't anything special about the animation element, it is the smae as our other distribution specific position adjustments. Implementing the code is trivially easy when we group our position by drawID (which is exactly what we do in the other position adjustments).
 
 ```{r}
-library(distributional)
-library(ggplot2)
-library(gganimate)
 # bar chart
 hops <- ggplot(uncertain_mpg, aes(class)) +
   geom_bar_sample(aes(fill = drv),
