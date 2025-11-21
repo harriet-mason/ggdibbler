@@ -94,7 +94,8 @@ Looking at this plot, it is clear that the count value is uncertain, but that un
 ```{r}
 ggplot(diamonds_pred, aes(x=cut_pred)) +
   geom_bar_sample(aes(fill=factor(after_stat(x)))) +
-  labs(fill = "cut_pred")
+  labs(fill = "cut_pred")+
+  scale_fill_brewer(palette = "Set1")
 ```
 
 Of course, you can also set the fill to be a second independent draw from the prediction distribution, but this would convey the wrong information. You would be implying far more uncertainty than is actually in the bar chart. Instead of drawing from one distribution, we are drawing from two independent distributions that technically represent the same variable.
@@ -103,6 +104,14 @@ The reality is, distribution variables are "slippery" in a way that deterministi
 
 ```{r}
 ggplot(diamonds_pred, aes(x=cut_true)) +
-  geom_bar_sample(aes(fill= cut_pred), times=10, alpha=0.1, position="identity")
+  geom_bar()
+
+ggplot(diamonds_pred, aes(x=cut_true)) +
+  geom_bar_sample(aes(fill= cut_pred), times=100, 
+                  position= "stack_dodge") +
+  scale_fill_brewer(palette = "Set1")
+
 ```
+
+The height of the bar represents the total number of values predicted as that class, and the proportion of the the bar that is filled in as that colour represents the probability that the observation is that class. You will notice that the y-axis now represents the count of a deterministic variable (so there is no random variation and it is easy to read) but the colour *is* random, so it does have variation.
 

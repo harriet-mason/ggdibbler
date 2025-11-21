@@ -188,7 +188,7 @@ ggplot(toy_temp_dist) +
   geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) 
 ```
 
-By default, `geom_sf_sample` will subdivide the data. It is unlikely that you will ever notice this default, as the random part in a geom_sf is almost always the fill, but in the unlikely event the random object is the SF part, you will need to change the position to `"identity"` and use `alpha` to manage over plotting. Note that `geom_polygon_sample` does not have subdivide turned on by default. 
+By default, `geom_sf_sample` will subdivide the data. It is unlikely that you will ever notice this default, as the random part in a geom_sf is almost always the fill, but in the unlikely event the random object is the SF part, you will need to change the position to `"identity"` and use `alpha` to manage over plotting. Alternatively, making an animated plot (detailed below) also requires the position to be changed to `"identity"`. Note that unlike `geom_sf_sample`, `geom_polygon_sample` does not have subdivide turned on by default. 
 
 Subdivide is the only position that is specifically created for `ggdibbler`. All the other position systems used are nested positions versions the existing `ggplot2` positions. It was inspired by the pixel map used in [`Vizumap`](https://github.com/lydialucchesi/Vizumap).
 
