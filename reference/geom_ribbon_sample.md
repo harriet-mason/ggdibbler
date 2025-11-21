@@ -1,4 +1,4 @@
-# Uncertain \*\*\*
+# Ribbons and area plots with uncertainty
 
 Identical to geom_ribbon, except that it will accept a distribution in
 place of any of the usual aesthetics.

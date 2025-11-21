@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ggdibbler-intro.html">An introduction to ggdibbler</a></li>
+    <li><a class="dropdown-item" href="../articles/nested-positions.html">Nested Positions</a></li>
     <li><a class="dropdown-item" href="../articles/random-plots.html">Unexpected by products of uncertain plots</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -40,7 +41,47 @@
 <h2 class="pkg-version" data-toc-text="development version" id="ggdibbler-development-version">ggdibbler (development version)<a class="anchor" aria-label="anchor" href="#ggdibbler-development-version"></a></h2>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.0" id="ggdibbler-040">ggdibbler 0.4.0<a class="anchor" aria-label="anchor" href="#ggdibbler-040"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.5.0" id="ggdibbler-050">ggdibbler 0.5.0<a class="anchor" aria-label="anchor" href="#ggdibbler-050"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.0" id="version-v050">Version v0.5.0<a class="anchor" aria-label="anchor" href="#version-v050"></a></h2>
+<div class="section level3">
+<h3 id="new-featues-0-5-0">New Featues<a class="anchor" aria-label="anchor" href="#new-featues-0-5-0"></a></h3>
+<div class="section level4">
+<h4 id="geoms--stats-0-5-0">Geoms &amp; stats<a class="anchor" aria-label="anchor" href="#geoms--stats-0-5-0"></a></h4>
+<ul><li><code>stat_ellipse_sample</code></li>
+<li><code>stat_ecdf_sample</code></li>
+<li><code>stat_density_2d_sample</code></li>
+<li><code>stat_count_sample</code></li>
+<li>
+<code>stat_bin_2d_sample</code>/<code>stat_bin_hex_sample</code>
+</li>
+<li><code>geom_contour_sample</code></li>
+<li>
+<code>geom_bin_2d_sample</code>/ <code>geom_bin_hex_sample</code>
+</li>
+</ul></div>
+<div class="section level4">
+<h4 id="positions-0-5-0">Positions<a class="anchor" aria-label="anchor" href="#positions-0-5-0"></a></h4>
+<ul><li><code>position_stack_nested</code></li>
+<li>Nested variations of stack, dodge, and identity (e.g. <code>position_identity_dodge</code>)
+<ul><li>I am not listing all of them here</li>
+</ul></li>
+</ul></div>
+</div>
+<div class="section level3">
+<h3 id="changes-0-5-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-5-0"></a></h3>
+<ul><li>Changes to default values in <code>geom_point_sample</code>
+</li>
+<li>
+<code>geom_sf_sample</code> now accepts random variables to all aesthetics and the subdivision was moved to the position argument</li>
+<li>
+<code>position_subdivive</code> had bug fixed and now also works with sf objects</li>
+</ul></div>
+<div class="section level3">
+<h3 id="data-0-5-0">Data<a class="anchor" aria-label="anchor" href="#data-0-5-0"></a></h3>
+<ul><li>Added basic version of Walk-tober data (will update when survey finished)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="version-v040">Version v0.4.0<a class="anchor" aria-label="anchor" href="#version-v040"></a></h2>

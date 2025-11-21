@@ -349,12 +349,6 @@ q + geom_boxplot_sample(alpha=0.1, notch = TRUE)
 #> ℹ Do you want `notch = FALSE`?
 #> Notch went outside hinges
 #> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
 
 
 # ggplot

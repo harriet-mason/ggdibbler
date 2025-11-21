@@ -18,9 +18,14 @@ A data frame with 5,625 observations and 3 variables:
 
   Waiting time to next eruption in mins
 
-- density:
+- density0:
 
   A 2d density estimate that is normally distributed with a low variance
+
+- density:
+
+  A 2d density estimate that is normally distributed with a medium
+  variance
 
 - density2:
 

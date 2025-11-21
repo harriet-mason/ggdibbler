@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/ggdibbler-intro.html">An introduction to ggdibbler</a></li>
+    <li><a class="dropdown-item" href="../articles/nested-positions.html">Nested Positions</a></li>
     <li><a class="dropdown-item" href="../articles/random-plots.html">Unexpected by products of uncertain plots</a></li>
   </ul>
 </li>
@@ -272,7 +273,7 @@ impact of the variance in the intercept <em>and</em> the wt
 coefficient.</p>
 </div>
 <div class="section level3">
-<h3 id="a-more-complicated-geom_sf">A more complicated geom_sf<a class="anchor" aria-label="anchor" href="#a-more-complicated-geom_sf"></a>
+<h3 id="a-more-complicated-case-with-geom_sf">A more complicated case with geom_sf<a class="anchor" aria-label="anchor" href="#a-more-complicated-case-with-geom_sf"></a>
 </h3>
 <p>Ok, I am bored, one simple example is. Lets work through a longer and
 more difficult case of uncertainty visualisation, a spatial
@@ -310,8 +311,10 @@ referece.</p>
 <code class="sourceCode R"><span><span class="co"># Plot Raw Data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ggdibbler some error"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">county_longitude</span>, y<span class="op">=</span><span class="va">county_latitude</span>, colour<span class="op">=</span><span class="va">recorded_temp</span><span class="op">)</span>, </span>
-<span>              width<span class="op">=</span><span class="fl">5000</span>, height <span class="op">=</span><span class="fl">5000</span>, alpha<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span></span></code></pre></div>
+<span>              width<span class="op">=</span><span class="fl">5000</span>, height <span class="op">=</span><span class="fl">5000</span>, alpha<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_colour_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700"></p>
 <p>Typically, we would not visualise the data this way. A much more
 common approach would be to take the average of each county and display
@@ -324,6 +327,8 @@ that in a choropleth map, displayed below.</p>
 <span>  </span>
 <span><span class="co"># Plot Mean Data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_mean</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ggdibbler some error"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_mean</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="700"></p>
 <p>This plot is fine, but it does loose a key piece of information,
@@ -359,21 +364,155 @@ combine them as a single distribution variable thanks to the
 <span></span>
 <span><span class="co"># Plot Distribution Data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_dist</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span>, </span>
+<span>                 times<span class="op">=</span><span class="fl">50</span>, linewidth<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="700"></p>
 <p>To maintain flexibility, the <code>geom_sf_sample</code> does not
 highlight the original boundary lines, but that can be easily added just
 by adding another layer.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_dist</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span>, linewidth<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span>, </span>
+<span>                 linewidth<span class="op">=</span><span class="fl">0</span>, times<span class="op">=</span><span class="fl">50</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span><span class="op">)</span>, fill<span class="op">=</span><span class="cn">NA</span>, linewidth<span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" width="700"></p>
-<p>Currently <code>geom_sf</code> only accepts a random fill, as it
-subdivides the geometry to fill it with a sample. This will eventually
-be extended to all the <code>geom_sf</code> aesthetics (which is the
-case for all other geometries in <code>ggdibbler</code>)</p>
+<p>By default, <code>geom_sf_sample</code> will subdivide the data. It
+is unlikely that you will ever notice this default, as the random part
+in a geom_sf is almost always the fill, but in the unlikely event the
+random object is the SF part, you will need to change the position to
+<code>"identity"</code> and use <code>alpha</code> to manage over
+plotting. Note that <code>geom_polygon_sample</code> does not have
+subdivide turned on by default.</p>
+<p>Subdivide is the only position that is specifically created for
+<code>ggdibbler</code>. All the other position systems used are nested
+positions versions the existing <code>ggplot2</code> positions. It was
+inspired by the pixel map used in <a href="https://github.com/lydialucchesi/Vizumap" class="external-link"><code>Vizumap</code></a>.</p>
 </div>
+<div class="section level3">
+<h3 id="what-about-animated-plots">What about animated plots?<a class="anchor" aria-label="anchor" href="#what-about-animated-plots"></a>
+</h3>
+<p>Yeah… you can do that too. Its actually super easy.</p>
+<p><a href="chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://idl.cs.washington.edu/files/2015-HOPs-PLOS.pdf" class="external-link">Hypothetical
+outcome</a> plots have been suggested as an uncertainty visualisation
+technique, but they are also simply a subset of the grammar of nested
+graphics <code>ggdibbler</code> implements. In a HOPs plot, it seems
+that animations replace our distribution specific position adjustment.
+There really isn’t anything special about the animation element, it is
+the smae as our other distribution specific position adjustments.
+Implementing the code is trivially easy when we group our position by
+drawID (which is exactly what we do in the other position
+adjustments).</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># bar chart</span></span>
+<span><span class="va">hops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>,</span>
+<span>                  position <span class="op">=</span> <span class="st">"stack_identity"</span>, times<span class="op">=</span><span class="fl">30</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">transition_states</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">drawID</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">hops</span></span>
+<span><span class="co">#&gt; Warning: No renderer available. Please install the <span style="color: #0000BB;">gifski</span>, <span style="color: #0000BB;">av</span>, or <span style="color: #0000BB;">magick</span> package to</span></span>
+<span><span class="co">#&gt; create animated output</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="what-if-my-plot-uses-ggplot2-extensions">What if my plot uses ggplot2 extensions?<a class="anchor" aria-label="anchor" href="#what-if-my-plot-uses-ggplot2-extensions"></a>
+</h3>
+<p>If you represent uncertainty as a distributional object, use the
+<code>sample_expand</code> function, and group by <code>drawID</code>,
+you can apply the signal supression methods to literally any graphic. It
+won’t always work as nicely as <code>ggdibbler</code> (please download
+my package, I need a job) but it works well enough.</p>
+<p>Here is an example with ggraph and uncertain edges represented by a
+sample of simulated edges. So you have this random data set.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">uncertain_edges</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">20</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                    to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">20</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                    weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">from</span>, <span class="va">to</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>to <span class="op">=</span> <span class="fu">distributional</span><span class="fu">::</span><span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_sample.html" class="external-link">dist_sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">1</span>,<span class="va">to</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, </span>
+<span>                                                 to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">to</span><span class="op">+</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>                                      replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">uncertain_edges</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt;    from        to weight</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dist&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     3 sample[3] 0.761 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     1 sample[2] 0.573 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     2 sample[3] 0.448 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4 sample[3] 0.083<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     3 sample[2] 0.219 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     2 sample[3] 0.075<span style="text-decoration: underline;">6</span></span></span></code></pre></div>
+<p>You need to apply <code>sample_expand</code> before you convert the
+data to a graph, because <code>ggraph</code> is all totalitarian about
+what it will keep in its graph data set, and it doesn’t allow
+distributions.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">graph_sample</span> <span class="op">&lt;-</span> <span class="va">uncertain_edges</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/sample_expand.html">sample_expand</a></span><span class="op">(</span>times<span class="op">=</span><span class="fl">50</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">as_tbl_graph</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Now, the ideal visualisation would allow us to add transparency with
+a small amount of jitter to straight lines. That doesn’t seem to be
+possible in ggraph as far as I can tell. It seems that, similar to
+ggplot2, the lines are actually made up of many individual points, and
+the line geometry simply interpolates between them. When it applies the
+jitter, it does it to each point, rather than the line as a whole. So,
+adding the jitter does work, it just doesn’t work exactly as I expected
+it to (or as I would have liked it to). It does produce an uncertainty
+visualisation, though.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">jitter</span> <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.01</span>, height<span class="op">=</span><span class="fl">0.01</span><span class="op">)</span></span>
+<span><span class="fu">ggraph</span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_edge_link</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>, position<span class="op">=</span><span class="va">jitter</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, </span>
+<span>                 linewidth<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_node_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" width="700"></p>
+<p>You can mess around with alpha, linewidth, and the times argument in
+the <code>sample_expand</code> function to get something you are happy
+with. There are some other weird overplotting edge things you can
+utilise to make the uncertainty implicitly represented by some other
+aesthetic (like thickness or something), but in general the approaches
+all look similar (and convey similar information)</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># uncertainty indicated by transparency</span></span>
+<span><span class="fu">ggraph</span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_edge_link</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.005</span>,</span>
+<span>                 linewidth<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_node_point</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" width="700"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Thickness = probability of an edge (thicker = more probable)</span></span>
+<span><span class="fu">ggraph</span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_edge_parallel0</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>,</span>
+<span>                      sep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="st">"mm"</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, linewidth<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_node_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
+<p><img src="ggdibbler-intro_files/figure-html/unnamed-chunk-16-2.png" class="r-plt" width="700"></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="but-what-about-my-ggplot2-extension">But what about my ggplot2 extension?<a class="anchor" aria-label="anchor" href="#but-what-about-my-ggplot2-extension"></a>
+</h2>
+<p>Now, I have made all functions in base <code>ggplot2</code> accept
+uncertain inputs, go me, but the real power of ggplot2 comes from the
+wealth of extension packages. Now, as fun as I am sure it would be, I am
+not about to spend the next 5 years making pull requests on every
+<code>ggplot2</code> extension package so that they can all accept
+random variables. Largely because:</p>
+<ol style="list-style-type: decimal">
+<li>Going around making pull requests that forces dependency on
+<em>my</em> package sounds like the early warning signs of a personality
+disorder</li>
+<li>(More importantly) that sounds really boring and I don’t want
+to.</li>
+</ol>
+<p>Thankfully, the <code>ggdibbler</code> approach is so easy if you are
+the author/maintainer of a <code>ggplot2</code> extension and you want
+it to accept random variables, you can just do it yourself.</p>
+<p>TODO - finish this explanation lol</p>
 </div>
 <div class="section level2">
 <h2 id="limitations-of-the-package">Limitations of the Package<a class="anchor" aria-label="anchor" href="#limitations-of-the-package"></a>

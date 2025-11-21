@@ -1,4 +1,4 @@
-# Visualise Sf Objectjects with Uncertainty
+# Visualise Sf Objects with Uncertainty
 
 Identical to geom_sf, except that the fill for each area will be a
 distribution. This function will replace the fill area with a grid,
@@ -10,7 +10,7 @@ where each cell is filled with an outcome from the fill distribution.
 geom_sf_sample(
   mapping = aes(),
   data = NULL,
-  position = "identity",
+  position = "subdivide",
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE,
@@ -156,7 +156,8 @@ basic_data <- toy_temp_dist |>
   filter(county_name %in% c("Pottawattamie County", "Mills County", "Cass County"))
 basic_data |>
   ggplot() + 
-  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist))
+  geom_sf_sample(times=100, linewidth=0,
+                 aes(geometry = county_geometry, fill=temp_dist))
 
 # The original borders of the sf object can be hard to see, 
  # so layering the original geometry on top can help to see the original boundaries

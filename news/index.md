@@ -2,7 +2,40 @@
 
 ## ggdibbler (development version)
 
-## ggdibbler 0.4.0
+## ggdibbler 0.5.0
+
+## Version v0.5.0
+
+### New Featues
+
+#### Geoms & stats
+
+- `stat_ellipse_sample`
+- `stat_ecdf_sample`
+- `stat_density_2d_sample`
+- `stat_count_sample`
+- `stat_bin_2d_sample`/`stat_bin_hex_sample`
+- `geom_contour_sample`
+- `geom_bin_2d_sample`/ `geom_bin_hex_sample`
+
+#### Positions
+
+- `position_stack_nested`
+- Nested variations of stack, dodge, and identity
+  (e.g. `position_identity_dodge`)
+  - I am not listing all of them here
+
+### Changes
+
+- Changes to default values in `geom_point_sample`
+- `geom_sf_sample` now accepts random variables to all aesthetics and
+  the subdivision was moved to the position argument
+- `position_subdivive` had bug fixed and now also works with sf objects
+
+### Data
+
+- Added basic version of Walk-tober data (will update when survey
+  finished)
 
 ## Version v0.4.0
 

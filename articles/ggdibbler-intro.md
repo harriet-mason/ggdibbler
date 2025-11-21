@@ -208,7 +208,7 @@ p1 + p2
 A fun aspect of this approach, is that we can simultaneously see the
 impact of the variance in the intercept *and* the wt coefficient.
 
-### A more complicated geom_sf
+### A more complicated case with geom_sf
 
 Ok, I am bored, one simple example is. Lets work through a longer and
 more difficult case of uncertainty visualisation, a spatial
@@ -248,8 +248,10 @@ jitter) and drawing the counties in the background for referece.
 # Plot Raw Data
 ggplot(toy_temp) +
   geom_sf(aes(geometry=county_geometry)) +
+  ggtitle("ggdibbler some error")+
   geom_jitter(aes(x=county_longitude, y=county_latitude, colour=recorded_temp), 
-              width=5000, height =5000, alpha=0.7)
+              width=5000, height =5000, alpha=0.7) +
+  scale_colour_distiller(palette = "OrRd") 
 ```
 
 ![](ggdibbler-intro_files/figure-html/unnamed-chunk-7-1.png)
@@ -266,6 +268,8 @@ toy_temp_mean <- toy_temp |>
   
 # Plot Mean Data
 ggplot(toy_temp_mean) +
+  ggtitle("ggdibbler some error")+
+  scale_fill_distiller(palette = "OrRd") +
   geom_sf(aes(geometry=county_geometry, fill=temp_mean))
 ```
 
@@ -309,7 +313,9 @@ toy_temp_dist <- toy_temp_est |>
 
 # Plot Distribution Data
 ggplot(toy_temp_dist) +
-  geom_sf_sample(aes(geometry=county_geometry, fill=temp_dist)) 
+  geom_sf_sample(aes(geometry=county_geometry, fill=temp_dist), 
+                 times=50, linewidth=0) +
+  scale_fill_distiller(palette = "OrRd") 
 ```
 
 ![](ggdibbler-intro_files/figure-html/unnamed-chunk-10-1.png)
@@ -320,16 +326,164 @@ another layer.
 
 ``` r
 ggplot(toy_temp_dist) + 
-  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0.1) + 
+  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), 
+                 linewidth=0, times=50) + 
+  scale_fill_distiller(palette = "OrRd") +
   geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=1) 
 ```
 
 ![](ggdibbler-intro_files/figure-html/unnamed-chunk-11-1.png)
 
-Currently `geom_sf` only accepts a random fill, as it subdivides the
-geometry to fill it with a sample. This will eventually be extended to
-all the `geom_sf` aesthetics (which is the case for all other geometries
-in `ggdibbler`)
+By default, `geom_sf_sample` will subdivide the data. It is unlikely
+that you will ever notice this default, as the random part in a geom_sf
+is almost always the fill, but in the unlikely event the random object
+is the SF part, you will need to change the position to `"identity"` and
+use `alpha` to manage over plotting. Note that `geom_polygon_sample`
+does not have subdivide turned on by default.
+
+Subdivide is the only position that is specifically created for
+`ggdibbler`. All the other position systems used are nested positions
+versions the existing `ggplot2` positions. It was inspired by the pixel
+map used in [`Vizumap`](https://github.com/lydialucchesi/Vizumap).
+
+### What about animated plots?
+
+Yeah… you can do that too. Its actually super easy.
+
+[Hypothetical
+outcome](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://idl.cs.washington.edu/files/2015-HOPs-PLOS.pdf)
+plots have been suggested as an uncertainty visualisation technique, but
+they are also simply a subset of the grammar of nested graphics
+`ggdibbler` implements. In a HOPs plot, it seems that animations replace
+our distribution specific position adjustment. There really isn’t
+anything special about the animation element, it is the smae as our
+other distribution specific position adjustments. Implementing the code
+is trivially easy when we group our position by drawID (which is exactly
+what we do in the other position adjustments).
+
+``` r
+# bar chart
+hops <- ggplot(uncertain_mpg, aes(class)) +
+  geom_bar_sample(aes(fill = drv),
+                  position = "stack_identity", times=30) +
+  transition_states(after_stat(drawID))
+hops
+#> Warning: No renderer available. Please install the gifski, av, or magick package to
+#> create animated output
+#> NULL
+```
+
+### What if my plot uses ggplot2 extensions?
+
+If you represent uncertainty as a distributional object, use the
+`sample_expand` function, and group by `drawID`, you can apply the
+signal supression methods to literally any graphic. It won’t always work
+as nicely as `ggdibbler` (please download my package, I need a job) but
+it works well enough.
+
+Here is an example with ggraph and uncertain edges represented by a
+sample of simulated edges. So you have this random data set.
+
+``` r
+set.seed(10)
+uncertain_edges <- tibble::tibble(from = sample(5, 20, TRUE),
+                    to = sample(5, 20, TRUE),
+                    weight = runif(20)) |>
+  dplyr::group_by(from, to) |>
+  dplyr::mutate(to = distributional::dist_sample(list(sample(seq(from=max(1,to-1), 
+                                                 to = min(to+1, 5)), 
+                                      replace = TRUE)))) |>
+  ungroup()
+  
+head(uncertain_edges)
+#> # A tibble: 6 × 3
+#>    from        to weight
+#>   <int>    <dist>  <dbl>
+#> 1     3 sample[3] 0.761 
+#> 2     1 sample[2] 0.573 
+#> 3     2 sample[3] 0.448 
+#> 4     4 sample[3] 0.0838
+#> 5     3 sample[2] 0.219 
+#> 6     2 sample[3] 0.0756
+```
+
+You need to apply `sample_expand` before you convert the data to a
+graph, because `ggraph` is all totalitarian about what it will keep in
+its graph data set, and it doesn’t allow distributions.
+
+``` r
+graph_sample <- uncertain_edges |>
+  sample_expand(times=50) |>
+  as_tbl_graph()
+```
+
+Now, the ideal visualisation would allow us to add transparency with a
+small amount of jitter to straight lines. That doesn’t seem to be
+possible in ggraph as far as I can tell. It seems that, similar to
+ggplot2, the lines are actually made up of many individual points, and
+the line geometry simply interpolates between them. When it applies the
+jitter, it does it to each point, rather than the line as a whole. So,
+adding the jitter does work, it just doesn’t work exactly as I expected
+it to (or as I would have liked it to). It does produce an uncertainty
+visualisation, though.
+
+``` r
+jitter = position_jitter(width=0.01, height=0.01)
+ggraph(graph_sample, layout = 'fr', weights = weight) + 
+  geom_edge_link(aes(group=drawID), position=jitter, alpha=0.1, 
+                 linewidth=0.05) + 
+  geom_node_point(size=5)
+```
+
+![](ggdibbler-intro_files/figure-html/unnamed-chunk-15-1.png)
+
+You can mess around with alpha, linewidth, and the times argument in the
+`sample_expand` function to get something you are happy with. There are
+some other weird overplotting edge things you can utilise to make the
+uncertainty implicitly represented by some other aesthetic (like
+thickness or something), but in general the approaches all look similar
+(and convey similar information)
+
+``` r
+# uncertainty indicated by transparency
+ggraph(graph_sample, layout = 'fr', weights = weight) + 
+  geom_edge_link(aes(group=drawID), alpha=0.005,
+                 linewidth=2) + 
+  geom_node_point()
+```
+
+![](ggdibbler-intro_files/figure-html/unnamed-chunk-16-1.png)
+
+``` r
+
+# Thickness = probability of an edge (thicker = more probable)
+ggraph(graph_sample, layout = 'fr', weights = weight) + 
+  geom_edge_parallel0(aes(group=drawID),
+                      sep = unit(0.05, "mm"), alpha=0.3, linewidth=0.1) + 
+  geom_node_point(size=15)
+```
+
+![](ggdibbler-intro_files/figure-html/unnamed-chunk-16-2.png)
+
+## But what about my ggplot2 extension?
+
+Now, I have made all functions in base `ggplot2` accept uncertain
+inputs, go me, but the real power of ggplot2 comes from the wealth of
+extension packages. Now, as fun as I am sure it would be, I am not about
+to spend the next 5 years making pull requests on every `ggplot2`
+extension package so that they can all accept random variables. Largely
+because:
+
+1.  Going around making pull requests that forces dependency on *my*
+    package sounds like the early warning signs of a personality
+    disorder
+2.  (More importantly) that sounds really boring and I don’t want to.
+
+Thankfully, the `ggdibbler` approach is so easy if you are the
+author/maintainer of a `ggplot2` extension and you want it to accept
+random variables, you can just do it yourself.
+
+TODO - finish this explanation lol
 
 ## Limitations of the Package
 

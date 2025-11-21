@@ -8,7 +8,7 @@ for a geom that doesn't exist.
 ## Usage
 
 ``` r
-sample_expand(data, times)
+sample_expand(data, times = 10)
 ```
 
 ## Arguments
@@ -28,16 +28,16 @@ sample_expand(uncertain_mpg, times=10)
 #> # A tibble: 2,340 × 12
 #>    drawID manufacturer model     displ  year   cyl trans drv     cty   hwy fl   
 #>    <fct>  <chr>        <chr>     <dbl> <int> <int> <chr> <chr> <int> <int> <chr>
-#>  1 2      audi         4runner …   1.5  2000     4 auto… f        19    30 p    
-#>  2 3      audi         a4          2.1  1998     4 auto… f        18    30 p    
-#>  3 4      audi         new beet…   1.2  1998     4 auto… f        20    30 p    
-#>  4 5      audi         a4          1.6  2000     4 auto… r        18    30 p    
-#>  5 6      audi         a4          1.5  1998     4 auto… f        20    30 p    
-#>  6 7      audi         caravan …   1.8  2000     4 auto… f        20    30 p    
-#>  7 8      audi         jetta       2.2  2000     4 auto… f        20    28 c    
-#>  8 9      audi         a6 quatt…   1.3  2000     4 auto… 4        18    29 p    
-#>  9 10     audi         c1500 su…   1.4  1998     4 auto… f        19    30 p    
-#> 10 1      ford         a4          1.8  2000     4 auto… f        20    29 p    
+#>  1 2      audi         a4          1.4  2001     4 auto… f        18    28 p    
+#>  2 3      audi         a4          1.7  2001     4 auto… f        19    30 p    
+#>  3 4      audi         passat      1.6  2000     4 auto… f        18    30 p    
+#>  4 5      audi         f150 pic…   2.4  1998     4 auto… f        21    29 p    
+#>  5 6      audi         a4          2.4  2000     4 auto… f        19    30 p    
+#>  6 7      audi         a4          2.2  1998     4 auto… f        19    30 p    
+#>  7 8      audi         civic       1.7  2000     4 auto… f        15    29 p    
+#>  8 9      audi         c1500 su…   1.6  1998     4 manu… r        21    28 d    
+#>  9 10     audi         a4          1.4  2000     4 auto… f        19    29 p    
+#> 10 1      audi         dakota p…   2.3  2000     4 auto… f        19    30 p    
 #> # ℹ 2,330 more rows
 #> # ℹ 1 more variable: class <chr>
 ```

@@ -49,11 +49,15 @@ replace the `geom_*` with `geom_*_sample` and replace your deterministic
 variable with a `distributional` variable, and you get an uncertainty
 visualisation.
 
-Uncertainty visualisation, under this approach, is seen as a function of
-an existing plot. Below are some examples of `ggplot2` code alongside
-its uncertain `ggdibbler` counterpart. The only parameter added by
-`ggdibbler` is the `times` argument, which decides how many samples to
-draw from the distribution.
+You will often run into an overplotting problem when visualising
+uncertainty, so using a jitter or adjustment to the alpha value will
+allow you to see all outcomes of the distribution. Otherwise you will
+only see the draw.
+
+Below are some examples of `ggplot2` code alongside its uncertain
+`ggdibbler` counterpart. The only parameter added by `ggdibbler` is the
+`times` argument, which decides how many samples to draw from the
+distribution.
 
 ``` r
 library(distributional)
@@ -67,16 +71,81 @@ set.seed(1343)
 ```
 
 ``` r
-recent <- economics[economics$date > as.Date("2013-01-01"), ]
-uncertain_recent <- uncertain_economics[uncertain_economics$date > as.Date("2013-01-01"), ]
-p1 <- ggplot(recent, aes(date, unemploy)) + geom_step() +
-  ggtitle("ggplot2")
-p2 <- ggplot(uncertain_recent, aes(date, unemploy)) + geom_step_sample(alpha=0.2) +
-  ggtitle("ggdibbler")
+p1 <- ggplot(faithfuld, aes(waiting, eruptions, z = density)) + 
+  ggtitle("ggplot2") +
+  geom_contour()
+
+p2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density0))+
+  ggtitle("ggdibbler") +
+  geom_contour_sample(alpha=0.2)
+
 p1 + p2
 ```
 
 ![](reference/figures/README-unnamed-chunk-3-1.png)
+
+Overlapping positions in other geom can be fixed with standard position
+adjustments, such as `position = "identity_dodge"` where the position of
+the original plot is an `identity`, and the position adjustment specific
+to the draws is a `dodge`.
+
+``` r
+
+p1 <- ggplot(faithfuld, aes(waiting, eruptions)) + 
+  geom_raster(aes(fill = density)) +
+  ggtitle("ggplot2")+
+  theme(legend.position = "bottom")
+
+p2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
+  geom_raster_sample(aes(fill = density)) +
+  ggtitle("ggdibbler some error")+
+  theme(legend.position = "bottom")
+
+p3 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
+  geom_raster_sample(aes(fill = density2)) +
+  ggtitle("ggdibbler more error")+
+  theme(legend.position = "bottom")
+
+p1  + p2 + p3
+```
+
+![](reference/figures/README-unnamed-chunk-4-1.png)
+
+`ggdibbler` also have a completely nested positioning system for
+managing overplotting from re sampling. This is usually in the form of
+nested positions:
+
+``` r
+p1 <- ggplot(mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv), 
+                  position = "stack")+
+  theme(legend.position="none")+
+  ggtitle("stack")
+
+
+p2 <- ggplot(uncertain_mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv), alpha=0.1,
+                  position = "stack_identity")+
+  theme(legend.position="none")+
+  ggtitle("stack_identity")
+
+p3 <- ggplot(uncertain_mpg, aes(class)) + 
+  geom_bar_sample(aes(fill = drv),
+                  position = "stack_dodge")+
+  theme(legend.position="none")+
+  ggtitle("stack_dodge")
+
+p1 | p2 | p3
+```
+
+![](reference/figures/README-unnamed-chunk-5-1.png)
+
+The only geoms that implement new positioning (i.e. not nested versions
+of existing ggplot2 positions) are `geom_sf_sample`, and
+`geom_pollygon_sample`. These geometries use the `subdivide` position to
+fix the over plotting problem. This position adjustment replicates the
+pixel map implemented in
+[Vizumap](https://github.com/lydialucchesi/Vizumap).
 
 ``` r
 # Make average summary of data
@@ -95,7 +164,7 @@ p1 <- ggplot(toy_temp_mean) +
 # sample map
 p2 <- toy_temp_dist |> 
   ggplot() + 
-  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0) + 
+  geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), linewidth=0, times=50) + 
   geom_sf(aes(geometry = county_geometry), fill=NA, linewidth=0.7) +
   scale_fill_distiller(palette = "OrRd") +
   labs(fill="temp")+
@@ -103,61 +172,6 @@ p2 <- toy_temp_dist |>
   theme(legend.position = "bottom")
 
 p1+p2
-```
-
-![](reference/figures/README-unnamed-chunk-4-1.png)
-
-If you pass random variables to aesthetics like colour or label, but not
-position aesthetics such as x or y, you might want to add a jitter or
-adjust the alpha value so that you can see all outcomes of the
-distribution. Otherwise you will only see the final layer.
-
-``` r
-point_data <- data.frame(x = c(1,2,3),
-                         y = c(2,5,7),
-                         certain_class = c("A", "B", "C"),
-                         uncertain_class = dist_categorical(prob = list(c(0.8,0.15,0.05),
-                                                                      c(0.25,0.7,0.05),
-                                                                      c(0.25,0,0.75)),
-                                                          outcomes = list(c("A", "B", "C"))))
-p1 <- ggplot(data = point_data, aes(x,y)) + 
-  geom_point(aes(colour = certain_class), size=5)+
-  ggtitle("ggplot2")+
-  theme(legend.position = "bottom")
-  
-p2 <- ggplot(data = point_data, aes(x,y)) + 
-  geom_point_sample(aes(colour = uncertain_class), size=1, times=30,
-                    position = position_jitter(width=0.1, height=0.2))+
-  ggtitle("ggdibbler")+
-  theme(legend.position = "bottom")
-
-p1 + p2
-```
-
-![](reference/figures/README-unnamed-chunk-5-1.png)
-
-Finally, lets see a case where the uncertainty (standard error in this
-example) actually is high enough to change the conclusions we take from
-the visualisation.
-
-``` r
-
-p1 <- ggplot(faithfuld, aes(waiting, eruptions)) + 
-  geom_raster(aes(fill = density)) +
-  ggtitle("ggplot2")+
-  theme(legend.position = "bottom")
-
-p2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
-  geom_raster_sample(aes(fill = density)) +
-  ggtitle("ggdibbler low SE")+
-  theme(legend.position = "bottom")
-
-p3 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
-  geom_raster_sample(aes(fill = density2)) +
-  ggtitle("ggdibbler high SE")+
-  theme(legend.position = "bottom")
-
-p1  + p2 + p3
 ```
 
 ![](reference/figures/README-unnamed-chunk-6-1.png)

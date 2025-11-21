@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ggdibbler-intro.html">An introduction to ggdibbler</a></li>
+    <li><a class="dropdown-item" href="../articles/nested-positions.html">Nested Positions</a></li>
     <li><a class="dropdown-item" href="../articles/random-plots.html">Unexpected by products of uncertain plots</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -61,6 +62,13 @@
 
         <dt>
 
+          <code><a href="geom_bin_2d_sample.html">geom_bin_2d_sample()</a></code> <code><a href="geom_bin_2d_sample.html">stat_bin_2d_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain heatmap of 2d bin counts</dd>
+
+        <dt>
+
           <code><a href="geom_boxplot_sample.html">geom_boxplot_sample()</a></code> <code><a href="geom_boxplot_sample.html">stat_boxplot_sample()</a></code>
 
         </dt>
@@ -68,10 +76,24 @@
 
         <dt>
 
+          <code><a href="geom_contour_sample.html">geom_contour_sample()</a></code> <code><a href="geom_contour_sample.html">geom_contour_filled_sample()</a></code> <code><a href="geom_contour_sample.html">stat_contour_sample()</a></code> <code><a href="geom_contour_sample.html">stat_contour_filled_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain 2D contours of a 3D surface</dd>
+
+        <dt>
+
           <code><a href="geom_count_sample.html">geom_count_sample()</a></code> <code><a href="geom_count_sample.html">stat_count_sample()</a></code> <code><a href="geom_count_sample.html">stat_sum_sample()</a></code>
 
         </dt>
         <dd>Uncertain Count overlapping points</dd>
+
+        <dt>
+
+          <code><a href="geom_density_2d_sample.html">geom_density_2d_sample()</a></code> <code><a href="geom_density_2d_sample.html">geom_density_2d_filled_sample()</a></code> <code><a href="geom_density_2d_sample.html">stat_density_2d_sample()</a></code> <code><a href="geom_density_2d_sample.html">stat_density_2d_filled_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain contours of a 2D density estimate</dd>
 
         <dt>
 
@@ -86,6 +108,13 @@
 
         </dt>
         <dd>Dot plot with uncertainty</dd>
+
+        <dt>
+
+          <code><a href="geom_hex_sample.html">geom_hex_sample()</a></code> <code><a href="geom_hex_sample.html">stat_bin_hex_sample()</a></code>
+
+        </dt>
+        <dd>Uncertain hexagonal heatmap of 2d bin counts</dd>
 
         <dt>
 
@@ -148,7 +177,7 @@
           <code><a href="geom_ribbon_sample.html">geom_ribbon_sample()</a></code> <code><a href="geom_ribbon_sample.html">geom_area_sample()</a></code> <code><a href="geom_ribbon_sample.html">stat_align_sample()</a></code>
 
         </dt>
-        <dd>Uncertain ***</dd>
+        <dd>Ribbons and area plots with uncertainty</dd>
 
         <dt>
 
@@ -169,7 +198,7 @@
           <code><a href="geom_sf_sample.html">geom_sf_sample()</a></code>
 
         </dt>
-        <dd>Visualise Sf Objectjects with Uncertainty</dd>
+        <dd>Visualise Sf Objects with Uncertainty</dd>
 
         <dt>
 
@@ -217,6 +246,13 @@
 
       <dl><dt>
 
+          <code><a href="sample_expand.html">sample_expand()</a></code>
+
+        </dt>
+        <dd>Simulate outcomes from dibble to make a tibble</dd>
+
+        <dt>
+
           <code><a href="stat_identity_sample.html">stat_identity_sample()</a></code>
 
         </dt>
@@ -224,10 +260,17 @@
 
         <dt>
 
-          <code><a href="sample_expand.html">sample_expand()</a></code>
+          <code><a href="stat_ecdf_sample.html">stat_ecdf_sample()</a></code>
 
         </dt>
-        <dd>Simulate outcomes from dibble to make a tibble</dd>
+        <dd>Compute uncertain empirical cumulative distributions</dd>
+
+        <dt>
+
+          <code><a href="stat_ellipse_sample.html">stat_ellipse_sample()</a></code>
+
+        </dt>
+        <dd>Compute normal data ellipses with uncertainty</dd>
       </dl></div><div class="section level2">
       <h2 id="position">Position<a class="anchor" aria-label="anchor" href="#position"></a></h2>
 
@@ -240,7 +283,35 @@
 
       <dl><dt>
 
-          <code><a href="position_identity_subdivide.html">position_identity_subdivide()</a></code>
+          <code><a href="position_dodge_identity.html">position_dodge_dodge()</a></code> <code><a href="position_dodge_identity.html">position_dodge_identity()</a></code>
+
+        </dt>
+        <dd>Nested dodge positions</dd>
+
+        <dt>
+
+          <code><a href="position_identity_identity.html">position_identity_identity()</a></code> <code><a href="position_identity_identity.html">position_identity_dodge()</a></code>
+
+        </dt>
+        <dd>Nested identity positions</dd>
+
+        <dt>
+
+          <code><a href="position_nest.html">position_nest()</a></code>
+
+        </dt>
+        <dd>Any combination of nested positions</dd>
+
+        <dt>
+
+          <code><a href="position_stack_identity.html">position_stack_identity()</a></code> <code><a href="position_stack_identity.html">position_stack_dodge()</a></code>
+
+        </dt>
+        <dd>Nested stack positions</dd>
+
+        <dt>
+
+          <code><a href="position_subdivide.html">position_subdivide()</a></code>
 
         </dt>
         <dd>Subdivide position aesthetic in a geometry</dd>
@@ -332,6 +403,20 @@
 
         </dt>
         <dd>2d density estimate of Old Faithful data with uncertainty</dd>
+
+        <dt>
+
+          <code><a href="uncertain_faithful.html">uncertain_faithful</a></code>
+
+        </dt>
+        <dd>Old Faithful data with uncertainty</dd>
+
+        <dt>
+
+          <code><a href="walkathon.html">walkathon</a></code>
+
+        </dt>
+        <dd>Step Counts from Walktober 2025 Challenge</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
