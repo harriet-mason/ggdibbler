@@ -19,7 +19,8 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 
 ```{r setup, message=FALSE, warning=FALSE, echo=FALSE}
 library(ggdibbler)
-library(tidyverse)
+library(ggplot2)
+library(dplyr)
 library(sf)
 library(patchwork)
 library(tidygraph)
