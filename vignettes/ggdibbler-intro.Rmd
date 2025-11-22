@@ -263,6 +263,8 @@ ggraph(graph_sample, layout = 'fr', weights = weight) +
 ```
 
 ## But what about my ggplot2 extension?
+Sometimes, when making a `ggdibbler` version of a `ggplot2` base function, I would think to myself "What is the point of this, who on earth needs an uncertain version of `stat_unique`?". I still sometimes think that, but the reason we implemented it with *ALL* ggplot2 functions, is not for the users, but rather for the extenders. If there is a ggplot2 extension that is the child of a base `stat` or base position, a geom_*_sample variation of their function will simply be the child of the ggdibbler variation of the ggplot2 stat, instead of the original ggplot2 code. The only ggplot2 extension that might not work with `ggdibbler` is `ggdist` (for the obvious reason that is is the only other ggplot extension that is designed to take distributional input).
+
 Now, I have made all functions in base `ggplot2` accept uncertain inputs, go me, but the real power of ggplot2 comes from the wealth of extension packages. Now, as fun as I am sure it would be, I am not about to spend the next 5 years making pull requests on every `ggplot2` extension package so that they can all accept random variables. Largely because:
 
 1) Going around making pull requests that forces dependency on *my* package sounds like the early warning signs of a personality disorder
