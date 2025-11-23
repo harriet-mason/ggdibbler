@@ -15,3 +15,15 @@ test_that("nested position_dodge tests", {
   
 }
 )
+
+ggplot(mpg, aes(class, hwy)) +
+  geom_boxplot(colour = "grey50") +
+  geom_point(position = "jitter")
+
+ggplot(mpg, aes(class, hwy)) +
+  geom_boxplot(colour = "grey50") +
+  geom_point_sample(position="jitter")
+
+ggplot(mpg, aes(class, hwy)) +
+  geom_boxplot(colour = "grey50") +
+  geom_point(position = "identity_jitter")
