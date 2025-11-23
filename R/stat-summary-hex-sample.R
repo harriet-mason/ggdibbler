@@ -1,5 +1,5 @@
 #' @importFrom ggplot2 ggproto StatSummaryHex
-#' @rdname stat_summary_2d
+#' @rdname stat_summary_2d_sample
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -11,7 +11,7 @@ StatSummaryHexSample <- ggplot2::ggproto("StatSummaryHexSample", ggplot2::StatSu
                                   extra_params = c("na.rm", "times")
 )
 
-#' @rdname stat_summary_2d
+#' @rdname stat_summary_2d_sample
 #' @inheritParams ggplot2::stat_summary_hex
 #' @importFrom ggplot2 make_constructor
 #' @export
