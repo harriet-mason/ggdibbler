@@ -1,0 +1,19 @@
+#' @importFrom ggplot2 ggproto StatSummaryHex
+#' @rdname stat_summary_2d
+#' @format NULL
+#' @usage NULL
+#' @export
+StatSummaryHexSample <- ggplot2::ggproto("StatSummaryHexSample", ggplot2::StatSummaryHex,
+                                  setup_data = function(data, params) {
+                                    dibble_to_tibble(data, params) 
+                                  },
+                                  
+                                  extra_params = c("na.rm", "times")
+)
+
+#' @rdname stat_summary_2d
+#' @inheritParams ggplot2::stat_summary_hex
+#' @importFrom ggplot2 make_constructor
+#' @export
+stat_summary_hex_sample <- make_constructor(StatSummaryHexSample, geom = "hex", 
+                                    times = 10, alpha=2/times)
