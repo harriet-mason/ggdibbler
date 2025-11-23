@@ -3,6 +3,7 @@ library(ggplot2)
 library(vdiffr)
 n <- ggplot(uncertain_mpg, aes(displ, hwy))
 
+suppressMessages({
 test_that("geom_quantile_sample tests", {
   
   set.seed(4343)
@@ -20,6 +21,7 @@ test_that("geom_quantile_sample tests", {
   
 }
 )
+})
 
 # cases work but throw warnings
 # n + geom_quantile_sample(quantiles = 0.5, 

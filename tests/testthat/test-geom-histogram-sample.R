@@ -2,6 +2,7 @@
 library(vdiffr)
 library(ggplot2)
 
+suppressMessages({
 test_that("geom_histogram_sample tests", {
 
   set.seed(34)
@@ -33,6 +34,7 @@ test_that("geom_histogram_sample tests", {
 
 }
 )
+})
 
 ############### FAIL #################
 

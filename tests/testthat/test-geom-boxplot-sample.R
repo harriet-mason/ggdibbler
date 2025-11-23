@@ -5,6 +5,7 @@ library(ggplot2)
 uncertain_mpg_new <- uncertain_mpg
 uncertain_mpg_new$class <- mpg$class
 
+suppressMessages({
 test_that("geom_boxplot_sample tests", {
 
   set.seed(324)
@@ -40,6 +41,7 @@ test_that("geom_boxplot_sample tests", {
 
 }
 )
+})
 
 
 # ################ PASS #################

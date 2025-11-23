@@ -2,6 +2,7 @@ library(vdiffr)
 library(ggplot2)
 b <- ggplot(smaller_uncertain_diamonds, aes(x, y)) 
 
+suppressMessages({
 test_that("geom_bin_2d_sample tests", {
   
   set.seed(999)
@@ -23,3 +24,4 @@ test_that("geom_bin_2d_sample tests", {
   
 }
 )
+})

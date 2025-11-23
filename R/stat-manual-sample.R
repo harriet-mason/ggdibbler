@@ -98,7 +98,7 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' }
 #' @export
 stat_manual_sample <- make_constructor(StatManualSample, geom = "point", 
-                                       times = 10, alpha=0.7, size=3/times)
+                                       times = 10, alpha=2/times)
 
 
 

@@ -5,6 +5,7 @@ library(ggplot2)
 
 uncertain_mpg$drv2 <- mpg$drv
 
+suppressMessages({
 test_that("geom_smooth_sample tests", {
 
   set.seed(573)
@@ -70,6 +71,8 @@ test_that("geom_smooth_sample tests", {
   
   expect_doppelganger("Example 8", p8)
 
+}
+)
 }
 )
 

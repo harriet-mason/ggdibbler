@@ -15,9 +15,9 @@ StatSummarySample <- ggplot2::ggproto("StatSummarySample", ggplot2::StatSummary,
                                       setup_data = function(data, params) {
                                         dibble_to_tibble(data, params) 
                                       },
-                                      extra_params = c("na.rm", "times", "fun.data",
-                                                       "fun", "fun.min", "fun.max",
-                                                       "fun.args")
+                                      extra_params = c("na.rm", "times", "fun.data", "bins", 
+                                                       "fun", "fun.min", "fun.max", "binwidth", "breaks",
+                                                       "fun.args", "orientation", "show.legend", "inherit.aes")
 )
 
 #' Summarise y values at unique/binned x with uncertainty
@@ -46,7 +46,12 @@ StatSummarySample <- ggplot2::ggproto("StatSummarySample", ggplot2::StatSummary,
 #' b + aes(colour = dist_transformed(vs, factor, as.numeric)) + 
 #'   stat_summary_sample(fun = mean, geom="line") +
 #'   labs(colour = "factor(vs)")
+#'   
+#' ggplot(smaller_diamonds, aes(carat, price)) +
+#'   stat_summary_bin(fun = "mean", geom = "bar", orientation = 'y')
+#'   
+#' ggplot(smaller_uncertain_diamonds, aes(carat, price)) +
+#'   stat_summary_bin_sample(fun = "mean", geom = "bar", orientation = 'y')
 #' @export
 stat_summary_sample <- make_constructor(StatSummarySample, geom = "pointrange", 
-                                        times = 10, size = 3/times,  
-                                        linewidth= 3/times, alpha=0.7)
+                                        times = 10, alpha=2/times)

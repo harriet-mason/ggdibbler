@@ -1,6 +1,7 @@
 library(vdiffr)
 library(ggplot2)
 
+suppressMessages({
 test_that("geom_dotplot_sample tests", {
 
   set.seed(783)
@@ -52,6 +53,7 @@ test_that("geom_dotplot_sample tests", {
 
 }
 )
+})
 
 ################ PASS #################
 
