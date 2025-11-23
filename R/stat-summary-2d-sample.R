@@ -44,6 +44,10 @@ StatSummary2dSample <- ggplot2::ggproto("StatSummary2dSample", ggplot2::StatSumm
 #' # Specifying function
 #' d + stat_summary_2d(fun = \(x) sum(x^2))
 #' b + stat_summary_2d_sample(fun = \(x) sum(x^2))
+#' 
+#' # summary_hex
+#' d + stat_summary_hex(fun = ~ sum(.x^2))
+#' b + stat_summary_hex_sample(fun = ~ sum(.x^2))
 #' @export
 stat_summary_2d_sample <- make_constructor(StatSummary2dSample, geom = "tile", 
                                     times = 10, position="identity_dodge")
