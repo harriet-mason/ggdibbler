@@ -1,76 +1,51 @@
 library(vdiffr)
 library(ggplot2)
+library(distributional)
+library(dplyr)
 
-test_that("stat_manual_sample tests", {
-  
-  set.seed(***)
-  
-  expect_doppelganger("Example 1", p1)
-  
-}
-)
+q <- ggplot(uncertain_mtcars, 
+            aes(disp, mpg, 
+                colour = dist_transformed(cyl, factor, as.numeric))) +
+  labs(colour="factor(cyl)") +
+  geom_point_sample()
 
-############## UNTESTED #################
-# A standard scatterplot
-p <- ggplot(mtcars, aes(disp, mpg, colour = factor(cyl))) +
-  geom_point()
-
-# The default just displays points as-is
-p + stat_manual()
-
-# Using a custom function
 make_hull <- function(data) {
   hull <- chull(x = data$x, y = data$y)
   data.frame(x = data$x[hull], y = data$y[hull])
 }
 
-p + stat_manual(
-  geom = "polygon",
-  fun  = make_hull,
-  fill = NA
-)
 
-# Using the `with` function with quoting
-p + stat_manual(
-  fun  = with,
-  args = list(expr = quote({
-    hull <- chull(x, y)
-    list(x = x[hull], y = y[hull])
-  })),
-  geom = "polygon", fill = NA
-)
-
-# Using the `transform` function with quoting
-p + stat_manual(
-  geom = "segment",
-  fun  = transform,
-  args = list(
-    xend = quote(mean(x)),
-    yend = quote(mean(y))
-  )
-)
-
-# Using dplyr verbs with `vars()`
-if (requireNamespace("dplyr", quietly = TRUE)) {
+test_that("stat_manual_sample tests", {
   
-  # Get centroids with `summarise()`
-  p + stat_manual(
+  set.seed(888)
+  
+  p1 <- q + stat_manual_sample()
+  expect_doppelganger("Example 1", p1)
+  
+  p2 <- q + stat_manual_sample(
+    geom = "polygon",
+    fun  = make_hull,
+    fill = NA
+  )
+  expect_doppelganger("Example 2", p2)
+  
+  p3 <- q + stat_manual_sample(
+    geom = "segment",
+    fun  = transform,
+    args = list(
+      xend = quote(mean(x)),
+      yend = quote(mean(y))
+    )
+  )
+  expect_doppelganger("Example 3", p3)
+  
+  p4 <- q + stat_manual_sample(
     size = 10, shape = 21,
     fun  = dplyr::summarise,
     args = vars(x = mean(x), y = mean(y))
   )
+  expect_doppelganger("Example 4", p4)
   
-  # Connect to centroid with `mutate`
-  p + stat_manual(
-    geom = "segment",
-    fun  = dplyr::mutate,
-    args = vars(xend = mean(x), yend = mean(y))
-  )
   
-  # Computing hull with `reframe()`
-  p + stat_manual(
-    geom = "polygon", fill = NA,
-    fun  = dplyr::reframe,
-    args = vars(hull = chull(x, y), x = x[hull], y = y[hull])
-  )
 }
+)

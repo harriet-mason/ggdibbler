@@ -29,9 +29,9 @@ test_that("geom_label_sample tests", {
   expect_doppelganger("example1", p1)
   
   # random variables x and y
-  p2 <- ggplot() + 
-    geom_label_sample(data = point_data, aes(x=random_x, y=random_y, colour = after_stat(label),
-                                            label = random_colour)) 
+  p2 <- ggplot(data = point_data,
+               aes(x = random_x, y = random_y, colour = random_colour)) + 
+    geom_label_sample(aes(label = after_stat(colour)))
   expect_doppelganger("example2", p2)
   
 }

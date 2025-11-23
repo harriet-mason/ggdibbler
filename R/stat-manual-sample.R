@@ -13,7 +13,7 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
                                                                                             params)
                                        params$times <- times
                                        params
-                                     }
+                                     },
                                       setup_data = function(data, params) {
                                         dibble_to_tibble(data, params) 
                                       },
@@ -31,10 +31,74 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
 #' @examples
-#' print("replace me")
+#' library(ggplot2)
+#' library(distributional)
+#' # A standard scatterplot
+#' p <- ggplot(mtcars, 
+#'             aes(disp, mpg, colour = factor(cyl))) +
+#'   geom_point()
+#' 
+#' q <- ggplot(uncertain_mtcars, 
+#'             aes(disp, mpg, 
+#'                 colour = dist_transformed(cyl, factor, as.numeric))) +
+#'   labs(colour="factor(cyl)") +
+#'   geom_point_sample()
+#' 
+#' # Using a custom function
+#' make_hull <- function(data) {
+#'   hull <- chull(x = data$x, y = data$y)
+#'   data.frame(x = data$x[hull], y = data$y[hull])
+#' }
+#' 
+#' p + stat_manual(
+#'   geom = "polygon",
+#'   fun  = make_hull,
+#'   fill = NA
+#' )
+#' 
+#' q + stat_manual_sample(
+#'   geom = "polygon",
+#'   fun  = make_hull,
+#'   fill = NA
+#' )
+#' # Using the `transform` function with quoting
+#' p + stat_manual(
+#'   geom = "segment",
+#'   fun  = transform,
+#'   args = list(
+#'     xend = quote(mean(x)),
+#'     yend = quote(mean(y))
+#'   )
+#' )
+#' 
+#' q + stat_manual_sample(
+#'   geom = "segment",
+#'   fun  = transform,
+#'   args = list(
+#'     xend = quote(mean(x)),
+#'     yend = quote(mean(y))
+#'   )
+#' )
+#' 
+#' # Using dplyr verbs with `vars()`
+#' if (requireNamespace("dplyr", quietly = TRUE)) {
+#'   
+#'   #' Get centroids with `summarise()`
+#'   p + stat_manual(
+#'     size = 10, shape = 21,
+#'     fun  = dplyr::summarise,
+#'     args = vars(x = mean(x), y = mean(y))
+#'   )
+#'   
+#'   q + stat_manual_sample(
+#'     size = 10, shape = 21,
+#'     fun  = dplyr::summarise,
+#'     args = vars(x = mean(x), y = mean(y))
+#'   )
+#' }
 #' @export
 stat_manual_sample <- make_constructor(StatManualSample, geom = "point", 
-                                       times = 10)
+                                       times = 10, alpha=0.7, size=3/times)
 
 
 
