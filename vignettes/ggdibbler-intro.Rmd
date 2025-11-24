@@ -209,6 +209,96 @@ hops <- ggplot(uncertain_mpg, aes(class)) +
 hops
 ```
 
+### But I have correlation and your system doesn't capture that! (Yes, yes it does)
+
+Literally just going through the example from the readme
+- ??? why is the data not symmetrical??? am I on drugs???
+- I am just going to pretend the data IS symmetrical (as that is how Michael described it) because I can't exactly manage the difference if I don't know what is causing it.
+
+
+```{r}
+library(ggplot2)
+library(distributional)
+library(dplyr)
+library(conmat)
+# This is my version of the package to use the seed argument
+library(ggdibbler)
+
+# Code for example from the readme
+polymod_contact_data <- get_polymod_contact_data(setting = "work")
+polymod_survey_data <- get_polymod_population()
+set.seed(2022 - 09 - 06)
+contact_model <- fit_single_contact_model(
+  contact_data = polymod_contact_data,
+  population = polymod_survey_data
+)
+fairfield <- abs_age_lga("Fairfield (C)")
+set.seed(2022 - 09 - 06)
+synthetic_contact_fairfield <- predict_contacts(
+  model = contact_model,
+  population = fairfield,
+  age_breaks = c(seq(0, 85, by = 5), Inf)
+)
+
+# Original data plot 
+synthetic_contact_fairfield %>%
+  predictions_to_matrix() %>%
+  autoplot()
+
+# Plot we will be editing (upper and lower duplicated) 
+# Get lower triangle data
+example_df <- synthetic_contact_fairfield |>
+  as_tibble() |>
+  mutate(row = as.numeric(age_group_from),
+         col = as.numeric(age_group_to)) |>
+  subset(row >= col) |>
+  select(-c(row, col))
+  
+# Plot it in two layers with x and y swapped
+ggplot(data = example_df, 
+       aes(x=age_group_from, y=age_group_to, fill=contacts)) +
+  geom_tile() +
+  geom_tile(aes(y=age_group_from, x=age_group_to)) +
+  ggplot2::coord_fixed() +
+  ggplot2::theme_minimal() +
+  scale_fill_distiller(direction=1, trans = "sqrt") +
+  ggplot2::theme(
+      axis.text = ggplot2::element_text(
+        size = 6,
+        angle = 45,
+        hjust = 1))
+
+# Distribution example
+# Make it into normal distribution because IDK what it actually is
+example_dist <- example_df |>
+  mutate(contacts = dist_normal(contacts, contacts/5))
+
+# Plot it
+p3 <- ggplot(data = example_dist) +
+  geom_tile_sample(aes(x = age_group_from, y = age_group_to,
+                       fill = contacts), position="identity_dodge", 
+                   times=50, seed = 5) +
+  geom_tile_sample(aes(y = age_group_from, x = age_group_to,
+                       fill = contacts), position="identity_dodge",
+                   times=50, seed = 5) +
+  ggplot2::coord_fixed() +
+  ggplot2::theme_minimal() +
+  scale_fill_distiller(direction=1, trans = "sqrt") +
+  ggplot2::theme(
+      axis.text = ggplot2::element_text(
+        size = 6,
+        angle = 45,
+        hjust = 1))
+p3
+
+p3 +
+   # I used this code to draw boxes and make sure it is a mirror image
+   geom_tile(data = synthetic_contact_fairfield,
+             aes(x=age_group_from, y=age_group_to),
+             alpha=0, colour="white") 
+```
+
+
 ### What if my plot uses ggplot2 extensions?
 If you represent uncertainty as a distributional object, use the `sample_expand` function, and group by `drawID`, you can apply the signal supression methods to literally any graphic. It won't always work as nicely as `ggdibbler` (please download my package, I need a job) but it works well enough. 
 
