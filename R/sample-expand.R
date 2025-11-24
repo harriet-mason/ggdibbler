@@ -13,10 +13,13 @@
 #' @examples
 #' sample_expand(uncertain_mpg, times=10)
 #' @export
-sample_expand <- function(data, times=10){ 
+sample_expand <- function(data, times=10, seed=NULL){ 
   # Check for at least one distribution vector
   distcols <- get_dist_cols(data)
   if(length(distcols)==0) return(data |> dplyr::mutate(drawID=0))
+  
+  # set seed if not null
+  if(!is.null(seed)) set.seed(seed)
   
   # Sample from distribution variables
   data |>
@@ -70,7 +73,7 @@ dibble_to_tibble <- function(data, params) {
   if(length(distcols)==0) return(data|> dplyr::mutate(drawID=0))
   
   # expand data
-  data <- sample_expand(data, params$times) 
+  data <- sample_expand(data, params$times, params$seed) 
   
   # check for discrete distribution columns for group adjust
   discretecols <- get_discrete_cols(data)

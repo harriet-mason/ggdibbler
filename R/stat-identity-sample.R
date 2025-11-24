@@ -8,7 +8,7 @@ StatIdentitySample <- ggplot2::ggproto("StatIdentitySample", ggplot2::StatIdenti
                                  dibble_to_tibble(data, params)
                                  },
                                
-                               extra_params = c("na.rm", "times")
+                               extra_params = c("na.rm", "times", "seed")
 )
 
 #' Generates a sample from a distribution

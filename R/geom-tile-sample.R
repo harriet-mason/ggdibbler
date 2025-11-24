@@ -150,4 +150,5 @@
 #'   geom_rect_sample(aes(fill = as.factor(after_stat(f))), colour = "grey50", alpha=0.2) +
 #'   labs(fill = "z")
 #' @export
-geom_tile_sample <- make_constructor(ggplot2::GeomTile, stat = "identity_sample", times=10)
+geom_tile_sample <- make_constructor(ggplot2::GeomTile, stat = "identity_sample", 
+                                     times=10, seed = NULL)
