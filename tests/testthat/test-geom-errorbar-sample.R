@@ -29,8 +29,9 @@ test_that("geom_errorbar_sample tests", {
   expect_doppelganger("Example 1", p1)
   
   p2 <- q +
-    geom_line_sample(aes(group = group), alpha=0.5) +
-    geom_errorbar_sample(aes(ymin = lower, ymax = upper), width = 0.2, alpha=0.5)
+    geom_line_sample(aes(group = group), alpha=0.5, seed=52) +
+    geom_errorbar_sample(aes(ymin = lower, ymax = upper),
+                         width = 0.2, alpha=0.5, seed=52)
   
   expect_doppelganger("Example 2", p2)
   

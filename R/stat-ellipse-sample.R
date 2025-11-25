@@ -17,7 +17,7 @@ StatEllipseSample <- ggplot2::ggproto("StatEllipseSample", ggplot2::StatEllipse,
                                         dibble_to_tibble(data, params) 
                                       },
                                       
-                                      extra_params = c("na.rm", "times")
+                                      extra_params = c("na.rm", "times", "seed")
 )
 
 #' Compute normal data ellipses with uncertainty
@@ -29,6 +29,8 @@ StatEllipseSample <- ggplot2::ggproto("StatEllipseSample", ggplot2::StatEllipse,
 #' @importFrom ggplot2 make_constructor 
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' library(distributional)
@@ -44,14 +46,12 @@ StatEllipseSample <- ggplot2::ggproto("StatEllipseSample", ggplot2::StatEllipse,
 #' # ggplot
 #' ggplot(faithful, aes(waiting, eruptions, color = eruptions > 3)) +
 #'   geom_point() +
-#'   stat_ellipse(type = "norm", linetype = 2) +
 #'   stat_ellipse(type = "t")
 #' # ggdibbler
 #' ggplot(uncertain_faithful,
 #'        aes(waiting, eruptions,
 #'            color = dist_transformed(eruptions,function(x) x > 3, identity))) +
 #'   geom_point_sample() +
-#'   stat_ellipse_sample(type = "norm", linetype = 2) +
 #'   stat_ellipse_sample(type = "t") +
 #'   labs(colour = "eruptions > 3")
 #' 
@@ -66,6 +66,6 @@ StatEllipseSample <- ggplot2::ggproto("StatEllipseSample", ggplot2::StatEllipse,
 #'   labs(fill = "eruptions > 3")
 #' @export
 stat_ellipse_sample <- make_constructor(StatEllipseSample, geom = "path", times = 10,
-                                        alpha=0.7, linewidth = 3/times)
+                                        alpha = 1/log(times), seed = NULL)
 
 

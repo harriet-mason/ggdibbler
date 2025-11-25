@@ -9,17 +9,21 @@ StatDensitySample <- ggproto("StatDensitySample", ggplot2::StatDensity,
                              },
                              
                              extra_params = c("na.rm", "times", "bw", "adjust", "kernel",
-                                              "n", "trim", "bounds", "flipped_aes")
+                                              "n", "trim", "bounds", "flipped_aes", "seed")
                                
 )
             
 #' @importFrom ggplot2 make_constructor GeomDensity
-#' @param times A parameter used to control the number of samples
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @inheritParams ggplot2::geom_density
 #' @rdname geom_density_sample
 #' @export
 stat_density_sample <- make_constructor(
-  ggplot2::GeomDensity, stat = "density_sample", times=10
+  ggplot2::GeomDensity, stat = "density_sample", position = "stack_identity",
+  times=10, alpha = 1/log(times), seed = NULL
 )
 
 

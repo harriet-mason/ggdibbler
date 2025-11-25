@@ -31,7 +31,12 @@ StatIdentitySample <- ggplot2::ggproto("StatIdentitySample", ggplot2::StatIdenti
 #' @importFrom rlang list2
 #' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::stat_identity
-#' @param times A parameter used to control the number of values sampled from each distribution.
-stat_identity_sample <- make_constructor(StatIdentitySample, geom = "point", times = 10)
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
+stat_identity_sample <- make_constructor(StatIdentitySample, geom = "point", 
+                                         times = 10, alpha = 1/log(times), 
+                                         seed = NULL)
 
 

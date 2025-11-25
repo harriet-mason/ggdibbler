@@ -9,7 +9,8 @@ StatQqSample <- ggplot2::ggproto("StatQqSample", ggplot2::StatQq,
                                   },
                                   
                                   extra_params = c("na.rm", "times", 
-                                                   "distribution", "dparams")
+                                                   "distribution", "dparams",
+                                                   "seed")
 )
 
 #' A quantile-quantile plot with uncertainty
@@ -19,7 +20,10 @@ StatQqSample <- ggplot2::ggproto("StatQqSample", ggplot2::StatQq,
 #' 
 #' @inheritParams ggplot2::geom_qq
 #' @importFrom ggplot2 make_constructor
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' library(distributional)
@@ -62,7 +66,8 @@ StatQqSample <- ggplot2::ggproto("StatQqSample", ggplot2::StatQq,
 #'   stat_qq_line_sample(alpha=0.2)
 #' @export
 geom_qq_sample <- make_constructor(StatQqSample, geom = "point", 
-                                   omit = "quantiles", times=10)
+                                   omit = "quantiles", times=10,
+                                   alpha = 1/log(times), seed = NULL)
 
 #' @export
 #' @rdname geom_qq_sample

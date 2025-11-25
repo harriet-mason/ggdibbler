@@ -6,7 +6,10 @@
 #' @inheritParams ggplot2::geom_density_2d
 #' @importFrom ggplot2 layer GeomDensity2d
 #' @importFrom rlang list2
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' # ggplot
@@ -30,21 +33,13 @@
 #' # ggdibbler
 #' n + geom_density_2d_filled_sample(alpha = 0.1)
 #' 
-#' 
-#' # contour bands and contour lines
-#' # ggplot
-#' m + geom_density_2d_filled(alpha = 0.5) +
-#'   geom_density_2d(linewidth = 0.25, colour = "black")
-#' # ggdibbler
-#' n + geom_density_2d_filled_sample(alpha = 0.1) +
-#'   geom_density_2d_sample(linewidth = 0.2, colour = "black", alpha=0.5)
-#' 
 #' @export
 geom_density_2d_sample <- function(mapping = NULL, data = NULL,
                                    stat = "density_2d_sample", 
                                    position = "identity",
                                    ...,
                                    times = 10,
+                                   seed = NULL,
                                    contour_var = "density",
                                    lineend = "butt",
                                    linejoin = "round",
@@ -62,6 +57,7 @@ geom_density_2d_sample <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = rlang::list2(
       times = times,
+      seed = seed,
       lineend = lineend,
       linejoin = linejoin,
       linemitre = linemitre,
@@ -85,6 +81,7 @@ geom_density_2d_filled_sample <- function(mapping = NULL, data = NULL,
                                    position = "identity",
                                    ...,
                                    times = 10,
+                                   seed = NULL,
                                    contour_var = "density",
                                    na.rm = FALSE,
                                    show.legend = NA,
@@ -99,6 +96,7 @@ geom_density_2d_filled_sample <- function(mapping = NULL, data = NULL,
     inherit.aes = inherit.aes,
     params = rlang::list2(
       times = times,
+      seed = seed,
       na.rm = na.rm,
       contour = TRUE,
       contour_var = contour_var,

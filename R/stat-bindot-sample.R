@@ -17,6 +17,7 @@ StatBindotSample <- ggplot2::ggproto("StatBindotSample", ggplot2::StatBindot,
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "binwidth", "binaxis", "method", "binpositions",
-                                                   "origin", "right", "width", "drop")
+                                  extra_params = c("na.rm", "times", "binwidth", "binaxis", "method", 
+                                                   "binpositions",
+                                                   "origin", "right", "width", "drop", "seed")
 )

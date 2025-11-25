@@ -11,19 +11,9 @@ test_that("geom_contour_sample tests", {
   
   p2 <- u1 + geom_contour_filled_sample(alpha=0.1) 
   expect_doppelganger("Example 2", p2)
-  
-  p3 <- u1 + geom_raster_sample(aes(fill = density)) +
-    geom_contour_sample(colour = "white", alpha=0.1)
-  expect_doppelganger("Example 3", p3)
-  
+
 }
 )
-
-############### FAIL #################
-# ggplot(uncertain_faithful, aes(waiting, eruptions)) +
-#   geom_density_2d_sample()
-
-# u + geom_contour_filled_sample(position="identity_subdivide")
 
 
 

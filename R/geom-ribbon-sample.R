@@ -1,10 +1,14 @@
 #' Ribbons and area plots with uncertainty
 #' 
-#' Identical to geom_ribbon, except that it will accept a distribution in place of any of the usual aesthetics.
+#' Identical to geom_ribbon, except that it will accept a distribution in place 
+#' of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_ribbon
 #' @importFrom ggplot2 make_constructor GeomRibbon
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(distributional)
 #' library(dplyr)
@@ -26,25 +30,14 @@
 #' # ggdibbler
 #' q + geom_ribbon_sample(aes(ymin=0, ymax=level), alpha=0.2)
 #' 
-#' # ggplot
-#' h + geom_area(aes(y = level))
-#' # ggdibbler
-#' q + geom_area_sample(aes(y = level), alpha=0.2)
-#' 
-#' # Orientation cannot be deduced by mapping, so must be given explicitly for
-#' # flipped orientation
-#' # ggplot
-#' h + geom_area(aes(x = level, y = year), orientation = "y")
-#' # ggdibbler
-#' q + geom_area_sample(aes(x = level, y = year), orientation = "y", alpha=0.2)
-#' 
 #' # Add aesthetic mappings
-#' h + #' ggplot
+#' h + # ggplot
 #'   geom_ribbon(aes(ymin = level - 1, ymax = level + 1), fill = "grey70") +
 #'   geom_line(aes(y = level))
-#' q + #ggdibbler
-#'   geom_ribbon_sample(aes(ymin = level - 1, ymax = level + 1), fill = "grey70", alpha=0.2) +
-#'   geom_line_sample(aes(y = level), alpha=0.2)
+#' q + # ggdibbler
+#'   geom_ribbon_sample(aes(ymin = level - 1, ymax = level + 1), 
+#'     fill = "grey70", seed=4) +
+#'   geom_line_sample(aes(y = level), seed=4)
 #' 
 #' df <- data.frame(
 #'   g = c("a", "a", "a", "b", "b", "b"),
@@ -62,20 +55,28 @@
 #'   facet_grid(g ~ .)
 #' # ggdibbler
 #' ggplot(uncertain_df, aes(x, y, fill = g)) +
-#'   geom_area_sample(alpha=0.2) +
+#'   geom_area_sample(seed=100) +
+#'   geom_point_sample(seed=100) +
 #'   facet_grid(g ~ .)
+
 #' @export
-geom_ribbon_sample <- make_constructor(ggplot2::GeomRibbon, stat = "identity_sample", times=10)
+geom_ribbon_sample <- make_constructor(ggplot2::GeomRibbon, alpha=0.9/log(times),
+                                       stat = "identity_sample",
+                                       seed = NULL, times=10)
 
 
 #' @rdname geom_ribbon_sample
-#' @importFrom ggplot2 make_constructor GeomRibbon
+#' @importFrom ggplot2 make_constructor GeomArea
 #' @inheritParams ggplot2::geom_area
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @export
-geom_area_sample <- make_constructor(ggplot2::GeomArea, stat = "align_sample", times=10,
-                                       orientation = NA, #' position = "stack",
-                                      outline.type = "upper",
+geom_area_sample <- make_constructor(ggplot2::GeomArea, stat = "align_sample",
+                                     times=10, seed = NULL, alpha=1/log(times), 
+                                     position = "stack_identity",
+                                      orientation = NA, outline.type = "upper",
                                       checks = exprs(
                                         outline.type <- arg_match0(outline.type, c("both", "upper", "lower", "full"))
                                         )

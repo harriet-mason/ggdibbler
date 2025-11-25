@@ -1,11 +1,15 @@
 #' Uncertain Count overlapping points
 #' 
-#' Identical to geom_count, except that it will accept a distribution in place of any of the usual aesthetics.
+#' Identical to geom_count, except that it will accept a distribution in place 
+#' of any of the usual aesthetics.
 #' 
 #' 
 #' @inheritParams ggplot2::geom_count
 #' @importFrom ggplot2 make_constructor GeomPoint
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' 
@@ -23,7 +27,7 @@
 #'   geom_count()
 #' # ggdibbler (alpha for resample overlap)
 #' ggplot(uncertain_mpg, aes(cty, hwy)) +
-#'   geom_count_sample(alpha=0.2) 
+#'   geom_count_sample() 
 #'   
 #' # Best used in conjunction with scale_size_area 
 #' # ggplot
@@ -32,9 +36,10 @@
 #'   scale_size_area()
 #' # ggdibbler
 #' ggplot(uncertain_mpg, aes(cty, hwy)) +
-#'   geom_count_sample(alpha=0.2) +
+#'   geom_count_sample() +
 #'   scale_size_area()
 #' @export
-geom_count_sample <- make_constructor(GeomPoint, stat = "sum_sample", times=10)
+geom_count_sample <- make_constructor(GeomPoint, stat = "sum_sample", times=10, 
+                                      alpha = 0.5/log(times), seed = NULL)
 
 

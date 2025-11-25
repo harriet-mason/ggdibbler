@@ -8,13 +8,14 @@ StatSumSample <- ggplot2::ggproto("StatSumSample", ggplot2::StatSum,
                                     dibble_to_tibble(data, params)
                                   },
                                   
-                                  extra_params = c("na.rm", "times")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @export
 #' @rdname geom_count_sample
 #' @inheritParams ggplot2::stat_sum
 #' @param times A parameter used to control the number of values sampled from each distribution.
-stat_sum_sample <- make_constructor(StatSumSample, geom = "point", times = 10)
+stat_sum_sample <- make_constructor(StatSumSample, geom = "point", times = 10, 
+                                    alpha=	1/log(times), seed = NULL)
 
 

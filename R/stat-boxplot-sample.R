@@ -26,7 +26,7 @@ StatBoxplotSample <- ggplot2::ggproto("StatBoxplotSample", ggplot2::StatBoxplot,
                                   extra_params = c("na.rm", "times", "outliers", "notch", 
                                                    "notchwidth", "staplewidth", "varwidth", 
                                                    "orientation", "show.legend", 
-                                                   "inherit.aes", "coef")
+                                                   "inherit.aes", "coef", "seed")
                                   )
 
 #' @export
@@ -34,6 +34,7 @@ StatBoxplotSample <- ggplot2::ggproto("StatBoxplotSample", ggplot2::StatBoxplot,
 #' @inheritParams ggplot2::stat_boxplot
 #' @param times A parameter used to control the number of values sampled from each distribution.
 stat_boxplot_sample <- make_constructor(StatBoxplotSample, geom = "boxplot", # position = "dodge2",
-                                        times = 10, orientation = NA, omit = "width")
+                                        times = 10, orientation = NA, omit = "width",
+                                        alpha = 1/log(times), seed = NULL)
 
 

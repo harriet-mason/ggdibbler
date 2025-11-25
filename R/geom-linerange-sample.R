@@ -5,7 +5,10 @@
 #' 
 #' @inheritParams ggplot2::geom_linerange
 #' @importFrom ggplot2 make_constructor GeomLinerange
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)
@@ -71,5 +74,6 @@
 #'   geom_errorbar_sample(aes(ymin = lower, ymax = upper), width = 0.2, alpha=0.5)
 #' @export
 geom_linerange_sample <- make_constructor(ggplot2::GeomLinerange, stat = "identity_sample", 
-                                          times=10, orientation = NA)
+                                          times=10, orientation = NA, alpha = 1/log(times), 
+                                          seed = NULL)
 

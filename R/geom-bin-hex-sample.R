@@ -7,6 +7,8 @@
 #' @importFrom ggplot2 make_constructor GeomHex
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' d <- ggplot(smaller_diamonds, aes(carat, price))
@@ -20,4 +22,4 @@
 #' b + geom_hex_sample(bins = 10, alpha=0.15)
 #' @export
 geom_hex_sample <- make_constructor(ggplot2::GeomHex, stat = "bin_hex_sample", 
-                                    times=10)
+                                    times=10, seed = NULL, alpha=0.5/log(times))

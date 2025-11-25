@@ -18,7 +18,7 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
                                         dibble_to_tibble(data, params) 
                                       },
                                       
-                                      extra_params = c("na.rm", "times")
+                                      extra_params = c("na.rm", "times", "seed")
 )
 
 #' Manually compute transformations with uncertainty
@@ -30,6 +30,8 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' @importFrom ggplot2 make_constructor
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' library(distributional)
@@ -98,7 +100,8 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' }
 #' @export
 stat_manual_sample <- make_constructor(StatManualSample, geom = "point", 
-                                       times = 10, alpha=2/times)
+                                       times = 10, alpha = 1/log(times), 
+                                       seed = NULL)
 
 
 

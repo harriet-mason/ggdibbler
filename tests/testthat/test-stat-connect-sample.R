@@ -10,9 +10,9 @@ test_that("stat_connect_sample tests", {
   set.seed(5)
   
   p1 <- ggplot(head(uncertain_economics, 10), aes(date, unemploy)) +
-    stat_connect_sample(aes(colour = "zigzag"), connection = zigzag) +
-    stat_connect_sample(aes(colour = "smooth"), connection = smooth) +
-    geom_point(data = head(economics, 10), aes(date, unemploy)) 
+    stat_connect_sample(aes(colour = "zigzag"), connection = zigzag, seed=64) +
+    stat_connect_sample(aes(colour = "smooth"), connection = smooth, seed=64) +
+    geom_point_sample(seed=64) 
   
   expect_doppelganger("Example 1", p1)
   

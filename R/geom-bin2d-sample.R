@@ -4,7 +4,10 @@
 #' 
 #' @inheritParams ggplot2::geom_bin_2d
 #' @importFrom ggplot2 make_constructor GeomBin2d
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' # ggplot
 #' library(ggplot2)

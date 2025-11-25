@@ -6,10 +6,11 @@ geom_freqpoly_sample <- function(mapping = NULL, data = NULL,
                           stat = "bin_sample", position = "identity",
                           ...,
                           na.rm = FALSE, times=10,
+                          seed = NULL,
                           show.legend = NA,
                           inherit.aes = TRUE) {
   
-  params <- list2(na.rm = na.rm, times=times, ...)
+  params <- list2(na.rm = na.rm, times=times, seed = seed, ...)
   if (identical(stat, "bin_sample")) {
     params$pad <- TRUE
   }

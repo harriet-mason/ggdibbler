@@ -5,7 +5,10 @@
 #' @inheritParams ggplot2::geom_dotplot
 #' @importFrom ggplot2 GeomDotplot layer
 #' @importFrom rlang list2 arg_match0
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' # ggplot
@@ -31,68 +34,9 @@
 #'   geom_dotplot_sample(method="histodot", binwidth = 1.5, 
 #'                       alpha=0.2)
 #' 
-#' # Some other stacking methods
-#' # ggplot
-#' ggplot(mtcars, aes(x = mpg)) +
-#'   geom_dotplot(binwidth = 1.5, stackdir = "center")
-#' # ggdibbler
-#' ggplot(uncertain_mtcars, aes(x = mpg)) +
-#'   geom_dotplot_sample(binwidth = 1.5, stackdir = "center", alpha=0.2)
-#' 
-#' # ggplot
-#' ggplot(mtcars, aes(x = mpg)) +
-#'   geom_dotplot(binwidth = 1.5, stackdir = "centerwhole")
-#' # ggdibbler
-#' ggplot(uncertain_mtcars, aes(x = mpg)) +
-#'   geom_dotplot_sample(binwidth = 1.5, stackdir = "centerwhole",
-#'                       alpha=0.2)
-#' 
-#' # y axis isn't really meaningful, so hide it
-#' # ggplot
-#' ggplot(mtcars, aes(x = mpg)) + 
-#'   geom_dotplot(binwidth = 1.5)
-#' # ggdibbler
-#' ggplot(uncertain_mtcars, aes(x = mpg)) + 
-#'   geom_dotplot_sample(binwidth = 1.5, alpha=0.2)
-#' 
-#' # Overlap dots vertically
-#' # ggplot
-#' ggplot(mtcars, aes(x = mpg)) +
-#'   geom_dotplot(binwidth = 1.5, stackratio = .7)
-#' # ggdibbler
-#' ggplot(uncertain_mtcars, aes(x = mpg)) +
-#'   geom_dotplot_sample(binwidth = 1.5, stackratio = .7,
-#'                       alpha=0.2)
-#' 
-#' # Expand dot diameter
-#' # ggplot
-#' ggplot(mtcars, aes(x = mpg)) +
-#'   geom_dotplot(binwidth = 1.5, dotsize = 1.25)
-#' # ggdibbler
-#' ggplot(uncertain_mtcars, aes(x = mpg)) +
-#'   geom_dotplot_sample(binwidth = 1.5, dotsize = 1.25,
-#'                       alpha=0.2)
-#' 
-#' # Change dot fill colour, stroke width
-#' # ggplot
-#' ggplot(mtcars, aes(x = mpg)) +
-#'   geom_dotplot(binwidth = 1.5, fill = "white", stroke = 2)
-#' # ggdibbler
-#' ggplot(uncertain_mtcars, aes(x = mpg)) +
-#'   geom_dotplot_sample(binwidth = 1.5, fill = "white", stroke = 2,
-#'                       alpha=0.2)
-#' 
-#' # Examples with stacking along y axis instead of x
-#' # ggplot
-#' ggplot(mtcars, aes(x = 1, y = mpg)) +
-#'   geom_dotplot(binaxis = "y", stackdir = "center")
-#' # ggdibbler
-#' ggplot(uncertain_mtcars, aes(x = 1, y = mpg)) +
-#'   geom_dotplot_sample(binaxis = "y", stackdir = "center",
-#'                       alpha=0.2) 
 #' @export
 geom_dotplot_sample <- function(mapping = NULL, data = NULL,
-                         position = "identity",
+                         position = "identity", seed = NULL,
                          ...,
                          times = 10,
                          binwidth = NULL,
@@ -147,6 +91,7 @@ geom_dotplot_sample <- function(mapping = NULL, data = NULL,
       dotsize = dotsize,
       stackgroups = stackgroups,
       na.rm = na.rm,
+      seed = seed,
       ...
     )
   )
