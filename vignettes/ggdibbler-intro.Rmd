@@ -274,12 +274,13 @@ example_dist <- example_df |>
   mutate(contacts = dist_normal(contacts, contacts/5))
 
 # Plot it
-p3 <- ggplot(data = example_dist) +
-  geom_tile_sample(aes(x = age_group_from, y = age_group_to,
-                       fill = contacts), position="identity_dodge", 
+p3 <- ggplot(data = example_dist, 
+             aes(x = age_group_from, y = age_group_to,
+                       fill = contacts)) +
+  geom_tile_sample(position="identity_dodge", 
                    times=50, seed = 5) +
-  geom_tile_sample(aes(y = age_group_from, x = age_group_to,
-                       fill = contacts), position="identity_dodge",
+  geom_tile_sample(aes(y = age_group_from, x = age_group_to),
+                   position="identity_dodge",
                    times=50, seed = 5) +
   ggplot2::coord_fixed() +
   ggplot2::theme_minimal() +
