@@ -81,8 +81,39 @@ There are also flexibilities that go beyond just the distribution you choose.
 
 We will now go onto the `ggdibbler` specific examples (this is not the distributional vignette) but it is definitely worth having a play around in `distributional` so you understand the object before jumping straight into `ggdibbler` plots.
 
+```{r}
+y <- c(dist_normal(0, 1), dist_beta(5, 1), dist_gamma(2, 1))
+tibble::tibble(y) |> 
+  dplyr::mutate(
+    density(y, at = list(d1 = 0.65, d2 = 0.9))
+  )
+
+# if transformation exists
+exp(3 * (2 + dist_normal(1,3)))
+
+# if transformation doesn't exist uses dist_transformed
+(3 * (2 + dist_normal(1,3)))^2
+
+# I want dist transformed for:
+factor(dist_normal(0, 1))
+```
 
 ## Examples
+### Time series output
+Some stats stuff spits out distributions automatically (like fable)
+```{r}
+library(fable)
+forecast <- as_tsibble(sunspot.year) |> 
+  model(ARIMA(value)) |> 
+  forecast(h = "10 years") |>
+  mutate(noise = lag(value) - mean(lag(value)))
+forecast$noise
+forecast$value
+ggplot(forecast) +
+  geom_line_sample(aes(x=index, y=value), times=500)
+
+```
+
 ### A basic `geom_abline`
 The most basic estimate we can have, is the estimate for a simple linear regression. A simple linear regression is actually used in the `ggplot2` documentation as the example for `geom_abline`. 
 
