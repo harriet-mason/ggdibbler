@@ -50,7 +50,7 @@ test_that("geom_polygon_sample examples", {
   expect_doppelganger("deterministic", q0)
   
   q1 <- ggplot(uncertain_datapoly, aes(x = x, y = y)) +
-    geom_polygon_sample(aes(fill = value, group = id))
+    geom_polygon_sample(aes(fill = value, group = id), times=2)
   
   expect_doppelganger("random polygon", q1)
   

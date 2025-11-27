@@ -18,19 +18,16 @@ uncertain_df <- df |>
          upper = dist_normal(upper, runif(1,0,0.2)),
          lower = dist_normal(lower, runif(1,0,0.2))
   )
-
-q <- ggplot(uncertain_df, aes(trt, resp, colour = group))
-
-test_that("geom_linerange_sample tests", {
-  
-  set.seed(444)
-  p1 <- q + 
-    geom_linerange_sample(aes(ymin = lower, ymax = upper), linewidth=4)
-  expect_doppelganger("Example 1", p1)
-  
-  
-}
-)
+suppressWarnings({
+  q <- ggplot(uncertain_df, aes(trt, resp, colour = group))
+  test_that("geom_linerange_sample tests", {
+    
+    set.seed(444)
+    p1 <- q + 
+      geom_linerange_sample(aes(ymin = lower, ymax = upper), linewidth=4)
+    expect_doppelganger("Example 1", p1)
+  })
+})
 
 
 

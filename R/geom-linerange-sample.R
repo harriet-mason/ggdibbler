@@ -54,6 +54,6 @@
 #' 
 #' @export
 geom_linerange_sample <- make_constructor(ggplot2::GeomLinerange, stat = "identity_sample", 
-                                          times=10, orientation = NA, alpha = 1/log(times), 
+                                          times=10, orientation = NA, alpha = 0.5/log(times), 
                                           seed = NULL)
 

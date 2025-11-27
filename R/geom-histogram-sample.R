@@ -38,6 +38,5 @@
 #' 
 #' @export
 geom_histogram_sample <- make_constructor(ggplot2::GeomBar, stat = "bin_sample", 
-                                          position = "stack_identity", times=10, 
-                                          alpha = 1/log(times), seed = NULL,
+                                          position = "stack_dodge", times=10, seed = NULL,
                                           binwidth = NULL, bins = NULL, orientation = NA)

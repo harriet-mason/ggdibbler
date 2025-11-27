@@ -10,10 +10,10 @@ test_that("geom_density_2d_sample tests", {
   
   set.seed(475)
   
-  p1 <- n + geom_density_2d_sample(linewidth=2/10, alpha=0.5)
+  p1 <- n + geom_density_2d_sample(times=2)
   expect_doppelganger("Example 1", p1)
   
-  p2 <- n + geom_density_2d_filled_sample(alpha = 0.1)
+  p2 <- n + geom_density_2d_filled_sample(times=2, alpha=0.5)
   expect_doppelganger("Example 2", p2)
 
   

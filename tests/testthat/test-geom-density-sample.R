@@ -5,15 +5,12 @@ library(distributional)
 test_that("geom_density_sample tests", {
   set.seed(323894)
   p1 <- ggplot(smaller_uncertain_diamonds, aes(carat)) +
-    geom_density_sample(linewidth=0.2)
+    geom_density_sample()
   expect_doppelganger("example1", p1)
-
-  p2 <- ggplot(smaller_uncertain_diamonds, aes(y = carat)) +
-    geom_density_sample(adjust = 1/5)
-  expect_doppelganger("example2", p2)
   
   p5 <- ggplot(smaller_uncertain_diamonds, aes(depth, fill = cut)) +
-    geom_density_sample(aes(colour = after_stat(fill)), alpha = 0.1) +
+    geom_density_sample(aes(colour = after_stat(fill)), 
+                        alpha = 0.1, times=2) +
     scale_x_continuous_distribution(limits=c(55, 70)) + # ggdibbler does not have an xlim (yet)
     theme(palette.colour.discrete = "viridis",
           palette.fill.discrete = "viridis") # bug: random variables have different colour

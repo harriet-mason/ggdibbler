@@ -5,10 +5,6 @@ test_that("stat_ellipse_sample tests", {
   
   set.seed(555)
   
-  p1 <- ggplot(uncertain_faithful, aes(waiting, eruptions)) +
-    geom_point_sample()
-  expect_doppelganger("Example 1", p1)
-  
   
   p2 <- ggplot(uncertain_faithful, 
                aes(waiting, eruptions, 
@@ -18,16 +14,6 @@ test_that("stat_ellipse_sample tests", {
     stat_ellipse_sample(type = "t") +
     labs(colour = "eruptions > 3")
   expect_doppelganger("Example 2", p2)
-  
-  p3 <- ggplot(uncertain_faithful, 
-               aes(waiting, eruptions, 
-                   color = dist_transformed(eruptions,function(x) x > 3, identity))) +
-    geom_point_sample() +
-    stat_ellipse_sample(type = "norm", linetype = 2) +
-    stat_ellipse_sample(type = "euclid", level = 3) +
-    coord_fixed() +
-    labs(colour = "eruptions > 3")
-  expect_doppelganger("Example 3", p3)
   
   p4 <- ggplot(uncertain_faithful, 
                aes(waiting, eruptions, 

@@ -2,6 +2,6 @@
 #' @importFrom ggplot2 make_constructor GeomCol
 #' @export
 geom_col_sample <- make_constructor(GeomCol, stat = "identity_sample",  
-                                    position = "stack_identity", just = 0.5, 
-                                    times = 10, alpha = 1/log(times), seed = NULL
+                                    position = "stack_dodge", just = 0.5, 
+                                    times = 10, seed = NULL
                                     )

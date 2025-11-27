@@ -44,5 +44,5 @@
 #'   theme(legend.position = "top")
 #' @export
 geom_bar_sample <- make_constructor(ggplot2::GeomBar, stat = "count_sample", 
-                                    position="stack_identity", just = 0.5, 
-                                    times=10, alpha = 0.7/log(times), seed = NULL)
+                                    position="stack_dodge", just = 0.5, 
+                                    times=10, seed = NULL)

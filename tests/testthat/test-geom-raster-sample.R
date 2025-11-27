@@ -17,11 +17,11 @@ test_that("geom_raster_sample tests", {
   
   set.seed(342)
   p1 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
-    geom_raster_sample(aes(fill = density)) 
+    geom_raster_sample(aes(fill = density), times=2) 
   expect_doppelganger("Example 1", p1)
   
   p5 <- ggplot(uncertain_df, aes(x, y, fill = z)) +
-    geom_raster_sample(hjust = 0, vjust = 0)
+    geom_raster_sample(hjust = 0, vjust = 0, times=2)
   expect_doppelganger("Example 5", p5)
 }
 )

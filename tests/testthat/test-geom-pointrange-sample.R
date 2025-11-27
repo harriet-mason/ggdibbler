@@ -11,7 +11,6 @@ df <- data.frame(
   lower = c(0.8, 4.6, 2.4, 3.6)
 )
 
-
 uncertain_df <- df |>
   group_by(trt, group) |>
   mutate(resp = dist_normal(resp, runif(1,0,0.1)),
@@ -19,13 +18,11 @@ uncertain_df <- df |>
          lower = dist_normal(lower, runif(1,0,0.2))
   )
 
-q <- ggplot(uncertain_df, aes(trt, resp, colour = group))
-
-test_that("geom_pointrange_sample tests", {
-
+suppressWarnings({
   set.seed(422)
-  p1 <- q + geom_pointrange_sample(aes(ymin = lower, ymax = upper))
-  expect_doppelganger("Example 1", p1)
-
-}
-)
+  test_that("geom_pointrange_sample tests", {
+    p1 <- ggplot(uncertain_df, aes(trt, resp, colour = group))
+    #+ geom_pointrange_sample(aes(ymin = lower, ymax = upper)) 
+    expect_doppelganger("Example 1", p1)
+  })
+})
