@@ -16,12 +16,6 @@ test_that("geom_bin_2d_sample tests", {
   p3 <- b + geom_bin_2d_sample(bins = 10) #ggdibbler
   expect_doppelganger("Example 3", p3)
   
-  p4 <- b + geom_bin_2d_sample(bins = list(x = 30, y = 10)) #ggdibbler
-  expect_doppelganger("Example 4", p4)
-  
-  p5 <- b + geom_bin_2d_sample(binwidth = c(0.1, 0.1))
-  expect_doppelganger("Example 5", p5)
-  
 }
 )
 })

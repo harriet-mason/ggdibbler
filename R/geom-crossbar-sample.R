@@ -5,6 +5,7 @@
 #' @export
 geom_crossbar_sample <- function(mapping = NULL, data = NULL, times = 10,
                           stat = "identity_sample", position = "identity",
+                          seed = NULL,
                           ...,
                           middle.colour     = NULL,
                           middle.color      = NULL,
@@ -40,6 +41,7 @@ geom_crossbar_sample <- function(mapping = NULL, data = NULL, times = 10,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = rlang::list2(
+      seed = seed,
       times = times,
       middle_gp = middle_gp,
       box_gp = box_gp,

@@ -18,10 +18,10 @@
 #' # the ggdibbler default position adjustment is dodging
 #' b + geom_bin_2d_sample(times=100)
 #' # but it can change it to be transparency
-#' b + geom_bin_2d_sample(position="identity", alpha=0.2)
+#' b + geom_bin_2d_sample(position="identity", alpha=0.1)
 #' # Still have the same options
 #' d + geom_bin_2d(bins = 10) #ggplot
 #' b + geom_bin_2d_sample(bins = 10) #ggdibbler
 #' @export
 geom_bin_2d_sample <- make_constructor(ggplot2::GeomBin2d, stat = "bin2d_sample", 
-                                       times=10, position="identity_dodge")
+                                       times=10, position="identity_dodge", seed = NULL)

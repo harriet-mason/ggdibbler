@@ -4,4 +4,4 @@
 #' @export
 geom_pointrange_sample <- make_constructor(ggplot2::GeomPointrange, times = 10,
                                            stat = "identity_sample", orientation = NA,
-                                           alpha = 0.9/log(times), seed = NULL)
+                                           alpha = 1/log(times), seed = NULL)

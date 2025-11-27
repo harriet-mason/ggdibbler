@@ -9,13 +9,19 @@ StatQuantileSample <- ggplot2::ggproto("StatQuantileSample", ggplot2::StatQuanti
                                   },
                                   
                                   extra_params = c("na.rm", "times", "quantiles",
-                                                   "formula", "method", "method.args")
+                                                   "formula", "method", 
+                                                   "method.args", "seed")
 )
 
 
 #' @export
 #' @rdname geom_quantile_sample
 #' @inheritParams ggplot2::stat_quantile
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 stat_quantile_sample <- make_constructor(StatQuantileSample, geom = "quantile",
-                                        omit = c("xseq", "lambda"), times = 10)
+                                         times=10, alpha = 1/log(times), 
+                                         seed = NULL,  times = 10,
+                                         omit = c("xseq", "lambda"))

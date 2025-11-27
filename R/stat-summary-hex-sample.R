@@ -8,7 +8,7 @@ StatSummaryHexSample <- ggplot2::ggproto("StatSummaryHexSample", ggplot2::StatSu
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @rdname stat_summary_2d_sample
@@ -16,4 +16,4 @@ StatSummaryHexSample <- ggplot2::ggproto("StatSummaryHexSample", ggplot2::StatSu
 #' @importFrom ggplot2 make_constructor
 #' @export
 stat_summary_hex_sample <- make_constructor(StatSummaryHexSample, geom = "hex", 
-                                    times = 10, alpha=2/times)
+                                    times = 10, alpha = 1/log(times), seed = NULL)

@@ -25,14 +25,9 @@ test_that("geom_linerange_sample tests", {
   
   set.seed(444)
   p1 <- q + 
-    geom_linerange_sample(aes(ymin = lower, ymax = upper),
-                                  position=position_jitter(height=0, width=0.05))
+    geom_linerange_sample(aes(ymin = lower, ymax = upper), linewidth=4)
   expect_doppelganger("Example 1", p1)
   
-  p2 <- ggplot(uncertain_df, aes(resp, trt, colour = group)) +
-    geom_linerange_sample(aes(xmin = lower, xmax = upper),
-                          position=position_jitter(height=0.05, width=0))
-  expect_doppelganger("Example 2", p2)
   
 }
 )

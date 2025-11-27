@@ -18,16 +18,17 @@ StatSummaryBinSample <- ggplot2::ggproto("StatSummaryBinSample", ggplot2::StatSu
                                           dibble_to_tibble(data, params) 
                                         },
                                         
-                                        extra_params = c("na.rm", "times", "fun.data", "bins", 
-                                                         "fun", "fun.min", "fun.max", "binwidth", "breaks",
-                                                         "fun.args", "orientation", "show.legend", "inherit.aes")
+                                        extra_params = c("na.rm", "times", "fun.data", 
+                                                         "bins", "fun", "fun.min", 
+                                                         "fun.max", "binwidth", "breaks",
+                                                         "fun.args", "orientation", "show.legend",
+                                                         "inherit.aes", "seed")
 )
 
 #' @rdname stat_summary_sample
 #' @inheritParams ggplot2::stat_summary_bin
 #' @importFrom ggplot2 make_constructor
 #' @export
-stat_summary_bin_sample <- make_constructor(StatSummaryBinSample, 
-                                            geom = "pointrange",
-                                            times = 10, alpha=2/times)
+stat_summary_bin_sample <- make_constructor(StatSummaryBinSample, geom = "pointrange",
+                                            times = 10, alpha = 1/log(times), seed = NULL)
 

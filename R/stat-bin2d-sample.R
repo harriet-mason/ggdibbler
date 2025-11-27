@@ -9,7 +9,7 @@ StatBin2dSample <- ggplot2::ggproto("StatBin2dSample", ggplot2::StatBin2d,
                                   },
                                   
                                   extra_params = c("na.rm", "times", "binwidth",
-                                                   "bins", "breaks", "drop", 
+                                                   "bins", "breaks", "drop", "seed",
                                                    "boundary", "closed", "center")
 )
 
@@ -17,7 +17,8 @@ StatBin2dSample <- ggplot2::ggproto("StatBin2dSample", ggplot2::StatBin2d,
 #' @rdname geom_bin_2d_sample
 #' @inheritParams ggplot2::stat_bin_2d
 #' @param times A parameter used to control the number of values sampled from each distribution.
-stat_bin_2d_sample <- make_constructor(StatBin2dSample, geom = "tile", times = 10)
+stat_bin_2d_sample <- make_constructor(StatBin2dSample, geom = "tile", times = 10,
+                                       position="identity_dodge", seed = NULL)
 
 
 

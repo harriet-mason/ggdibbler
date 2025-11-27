@@ -19,7 +19,7 @@ StatSummary2dSample <- ggplot2::ggproto("StatSummary2dSample", ggplot2::StatSumm
                                           dibble_to_tibble(data, params) 
                                         },
                                         
-                                        extra_params = c("na.rm", "times")
+                                        extra_params = c("na.rm", "times", "seed")
 )
 
 #' Bin and summarise in 2d (rectangle & hexagons) with uncertain inputs
@@ -31,6 +31,8 @@ StatSummary2dSample <- ggplot2::ggproto("StatSummary2dSample", ggplot2::StatSumm
 #' @importFrom ggplot2 make_constructor
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' d <- ggplot(smaller_diamonds, 
@@ -41,14 +43,11 @@ StatSummary2dSample <- ggplot2::ggproto("StatSummary2dSample", ggplot2::StatSumm
 #'             aes(carat, depth, z = price))
 #' b + stat_summary_2d_sample()
 #' 
-#' # Specifying function
-#' d + stat_summary_2d(fun = \(x) sum(x^2))
-#' b + stat_summary_2d_sample(fun = \(x) sum(x^2))
-#' 
 #' # summary_hex
 #' d + stat_summary_hex(fun = ~ sum(.x^2))
 #' b + stat_summary_hex_sample(fun = ~ sum(.x^2))
 #' @export
 stat_summary_2d_sample <- make_constructor(StatSummary2dSample, geom = "tile", 
-                                    times = 10, position="identity_dodge")
+                                    times = 10, position="identity_dodge",
+                                    alpha = 1/log(times), seed = NULL)
 

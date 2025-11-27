@@ -44,14 +44,14 @@
 #'   geom_line_sample(seed=33) 
 #' @export
 geom_path_sample <- make_constructor(ggplot2::GeomPath, stat = "identity_sample", 
-                                     times=10, alpha=	0.3/log(times), seed = NULL)
+                                     times=10, alpha=	1/log(times), seed = NULL)
 
 #' @export
 #' @inheritParams ggplot2::geom_line
 #' @importFrom ggplot2 make_constructor GeomLine
 #' @rdname geom_path_sample
 geom_line_sample <- make_constructor(ggplot2::GeomLine, stat = "identity_sample", 
-                                     times=10, alpha=	0.3/log(times), seed = NULL,
+                                     times=10, alpha=	1/log(times), seed = NULL,
                                      orientation = NA)
 
 #' @export
@@ -59,7 +59,7 @@ geom_line_sample <- make_constructor(ggplot2::GeomLine, stat = "identity_sample"
 #' @importFrom ggplot2 make_constructor GeomStep
 #' @rdname geom_path_sample
 geom_step_sample <- make_constructor(ggplot2::GeomStep, stat = "identity_sample", 
-                                     times=10, alpha=	0.6/log(times), seed = NULL,
+                                     times=10, alpha=	1/log(times), seed = NULL,
                                      orientation = NA)
 
 
