@@ -150,7 +150,7 @@ train_discrete_distribution <- function(
   }
   if(distributional::is_distribution(new)){
     # make distribution into output
-    new <- unlist(distributional::parameters(new)$x)
+    new <- unlist(distributional::generate(new, 100))
   }
   if (!is_discrete(new)) {
     example <- unique(new)
