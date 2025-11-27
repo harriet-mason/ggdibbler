@@ -1,6 +1,7 @@
 #' Line segments parameterised by location, direction and distance, with uncertainty
 #' 
-#' Identical to geom_spoke except that it will accept a distribution in place of any of the usual aesthetics.
+#' Identical to geom_spoke except that it will accept a distribution in place 
+#' of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_spoke
 #' @importFrom ggplot2 make_constructor GeomSpoke

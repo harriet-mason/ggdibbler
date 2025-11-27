@@ -18,7 +18,7 @@ uncertain_df <- df |>
   ungroup()
 
 
-test_that("geom_**_sample tests", {
+test_that("geom_spoke_sample tests", {
   
   set.seed(98)
   
