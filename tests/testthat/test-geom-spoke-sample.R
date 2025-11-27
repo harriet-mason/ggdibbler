@@ -1,6 +1,8 @@
 # load libraries
 library(vdiffr)
 library(ggplot2)
+library(dplyr)
+library(distributional)
 
 # deterministic data
 set.seed(1)
@@ -33,9 +35,3 @@ test_that("geom_**_sample tests", {
   expect_doppelganger("Example 2", p2)
 }
 )
-
-# ################ PASS #################
-# ############### FAIL #################
-# ############## UNTESTED #################
-
-

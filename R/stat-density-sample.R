@@ -9,7 +9,8 @@ StatDensitySample <- ggproto("StatDensitySample", ggplot2::StatDensity,
                              },
                              
                              extra_params = c("na.rm", "times", "bw", "adjust", "kernel",
-                                              "n", "trim", "bounds", "flipped_aes", "seed")
+                                              "n", "trim", "bounds", "flipped_aes", "seed",
+                                              "orientation")
                                
 )
             
@@ -22,9 +23,8 @@ StatDensitySample <- ggproto("StatDensitySample", ggplot2::StatDensity,
 #' @rdname geom_density_sample
 #' @export
 stat_density_sample <- make_constructor(
-  ggplot2::GeomDensity, stat = "density_sample", position = "stack_identity",
-  times=10, alpha = 1/log(times), seed = NULL
-)
+  StatDensitySample, geom = "area", orientation = NA, seed = NULL,
+  position = "stack_identity",times=10, alpha = 1/log(times))
 
 
 

@@ -4,7 +4,10 @@
 #' 
 #' @inheritParams ggplot2::geom_spoke
 #' @importFrom ggplot2 make_constructor GeomSpoke
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)
@@ -26,22 +29,12 @@
 #' # ggplot
 #' ggplot(df, aes(x, y)) +
 #'   geom_point() +
-#'   geom_spoke(aes(angle = angle), radius = 0.5)
-#' 
-#' # ggdibbler
-#' ggplot(uncertain_df, aes(x, y)) +
-#'   #' can use geom_point or geom_point_sample since x & y are deterministic
-#'   geom_point() + #' here we used geom_point
-#'   geom_spoke_sample(aes(angle = angle), radius = 0.5, alpha=0.3)
-#' 
-#' # ggplot
-#' ggplot(df, aes(x, y)) +
-#'   geom_point() +
 #'   geom_spoke(aes(angle = angle, radius = speed))
 #' 
 #' # ggdibbler
 #' ggplot(uncertain_df, aes(x, y)) +
 #'   geom_point_sample() + #' and here we used geom_point_sample
-#'   geom_spoke_sample(aes(angle = angle, radius = speed), alpha=0.3)
+#'   geom_spoke_sample(aes(angle = angle, radius = speed))
 #' @export
-geom_spoke_sample <- make_constructor(ggplot2::GeomSpoke, stat = "identity_sample", times=10)
+geom_spoke_sample <- make_constructor(ggplot2::GeomSpoke, stat = "identity_sample", 
+                                      times=10, alpha = 1/log(times), seed = NULL)

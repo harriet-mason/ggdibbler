@@ -25,8 +25,8 @@ test_that("geom_rug_sample tests", {
   # no random variables used - just return normal points
   set.seed(2)
   p1 <- ggplot() + 
-    geom_point_sample(data = point_data, aes(x=random_x, y=random_y)) +
-    geom_rug_sample(data = point_data, aes(x=random_x, y=random_y))
+    geom_point_sample(data = point_data, aes(x=random_x, y=random_y), seed=3) +
+    geom_rug_sample(data = point_data, aes(x=random_x, y=random_y), seed=3)
   expect_doppelganger("Example 1", p1)
 }
 )
