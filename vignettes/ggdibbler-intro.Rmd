@@ -109,17 +109,18 @@ library(distributional)
 forecast <- as_tsibble(sunspot.year) |> 
   model(ARIMA(value)) |> 
   forecast(h = "10 years") |>
-  mutate(increment = value - lag(.mean))
+  mutate(increment = value - (lag(.mean) - .mean))
+forecast$increment
 forecast$increment[1] <- forecast$value[1]
 
-ggplot(forecast, aes(colour = increment)) +
+ggplot(forecast, aes(dog = increment)) +
   geom_line_sample(aes(x = index, 
-                       y = stats::lag(after_stat(colour), k=10) + after_stat(colour)),
-                       times=100)
+                       y = stats::lag(after_stat(dog), k=1) + after_stat(dog)),
+                       times=100, alpha=0.5)
 
-ggplot(forecast, aes(colour = increment)) +
+ggplot(forecast) +
   geom_line_sample(aes(x = index, y = value),
-                       times=100)
+                       times=100, alpha=0.5)
 
 ```
 
