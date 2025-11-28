@@ -29,6 +29,5 @@ StatAlignSample <- ggplot2::ggproto("StatAlignSample", ggplot2::StatAlign,
 #' @export
 #' @rdname geom_ribbon_sample
 #' @inheritParams ggplot2::stat_align
-#' @param times A parameter used to control the number of values sampled from each distribution.
 stat_align_sample <- make_constructor(StatAlignSample, geom = "area",
                                       times = 10, seed = NULL, alpha=1/log(times))

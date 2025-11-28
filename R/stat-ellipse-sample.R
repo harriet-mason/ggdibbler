@@ -31,6 +31,8 @@ StatEllipseSample <- ggplot2::ggproto("StatEllipseSample", ggplot2::StatEllipse,
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
 #' @examples
 #' library(ggplot2)
 #' library(distributional)

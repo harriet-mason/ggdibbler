@@ -9,6 +9,9 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to set the default value to 1/log(times) to make sure the 
+#' repeated draws are always visible
 #' @examples
 #' library(distributional)
 #' library(ggplot2)
@@ -22,17 +25,17 @@
 #' q + geom_bar_sample() #ggdibbler - a
 #' q + geom_bar_sample(position = "identity_dodge", alpha=1) #ggdibbler - b
 #' 
+#' # make dataframe
+#' df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
+#' uncertain_df <-  data.frame(trt = c("a", "b", "c"), 
+#'                             outcome = dist_normal(mean = c(2.3, 1.9, 3.2), 
+#'                                                   sd = c(0.5, 0.8, 0.7)))
 #' # geom_col also has a sample counterpart
 #' # ggplot
 #' ggplot(df, aes(trt, outcome)) + geom_col()
 #' # ggdibbler
 #' ggplot(uncertain_df, aes(x=trt, y=outcome)) + geom_col_sample()
 #' 
-#' # make dataframe
-#' df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
-#' uncertain_df <-  data.frame(trt = c("a", "b", "c"), 
-#'                             outcome = dist_normal(mean = c(2.3, 1.9, 3.2), 
-#'                                                   sd = c(0.5, 0.8, 0.7)))
 #' # ggplot
 #' ggplot(mpg, aes(y = class)) +
 #'   geom_bar(aes(fill = drv), position = position_stack(reverse = TRUE)) +

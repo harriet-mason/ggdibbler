@@ -1,14 +1,17 @@
 #' Ribbons and area plots with uncertainty
 #' 
-#' Identical to geom_ribbon, except that it will accept a distribution in place 
-#' of any of the usual aesthetics.
+#' Identical to geom_ribbon and geom_area, except that it will accept a 
+#' distribution in place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_ribbon
+#' @inheritParams ggplot2::geom_area
 #' @importFrom ggplot2 make_constructor GeomRibbon
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
 #' @examples
 #' library(distributional)
 #' library(dplyr)
@@ -67,11 +70,6 @@ geom_ribbon_sample <- make_constructor(ggplot2::GeomRibbon, alpha=0.9/log(times)
 
 #' @rdname geom_ribbon_sample
 #' @importFrom ggplot2 make_constructor GeomArea
-#' @inheritParams ggplot2::geom_area
-#' @param times A parameter used to control the number of values sampled from 
-#' each distribution.
-#' @param seed Set the seed for the layers random draw, allows you to plot the
-#' same draw across multiple layers.
 #' @export
 geom_area_sample <- make_constructor(ggplot2::GeomArea, stat = "align_sample",
                                      times=10, seed = NULL, alpha=1/log(times), 

@@ -6,10 +6,13 @@
 #' @importFrom ggplot2 make_constructor GeomText
 #' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::geom_text
+#' @inheritParams ggplot2::geom_label 
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
 #' 
 #' @examples
 #' library(ggplot2)

@@ -4,11 +4,14 @@
 #' place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_violin
+#' @inheritParams ggplot2::stat_ydensity
 #' @importFrom ggplot2 make_constructor GeomViolin
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
 #' 
 #' @examples
 #' library(ggplot2)

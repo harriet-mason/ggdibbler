@@ -63,8 +63,8 @@ p1 <- ggplot(recent, aes(date, unemploy)) +
   geom_point() +
   ggtitle("ggplot2")
 p2 <- ggplot(uncertain_recent, aes(date, unemploy)) + 
-  geom_line_sample(alpha=0.5)+ 
-  geom_point_sample(alpha=0.5) +
+  geom_line_sample(alpha=0.5, seed=5)+ 
+  geom_point_sample(alpha=0.5, seed=5) +
   ggtitle("ggdibbler")
 p1 + p2
 ```
@@ -103,13 +103,21 @@ Of course, you can also set the fill to be a second independent draw from the pr
 The reality is, distribution variables are "slippery" in a way that deterministic variables are not. They do not have a set value, so if their position on the x axis is not set by the sample outcome.... what are they set by? The reality, is, if you want the random variables anchored to something, YOU need to decide what to anchor them to. You need to decide what your random variables are conditional on. If you want them conditional on the *deterministic* final predicted value, you need to do that. Here is an example where they are anchored to the ground truth value and we colour by the prediction.
 
 ```{r}
-ggplot(diamonds_pred, aes(x=cut_true)) +
+
+p1 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar()
 
-ggplot(diamonds_pred, aes(x=cut_true)) +
+p2 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, 
                   position= "stack_dodge") +
   scale_fill_brewer(palette = "Set1")
+
+p3 <- ggplot(diamonds_pred, aes(x=cut_true)) +
+  geom_bar_sample(aes(fill= cut_pred), times=100, alpha=0.1,
+                  position= "stack_identity") +
+  scale_fill_brewer(palette = "Set1")
+
+p1 | p2 | p3
 
 ```
 

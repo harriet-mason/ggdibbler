@@ -92,7 +92,7 @@ p11 <- ggplot(uncertain_mpg, aes(class)) +
 
 
 # Nested position examples
-```{r}
+```{r, eval=FALSE}
 ggplot(smaller_diamonds, aes(carat, after_stat(count), fill = cut)) +
   geom_density(aes(colour=cut), position = "stack") #ggplot
 ggplot(smaller_uncertain_diamonds, aes(carat, after_stat(count), fill = cut)) +
@@ -102,26 +102,26 @@ ggplot(smaller_uncertain_diamonds, aes(carat, after_stat(count), fill = cut)) +
         palette.colour.discrete = "viridis")
 ```
 
-```{r}
-# # If you want to dodge bars and errorbars, you need to manually
-# # specify the dodge width
-# # ggplot
+```{r, eval=FALSE}
+# If you want to dodge bars and errorbars, you need to manually
+# specify the dodge width
+# ggplot
 p <- ggplot(df, aes(trt, resp, fill = group))
 p +
   geom_col(position = "dodge") +
   geom_errorbar(aes(ymin = lower, ymax = upper), position = "dodge", width = 0.25)
-# # NEED NESTED POSITION - POSITION_DODGE_IDENTITY OR EVEN POSITION_DODGE_DODGE
-# # THIS DOES POSITION_DODGE_DODGE THE OTHER WAY AROUND (MAIN PLOT INSIDE OF DIST)
-# # ggdibbler
+# NEED NESTED POSITION - POSITION_DODGE_IDENTITY OR EVEN POSITION_DODGE_DODGE
+# THIS DOES POSITION_DODGE_DODGE THE OTHER WAY AROUND (MAIN PLOT INSIDE OF DIST)
+# ggdibbler
 q <- ggplot(uncertain_df, aes(trt, resp, fill = group))
 q +
   geom_col_sample(position = "dodge_identity") +
   geom_errorbar_sample(aes(ymin = lower, ymax = upper), 
                        position = "dodge_identity", width = 0.25)
 # 
-# # Because the bars and errorbars have different widths
-# # we need to specify how wide the objects we are dodging are
-# # ggplot
+# Because the bars and errorbars have different widths
+# we need to specify how wide the objects we are dodging are
+# ggplot
 dodge <- position_dodge(width=0.9)
 dodge2 <- position_dodge_identity(width=0.9)
 p +

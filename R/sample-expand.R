@@ -9,8 +9,10 @@
 #' @importFrom tibble rowid_to_column
 #' @importFrom tidyr unnest_longer
 #' @param data Distribution dataset to expand into samples
-#' @param times The number of values sampled from each distribution in the data set.
-#' @examples
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to get the
+#' same draw from repeated sample_expand calls
 #' sample_expand(uncertain_mpg, times=10)
 #' @export
 sample_expand <- function(data, times=10, seed=NULL){ 
