@@ -46,6 +46,8 @@ Suggests:
     mgcv,
     fable,
     gganimate,
+    tidyverse,
+    tidygraph,
     conmat,
     patchwork
 VignetteBuilder: 
