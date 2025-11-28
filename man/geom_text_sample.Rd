@@ -12,6 +12,8 @@ geom_label_sample(
   position = "nudge",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   parse = FALSE,
   label.padding = unit(0.25, "lines"),
   label.r = unit(0.15, "lines"),
@@ -30,6 +32,8 @@ geom_text_sample(
   position = "nudge",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   parse = FALSE,
   check_overlap = FALSE,
   size.unit = "mm",
@@ -113,7 +117,11 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{parse}{If \code{TRUE}, the labels will be parsed into expressions and
 displayed as described in \code{?plotmath}.}
@@ -152,35 +160,28 @@ supported by \code{geom_label()}.}
 A ggplot2 geom representing a point_sample which can be added to a ggplot object
 }
 \description{
-Identical to geom_text, except that it will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_text and geom_label except that it will accept a 
+distribution in place of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
 
 p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars)))
-p + geom_text() # ggplot example
-
-# note: categories are determnistic as they are row names
 q <- ggplot(uncertain_mtcars, aes(wt, mpg, label = rownames(uncertain_mtcars)))
-q + geom_text_sample(times=10) #ggdibbler
 
-# Avoid overlaps
-p + geom_text(check_overlap = TRUE) #ggplot
-q + geom_text_sample(check_overlap = TRUE) #ggdibbler
-
+# Text example
+p + geom_text() # ggplot 
+q + geom_text_sample(times=3) #ggdibbler
 # Labels with background
 p + geom_label() #ggplot
-q + geom_label_sample(times=10) #ggdibbler
+q + geom_label_sample(times=3) #ggdibbler
 
-# Change size of the label
-p + geom_text(size = 10) #ggplot
-q + geom_text_sample(size = 10) #ggdibbler
+# Random text with constant position (harder to read signal supression)
+# ggplot
+ggplot(mtcars, aes(wt, mpg, label = cyl)) +
+ geom_text(size=6)
+# ggdibbler
+ggplot(uncertain_mtcars, aes(mean(wt), mean(mpg), lab = cyl)) +
+ geom_text_sample(aes(label = after_stat(lab)), size=6)
 
-# Set aesthetics to fixed value
-p +
-  geom_point() +
-  geom_text(hjust = 0, nudge_x = 0.05) #ggplot
-q +
-  geom_point_sample() +
-  geom_text_sample(hjust = 0, nudge_x = 0.05, times=1) #ggplot
 }

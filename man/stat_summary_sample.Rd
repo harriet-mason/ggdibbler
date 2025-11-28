@@ -16,7 +16,8 @@ stat_summary_bin_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 2/times,
+  alpha = 1/log(times),
+  seed = NULL,
   fun = NULL,
   bins = 30,
   binwidth = NULL,
@@ -39,7 +40,8 @@ stat_summary_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 2/times,
+  alpha = 1/log(times),
+  seed = NULL,
   fun = NULL,
   na.rm = FALSE,
   show.legend = NA,
@@ -124,6 +126,9 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
 \item{bins}{Number of bins. Overridden by \code{binwidth}. Defaults to 30.}
 
 \item{binwidth}{The width of the bins. Can be specified as a numeric value
@@ -165,24 +170,14 @@ place of any of the usual aesthetics.
 library(ggplot2)
 library(distributional)
 d <- ggplot(mtcars, aes(cyl, mpg)) + geom_point()
-d + stat_summary(fun.data = "mean_cl_boot", colour = "red")
-
-b  <- ggplot(uncertain_mtcars, aes(cyl, mpg)) + geom_point_sample()
-b + stat_summary_sample(fun.data = "mean_cl_boot", alpha=0.5,
-                        colour = "red")
+b  <- ggplot(uncertain_mtcars, aes(cyl, mpg)) + geom_point_sample(seed=4)
 
 d + stat_summary(fun = "median", colour = "red", geom = "point")
 b + stat_summary_sample(fun = "median", colour = "red", geom = "point")
 
 d + aes(colour = factor(vs)) + stat_summary(fun = mean, geom="line")
 b + aes(colour = dist_transformed(vs, factor, as.numeric)) + 
-  stat_summary_sample(fun = mean, geom="line") +
+  stat_summary_sample(fun = mean, geom="line", seed=4) +
   labs(colour = "factor(vs)")
-  
-ggplot(smaller_diamonds, aes(carat, price)) +
-  stat_summary_bin(fun = "mean", geom = "bar", orientation = 'y')
-  
-ggplot(smaller_uncertain_diamonds, aes(carat, price)) +
-  stat_summary_bin_sample(fun = "mean", geom = "bar", orientation = 'y')
 }
 \keyword{datasets}

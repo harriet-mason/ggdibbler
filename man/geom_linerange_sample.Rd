@@ -12,20 +12,20 @@
 geom_crossbar_sample(
   mapping = NULL,
   data = NULL,
-  times = 10,
   stat = "identity_sample",
   position = "identity",
   ...,
-  middle.colour = NULL,
-  middle.color = NULL,
-  middle.linetype = NULL,
-  middle.linewidth = NULL,
-  box.colour = NULL,
-  box.color = NULL,
-  box.linetype = NULL,
-  box.linewidth = NULL,
-  na.rm = FALSE,
+  times = 10,
   orientation = NA,
+  alpha = 0.5/log(times),
+  seed = NULL,
+  lineend = "butt",
+  linejoin = "mitre",
+  fatten = 2.5,
+  width = NULL,
+  middle_gp = NULL,
+  box_gp = NULL,
+  na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -38,6 +38,8 @@ geom_errorbar_sample(
   ...,
   times = 10,
   orientation = NA,
+  alpha = 1/log(times),
+  seed = NULL,
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
@@ -52,6 +54,8 @@ geom_linerange_sample(
   ...,
   times = 10,
   orientation = NA,
+  alpha = 0.5/log(times),
+  seed = NULL,
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
@@ -66,6 +70,8 @@ geom_pointrange_sample(
   ...,
   times = 10,
   orientation = NA,
+  alpha = 1/log(times),
+  seed = NULL,
   lineend = "butt",
   fatten = 4,
   na.rm = FALSE,
@@ -93,8 +99,6 @@ A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
-
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
 
 \item{stat}{The statistical transformation to use on the data for this layer.
 When using a \verb{geom_*()} function to construct a layer, the \code{stat}
@@ -150,19 +154,25 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{middle.colour, middle.color, middle.linetype, middle.linewidth}{Default aesthetics for the middle line. Set to \code{NULL} to inherit from the
-data's aesthetics.}
-
-\item{box.colour, box.color, box.linetype, box.linewidth}{Default aesthetics for the boxes. Set to \code{NULL} to inherit from the
-data's aesthetics.}
-
-\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
-a warning. If \code{TRUE}, missing values are silently removed.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
 
 \item{orientation}{The orientation of the layer. The default (\code{NA})
 automatically determines the orientation from the aesthetic mapping. In the
 rare event that this fails it can be given explicitly by setting \code{orientation}
 to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
+\item{lineend}{Line end style (round, butt, square).}
+
+\item{fatten}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}  A multiplicative factor
+used to increase the size of the middle bar in \code{geom_crossbar()} and the
+middle point in \code{geom_pointrange()}.}
+
+\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
+a warning. If \code{TRUE}, missing values are silently removed.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -176,22 +186,18 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
-
-\item{lineend}{Line end style (round, butt, square).}
-
-\item{fatten}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}  A multiplicative factor
-used to increase the size of the middle bar in \code{geom_crossbar()} and the
-middle point in \code{geom_pointrange()}.}
 }
 \description{
-Identical to geom_linerange, geom_errorbar, geom_crossbar, and geom_pointrange
-except that they will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_linerange, geom_errorbar, geom_crossbar, and 
+geom_pointrange except that they will accept a distribution in place of 
+any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
 library(dplyr)
 library(distributional)
 # Create a simple example dataset
+
 df <- data.frame(
   trt = factor(c(1, 1, 2, 2)),
   resp = c(1, 5, 3, 4),
@@ -199,7 +205,6 @@ df <- data.frame(
   upper = c(1.1, 5.3, 3.3, 4.2),
   lower = c(0.8, 4.6, 2.4, 3.6)
 )
-
 
 uncertain_df <- df |>
   group_by(trt, group) |>
@@ -212,15 +217,14 @@ p <- ggplot(df, aes(trt, resp, colour = group))
 q <- ggplot(uncertain_df, aes(trt, resp, colour = group))
 
 # ggplot
-p + geom_linerange(aes(ymin = lower, ymax = upper))
+p + geom_linerange(aes(ymin = lower, ymax = upper), linewidth=4)
 #ggdibbler
-q + geom_linerange_sample(aes(ymin = lower, ymax = upper), , alpha=0.7,
-                          position=position_jitter(height=0, width=0.05))
+q + geom_linerange_sample(aes(ymin = lower, ymax = upper), linewidth=4)
 
 # ggplot
 p + geom_pointrange(aes(ymin = lower, ymax = upper))
 # ggdibbler
-q + geom_pointrange_sample(aes(ymin = lower, ymax = upper), alpha= 0.3,) 
+q + geom_pointrange_sample(aes(ymin = lower, ymax = upper)) 
 
 # ggplot
 p + geom_crossbar(aes(ymin = lower, ymax = upper), width = 0.2)
@@ -231,23 +235,4 @@ q + geom_crossbar_sample(aes(ymin = lower, ymax = upper), width = 0.2)
 p + geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2)
 # ggdibbler
 q + geom_errorbar_sample(aes(ymin = lower, ymax = upper), width = 0.2)
-
-# Flip the orientation by changing mapping
-# ggplot
-ggplot(df, aes(resp, trt, colour = group)) +
-  geom_linerange(aes(xmin = lower, xmax = upper))
-# ggdibbler
-ggplot(uncertain_df, aes(resp, trt, colour = group)) +
-  geom_linerange_sample(aes(xmin = lower, xmax = upper), alpha=0.7,
-                        position=position_jitter(height=0.05, width=0))
-
-# Draw lines connecting group means
-# ggplot
-p +
-  geom_line(aes(group = group)) +
-  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2)
-# ggdibbler
-q +
-  geom_line_sample(aes(group = group), alpha=0.5) +
-  geom_errorbar_sample(aes(ymin = lower, ymax = upper), width = 0.2, alpha=0.5)
 }

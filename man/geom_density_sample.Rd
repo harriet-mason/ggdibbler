@@ -3,7 +3,7 @@
 \name{geom_density_sample}
 \alias{geom_density_sample}
 \alias{stat_density_sample}
-\title{Visualise Densities with Uncertainty}
+\title{Visualise densities with Uncertainty}
 \usage{
 geom_density_sample(
   mapping = NULL,
@@ -13,6 +13,8 @@ geom_density_sample(
   ...,
   times = 10,
   outline.type = "upper",
+  alpha = 1/log(times),
+  seed = NULL,
   lineend = "butt",
   linejoin = "round",
   linemitre = 10,
@@ -24,14 +26,19 @@ geom_density_sample(
 stat_density_sample(
   mapping = NULL,
   data = NULL,
-  stat = "density_sample",
-  position = "identity",
+  geom = "area",
+  position = "stack_identity",
   ...,
+  orientation = NA,
+  seed = NULL,
   times = 10,
-  lineend = "butt",
-  linejoin = "round",
-  linemitre = 10,
-  outline.type = "both",
+  alpha = 1/log(times),
+  bw = "nrd0",
+  adjust = 1,
+  kernel = "gaussian",
+  n = 512,
+  trim = FALSE,
+  bounds = c(-Inf, Inf),
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -99,11 +106,15 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of samples}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
 
 \item{outline.type}{Type of the outline of the area; \code{"both"} draws both the
 upper and lower lines, \code{"upper"}/\code{"lower"} draws the respective lines only.
 \code{"full"} draws a closed polygon around the area.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -126,10 +137,49 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
+\item{geom, stat}{Use to override the default connection between
+\code{geom_density()} and \code{stat_density()}. For more information about
+overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
+\link[ggplot2:layer_geoms]{geom} arguments work.}
+
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
+
+\item{bw}{The smoothing bandwidth to be used.
+If numeric, the standard deviation of the smoothing kernel.
+If character, a rule to choose the bandwidth, as listed in
+\code{\link[stats:bandwidth]{stats::bw.nrd()}}. Note that automatic calculation of the bandwidth does
+not take weights into account.}
+
+\item{adjust}{A multiplicate bandwidth adjustment. This makes it possible
+to adjust the bandwidth while still using the a bandwidth estimator.
+For example, \code{adjust = 1/2} means use half of the default bandwidth.}
+
+\item{kernel}{Kernel. See list of available kernels in \code{\link[=density]{density()}}.}
+
+\item{n}{number of equally spaced points at which the density is to be
+estimated, should be a power of two, see \code{\link[=density]{density()}} for
+details}
+
+\item{trim}{If \code{FALSE}, the default, each density is computed on the
+full range of the data. If \code{TRUE}, each density is computed over the
+range of that group: this typically means the estimated x values will
+not line-up, and hence you won't be able to stack density values.
+This parameter only matters if you are displaying multiple densities in
+one plot or if you are manually adjusting the scale limits.}
+
+\item{bounds}{Known lower and upper bounds for estimated data. Default
+\code{c(-Inf, Inf)} means that there are no (finite) bounds. If any bound is
+finite, boundary effect of default density estimation will be corrected by
+reflecting tails outside \code{bounds} around their closest edge. Data points
+outside of bounds are removed with a warning.}
 }
 \description{
-Identical to geom_density, except that the fill for each density will be represented by
-a sample from each distribution.
+Identical to geom_density, except that the fill for each density will be 
+represented by a sample from each distribution.
 }
 \examples{
 library(ggplot2)
@@ -140,34 +190,9 @@ ggplot(smaller_diamonds, aes(carat)) + geom_density()
 # GGDIBBLER
 ggplot(smaller_uncertain_diamonds, aes(carat)) + geom_density_sample()
 
-# Flipped orientation
-# GGPLOT
-ggplot(smaller_diamonds, aes(y = carat)) +
-  geom_density()
-# GGDIBBLER
-ggplot(smaller_uncertain_diamonds, aes(y = carat)) +
-  geom_density_sample()
-
-# Adjust smoothness
-#GGPLOT
-ggplot(smaller_diamonds, aes(carat)) +
-  geom_density(adjust = 1/5)
-#GGDIBBLER
-ggplot(smaller_uncertain_diamonds, aes(carat)) +
-  geom_density_sample(adjust = 1/5)
-# ggplot
-ggplot(smaller_diamonds, aes(depth, colour = cut)) +
-  geom_density_sample() +
-  xlim(55, 70)
-# ggdibbler
-ggplot(smaller_uncertain_diamonds, aes(depth, colour = cut)) +
-  geom_density_sample() +
-  scale_x_continuous_distribution(limits=c(55, 70)) + #' ggdibbler does not have an xlim (yet)
-  theme(palette.colour.discrete = "viridis") #' bug: random variables have different colour
-
 # ggplot
 ggplot(smaller_diamonds, aes(depth, fill = cut, colour = cut)) +
-  geom_density(alpha = 0.1) +
+  geom_density(alpha = 0.7) +
   xlim(55, 70)
 # ggdibbler
 ggplot(smaller_uncertain_diamonds, aes(depth, fill = cut)) +
@@ -176,16 +201,5 @@ ggplot(smaller_uncertain_diamonds, aes(depth, fill = cut)) +
   theme(palette.colour.discrete = "viridis",
         palette.fill.discrete = "viridis") #' bug: random variables have different colour
 
-# Use `bounds` to adjust computation for known data limits
-big_diamonds <- smaller_diamonds[smaller_diamonds$carat >= 1, ]
-big_uncertain_diamonds <- smaller_uncertain_diamonds[smaller_diamonds$carat >= 1, ]
-# ggplot
-ggplot(big_diamonds, aes(carat)) +
-  geom_density(color = 'red') +
-  geom_density(bounds = c(1, Inf), color = 'blue')
-# ggplot
-ggplot(big_uncertain_diamonds, aes(carat)) +
-  geom_density_sample(color = 'red') +
-  geom_density_sample(bounds = c(1, Inf), color = 'blue')
   
 }

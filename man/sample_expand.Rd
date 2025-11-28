@@ -4,7 +4,7 @@
 \alias{sample_expand}
 \title{Simulate outcomes from dibble to make a tibble}
 \usage{
-sample_expand(data, times = 10)
+sample_expand(data, times = 10, seed = NULL)
 }
 \arguments{
 \item{data}{Distribution dataset to expand into samples}

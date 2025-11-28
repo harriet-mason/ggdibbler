@@ -11,6 +11,8 @@ geom_polygon_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 0.5/log(times),
+  seed = NULL,
   rule = "evenodd",
   lineend = "butt",
   linejoin = "round",
@@ -95,7 +97,11 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{rule}{Either \code{"evenodd"} or \code{"winding"}. If polygons with holes are
 being drawn (using the \code{subgroup} aesthetic) this argument defines how the
@@ -125,7 +131,8 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 }
 \description{
-Identical to geom_polygon, except that it will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_polygon, except that it will accept a distribution in 
+place of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
@@ -162,23 +169,5 @@ q <- ggplot(uncertain_datapoly, aes(x = x, y = y)) +
   geom_polygon_sample(aes(fill = value, group = id), alpha=0.2)
 q
 
-#' Which seems like a lot of work, but then it's easy to add on
-#' other features in this coordinate system, e.g.:
-
-set.seed(1)
-stream <- data.frame(
-  x = cumsum(runif(50, max = 0.1)),
-  y = cumsum(runif(50,max = 0.1))
-)
-
-uncertain_stream <- stream |>
-mutate(x = dist_normal(x, 0.1),
-       y = dist_normal(y, 0.1))
-
-# adding deterministic line
-p + geom_line(data = stream, colour = "grey30", linewidth = 5)
-q + geom_line(data = stream, colour = "grey30", linewidth = 5)
-# adding random line
-q + geom_line_sample(data = uncertain_stream, colour = "grey30", linewidth = 1)
 
 }

@@ -13,6 +13,8 @@ stat_identity_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -93,7 +95,11 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}

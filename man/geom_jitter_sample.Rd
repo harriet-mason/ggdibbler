@@ -14,6 +14,7 @@ geom_jitter_sample(
   height = NULL,
   na.rm = FALSE,
   times = 10,
+  seed = NULL,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -105,7 +106,11 @@ data so it's not possible to see the distinction between the categories.}
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -121,26 +126,25 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 }
 \description{
-Identical to geom_jitter, except that it will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_jitter, except that it will accept a distribution in place
+ of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
 
 # ggplot
 p <- ggplot(mpg, aes(cyl, hwy)) #ggplot
-p + geom_point()
-p + geom_jitter()
-
-# ggdibbler
 q <- ggplot(uncertain_mpg, aes(cyl, hwy)) #ggdibbler
+p + geom_point()
 q + geom_point_sample(times=10) 
+
+# ggplot
+p + geom_jitter()
+# ggdibbler
 q + geom_jitter_sample(times=10)
 
 # Add aesthetic mappings
 p + geom_jitter(aes(colour = class)) #ggplot
 p + geom_jitter_sample(aes(colour = class)) #ggdibler
 
-# Use smaller width/height to emphasise categories
-p + geom_jitter(width = 0.2) # ggplot
-q + geom_jitter_sample(width = 0.2, times=10) # ggdibbler
 }

@@ -17,6 +17,7 @@ geom_freqpoly_sample(
   ...,
   na.rm = FALSE,
   times = 10,
+  seed = NULL,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -25,9 +26,10 @@ geom_histogram_sample(
   mapping = NULL,
   data = NULL,
   stat = "bin_sample",
-  position = "identity",
+  position = "stack_dodge",
   ...,
   times = 10,
+  seed = NULL,
   binwidth = NULL,
   bins = NULL,
   orientation = NA,
@@ -42,10 +44,12 @@ stat_bin_sample(
   mapping = NULL,
   data = NULL,
   geom = "bar",
-  position = "identity",
+  position = "stack_identity",
   ...,
   times = 10,
   orientation = NA,
+  alpha = 1/log(times),
+  seed = NULL,
   binwidth = NULL,
   bins = NULL,
   center = NULL,
@@ -126,6 +130,9 @@ a warning. If \code{TRUE}, missing values are silently removed.}
 
 \item{times}{A parameter used to control the number of values sampled from each distribution.}
 
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.
@@ -205,32 +212,9 @@ ggplot(smaller_diamonds, aes(carat)) +
   geom_histogram()
 # ggdibbler
 ggplot(smaller_uncertain_diamonds, aes(carat)) +
-  geom_histogram_sample(alpha=0.1) #' alpha
+  geom_histogram_sample() #' alpha
 ggplot(smaller_uncertain_diamonds, aes(carat)) +
-  geom_histogram_sample(position="dodge") #' dodge
-
-# ggplot
-ggplot(smaller_diamonds, aes(carat)) +
-  geom_histogram(binwidth = 0.01)
-# ggdibbler
-ggplot(smaller_uncertain_diamonds, aes(carat)) +
-  geom_histogram_sample(binwidth = 0.01, alpha=0.2)
-
-# ggplot
-ggplot(smaller_diamonds, aes(carat)) +
-  geom_histogram(bins = 200)
-# ggdibbler
-ggplot(smaller_uncertain_diamonds, aes(carat)) +
-  geom_histogram_sample(bins = 200, alpha=0.2)
-
-
-# Map values to y to flip the orientation
-# ggplot
-ggplot(smaller_diamonds, aes(y = carat)) +
-  geom_histogram()
-# ggdibbler
-ggplot(smaller_uncertain_diamonds, aes(y = carat)) +
-  geom_histogram_sample(alpha=0.2)
+  geom_histogram_sample(position="identity_dodge", alpha=1) 
 
 # ggplot
 ggplot(smaller_diamonds, aes(price, colour = cut)) +
@@ -238,27 +222,14 @@ ggplot(smaller_diamonds, aes(price, colour = cut)) +
 # ggdibbler
 ggplot(smaller_uncertain_diamonds, aes(price, colour = cut)) +
   geom_freqpoly_sample(binwidth = 500, alpha=0.5)
-
-# To make it easier to compare distributions with very different counts,
-# put density on the y axis instead of the default count
-# ggplot
-ggplot(smaller_diamonds, aes(price, after_stat(density), colour = cut)) +
-  geom_freqpoly(binwidth = 500)
+ 
+# ggplot2
+ggplot(smaller_diamonds, aes(price, fill = cut)) +
+  geom_histogram(binwidth = 500)
 # ggdibbler
-ggplot(smaller_uncertain_diamonds, aes(price, after_stat(density), colour = cut)) +
-  geom_freqpoly_sample(binwidth = 500, alpha=0.5)
+ggplot(smaller_uncertain_diamonds, aes(price, fill = cut)) +
+ geom_histogram_sample(binwidth = 500, alpha=0.1)
 
-# You can specify a function for calculating binwidth, which is
-# particularly useful when faceting along variables with
-# different ranges because the function will be called once per facet
-# ggplot
-ggplot(economics_long, aes(value)) +
-  facet_wrap(~variable, scales = 'free_x') +
-  geom_histogram(binwidth = \(x) 2 * IQR(x) / (length(x)^(1/3)))
-# ggdibbler
-ggplot(uncertain_economics_long, aes(value)) +
-  facet_wrap(~variable, scales = 'free_x') +
-  geom_histogram_sample(binwidth = \(x) 2 * IQR(x) / (length(x)^(1/3)), 
-                        alpha=0.2)
+
 }
 \keyword{datasets}

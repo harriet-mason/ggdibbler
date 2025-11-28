@@ -13,7 +13,8 @@ stat_manual_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 2/times,
+  alpha = 1/log(times),
+  seed = NULL,
   fun = identity,
   args = list(),
   na.rm = FALSE,
@@ -98,6 +99,9 @@ lists which parameters it can accept.
 
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{fun}{Function that takes a data frame as input and returns a data
 frame or data frame-like list as output. The default (\code{identity()}) returns

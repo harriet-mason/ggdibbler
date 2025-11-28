@@ -13,8 +13,8 @@ stat_ellipse_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.7,
-  linewidth = 3/times,
+  alpha = 1/log(times),
+  seed = NULL,
   type = "t",
   level = 0.95,
   segments = 51,
@@ -101,6 +101,9 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
 \item{type}{The type of ellipse.
 The default \code{"t"} assumes a multivariate t-distribution, and
 \code{"norm"} assumes a multivariate normal distribution.
@@ -148,14 +151,12 @@ ggplot(uncertain_faithful, aes(waiting, eruptions)) +
 # ggplot
 ggplot(faithful, aes(waiting, eruptions, color = eruptions > 3)) +
   geom_point() +
-  stat_ellipse(type = "norm", linetype = 2) +
   stat_ellipse(type = "t")
 # ggdibbler
 ggplot(uncertain_faithful,
        aes(waiting, eruptions,
            color = dist_transformed(eruptions,function(x) x > 3, identity))) +
   geom_point_sample() +
-  stat_ellipse_sample(type = "norm", linetype = 2) +
   stat_ellipse_sample(type = "t") +
   labs(colour = "eruptions > 3")
 

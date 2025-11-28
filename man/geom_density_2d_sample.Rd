@@ -20,6 +20,7 @@ geom_density_2d_sample(
   position = "identity",
   ...,
   times = 10,
+  seed = NULL,
   contour_var = "density",
   lineend = "butt",
   linejoin = "round",
@@ -36,6 +37,7 @@ geom_density_2d_filled_sample(
   position = "identity",
   ...,
   times = 10,
+  seed = NULL,
   contour_var = "density",
   na.rm = FALSE,
   show.legend = NA,
@@ -51,6 +53,8 @@ stat_density_2d_sample(
   contour = TRUE,
   contour_var = "density",
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   h = NULL,
   adjust = c(1, 1),
   n = 100,
@@ -68,6 +72,8 @@ stat_density_2d_filled_sample(
   contour = TRUE,
   contour_var = "density",
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   h = NULL,
   adjust = c(1, 1),
   n = 100,
@@ -127,7 +133,11 @@ Overrides \code{binwidth} and \code{bins}. By default, this is a vector of lengt
 ten with \code{\link[=pretty]{pretty()}} breaks.}
   }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{contour_var}{Character string identifying the variable to contour
 by. Can be one of \code{"density"}, \code{"ndensity"}, or \code{"count"}. See the section
@@ -199,15 +209,6 @@ n + geom_density_2d_sample(linewidth=2/10, alpha=0.5)
 m + geom_density_2d_filled(alpha = 0.5)
 # ggdibbler
 n + geom_density_2d_filled_sample(alpha = 0.1)
-
-
-# contour bands and contour lines
-# ggplot
-m + geom_density_2d_filled(alpha = 0.5) +
-  geom_density_2d(linewidth = 0.25, colour = "black")
-# ggdibbler
-n + geom_density_2d_filled_sample(alpha = 0.1) +
-  geom_density_2d_sample(linewidth = 0.2, colour = "black", alpha=0.5)
 
 }
 \keyword{datasets}

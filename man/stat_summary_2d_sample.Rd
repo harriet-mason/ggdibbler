@@ -16,6 +16,7 @@ stat_summary_2d_sample(
   position = "identity_dodge",
   ...,
   times = 10,
+  seed = NULL,
   binwidth = NULL,
   bins = 30,
   breaks = NULL,
@@ -37,7 +38,8 @@ stat_summary_hex_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 2/times,
+  alpha = 1/log(times),
+  seed = NULL,
   binwidth = NULL,
   bins = 30,
   drop = TRUE,
@@ -126,6 +128,9 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
 \item{binwidth}{The width of the bins. Can be specified as a numeric value
 or as a function that takes x after scale transformation as input and
 returns a single numeric value. When specifying a function along with a
@@ -192,10 +197,6 @@ d + stat_summary_2d()
 b <- ggplot(smaller_uncertain_diamonds, 
             aes(carat, depth, z = price))
 b + stat_summary_2d_sample()
-
-# Specifying function
-d + stat_summary_2d(fun = \(x) sum(x^2))
-b + stat_summary_2d_sample(fun = \(x) sum(x^2))
 
 # summary_hex
 d + stat_summary_hex(fun = ~ sum(.x^2))

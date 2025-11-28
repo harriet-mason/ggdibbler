@@ -17,6 +17,8 @@ geom_qq_line_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   distribution = stats::qnorm,
   dparams = list(),
   line.p = c(0.25, 0.75),
@@ -33,6 +35,8 @@ stat_qq_line_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   distribution = stats::qnorm,
   dparams = list(),
   line.p = c(0.25, 0.75),
@@ -49,6 +53,8 @@ geom_qq_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   distribution = stats::qnorm,
   dparams = list(),
   na.rm = FALSE,
@@ -63,6 +69,8 @@ stat_qq_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   distribution = stats::qnorm,
   dparams = list(),
   na.rm = FALSE,
@@ -145,7 +153,11 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{distribution}{Distribution function to use, if x not specified}
 
@@ -190,24 +202,8 @@ p + stat_qq() + stat_qq_line()
 
 # ggdibbler
 q <- ggplot(uncertain_df, aes(sample = y))
-q + stat_qq_sample(alpha=0.2, size=0.5) + 
-  stat_qq_line_sample(alpha=0.2, linewidth=0.5)
-
-q + geom_qq_sample(alpha=0.2, size=0.5) + 
-  geom_qq_line_sample(alpha=0.2, linewidth=0.5)
-
-# Here, we use pre-computed params
-# ggplot
-params <- list(m = -0.02505057194115, s = 1.122568610124, df = 6.63842653897)
-ggplot(df, aes(sample = y)) +
-  stat_qq(distribution = qt, dparams = params["df"]) +
-  stat_qq_line(distribution = qt, dparams = params["df"])
-# ggdibbler
-ggplot(uncertain_df, aes(sample = y)) +
-  stat_qq_sample(distribution = qt, alpha=0.2,
-                 dparams = params["df"]) +
-  stat_qq_line_sample(distribution = qt, alpha=0.2,
-                      dparams = params["df"])
+q + stat_qq_sample() + 
+  stat_qq_line_sample()
 
 # Using to explore the distribution of a variable
 # ggplot
@@ -216,7 +212,7 @@ ggplot(mtcars, aes(sample = mpg)) +
   stat_qq_line()
 # ggdibbler
 ggplot(uncertain_mtcars, aes(sample = mpg)) +
-  stat_qq_sample(alpha=0.2) +
-  stat_qq_line_sample(alpha=0.2)
+  stat_qq_sample() +
+  stat_qq_line_sample()
 }
 \keyword{datasets}

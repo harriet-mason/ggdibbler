@@ -13,6 +13,8 @@ stat_ecdf_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   n = NULL,
   pad = TRUE,
   na.rm = FALSE,
@@ -95,7 +97,11 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{n}{if NULL, do not interpolate. If not NULL, this is the number
 of points to interpolate with.}
@@ -150,9 +156,6 @@ ggplot(df, aes(x, colour = g)) +
   stat_ecdf()
 # ggdibbler 1
 ggplot(uncertain_df, aes(x, colour = g)) +
-  stat_ecdf_sample(alpha=0.3)
-# ggdibbler 2 with random groups
-ggplot(uncertain_df, aes(x, colour = g_pred)) +
   stat_ecdf_sample(alpha=0.3)
 }
 \keyword{datasets}

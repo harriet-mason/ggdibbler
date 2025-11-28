@@ -13,6 +13,8 @@ stat_unique_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -96,6 +98,9 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
@@ -114,21 +119,22 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 }
 \description{
 Identical to stat_unique, except that it will accept a distribution in place
- of any of the usual aesthetics.
+ of any of the usual aesthetics. Note that the values will only be unique
+ within each draw, (at the final plot level you might still have double ups).
 }
 \examples{
 # ggplot 1
 ggplot(mtcars, aes(vs, am)) +
   geom_point(alpha = 0.1)
 # ggdibbler 1
-ggplot(uncertain_mtcars2, aes(vs, am)) +
-  geom_point_sample(alpha = 0.01, size=5)
+ggplot(uncertain_mtcars, aes(vs, am)) +
+  geom_point_sample(alpha = 0.01)
 
 # ggplot 2
 ggplot(mtcars, aes(vs, am)) +
   geom_point(alpha = 0.1, stat = "unique")
 # ggdibbler 2
-ggplot(uncertain_mtcars2, aes(vs, am)) +
-  geom_point_sample(alpha = 0.1, , size=5, stat = "unique_sample")
+ggplot(uncertain_mtcars, aes(vs, am)) +
+  geom_point_sample(alpha = 0.01, stat = "unique_sample")
 }
 \keyword{datasets}

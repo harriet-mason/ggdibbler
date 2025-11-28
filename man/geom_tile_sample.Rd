@@ -5,15 +5,16 @@
 \alias{geom_raster_sample}
 \alias{geom_rect_sample}
 \alias{geom_tile_sample}
-\title{Rectangles with Uncertainty}
+\title{Plot rectangles with uncertainty}
 \usage{
 geom_raster_sample(
   mapping = NULL,
   data = NULL,
   stat = "identity_sample",
-  position = "dodge",
+  position = "identity_dodge",
   ...,
   times = 10,
+  seed = NULL,
   interpolate = FALSE,
   hjust = 0.5,
   vjust = 0.5,
@@ -29,6 +30,8 @@ geom_rect_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   lineend = "butt",
   linejoin = "mitre",
   na.rm = FALSE,
@@ -40,9 +43,10 @@ geom_tile_sample(
   mapping = NULL,
   data = NULL,
   stat = "identity_sample",
-  position = "identity",
+  position = "identity_dodge",
   ...,
   times = 10,
+  seed = NULL,
   lineend = "butt",
   linejoin = "mitre",
   na.rm = FALSE,
@@ -125,7 +129,11 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{interpolate}{If \code{TRUE} interpolate linearly, if \code{FALSE}
 (the default) don't interpolate.}
@@ -155,37 +163,21 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 \item{linejoin}{Line join style (round, mitre, bevel).}
 }
 \description{
-Identical to geom_tile and geom_rect, except that they will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_tile and geom_rect, except that they will accept a 
+distribution in place of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
 library(distributional)
 library(dplyr)
-# The most common use for rectangles is to draw a surface. You always want
-# to use geom_raster here because it's so much faster, and produces
-# smaller output when saving to PDF
+
+# Rasters
+#ggplot
 ggplot(faithfuld, aes(waiting, eruptions)) + 
-  geom_raster(aes(fill = density)) #ggplot
-
-# Since raster only plots once, the alpha approach for overplotting does not work
-# For this reason, we have the default position="dodge" to better see the full sample
-ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
-  geom_raster_sample(aes(fill = density)) #ggdibbler
-
-# density 2 is the same as density 1, but with a higher uncertainty
-ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
-  geom_raster_sample(aes(fill = density2)) #ggdibbler
-
-# Interpolation smooths the surface & is most helpful when rendering images.
-# ggplot
-ggplot(faithfuld, aes(waiting, eruptions)) +
-  geom_raster(aes(fill = density), interpolate = TRUE)
+  geom_raster(aes(fill = density)) 
 #ggdibbler
 ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
-  geom_raster_sample(aes(fill = density), position="dodge", interpolate = TRUE)
-#ggdibbler
-ggplot(uncertain_faithfuld, aes(waiting, eruptions)) + 
-  geom_raster_sample(aes(fill = density2), position="dodge", interpolate = TRUE) 
+  geom_raster_sample(aes(fill = density)) 
 
 # Justification controls where the cells are anchored
 df <- expand.grid(x = 0:5, y = 0:5)
@@ -204,99 +196,44 @@ ggplot(df, aes(x, y, fill = z)) +
 ggplot(uncertain_df, aes(x, y, fill = z)) +
   geom_raster_sample()
 
-# zero padding
-# ggplot
-ggplot(df, aes(x, y, fill = z)) +
-  geom_raster(hjust = 0, vjust = 0)
-# ggdibbler
-ggplot(uncertain_df, aes(x, y, fill = z)) +
-  geom_raster_sample(hjust = 0, vjust = 0)
 # If you want to draw arbitrary rectangles, use geom_tile_sample() or geom_rect_sample()
-df <- data.frame(
+tile_df <- data.frame(
   x = rep(c(2, 5, 7, 9, 12), 2),
   y = rep(c(1, 2), each = 5),
   z = factor(rep(1:5, each = 2)),
   w = rep(diff(c(0, 4, 6, 8, 10, 14)), 2)
 )
+# most likely case that only colour is random
+uncertain_tile_df <- tile_df
+uncertain_tile_df$z <- dist_transformed((1 + dist_binomial(rep(1:5, each = 2), 0.5)), factor, as.numeric)
 
 # ggplot
-ggplot(df, aes(x, y)) +
+ggplot(tile_df, aes(x, y)) +
   geom_tile(aes(fill = z), colour = "grey50")
-
-# Most likely that the positions are deterministic and the colour is random
-# deterministic x & y, random z
-uncertain_df2 <- data.frame(
-  x = rep(c(2, 5, 7, 9, 12), 2),
-  y = rep(c(1, 2), each = 5),
-  z = dist_binomial(rep(1:5, each = 2), 0.5),
-  w = rep(diff(c(0, 4, 6, 8, 10, 14)), 2)
-)
-# plot using geom_tile_sample & geom_tile
-ggplot(uncertain_df2, aes(x, y, f=z)) +
-  geom_tile_sample(aes(fill = factor(after_stat(f)+1)), position="dodge") +
+# ggdibbler
+ggplot(uncertain_tile_df, aes(x, y)) +
+  geom_tile_sample(aes(fill = z), position="identity_dodge") +
   geom_tile(fill = NA, colour = "grey50", linewidth=1) +
   labs(fill = "z")
 
-# but can also have every variable be random (as usual)
-
-# We are going to represent y as a transformed bernoulli variable
-# Not entirely necessary, we are just doing this to show you that you can
-
-logic_to_y <- function(x){
-  as.integer(x) + 1
-}
-y_to_logic <- function(x){
-  rlang::as_logical(x-1)
-}
-
-uncertain_df <- data.frame(
-  x = dist_binomial(rep(c(2, 5, 7, 9, 12), 2), 0.9),
-  y = dist_transformed(dist_bernoulli(0.4*df$y), logic_to_y , y_to_logic),
-  z = dist_binomial(rep(1:5, each = 2), 0.9),
-  w = dist_binomial(rep(diff(c(0, 4, 6, 8, 10, 14)), 2), 0.9)
-)
-
-# ggdibbler
-ggplot(uncertain_df, aes(x, y)) +
-  geom_tile_sample(aes(fill = z), colour = "grey50", alpha=0.2) 
-
-# control width with z
-# ggplot all deterministic variables
-ggplot(df, aes(x, y, width = w)) +
-  geom_tile(aes(fill = z), colour = "grey50")
-# ggdibbler case where only z is random
-# very very low uncertainty
-uncertain_df3 <- mutate(uncertain_df2, z =  dist_binomial(rep(1:5, each = 2), 0.99))
-ggplot(uncertain_df3, aes(x, y, f = z, width = w)) +
-  geom_tile_sample(aes(fill = as.factor(after_stat(f)+1)), colour = "grey50", alpha=0.2) +
-  labs(fill = "z")
-# reasonably high uncertainty
-ggplot(uncertain_df2, aes(x, y, f = z, width = w)) +
-  geom_tile_sample(aes(fill = as.factor(after_stat(f)+1)), colour = "grey50", alpha=0.2) +
-  labs(fill = "z")
-
-# ggdibbler all random variables  (yes, it looks terrible but that's what it looks like, 
-# why do you even have data like this? what is wrong with you)
-ggplot(uncertain_df, aes(x, y, f = z, width = w)) +
-  geom_tile_sample(aes(fill = as.factor(after_stat(f))), colour = "grey50", alpha=0.1)
-
-
-rect_df  <- df|>
+# Rectangles
+rect_df  <- tile_df |>
   mutate(xmin = x - w / 2,
          xmax = x + w / 2,
          ymin = y,
          ymax = y + 1)
-
+         
+uncertain_rect  <- rect_df|>
+  mutate(xmin = dist_normal(xmin, 0.5),
+         xmax = dist_normal(xmax, 0.5),
+         ymin = dist_normal(ymin, 0.5),
+         ymax = dist_normal(ymax, 0.5))
+         
+# ggplot
 ggplot(data = rect_df, 
        aes(xmin= xmin, xmax = xmax, ymin = ymin, ymax = ymax)) +
   geom_rect(aes(fill = z), colour = "grey50")
-
-uncertain_rect  <- uncertain_df2|>
-  mutate(xmin = x - w / 2,
-         xmax = x + w / 2,
-         ymin = y,
-         ymax = y + 1)
-
+# ggdibbler
 ggplot(data = uncertain_rect, 
        aes(xmin= xmin, xmax = xmax, ymin = ymin, ymax = ymax, f = z)) +
   geom_rect_sample(aes(fill = as.factor(after_stat(f))), colour = "grey50", alpha=0.2) +

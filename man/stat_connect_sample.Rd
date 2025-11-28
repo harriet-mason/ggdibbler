@@ -13,8 +13,8 @@ stat_connect_sample(
   position = "identity",
   ...,
   times = 10,
-  linewidth = 5/times,
-  alpha = 0.7,
+  alpha = 1/log(times),
+  seed = NULL,
   connection = "hv",
   na.rm = FALSE,
   show.legend = NA,
@@ -148,8 +148,8 @@ ggplot(head(economics, 10), aes(date, unemploy)) +
   geom_point()
 # ggdibbler
 ggplot(head(uncertain_economics, 10), aes(date, unemploy)) +
-  stat_connect_sample(aes(colour = "zigzag"), connection = zigzag) +
-  stat_connect_sample(aes(colour = "smooth"), connection = smooth) +
-  geom_point(data = head(economics, 10), aes(date, unemploy)) 
+  stat_connect_sample(aes(colour = "zigzag"), connection = zigzag, seed=64) +
+  stat_connect_sample(aes(colour = "smooth"), connection = smooth, seed=64) +
+  geom_point_sample(seed=64) 
 }
 \keyword{datasets}
