@@ -26,6 +26,8 @@ diamonds_pred <- diamonds_pred |>
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+**NOTE: THIS VIGNETTE IS A LITLE OUT OF DATE**
+
 `ggdibbler` produces random plots, which means each time you call a plot, it is different. This behaviour makes sense, as every plot is just one of many possible outcomes you can have when you represent a distribtion by a sample. If you are used to the deterministic behaviour of ggplot, the randomness can be offputting, although not technically incorrect. Some of these will be easily mitigated with a seed option which we plan to implement, but by default the plots are random.
 
 ## Saving plots
