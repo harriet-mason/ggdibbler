@@ -113,6 +113,9 @@ each distribution.}
 upper and lower lines, \code{"upper"}/\code{"lower"} draws the respective lines only.
 \code{"full"} draws a closed polygon around the area.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 

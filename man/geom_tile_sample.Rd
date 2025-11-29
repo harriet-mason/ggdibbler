@@ -158,6 +158,9 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{lineend}{Line end style (round, butt, square).}
 
 \item{linejoin}{Line join style (round, mitre, bevel).}
@@ -196,7 +199,8 @@ ggplot(df, aes(x, y, fill = z)) +
 ggplot(uncertain_df, aes(x, y, fill = z)) +
   geom_raster_sample()
 
-# If you want to draw arbitrary rectangles, use geom_tile_sample() or geom_rect_sample()
+# If you want to draw arbitrary rectangles, 
+# use geom_tile_sample() or geom_rect_sample()
 tile_df <- data.frame(
   x = rep(c(2, 5, 7, 9, 12), 2),
   y = rep(c(1, 2), each = 5),
@@ -205,7 +209,8 @@ tile_df <- data.frame(
 )
 # most likely case that only colour is random
 uncertain_tile_df <- tile_df
-uncertain_tile_df$z <- dist_transformed((1 + dist_binomial(rep(1:5, each = 2), 0.5)), factor, as.numeric)
+uncertain_tile_df$z <- dist_transformed((1 + dist_binomial(rep(1:5, 
+  each = 2), 0.5)), factor, as.numeric)
 
 # ggplot
 ggplot(tile_df, aes(x, y)) +
@@ -236,6 +241,7 @@ ggplot(data = rect_df,
 # ggdibbler
 ggplot(data = uncertain_rect, 
        aes(xmin= xmin, xmax = xmax, ymin = ymin, ymax = ymax, f = z)) +
-  geom_rect_sample(aes(fill = as.factor(after_stat(f))), colour = "grey50", alpha=0.2) +
+  geom_rect_sample(aes(fill = as.factor(after_stat(f))), 
+    colour = "grey50", alpha=0.2) +
   labs(fill = "z")
 }

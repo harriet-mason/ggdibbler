@@ -163,7 +163,7 @@ train_discrete_distribution <- function(
       call = call
     )
   }
-  scales:::discrete_range(existing, new, drop = drop, na.rm = na.rm, fct = fct)
+  discrete_range(existing, new, drop = drop, na.rm = na.rm, fct = fct)
 
 }
 

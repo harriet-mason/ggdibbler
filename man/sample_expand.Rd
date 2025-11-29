@@ -9,13 +9,15 @@ sample_expand(data, times = 10, seed = NULL)
 \arguments{
 \item{data}{Distribution dataset to expand into samples}
 
-\item{times}{The number of values sampled from each distribution in the data set.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to get the
+same draw from repeated sample_expand calls
+sample_expand(uncertain_mpg, times=10)}
 }
 \description{
 Simulates outcomes from all distributions in the dataset to make an "expanded" data
 set that can be intepreted by ggplot2. This can be used to debug ggdibbler plots, or
 used to make an uncertainty visualisation for a geom that doesn't exist.
-}
-\examples{
-sample_expand(uncertain_mpg, times=10)
 }

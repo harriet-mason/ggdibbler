@@ -157,6 +157,10 @@ see how the \link[ggplot2:layer_stats]{stat} and \link[ggplot2:layer_geoms]{geom
 automatically determines the orientation from the aesthetic mapping. In the
 rare event that this fails it can be given explicitly by setting \code{orientation}
 to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to set the default value to 1/log(times) to make sure the 
+repeated draws are always visible}
 }
 \description{
 Identical to geom_bar, except that it will accept a distribution in place of 
@@ -175,17 +179,17 @@ g + geom_bar() #ggplot
 q + geom_bar_sample() #ggdibbler - a
 q + geom_bar_sample(position = "identity_dodge", alpha=1) #ggdibbler - b
 
+# make dataframe
+df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
+uncertain_df <-  data.frame(trt = c("a", "b", "c"), 
+                            outcome = dist_normal(mean = c(2.3, 1.9, 3.2), 
+                                                  sd = c(0.5, 0.8, 0.7)))
 # geom_col also has a sample counterpart
 # ggplot
 ggplot(df, aes(trt, outcome)) + geom_col()
 # ggdibbler
 ggplot(uncertain_df, aes(x=trt, y=outcome)) + geom_col_sample()
 
-# make dataframe
-df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
-uncertain_df <-  data.frame(trt = c("a", "b", "c"), 
-                            outcome = dist_normal(mean = c(2.3, 1.9, 3.2), 
-                                                  sd = c(0.5, 0.8, 0.7)))
 # ggplot
 ggplot(mpg, aes(y = class)) +
   geom_bar(aes(fill = drv), position = position_stack(reverse = TRUE)) +

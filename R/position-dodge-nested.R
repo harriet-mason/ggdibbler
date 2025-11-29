@@ -40,7 +40,7 @@ position_dodge_dodge <- function(vjust = 1, reverse = FALSE, width = NULL,
 #' @export
 position_dodge_identity <- function(width = NULL, preserve = "single", orientation = "x",
                                     reverse = FALSE) {
-  ggplot2:::check_bool(reverse)
+  check_bool(reverse)
   ggproto(NULL, PositionDodgeIdentity,
           width = width,
           preserve = arg_match0(preserve, c("total", "single")),

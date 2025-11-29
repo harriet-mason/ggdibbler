@@ -136,10 +136,14 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -186,8 +190,8 @@ give the geom as \code{"point"}.
 }}
 }
 \description{
-Identical to geom_ribbon, except that it will accept a distribution in place 
-of any of the usual aesthetics.
+Identical to geom_ribbon and geom_area, except that it will accept a 
+distribution in place of any of the usual aesthetics.
 }
 \examples{
 library(distributional)

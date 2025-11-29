@@ -8,7 +8,7 @@ StatSfSample <- ggproto("StatSfSample", StatSf,
                         setup_data = function(data, params) {
                           dibble_to_tibble(data, params)
                         },
-                        # This is just here so setup_data has access to n
+                        # So setup_data has access to these variables
                         extra_params = c("na.rm", "times", "seed"),
                         
 )

@@ -99,6 +99,12 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
 \item{connection}{A specification of how two points are connected. Can be one
 of the folloing:
 \itemize{

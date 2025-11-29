@@ -63,7 +63,7 @@ get_dist_cols <- function(data){
 #' @keywords internal
 get_discrete_cols <- function(data){
   a <- names(data)[sapply(data, is_discrete)]
-  b <- names(data)[sapply(data, ggplot2:::is_mapped_discrete)]
+  b <- names(data)[sapply(data, is_mapped_discrete)]
   c(a,b)
 }
 

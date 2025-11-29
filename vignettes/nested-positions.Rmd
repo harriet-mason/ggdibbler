@@ -25,7 +25,7 @@ One of the most powerful features of `ggdibbler` is the ability to do nested pos
 
 Below is a grid of box plots. The first column is the original ggplot we are going to add uncertainty to, the second and third column is the effect of the overplotting being managed with an nested identity (with decreased alpha) and dodge positions respectively. The syntax of the nested positions is `mainposition_nestedposition`, where the main position is what was in the original ggplot, and the nested position manages the overplotting caused by sampling from the distribution. 
 
-```{r, fig.width=16, fig.height=16}
+```{r figuregrid, fig.width=16, fig.height=16}
 # ggplot IDENTITY
 p1 <- ggplot(mpg, aes(class)) + 
   geom_bar_sample(aes(fill = drv), 
@@ -92,7 +92,7 @@ p11 <- ggplot(uncertain_mpg, aes(class)) +
 
 
 # Nested position examples
-```{r, eval=FALSE}
+```{r nestedexample, eval=FALSE}
 ggplot(smaller_diamonds, aes(carat, after_stat(count), fill = cut)) +
   geom_density(aes(colour=cut), position = "stack") #ggplot
 ggplot(smaller_uncertain_diamonds, aes(carat, after_stat(count), fill = cut)) +
@@ -102,7 +102,7 @@ ggplot(smaller_uncertain_diamonds, aes(carat, after_stat(count), fill = cut)) +
         palette.colour.discrete = "viridis")
 ```
 
-```{r, eval=FALSE}
+```{r dodgeerrorabrs, eval=FALSE}
 # If you want to dodge bars and errorbars, you need to manually
 # specify the dodge width
 # ggplot

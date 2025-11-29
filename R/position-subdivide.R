@@ -118,7 +118,8 @@ sample_subdivide_sf <- function(data, times){
   # add geometry ID for rejoining later
   data <- data |> 
     dplyr::group_by(geometry) |>
-    dplyr::mutate(geometryID = cur_group_id())
+    dplyr::mutate(geometryID = cur_group_id()) |>
+    dplyr::ungroup()
   
   # make grid for subdivision
   d <- square_grid(times)

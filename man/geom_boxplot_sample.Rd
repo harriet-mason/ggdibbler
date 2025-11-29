@@ -13,7 +13,7 @@ geom_boxplot_sample(
   stat = "boxplot_sample",
   times = 10,
   seed = NULL,
-  position = "identity",
+  position = "dodge_identity",
   ...,
   outliers = TRUE,
   outlier.colour = NULL,

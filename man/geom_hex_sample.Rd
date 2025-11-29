@@ -107,6 +107,9 @@ lists which parameters it can accept.
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{lineend}{Line end style (round, butt, square).}
 
 \item{linejoin}{Line join style (round, mitre, bevel).}

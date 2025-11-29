@@ -35,7 +35,7 @@ position_identity_identity <- ggplot2::position_identity
 #' @export
 position_identity_dodge <- function(width = NULL, preserve = "single", 
                                     orientation = "x", reverse = FALSE) {
-  ggplot2:::check_bool(reverse)
+  check_bool(reverse)
   ggplot2::ggproto(NULL, PositionIdentityDodge,
                    width = width,
                    preserve = arg_match0(preserve, c("total", "single")),

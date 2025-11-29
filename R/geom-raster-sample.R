@@ -8,6 +8,6 @@
 #' @rdname geom_tile_sample
 geom_raster_sample <- make_constructor(ggplot2::GeomRaster, stat = "identity_sample", 
                                         checks = exprs(
-                                          ggplot2:::check_number_decimal(hjust), 
-                                          ggplot2:::check_number_decimal(vjust)),
+                                          check_number_decimal(hjust), 
+                                          check_number_decimal(vjust)),
                                        times=10, position = "identity_dodge", seed = NULL)

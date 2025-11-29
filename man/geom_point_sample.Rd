@@ -99,6 +99,9 @@ each distribution.}
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
