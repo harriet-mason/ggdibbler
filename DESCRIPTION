@@ -49,7 +49,7 @@ Suggests:
     tidyverse,
     tidygraph,
     conmat,
-    ggridges
+    ggridges,
     patchwork
 VignetteBuilder: 
     knitr

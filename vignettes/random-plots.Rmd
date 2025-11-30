@@ -1,5 +1,5 @@
 ---
-title: "Unexpected by products of uncertain plots"
+title: "Unexpected behaviours of random plots"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{barchart_problem}
@@ -26,9 +26,9 @@ diamonds_pred <- diamonds_pred |>
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
-**NOTE: THIS VIGNETTE IS A LITLE OUT OF DATE**
 
-`ggdibbler` produces random plots, which means each time you call a plot, it is different. This behaviour makes sense, as every plot is just one of many possible outcomes you can have when you represent a distribtion by a sample. If you are used to the deterministic behaviour of ggplot, the randomness can be offputting, although not technically incorrect. Some of these will be easily mitigated with a seed option which we plan to implement, but by default the plots are random.
+
+As the plots in `ggdibbler` are random variables, they are random plots, which means each time you call a plot, it is different. This behaviour makes sense, as every plot is just one of many possible outcomes you can have when you represent a distribution by a sample. If you are used to the deterministic behaviour of ggplot, the randomness can be off-putting, although not technically incorrect. Most of these issue can be mitigated by using the seed option, but by default the plots are random.
 
 ## Saving plots
 When you save a plot, `ggplot2`doesn't technically save the plot itself. It saves the code that makes the plot. It only actually runs the code when `ggplot_build()` is called, which is only called when you *print* the plot.
@@ -55,7 +55,7 @@ By the time a column gets to the stat where we draw the samples, we do not have 
 ggplot(uncertain_mtcars, aes(wt, after_stat(x))) + geom_point_sample(times=5) 
 ```
 
-This problem is particularly problematic when you have multiple layers using the same variable.
+This problem is particularly problematic when you have multiple layers using the same variable where the `after_stat` trick no longer works. In this case so you will need to use the seed parameter to ensure the draws are the same.
 
 ```{r}
 recent <- economics[economics$date > as.Date("2013-01-01"), ]
@@ -71,27 +71,24 @@ p2 <- ggplot(uncertain_recent, aes(date, unemploy)) +
 p1 + p2
 ```
 
-The simple `after_stat` trick doesn't work here, so fixing this actually need to implement seeds in the layers (if you have a work around for this, please tell me).
-
 
 ## Random variables don't always "look" random
 
-In showing `ggdibbler` to people, I have noticed that there are a few instances where the package does not behave in the way they expect. Sometimes this is because of a bug on the packages part, but I have also found that it can be because people are unsure what they mean when they talk about uncertainty. 
-
-Most exploratory visualisation software is built with safety bumpers for poorly formed questions. If you want to plot a categorical variable with no rational order to an order aesthetic, like the x position, `ggplot2` will let you. Like `ggplot`, `ggdibbler` will try and show you the plot you asked for, which will not always be the plot you think you asked for. This will be easiest to see with an example.
+In showing `ggdibbler` to people, I have noticed that there are a few instances where the package does not behave in the way they expect. Sometimes this is because of a bug on the packages part, but I have also found that it can be because people are unsure what they mean when they talk about uncertainty. `ggdibbler` will always show you the plot you asked for, but it might not always be the plot you think you asked for. This will be easiest to see with an example.
 
 Let's say we are looking at the `smaller_diamonds` dataset (which is just the `diamonds` dataset from `ggplot2`, but... smaller) and we want to predict the cut using the other variables. We make our fancy shmancy model, and then get a predicted value for each class. Since our output is a prediction, we now have a `cut_true` column, (our ground truth) and a `cut_pred` which is our predicted distribution. 
 
 ```{r}
 print(head(diamonds_pred))
 ```
-You might want to look at the uncertainty in the predicted value, so, you plot a bar chart. You might want to know how many values are predicted to be in each group. So, you make the following bar chart:
+
+You might want to know how many values end up in each group and how certain the model is in that prediction, so, you make the following bar chart:
 
 ```{r}
 ggplot(diamonds_pred, aes(x=cut_pred)) +
   geom_bar_sample(times=30)
 ```
-Looking at this plot, it is clear that the count value is uncertain, but that uncertainty is coming from the uncertainty in the cut_prediction. The cut_pred values don't look very "uncertainty", because in this plot, they are not. This is the reality of visualising uncertainty for signal supression. Since the `stat_sample` that is used to get outcomes from the distribution is nested inside of ggplot's `stat_count`, the uncetainty in the prediction is carried through to the variable the plot is designed to show, i.e. the count in each category. If it makes you feel better, we can set the fill to be the outputs so you can 100% see this is the case.
+Looking at this plot, it is clear that the count value is uncertain, but that uncertainty is coming from the uncertainty in the cut_prediction. The cut_pred values don't look very "uncertain", because in this plot, they are not. This is the reality of visualising uncertainty for signal supression. Since the `stat_sample` that is used to get outcomes from the distribution is nested inside of ggplot's `stat_count`, the uncetainty in the prediction is carried through to the variable the plot is designed to show, i.e. the count in each category. If it makes you feel better, we can set the fill to be the outputs so you can 100% see this is the case.
 
 ```{r}
 ggplot(diamonds_pred, aes(x=cut_pred)) +
@@ -102,22 +99,25 @@ ggplot(diamonds_pred, aes(x=cut_pred)) +
 
 Of course, you can also set the fill to be a second independent draw from the prediction distribution, but this would convey the wrong information. You would be implying far more uncertainty than is actually in the bar chart. Instead of drawing from one distribution, we are drawing from two independent distributions that technically represent the same variable.
 
-The reality is, distribution variables are "slippery" in a way that deterministic variables are not. They do not have a set value, so if their position on the x axis is not set by the sample outcome.... what are they set by? The reality, is, if you want the random variables anchored to something, YOU need to decide what to anchor them to. You need to decide what your random variables are conditional on. If you want them conditional on the *deterministic* final predicted value, you need to do that. Here is an example where they are anchored to the ground truth value and we colour by the prediction.
+The reality is, distribution variables are "slippery" in a way that deterministic variables are not. They do not have a set value, so if their position on the x axis and their colour are not set by the sample outcome.... what are they set by? The reality, is, if you want the random variables anchored to something, YOU need to decide what to anchor them to. You need to decide what your random variables are conditional on. If you want them conditional on the *deterministic* true value, you need to do that. Here is an example where they are anchored to the ground truth value and we colour by the prediction.
 
 ```{r}
 
 p1 <- ggplot(diamonds_pred, aes(x=cut_true)) +
-  geom_bar()
+  geom_bar() +
+  ggtitle("No colour randomness")
 
 p2 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, 
                   position= "stack_dodge") +
-  scale_fill_brewer(palette = "Set1")
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("Random colour (dodoge)")
 
 p3 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, alpha=0.1,
                   position= "stack_identity") +
-  scale_fill_brewer(palette = "Set1")
+  scale_fill_brewer(palette = "Set1") +
+  ggtitle("Random colour (identity)")
 
 p1 | p2 | p3
 

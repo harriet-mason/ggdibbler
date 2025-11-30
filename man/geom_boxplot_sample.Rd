@@ -11,40 +11,23 @@ geom_boxplot_sample(
   mapping = NULL,
   data = NULL,
   stat = "boxplot_sample",
+  position = "identity",
+  ...,
   times = 10,
   seed = NULL,
-  position = "dodge_identity",
-  ...,
-  outliers = TRUE,
-  outlier.colour = NULL,
-  outlier.color = NULL,
-  outlier.fill = NULL,
-  outlier.shape = NULL,
-  outlier.size = NULL,
-  outlier.stroke = 0.5,
-  outlier.alpha = NULL,
-  whisker.colour = NULL,
-  whisker.color = NULL,
-  whisker.linetype = NULL,
-  whisker.linewidth = NULL,
-  staple.colour = NULL,
-  staple.color = NULL,
-  staple.linetype = NULL,
-  staple.linewidth = NULL,
-  median.colour = NULL,
-  median.color = NULL,
-  median.linetype = NULL,
-  median.linewidth = NULL,
-  box.colour = NULL,
-  box.color = NULL,
-  box.linetype = NULL,
-  box.linewidth = NULL,
+  lineend = "butt",
+  linejoin = "mitre",
+  fatten = 2,
+  outlier_gp = NULL,
+  whisker_gp = NULL,
+  staple_gp = NULL,
+  median_gp = NULL,
+  box_gp = NULL,
   notch = FALSE,
   notchwidth = 0.5,
   staplewidth = 0,
   varwidth = FALSE,
   na.rm = FALSE,
-  orientation = NA,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -85,11 +68,6 @@ A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
-
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
-
-\item{seed}{Set the seed for the layers random draw, allows you to plot the
-same draw across multiple layers.}
 
 \item{position}{A position adjustment to use on the data for this layer. This
 can be used in various ways, including to prevent overplotting and
@@ -132,28 +110,10 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{outliers}{Whether to display (\code{TRUE}) or discard (\code{FALSE}) outliers
-from the plot. Hiding or discarding outliers can be useful when, for
-example, raw data points need to be displayed on top of the boxplot.
-By discarding outliers, the axis limits will adapt to the box and whiskers
-only, not the full data range. If outliers need to be hidden and the axes
-needs to show the full data range, please use \code{outlier.shape = NA} instead.}
+\item{times}{A parameter used to control the number of values sampled from each distribution.}
 
-\item{outlier.colour, outlier.color, outlier.fill, outlier.shape, outlier.size, outlier.stroke, outlier.alpha}{Default aesthetics for outliers. Set to \code{NULL} to inherit from the
-data's aesthetics.}
-
-\item{whisker.colour, whisker.color, whisker.linetype, whisker.linewidth}{Default aesthetics for the whiskers. Set to \code{NULL} to inherit from the
-data's aesthetics.}
-
-\item{staple.colour, staple.color, staple.linetype, staple.linewidth}{Default aesthetics for the staples. Set to \code{NULL} to inherit from the
-data's aesthetics. Note that staples don't appear unless the \code{staplewidth}
-argument is set to a non-zero size.}
-
-\item{median.colour, median.color, median.linetype, median.linewidth}{Default aesthetics for the median line. Set to \code{NULL} to inherit from the
-data's aesthetics.}
-
-\item{box.colour, box.color, box.linetype, box.linewidth}{Default aesthetics for the boxes. Set to \code{NULL} to inherit from the
-data's aesthetics.}
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{notch}{If \code{FALSE} (default) make a standard box plot. If
 \code{TRUE}, make a notched box plot. Notches are used to compare groups;
@@ -174,11 +134,6 @@ weighted, using the \code{weight} aesthetic).}
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
-\item{orientation}{The orientation of the layer. The default (\code{NA})
-automatically determines the orientation from the aesthetic mapping. In the
-rare event that this fails it can be given explicitly by setting \code{orientation}
-to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
-
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.
@@ -196,6 +151,11 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 \code{geom_boxplot()} and \code{stat_boxplot()}. For more information about
 overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 \link[ggplot2:layer_geoms]{geom} arguments work.}
+
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
 
 \item{coef}{Length of the whiskers as multiple of IQR. Defaults to 1.5.}
 }

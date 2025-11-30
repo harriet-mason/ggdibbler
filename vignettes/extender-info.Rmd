@@ -1,5 +1,5 @@
 ---
-title: "UNFINISHED: Info for ggplot extenders"
+title: "Info for ggplot extenders"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{extender-info}
@@ -87,11 +87,11 @@ stat_***_sample <- make_constructor(Stat***Sample, geom = "***",
 
 The alternative option is if your stat is the child of an existing ggplot2 stat, you can just make a new version of your function that is a child of the ggdibbler version instead of the ggplot2 version. I haven't implemented this one, so I am not 100% sure how it would work, but the *only* thing that ggdibbler does (99% of the time) is do a setup_data step.
 
-### Scales
-Honestly, if your package implements new scales, I would hold off on this one until the `ggdibbler` scales system is more built up. You can still try, if you want, but I am not making any promises on the usability of the function you spit out. Technically `ggdibbler` doesn't even 
+### Scales(TODO)
+Honestly, if your package implements new scales, I would hold off on this one until the `ggdibbler` scales system is more built up. You can still try, if you want, but I am not making any promises on the usability of the function you spit out. So long as distributional can make a random variable of your scale's object type, you can make a nested scale of it.
 
-So long as distributional So, I will explain how the scales work, and you can decide for yourself if you want to 
+(NOTE: actually fill out this section)
 
 
-### Nested Positions
-If you want to nest your postion, this is not as easy as the others. The nested position system can't really be extended upon yet because 
+### Nested Positions (TODO)
+The nested position system can't really be extended upon yet, but it is a future plan, sorry!
