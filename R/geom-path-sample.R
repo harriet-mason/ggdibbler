@@ -31,8 +31,10 @@
 #' 
 #' # geom_path lets you explore how two variables are related over time,
 #' # ggplot
+#' m <- ggplot(economics, aes(unemploy, psavert))
 #' m + geom_path(aes(colour = as.numeric(date)))
 #' # ggdibbler
+#' n <- ggplot(uncertain_economics, aes(unemploy, psavert))
 #' n  + geom_path_sample(aes(colour = as.numeric(date)))
 #' 
 #' # You can use NAs to break the line.

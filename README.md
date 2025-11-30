@@ -179,31 +179,21 @@ p1+p2
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
-## Limitations
+# Limitations of the Package
 
 There are three primary limitations of the software to keep in mind.
 First, it only allows you to visualise the distribution as a sample. We
 are planning to expand this to quantiles in later version, but it is not
 currently an option. Second, if multiple distributions are passed, they
-are assumed to be independent. This is also something we are hoping to
-fix in later versions (possibly with a covariance matrix or a dibble
-object that represents joint distributions). Finally, replacing a single
-value with a sample of values (which is functionally what ggdibbler
-does) results in pervasive overplotting issue. We are hoping to mediate
-this with nested positions and sensible geom defaults, but this can be
-difficult to manage depending on the type of plot. In general, we
-recommend *always* setting `alpha<=0.5` the first time you make a plot.
+are assumed to be independent. As the examples show, there are some work
+arounds to this problem but this is also something we are hoping to fix
+in later versions (the first hurdle is allowing the `distributional`
+MTVN object). Finally, all desired scale and position functions are not
+always available as we built the minimum required level of nesting
+before this release. This is another feature we hope to build up in the
+future.
 
 ## Future additions to the package
 
-The eventual goal of `ggdibbler` is to allows any distribution object to
-be passed to any aesthetic in a `ggplot2` geom (so long as I have gotten
-to that geom). The main improvements that are currently being made are
-working through the full set of `ggplot2` geometries, the status of
-which is tracked in the [All Geometries - Status
-List](https://github.com/harriet-mason/ggdibbler/issues/28) issue,
-implementing nested positions, which is tracked in the [All Nested
-Positions - Status
-list](https://github.com/harriet-mason/ggdibbler/issues/34) issue, and
-allowing users to represent distributions as quantiles instead of
-samples.
+The plans for `ggdibbler` are tracked in the [github
+issues](https://github.com/harriet-mason/ggdibbler/issues)

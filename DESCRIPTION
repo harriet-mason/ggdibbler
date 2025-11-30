@@ -48,8 +48,11 @@ Suggests:
     gganimate,
     tidyverse,
     tidygraph,
+    ggthemes,
     conmat,
     ggridges,
+    ggdist,
+    ggraph,
     patchwork
 VignetteBuilder: 
     knitr

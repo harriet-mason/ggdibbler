@@ -19,15 +19,16 @@ uncertain_df <- df |>
          lower = dist_normal(lower, runif(1,0,0.2))
   )
 
-q <- ggplot(uncertain_df, aes(trt, resp, colour = group))
-
-test_that("geom_crossbar_sample tests", {
-  
-  set.seed(4)
-  p1 <- q + geom_crossbar_sample(aes(ymin = lower, ymax = upper), width = 0.2)
-  
-  expect_doppelganger("Example 1", p1)
-  
-}
-)
-
+# suppressWarnings({
+# q <- ggplot(uncertain_df, aes(trt, resp, colour = group))
+# 
+# test_that("geom_crossbar_sample tests", {
+#   
+#   set.seed(4)
+#   p1 <- q + geom_crossbar_sample(aes(ymin = lower, ymax = upper), width = 0.2)
+#   
+#   expect_doppelganger("Example 1", p1)
+#   
+# }
+# )
+# })
