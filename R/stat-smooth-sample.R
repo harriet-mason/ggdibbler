@@ -8,11 +8,7 @@ StatSmoothSample <- ggplot2::ggproto("StatSmoothSample", ggplot2::StatSmooth,
                                     dibble_to_tibble(data, params)
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "method", "formula", "se",
-                                                   "orientation", "show.legend", "inherit.aes",
-                                                   "fullrange", "show.legend", "inherit.aes",
-                                                   "n", "span", "xseq", "level", "method.args",
-                                                   "seed")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @export

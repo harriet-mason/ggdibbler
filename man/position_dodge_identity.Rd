@@ -9,11 +9,10 @@
 \title{Nested dodge positions}
 \usage{
 position_dodge_dodge(
-  vjust = 1,
-  reverse = FALSE,
   width = NULL,
   preserve = "single",
-  orientation = "x"
+  orientation = "x",
+  reverse = FALSE
 )
 
 position_dodge_identity(
@@ -24,9 +23,6 @@ position_dodge_identity(
 )
 }
 \arguments{
-\item{reverse}{If \code{TRUE}, will reverse the default stacking order.
-This is useful if you're rotating both the plot and legend.}
-
 \item{width}{Dodging width, when different to the width of the individual
 elements. This is useful when you want to align narrow geoms with wider
 geoms. See the examples.}
@@ -37,6 +33,9 @@ at a position, or the width of a \code{"single"} element?}
 \item{orientation}{Fallback orientation when the layer or the data does not
 indicate an explicit orientation, like \code{geom_point()}. Can be \code{"x"}
 (default) or \code{"y"}.}
+
+\item{reverse}{If \code{TRUE}, will reverse the default stacking order.
+This is useful if you're rotating both the plot and legend.}
 }
 \description{
 These functions use nested positioning for distributional data, where the
@@ -69,3 +68,12 @@ ggplot(uncertain_mpg, aes(class)) +
   
 }
 \keyword{datasets}
+\section{Aesthetics}{
+
+\code{position_dodge()} understands the following aesthetics. Required aesthetics are displayed in bold and defaults are displayed for optional aesthetics:
+\tabular{rll}{
+ • \tab \code{order} \tab → \code{NULL} \cr
+}
+
+Learn more about setting these aesthetics in \code{vignette("ggplot2-specs")}.
+}

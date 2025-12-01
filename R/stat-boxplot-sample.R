@@ -23,10 +23,7 @@ StatBoxplotSample <- ggplot2::ggproto("StatBoxplotSample", ggplot2::StatBoxplot,
                                     ggplot2::ggproto_parent(ggplot2::StatBoxplot, self)$setup_data(data, params)
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "outliers", "notch", 
-                                                   "notchwidth", "staplewidth", "varwidth", 
-                                                   "orientation", "show.legend", 
-                                                   "inherit.aes", "coef", "seed")
+                                  extra_params = c("na.rm", "times", "seed")
                                   )
 
 #' @export

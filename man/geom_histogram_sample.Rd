@@ -174,6 +174,9 @@ to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more 
 at overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 \link[ggplot2:layer_geoms]{geom} arguments work.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{center, boundary}{bin position specifiers. Only one, \code{center} or
 \code{boundary}, may be specified for a single plot. \code{center} specifies the
 center of one of the bins. \code{boundary} specifies the boundary between two
@@ -221,14 +224,14 @@ ggplot(smaller_diamonds, aes(price, colour = cut)) +
   geom_freqpoly(binwidth = 500)
 # ggdibbler
 ggplot(smaller_uncertain_diamonds, aes(price, colour = cut)) +
-  geom_freqpoly_sample(binwidth = 500, alpha=0.5)
+  geom_freqpoly_sample(binwidth = 500)
  
 # ggplot2
 ggplot(smaller_diamonds, aes(price, fill = cut)) +
   geom_histogram(binwidth = 500)
 # ggdibbler
 ggplot(smaller_uncertain_diamonds, aes(price, fill = cut)) +
- geom_histogram_sample(binwidth = 500, alpha=0.1)
+ geom_histogram_sample(binwidth = 500)
 
 
 }

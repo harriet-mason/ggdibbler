@@ -13,13 +13,14 @@ geom_smooth_sample(
   stat = "smooth_sample",
   position = "identity",
   ...,
-  seed = NULL,
   times = 10,
-  method = NULL,
-  formula = NULL,
-  se = TRUE,
+  alpha = 1/log(times),
+  seed = NULL,
+  lineend = "butt",
+  linejoin = "round",
+  linemitre = 10,
+  se = FALSE,
   na.rm = FALSE,
-  orientation = NA,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -109,11 +110,38 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
-\item{times}{A parameter used to control the number of values sampled from 
-each distribution.}
+\item{se}{Display confidence band around smooth? (\code{TRUE} by default, see
+\code{level} to control.)}
+
+\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
+a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{show.legend}{logical. Should this layer be included in the legends?
+\code{NA}, the default, includes if any aesthetics are mapped.
+\code{FALSE} never includes, and \code{TRUE} always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display. To include legend keys for all levels, even
+when no data exists, use \code{TRUE}.  If \code{NA}, all levels are shown in legend,
+but unobserved levels are omitted.}
+
+\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
+\item{geom, stat}{Use to override the default connection between
+\code{geom_smooth()} and \code{stat_smooth()}. For more information about overriding
+these connections, see how the \link[ggplot2:layer_stats]{stat} and \link[ggplot2:layer_geoms]{geom}
+arguments work.}
 
 \item{method}{Smoothing method (function) to use, accepts either
 \code{NULL} or a character vector, e.g. \code{"lm"}, \code{"glm"}, \code{"gam"}, \code{"loess"}
@@ -136,35 +164,6 @@ model that \code{method = NULL} would use, then set
 \code{y ~ poly(x, 2)}, \code{y ~ log(x)}. \code{NULL} by default, in which case
 \code{method = NULL} implies \code{formula = y ~ x} when there are fewer than 1,000
 observations and \code{formula = y ~ s(x, bs = "cs")} otherwise.}
-
-\item{se}{Display confidence band around smooth? (\code{TRUE} by default, see
-\code{level} to control.)}
-
-\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
-a warning. If \code{TRUE}, missing values are silently removed.}
-
-\item{orientation}{The orientation of the layer. The default (\code{NA})
-automatically determines the orientation from the aesthetic mapping. In the
-rare event that this fails it can be given explicitly by setting \code{orientation}
-to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
-
-\item{show.legend}{logical. Should this layer be included in the legends?
-\code{NA}, the default, includes if any aesthetics are mapped.
-\code{FALSE} never includes, and \code{TRUE} always includes.
-It can also be a named logical vector to finely select the aesthetics to
-display. To include legend keys for all levels, even
-when no data exists, use \code{TRUE}.  If \code{NA}, all levels are shown in legend,
-but unobserved levels are omitted.}
-
-\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
-rather than combining with them. This is most useful for helper functions
-that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
-
-\item{geom, stat}{Use to override the default connection between
-\code{geom_smooth()} and \code{stat_smooth()}. For more information about overriding
-these connections, see how the \link[ggplot2:layer_stats]{stat} and \link[ggplot2:layer_geoms]{geom}
-arguments work.}
 
 \item{n}{Number of points at which to evaluate smoother.}
 

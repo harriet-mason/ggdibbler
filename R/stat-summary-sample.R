@@ -15,12 +15,7 @@ StatSummarySample <- ggplot2::ggproto("StatSummarySample", ggplot2::StatSummary,
                                       setup_data = function(data, params) {
                                         dibble_to_tibble(data, params) 
                                       },
-                                      extra_params = c("na.rm", "times", "fun.data", 
-                                                       "bins", "seed",
-                                                       "fun", "fun.min", "fun.max", 
-                                                       "binwidth", "breaks",
-                                                       "fun.args", "orientation", 
-                                                       "show.legend", "inherit.aes")
+                                      extra_params = c("na.rm", "times", "seed")
 )
 
 #' Summarise y values at unique/binned x with uncertainty

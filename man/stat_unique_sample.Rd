@@ -98,6 +98,9 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
@@ -123,17 +126,18 @@ Identical to stat_unique, except that it will accept a distribution in place
  within each draw, (at the final plot level you might still have double ups).
 }
 \examples{
-# ggplot 1
+library(ggplot2)
+# ggplot
 ggplot(mtcars, aes(vs, am)) +
   geom_point(alpha = 0.1)
-# ggdibbler 1
+# ggdibbler
 ggplot(uncertain_mtcars, aes(vs, am)) +
   geom_point_sample(alpha = 0.01)
 
-# ggplot 2
+# ggplot
 ggplot(mtcars, aes(vs, am)) +
   geom_point(alpha = 0.1, stat = "unique")
-# ggdibbler 2
+# ggdibbler
 ggplot(uncertain_mtcars, aes(vs, am)) +
   geom_point_sample(alpha = 0.01, stat = "unique_sample")
 }

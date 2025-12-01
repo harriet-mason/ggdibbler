@@ -36,7 +36,6 @@ Imports:
     tidyr,
     tibble,
     cli,
-    quantreg,
     sf
 Suggests: 
     knitr,
@@ -51,6 +50,7 @@ Suggests:
     ggthemes,
     conmat,
     ggridges,
+    quantreg,
     ggdist,
     ggraph,
     patchwork

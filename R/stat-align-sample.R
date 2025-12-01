@@ -21,9 +21,7 @@ StatAlignSample <- ggplot2::ggproto("StatAlignSample", ggplot2::StatAlign,
                                       dibble_to_tibble(data, params)
                                       },
                                   
-                                  extra_params = c("na.rm", "times", "orientation", "lineend",
-                                                   "linejoin", "linemitre", "outline.type",
-                                                   "show.legend", "inherit.aes", "seed")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @export

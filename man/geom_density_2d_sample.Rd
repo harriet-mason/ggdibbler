@@ -21,7 +21,9 @@ geom_density_2d_sample(
   ...,
   times = 10,
   seed = NULL,
-  contour_var = "density",
+  alpha = 0.5/log(times),
+  arrow = NULL,
+  arrow.fill = NULL,
   lineend = "butt",
   linejoin = "round",
   linemitre = 10,
@@ -38,7 +40,11 @@ geom_density_2d_filled_sample(
   ...,
   times = 10,
   seed = NULL,
-  contour_var = "density",
+  alpha = 0.5/log(times),
+  rule = "evenodd",
+  lineend = "butt",
+  linejoin = "round",
+  linemitre = 10,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -139,9 +145,8 @@ each distribution.}
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
-\item{contour_var}{Character string identifying the variable to contour
-by. Can be one of \code{"density"}, \code{"ndensity"}, or \code{"count"}. See the section
-on computed variables for details.}
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -172,6 +177,10 @@ overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 
 \item{contour}{If \code{TRUE}, contour the results of the 2d density
 estimation.}
+
+\item{contour_var}{Character string identifying the variable to contour
+by. Can be one of \code{"density"}, \code{"ndensity"}, or \code{"count"}. See the section
+on computed variables for details.}
 
 \item{h}{Bandwidth (vector of length two). If \code{NULL}, estimated
 using \code{\link[MASS:bandwidth.nrd]{MASS::bandwidth.nrd()}}.}

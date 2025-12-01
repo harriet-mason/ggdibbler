@@ -18,11 +18,7 @@ StatSummaryBinSample <- ggplot2::ggproto("StatSummaryBinSample", ggplot2::StatSu
                                           dibble_to_tibble(data, params) 
                                         },
                                         
-                                        extra_params = c("na.rm", "times", "fun.data", 
-                                                         "bins", "fun", "fun.min", 
-                                                         "fun.max", "binwidth", "breaks",
-                                                         "fun.args", "orientation", "show.legend",
-                                                         "inherit.aes", "seed")
+                                        extra_params = c("na.rm", "times", "seed")
 )
 
 #' @rdname stat_summary_sample

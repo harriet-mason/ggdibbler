@@ -8,9 +8,7 @@ StatQqSample <- ggplot2::ggproto("StatQqSample", ggplot2::StatQq,
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", 
-                                                   "distribution", "dparams",
-                                                   "seed")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' A quantile-quantile plot with uncertainty
@@ -19,11 +17,14 @@ StatQqSample <- ggplot2::ggproto("StatQqSample", ggplot2::StatQq,
 #' that they accept a distribution in place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_qq
+#' @inheritParams ggplot2::geom_qq_line
 #' @importFrom ggplot2 make_constructor
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
 #' @examples
 #' library(ggplot2)
 #' library(distributional)

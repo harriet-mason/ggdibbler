@@ -8,9 +8,7 @@ StatQuantileSample <- ggplot2::ggproto("StatQuantileSample", ggplot2::StatQuanti
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "quantiles",
-                                                   "formula", "method", 
-                                                   "method.args", "seed")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 

@@ -18,8 +18,7 @@ StatCountSample <- ggplot2::ggproto("StatCountSample", ggplot2::StatCount,
                                       
                                     },
                                   
-                                  extra_params = c("na.rm", "times", "orientation",
-                                                   "width", "flipped_aes", "seed"),
+                                  extra_params = c("na.rm", "times", "seed"),
                                   
                                   
 )

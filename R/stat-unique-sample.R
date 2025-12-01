@@ -23,18 +23,21 @@ StatUniqueSample <- ggplot2::ggproto("StatUniqueSample", ggplot2::StatUnique,
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
 #' @examples
-#' # ggplot 1
+#' library(ggplot2)
+#' # ggplot
 #' ggplot(mtcars, aes(vs, am)) +
 #'   geom_point(alpha = 0.1)
-#' # ggdibbler 1
+#' # ggdibbler
 #' ggplot(uncertain_mtcars, aes(vs, am)) +
 #'   geom_point_sample(alpha = 0.01)
 #' 
-#' # ggplot 2
+#' # ggplot
 #' ggplot(mtcars, aes(vs, am)) +
 #'   geom_point(alpha = 0.1, stat = "unique")
-#' # ggdibbler 2
+#' # ggdibbler
 #' ggplot(uncertain_mtcars, aes(vs, am)) +
 #'   geom_point_sample(alpha = 0.01, stat = "unique_sample")
 #' @export

@@ -3,6 +3,7 @@
 #' Identical to geom_bin_2d, except that it will accept a distribution in place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_bin_2d
+#' @inheritParams ggplot2::stat_bin_2d
 #' @importFrom ggplot2 make_constructor GeomBin2d
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.

@@ -9,6 +9,8 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
 #' @examples
 #' # load ggplot
 #' library(ggplot2)
@@ -26,14 +28,14 @@
 #'   geom_freqpoly(binwidth = 500)
 #' # ggdibbler
 #' ggplot(smaller_uncertain_diamonds, aes(price, colour = cut)) +
-#'   geom_freqpoly_sample(binwidth = 500, alpha=0.5)
+#'   geom_freqpoly_sample(binwidth = 500)
 #'  
 #' # ggplot2
 #' ggplot(smaller_diamonds, aes(price, fill = cut)) +
 #'   geom_histogram(binwidth = 500)
 #' # ggdibbler
 #' ggplot(smaller_uncertain_diamonds, aes(price, fill = cut)) +
-#'  geom_histogram_sample(binwidth = 500, alpha=0.1)
+#'  geom_histogram_sample(binwidth = 500)
 #' 
 #' 
 #' @export

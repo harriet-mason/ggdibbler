@@ -36,67 +36,6 @@ ggplot_global <- list(
   )
 )
 
-.standalone_types_check_dot_call <- .Call
-
-check_bool <- function(x,
-                       ...,
-                       allow_na = FALSE,
-                       allow_null = FALSE,
-                       arg = caller_arg(x),
-                       call = caller_env()) {
-  if (!missing(x) && .standalone_types_check_dot_call(ffi_standalone_is_bool_1.0.7, x, allow_na, allow_null)) {
-    return(invisible(NULL))
-  }
-  
-  stop_input_type(
-    x,
-    c("`TRUE`", "`FALSE`"),
-    ...,
-    allow_na = allow_na,
-    allow_null = allow_null,
-    arg = arg,
-    call = call
-  )
-}
-
-check_number_decimal <- function(x,
-                                 ...,
-                                 min = NULL,
-                                 max = NULL,
-                                 allow_infinite = TRUE,
-                                 allow_na = FALSE,
-                                 allow_null = FALSE,
-                                 arg = caller_arg(x),
-                                 call = caller_env()) {
-  if (missing(x)) {
-    exit_code <- IS_NUMBER_false
-  } else if (0 == (exit_code <- .standalone_types_check_dot_call(
-    ffi_standalone_check_number_1.0.7,
-    x,
-    allow_decimal = TRUE,
-    min,
-    max,
-    allow_infinite,
-    allow_na,
-    allow_null
-  ))) {
-    return(invisible(NULL))
-  }
-  
-  .stop_not_number(
-    x,
-    ...,
-    exit_code = exit_code,
-    allow_decimal = TRUE,
-    min = min,
-    max = max,
-    allow_na = allow_na,
-    allow_null = allow_null,
-    arg = arg,
-    call = call
-  )
-}
-
 is_mapped_discrete <- function(x) inherits(x, "mapped_discrete")
 
 ##### STOLEN FROM SCALES PACKAGE

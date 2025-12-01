@@ -8,8 +8,7 @@ StatDensity2dSample <- ggplot2::ggproto("StatDensity2dSample", ggplot2::StatDens
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "contour",
-                                                   "contour_var", "seed")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @importFrom ggplot2 ggproto StatDensity2d

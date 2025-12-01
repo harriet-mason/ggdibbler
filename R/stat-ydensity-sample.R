@@ -17,9 +17,7 @@ StatYdensitySample <- ggplot2::ggproto("StatYdensitySample", ggplot2::StatYdensi
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "trim", "seed",
-                                                   "bounds", "scale", "orientation", "bw",
-                                                   "adjust", "quantiles", "drop", "kernel")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @export
@@ -30,7 +28,8 @@ StatYdensitySample <- ggplot2::ggproto("StatYdensitySample", ggplot2::StatYdensi
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
 stat_ydensity_sample <- make_constructor(StatYdensitySample, geom = "violin", 
-                                         times = 10, alpha = 1/log(times), seed = NULL)
+                                         times = 10, alpha = 1/log(times), 
+                                         seed = NULL)
 
 
 

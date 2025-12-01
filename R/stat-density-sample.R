@@ -8,9 +8,7 @@ StatDensitySample <- ggproto("StatDensitySample", ggplot2::StatDensity,
                                dibble_to_tibble(data, params)
                              },
                              
-                             extra_params = c("na.rm", "times", "bw", "adjust", "kernel",
-                                              "n", "trim", "bounds", "flipped_aes", "seed",
-                                              "orientation")
+                             extra_params = c("na.rm", "times", "seed")
                                
 )
             

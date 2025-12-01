@@ -146,9 +146,6 @@ to use \code{position_jitter()}, give the position as \code{"jitter"}.
 \item{xintercept, yintercept, slope, intercept}{Parameters that control the
 position of the line. If these are set, \code{data}, \code{mapping} and
 \code{show.legend} are overridden.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
 }
 \description{
 Identical to geom_vline, geom_hline and geom_abline, except that it will accept a distribution 

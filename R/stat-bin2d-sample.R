@@ -8,9 +8,7 @@ StatBin2dSample <- ggplot2::ggproto("StatBin2dSample", ggplot2::StatBin2d,
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "binwidth",
-                                                   "bins", "breaks", "drop", "seed",
-                                                   "boundary", "closed", "center")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @export

@@ -241,23 +241,15 @@ library(ggplot2)
 # ggplot2
 v <- ggplot(faithfuld, aes(waiting, eruptions, z = density))
 v + geom_contour()
-
 # ggdibbler
-u0 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density0))
-u1 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density))
-u2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density2))
-# plot them
-u0 + geom_contour_sample() # low noise
-u1 + geom_contour_sample() # mod noise
-u2 + geom_contour_sample() # high noise
+u <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density))
+u + geom_contour_sample() 
 
 # use geom_contour_filled() for filled contours
 # ggplot2
 v + geom_contour_filled() # no error (point prediction)
 # ggdibbler
-u0 + geom_contour_filled_sample() # low se
-u1 + geom_contour_filled_sample() # med se
-u2 + geom_contour_filled_sample() # high se
+u + geom_contour_filled_sample() 
 
 }
 \keyword{datasets}

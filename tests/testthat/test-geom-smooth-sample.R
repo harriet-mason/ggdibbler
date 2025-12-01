@@ -7,7 +7,7 @@ test_that("geom_smooth_sample tests", {
   
   p1 <- ggplot(uncertain_mpg, aes(displ, hwy)) +
     geom_point_sample(alpha=0.5, size=0.2) +
-    geom_smooth_sample(linewidth=0.2, alpha=0.1)
+    geom_smooth_sample(linewidth=0.2, alpha=0.1, se=TRUE)
   expect_doppelganger("Example 1", p1)
   
   p2 <- ggplot(uncertain_mpg, aes(displ, hwy, colour = class)) +

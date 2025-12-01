@@ -17,10 +17,7 @@ StatBinSample <- ggplot2::ggproto("StatBinSample", ggplot2::StatBin,
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "show.legend", "inherit.aes",
-                                                   "binwidth", "bins", "orientation", "lineend,",
-                                                   "linejoin", "center", "boundary", "closed", "pad", 
-                                                   "breaks", "drop", "seed")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @export
