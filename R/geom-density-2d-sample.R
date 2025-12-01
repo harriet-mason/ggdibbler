@@ -4,6 +4,8 @@
 #' will accept a distribution in place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_density_2d
+#' @inheritParams ggplot2::geom_curve
+#' @inheritParams ggplot2::geom_polygon
 #' @importFrom ggplot2 layer GeomDensity2d
 #' @importFrom rlang list2
 #' @param times A parameter used to control the number of values sampled from 

@@ -148,6 +148,11 @@ same draw across multiple layers.}
 \item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
 parameter to make sure the repeated draws are always visible}
 
+\item{arrow}{specification for arrow heads, as created by \code{\link[grid:arrow]{grid::arrow()}}.}
+
+\item{arrow.fill}{fill colour to use for the arrow head (if closed). \code{NULL}
+means use \code{colour} aesthetic.}
+
 \item{lineend}{Line end style (round, butt, square).}
 
 \item{linejoin}{Line join style (round, mitre, bevel).}
@@ -169,6 +174,11 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
+\item{rule}{Either \code{"evenodd"} or \code{"winding"}. If polygons with holes are
+being drawn (using the \code{subgroup} aesthetic) this argument defines how the
+hole coordinates are interpreted. See the examples in \code{\link[grid:grid.path]{grid::pathGrob()}} for
+an explanation.}
 
 \item{geom, stat}{Use to override the default connection between
 \code{geom_density_2d()} and \code{stat_density_2d()}. For more information at

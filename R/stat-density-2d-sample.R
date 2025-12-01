@@ -22,8 +22,7 @@ StatDensity2dFilledSample <- ggplot2::ggproto("StatDensity2dFilledSample",
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "contour",
-                                                   "contour_var", "seed")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @export
