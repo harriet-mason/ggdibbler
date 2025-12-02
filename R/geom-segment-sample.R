@@ -1,10 +1,19 @@
 #' Line segments and curves with uncertainty
 #' 
-#' Identical to geom_segment, except that it will accept a distribution in place of any of the usual aesthetics.
+#' Identical to geom_segment, except that it will accept a distribution in 
+#' place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_segment
+#' @inheritParams ggplot2::geom_curve
 #' @importFrom ggplot2 make_constructor GeomSegment
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
+#' 
 #' @examples
 #' library(ggplot2)
 #' library(distributional)
@@ -13,7 +22,7 @@
 #'   geom_point()
 #' # ggdibbler
 #' a <- ggplot(uncertain_mtcars, aes(wt, mpg)) +
-#'   geom_point_sample(size=0.1)
+#'   geom_point_sample(seed=77)
 #' 
 #' 
 #' df <- data.frame(x1 = 2.62, x2 = 3.57, 
@@ -30,53 +39,10 @@
 #' # ggdibbler
 #' a +
 #'   geom_curve_sample(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "curve"), 
-#'                     data = uncertain_df, alpha=0.5) +
+#'                     data = uncertain_df, seed=77) +
 #'   geom_segment_sample(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "segment"), 
-#'                       data = uncertain_df, alpha=0.5)
-#' 
-#' # ggplot
-#' b + geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2), data = df, curvature = -0.2)
-#' 
-#' # ggdibbler
-#' a + geom_curve_sample(aes(x = x1, y = y1, xend = x2, yend = y2), curvature = -0.2,
-#'                       data = uncertain_df, alpha=0.5)
-#' 
-#' # ggplot
-#' b + geom_curve(aes(x = x1, y = y1, xend = x2, yend = y2), data = df, curvature = 1)
-#' # ggdibbler
-#' a + geom_curve_sample(aes(x = x1, y = y1, xend = x2, yend = y2), 
-#'                       data = uncertain_df, alpha=0.5, curvature = 1)
-#' 
-#' 
-#' # ggplot
-#' b + geom_curve(
-#'   aes(x = x1, y = y1, xend = x2, yend = y2),
-#'   data = df,
-#'   arrow = arrow(length = unit(0.03, "npc"))
-#' )
-#' 
-#' # ggdibbler
-#' a + geom_curve_sample(
-#'   aes(x = x1, y = y1, xend = x2, yend = y2),
-#'   data = uncertain_df, alpha=0.5,
-#'   arrow = arrow(length = unit(0.03, "npc"))
-#' )
-#' 
-#' # You can also use geom_segment to recreate plot(type = "h") :
-#' set.seed(1)
-#' # deterministic data
-#' counts <- as.data.frame(table(x = rpois(100,5)))
-#' counts$x <- as.numeric(as.character(counts$x))
-#' # random data
-#' uncertain_counts <- counts
-#' uncertain_counts$Freq <- dist_binomial(counts$Freq, 0.9)
-#' 
-#' # ggplot
-#' ggplot(counts, aes(x, Freq)) +
-#'   geom_segment(aes(xend = x, yend = 0), linewidth = 10, lineend = "butt")
-#' 
-#' # ggdibbler
-#' ggplot(uncertain_counts, aes(x, Freq)) +
-#'   geom_segment_sample(aes(xend = x, yend = 0), linewidth = 10, lineend = "butt", alpha=0.1) 
+#'                       data = uncertain_df, seed=77)
+#'                       
 #' @export
-geom_segment_sample <- make_constructor(ggplot2::GeomSegment, stat = "identity_sample", times=10)
+geom_segment_sample <- make_constructor(ggplot2::GeomSegment, stat = "identity_sample", 
+                                        times=10, alpha = 1/log(times), seed = NULL)

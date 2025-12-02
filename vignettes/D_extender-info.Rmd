@@ -1,0 +1,110 @@
+---
+title: "Help for ggplot extenders"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{extender-info}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE, warning=FALSE, echo=FALSE}
+library(ggdibbler)
+```
+
+
+## Your old ggplot extension *can* learn new tricks
+The beauty of the broad solution `ggdibbler` provides is that it always works. It might not always look *good* or be exactly what you were looking for, but it always works. To illustrate this, I selected the visualisation system that `ggraph` example in the [introduction to `ggdibbler`](ggdibbler-intro.Rmd) to see how 
+
+In the `ggraph` example, I illustrated how you can use the `ggdibbler` approach with a ggplot extension that isn't even aware `ggdibbler` exists. While that method works (well enough) it can be somewhat annoying to implement, and it doesn't give you access to the nested positions (as they use internal variables). I can understand fellow ggplot extenders might be chomping at the bit to see what their plots look like with uncertainty and nested positions. 
+
+Sometimes, when making a `ggdibbler` version of a `ggplot2` base function, I would think to myself "What is the point of this, who on earth needs an uncertain version of `stat_unique`?". I still sometimes think that, but the reason we implemented it with *ALL* ggplot2 functions, is not for the users, but rather for the extenders. If there is a ggplot2 extension that is the child of a base `stat` or base position, a geom_*_sample variation of their function will simply be the child of the `ggdibbler` variation of the ggplot2 stat, instead of the original ggplot2 code. The only ggplot2 extension that might not work with `ggdibbler` is `ggdist` (for the obvious reason that is is the only other ggplot extension that is designed to take distributional input). 
+
+Now, I have made all functions in base `ggplot2` accept uncertain inputs, go me, but the real power of ggplot2 comes from the wealth of extension packages. Now, as fun as I am sure it would be, I am not about to spend the next 5 years making pull requests on every `ggplot2` extension package so that they can all accept random variables. Largely because:
+
+1) Going around making pull requests that forces dependency on *my* package sounds like the early warning signs of a personality disorder
+2) (More importantly) that sounds really boring and I don't want to.
+
+Thankfully, the `ggdibbler` approach is so easy if you are the author/maintainer of a `ggplot2` extension and you want it to accept random variables, you can just do it yourself. 
+
+## How to extend your package to accept random variables (easiest to hardest)
+### Geoms
+As `ggdibbler` only doesn't actually implement any new geoms, the geoms are just wrappers for the stats. If you use an existing ggplot2 stat, `ggdibbler` should already have a variation of it, so you can just make the wrapper function using code that looks like this:
+
+```{r, eval = FALSE}
+geom_YOURGEOM_sample <- make_constructor(YOURGEOM, stat = "GGPLOT2STAT_sample",
+                                         times = 10, seed = NULL)
+```
+
+### Stats
+Stats are slightly more complicated, but still shockingly simple. There are two approaches to this. The first options is to make a YOURSTATSample child version of your stat, similar to the relationship between the base stats in ggplot and the sample stats implemented in `ggdibbler`. When making these functions in `ggdibbler` I literally had a template that I would copy and paste into the .R file. 
+
+```{r, eval = FALSE}
+#' @importFrom ggplot2 ggproto Stat***
+#' @format NULL
+#' @usage NULL
+#' @export
+Stat***Sample <- ggplot2::ggproto("Stat***Sample", ggplot2::Stat***,
+                                  ### INCLUDE SETUP PARAMS IF IN PARENT STAT 
+                                  setup_params = function(self, data, params) {
+                                    # take one sample just to train the parameters
+                                    times <- params$times
+                                    params$times <- 1
+                                    data <- dibble_to_tibble(data, params)
+                                    params <- ggplot2::ggproto_parent(ggplot2::Stat***, self)$setup_params(data, params)
+                                    params$times <- times
+                                    params
+                                  }
+                                  ###  SETUP_DATA MUST BE IMPLEMENTED...
+                                  setup_data = function(data, params) {
+                                    dibble_to_tibble(data, params) 
+                                    # BUT YOU ONLY NEED TO INCLUDE THIS LINE IF THE MAIN STAT USES SETUP DATA 
+                                    ggproto_parent(Stat***, self)$setup_data(data, scales)
+                                    },
+                                  
+                                  extra_params = c("na.rm", "times", "seed")
+)
+
+#' @export
+#' @inheritParams ggplot2::stat_***
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
+stat_***_sample <- make_constructor(Stat***Sample, geom = "***", 
+                                    times = 10, seed = NULL)
+
+
+
+
+```
+
+The alternative option is if your stat is the child of an existing ggplot2 stat, you can just make a new version of your function that is a child of the `ggdibbler` version instead of the ggplot2 version. I haven't implemented this one, so I am not 100% sure how it would work, but the *only* thing that `ggdibbler` does (99% of the time) is do a setup_data step.
+
+### Scales(TODO)
+Honestly, if your package implements new scales, I would hold off on this one until the `ggdibbler` scales system is more built up. You can still try, if you want, but I am not making any promises on the usability of the function you spit out. So long as distributional can make a random variable of your scale's object type, you can make a nested scale of it.
+
+(NOTE: actually fill out this section)
+
+
+### Nested Positions (TODO)
+The nested position system can't really be extended upon yet, but it is a future plan, sorry!
+
+```{r, include=FALSE, eval=FALSE}
+library(spelling)
+qmd <- "D_extender-info.Rmd"
+check_spelling <- spell_check_files(
+  qmd,
+  lang = "en_GB"
+)
+if (nrow(check_spelling) > 0) {
+  print(check_spelling)
+  stop("Check spelling in Qmd files!")
+}
+```

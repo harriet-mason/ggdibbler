@@ -51,8 +51,9 @@ position_dictionary_sample <- function(position){
 #' results may vary). This allows you to set different position adjustments 
 #' for the "main" and "distribution" parts of your plot.
 #' 
-#' @inheritParams ggplot2::position_identity
 #' @importFrom ggplot2 ggproto
+#' @param position a character of the nested position you want to use
+#' @returns A ggplot2 position
 #' @examples
 #' # nested positions allows us to differentiate which postion adjustments
 #' # are used for the plot groups vs the distribution samples

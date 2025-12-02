@@ -10,6 +10,7 @@
 #' would work fine.
 #' 
 #' @examples
+#' @returns A ggplot2 scale
 #' library(ggplot2)
 #' library(distributional)
 #' set.seed(1997)

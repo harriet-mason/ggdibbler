@@ -11,6 +11,8 @@ geom_rug_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   lineend = "butt",
   sides = "bl",
   outside = FALSE,
@@ -95,7 +97,14 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -132,20 +141,10 @@ library(ggplot2)
 # ggplot
 p <- ggplot(mtcars, aes(wt, mpg)) +
   geom_point()
-p
 # ggdibbler
 q <- ggplot(uncertain_mtcars, aes(wt, mpg)) +
-  geom_point_sample(size=0.7)
-q
+  geom_point_sample(seed=4)
 
 p + geom_rug() #ggplot
-q + geom_rug_sample() #ggdibbler
-
-# Rug on bottom only
-p + geom_rug(sides="b") #ggplot
-q + geom_rug_sample(sides="b") #ggdibbler
-
-# All four sides
-p + geom_rug(sides="trbl") #ggplot
-q + geom_rug_sample(sides="trbl") #ggdibbler
+q + geom_rug_sample(seed=4) #ggdibbler
 }

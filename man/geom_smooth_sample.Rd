@@ -10,10 +10,11 @@
 geom_smooth_sample(
   mapping = NULL,
   data = NULL,
+  times = 10,
+  seed = NULL,
   stat = "smooth_sample",
   position = "identity",
   ...,
-  times = 10,
   method = NULL,
   formula = NULL,
   se = TRUE,
@@ -30,6 +31,8 @@ stat_smooth_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   method = NULL,
   formula = NULL,
   se = TRUE,
@@ -64,6 +67,12 @@ A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
+
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{position}{A position adjustment to use on the data for this layer. This
 can be used in various ways, including to prevent overplotting and
@@ -105,8 +114,6 @@ lists which parameters it can accept.
 \code{...}. This can be one of the functions described as
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
-
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
 
 \item{method}{Smoothing method (function) to use, accepts either
 \code{NULL} or a character vector, e.g. \code{"lm"}, \code{"glm"}, \code{"gam"}, \code{"loess"}
@@ -159,6 +166,9 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 these connections, see how the \link[ggplot2:layer_stats]{stat} and \link[ggplot2:layer_geoms]{geom}
 arguments work.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{n}{Number of points at which to evaluate smoother.}
 
 \item{span}{Controls the amount of smoothing for the default loess smoother.
@@ -192,55 +202,8 @@ ggplot(mpg, aes(displ, hwy)) +
 
 # ggdibbbler
 ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) + 
-  geom_smooth_sample(linewidth=0.2, alpha=0.1) 
-# Note: each line will have its own estimated error bands. This uncertainty
-# should still be shown, as it is different to the resampled uncertainty
-# displayed by ggdibbler.
-
-
-# If you need the fitting to be done along the y-axis set the orientation
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(orientation = "y")
-# ggdibbler
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, orientation = "y")
-
-# Use span to control the "wiggliness" of the default loess smoother.
-# The span is the fraction of points used to fit each local regression:
-# small numbers make a wigglier curve, larger numbers make a smoother curve.
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(span = 0.3)
-# ggdibbler
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, span = 0.3)
-
-# Instead of a loess smooth, you can use any other modelling function:
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(method = lm, se = FALSE)
-# ggdibbler
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, method = lm, se = FALSE)
-
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
-# ggdibbler
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1,
-                     method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
-
+  geom_point_sample(alpha=0.5, size=0.2, seed = 22) + 
+  geom_smooth_sample(linewidth=0.2, alpha=0.1, seed = 22) 
 
 # Smooths are automatically fit to each group (defined by categorical
 # aesthetics or the group aesthetic) and for each facet.
@@ -250,20 +213,9 @@ ggplot(mpg, aes(displ, hwy, colour = class)) +
   geom_smooth(se = FALSE, method = lm)
 # ggdibbler
 ggplot(uncertain_mpg, aes(displ, hwy, colour = class)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, se = FALSE, method = lm)
+  geom_point_sample(alpha=0.5, size=0.2, seed = 22) +
+  geom_smooth_sample(linewidth=0.2, alpha=0.1, 
+    se = FALSE, method = lm, seed = 22)
 
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(span = 0.8) +
-  facet_wrap(~drv)
-# ggdibbler (facets cannot be random, complain to posit, I can't control this)
-uncertain_mpg$drv2 <- mpg$drv
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, span = 0.8) +
-  facet_wrap(~drv2)
-  
 }
 \keyword{datasets}

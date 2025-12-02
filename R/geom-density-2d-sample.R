@@ -4,9 +4,17 @@
 #' will accept a distribution in place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_density_2d
+#' @inheritParams ggplot2::geom_curve
+#' @inheritParams ggplot2::geom_polygon
 #' @importFrom ggplot2 layer GeomDensity2d
 #' @importFrom rlang list2
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
 #' # ggplot
@@ -30,48 +38,11 @@
 #' # ggdibbler
 #' n + geom_density_2d_filled_sample(alpha = 0.1)
 #' 
-#' 
-#' # contour bands and contour lines
-#' # ggplot
-#' m + geom_density_2d_filled(alpha = 0.5) +
-#'   geom_density_2d(linewidth = 0.25, colour = "black")
-#' # ggdibbler
-#' n + geom_density_2d_filled_sample(alpha = 0.1) +
-#'   geom_density_2d_sample(linewidth = 0.2, colour = "black", alpha=0.5)
-#' 
 #' @export
-geom_density_2d_sample <- function(mapping = NULL, data = NULL,
-                                   stat = "density_2d_sample", 
-                                   position = "identity",
-                                   ...,
-                                   times = 10,
-                                   contour_var = "density",
-                                   lineend = "butt",
-                                   linejoin = "round",
-                                   linemitre = 10,
-                                   na.rm = FALSE,
-                                   show.legend = NA,
-                                   inherit.aes = TRUE) {
-  ggplot2::layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = ggplot2::GeomDensity2d,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = rlang::list2(
-      times = times,
-      lineend = lineend,
-      linejoin = linejoin,
-      linemitre = linemitre,
-      contour = TRUE,
-      contour_var = contour_var,
-      na.rm = na.rm,
-      ...
-    )
-  )
-}
+geom_density_2d_sample <- make_constructor(ggplot2::GeomDensity2d, 
+                                                  stat = "density_2d_sample",
+                                                  times=10, seed = NULL, 
+                                                  alpha = 0.5/log(times))
 
 #' @export
 #' @rdname geom_density_2d_sample
@@ -80,32 +51,10 @@ geom_density2d_sample <- geom_density_2d_sample
 
 #' @export
 #' @rdname geom_density_2d_sample
-geom_density_2d_filled_sample <- function(mapping = NULL, data = NULL,
-                                   stat = "density_2d_filled_sample", 
-                                   position = "identity",
-                                   ...,
-                                   times = 10,
-                                   contour_var = "density",
-                                   na.rm = FALSE,
-                                   show.legend = NA,
-                                   inherit.aes = TRUE) {
-  ggplot2::layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = ggplot2::GeomDensity2dFilled,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = rlang::list2(
-      times = times,
-      na.rm = na.rm,
-      contour = TRUE,
-      contour_var = contour_var,
-      ...
-    )
-  )
-}
+geom_density_2d_filled_sample <- make_constructor(ggplot2::GeomDensity2dFilled, 
+                                                  stat = "density_2d_filled_sample",
+                                                  times=10, seed = NULL, 
+                                                  alpha = 0.5/log(times))
 
 #' @export
 #' @rdname geom_density_2d_sample

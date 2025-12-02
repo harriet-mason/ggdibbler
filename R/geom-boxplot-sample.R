@@ -3,8 +3,14 @@
 #' Identical to geom_boxplot, except that it will accept a distribution in place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_boxplot
-#' @importFrom ggplot2 GeomSmooth aes layer
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @inheritParams ggplot2::stat_boxplot
+#' @importFrom ggplot2 GeomBoxplot layer
+#' @importFrom rlang list2
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
+#' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
 #' # ggplot
@@ -15,49 +21,19 @@
 #' q <- ggplot(uncertain_mpg, aes(class, hwy)) 
 #' q + geom_boxplot_sample(alpha=0.1) 
 #' 
-#' # ggdibbler: e.g. only one random variable 
-#' # (If you only have one random variable, there is less uncertainty)
-#' uncertain_mpg_new <- uncertain_mpg
-#' uncertain_mpg_new$class <- mpg$class
-#' r <- ggplot(uncertain_mpg_new, aes(class, hwy))  
-#' r  + geom_boxplot_sample(alpha=0.1) 
-#' 
-#' # Orientation follows the discrete axis
-#' # ggplot
-#' ggplot(mpg, aes(hwy, class)) + 
-#'   geom_boxplot()
-#' # ggdibbler
-#' ggplot(uncertain_mpg, aes(hwy, class)) + 
-#'   geom_boxplot_sample(alpha=0.1)
-#' 
-#' # ggplot
-#' p + geom_boxplot(notch = TRUE)
-#' # ggdibbler
-#' q + geom_boxplot_sample(alpha=0.1, notch = TRUE) 
-#' 
 #' # ggplot
 #' p + geom_boxplot(varwidth = TRUE)
 #' # ggdibbler
 #' q + geom_boxplot_sample(alpha=0.1, varwidth = TRUE) 
 #' 
-#' #ggplot
-#' p + geom_boxplot(fill = "white", colour = "#3366FF")
-#' #ggdibbler
-#' q + geom_boxplot_sample(alpha=0.1, fill = "white", colour = "#3366FF") 
+#' # ggplot
+#' p + geom_boxplot(aes(colour = drv), position = position_dodge(preserve = "single"))
+#' # ggdibbler
+#' q + geom_boxplot_sample(aes(colour = drv), alpha=0.05, position = "dodge_identity")
 #' 
-#' # By default, outlier points match the colour of the box. Use
-#' # outlier.colour to override
-#' p + geom_boxplot(outlier.colour = "red", outlier.shape = 1)
-#' q + geom_boxplot_sample(alpha=0.1, outlier.colour = "red", outlier.shape = 1) 
-#' 
-#' # Remove outliers when overlaying boxplot with original data points
-#' p + geom_boxplot(outlier.shape = NA) + geom_jitter(width = 0.2)
-#' q + geom_boxplot_sample(alpha=0.1, outlier.shape = NA) + 
-#'   geom_jitter_sample(size= 0.1, width = 0.2)
-#'   
 #' @export
-geom_boxplot_sample <- function(mapping = NULL, data = NULL, #position = "dodge2",
-                         stat = "boxplot_sample", times=10, position = "identity",
+geom_boxplot_sample <- function(mapping = NULL, data = NULL, times=10, seed = NULL,
+                         stat = "boxplot_sample", position = "identity",
                          ...,
                          outliers = TRUE,
                          outlier.colour = NULL,
@@ -91,17 +67,8 @@ geom_boxplot_sample <- function(mapping = NULL, data = NULL, #position = "dodge2
                          orientation = NA,
                          show.legend = NA,
                          inherit.aes = TRUE) {
+
   
-  # REIMPLEMENT WHEN TIERED POSITION IS IMPLEMENTED?
-  # varwidth = TRUE is not compatible with preserve = "total"
-  # if (is.character(position)) {
-  #  if (varwidth == TRUE) position <- position_dodge2(preserve = "single")
-  # } else {
-  #  if (identical(position$preserve, "total") & varwidth == TRUE) {
-  #    cli::cli_warn("Can't preserve total widths when {.code varwidth = TRUE}.")
-  #    position$preserve <- "single"
-  #  }
-  # }
   
   outlier_gp <- list(
     colour = outlier.color %||% outlier.colour,
@@ -135,11 +102,7 @@ geom_boxplot_sample <- function(mapping = NULL, data = NULL, #position = "dodge2
     linetype  = box.linetype,
     linewidth = box.linewidth
   )
-  
-  ggplot2:::check_number_decimal(staplewidth)
-  ggplot2:::check_bool(outliers)
-  
-  ggplot2::layer(
+  layer(
     data = data,
     mapping = mapping,
     stat = stat,
@@ -148,7 +111,8 @@ geom_boxplot_sample <- function(mapping = NULL, data = NULL, #position = "dodge2
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list2(
-      times = times,
+      seed = seed,
+      times = times, 
       outliers = outliers,
       outlier_gp = outlier_gp,
       whisker_gp = whisker_gp,
@@ -165,4 +129,3 @@ geom_boxplot_sample <- function(mapping = NULL, data = NULL, #position = "dodge2
     )
   )
 }
-

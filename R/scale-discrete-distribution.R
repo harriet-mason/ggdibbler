@@ -6,6 +6,10 @@
 #' If you want to transform your scale, you should apply a transformation through the coord_* functions,
 #' as they are applied after the stat, so the existing ggplot infastructure can be used.
 #' 
+#' @inheritParams ggplot2::scale_x_discrete
+#' @inheritParams ggplot2::scale_y_discrete
+#' @inheritParams scales::train_discrete
+#' @returns A ggplot2 scale
 #' @examples
 #' library(ggplot2)
 #' # ggplot
@@ -20,7 +24,6 @@ NULL
 #' @export
 #' @importFrom ggplot2 waiver 
 #' @importFrom scales DiscreteRange
-#' @inheritParams ggplot2::scale_x_discrete
 #' @rdname scale_discrete_distribution
 scale_x_discrete_distribution <- function(
     name = waiver(), 
@@ -50,7 +53,6 @@ scale_x_discrete_distribution <- function(
 #' @export
 #' @importFrom ggplot2 waiver ScaleDiscretePosition discrete_scale ggproto_parent
 #' @importFrom distributional parameters generate is_distribution
-#' @inheritParams ggplot2::scale_y_discrete
 #' @rdname scale_discrete_distribution
 scale_y_discrete_distribution <- function(
     name = waiver(), 
@@ -150,7 +152,7 @@ train_discrete_distribution <- function(
   }
   if(distributional::is_distribution(new)){
     # make distribution into output
-    new <- unlist(distributional::parameters(new)$x)
+    new <- unlist(distributional::generate(new, 100))
   }
   if (!is_discrete(new)) {
     example <- unique(new)
@@ -163,7 +165,7 @@ train_discrete_distribution <- function(
       call = call
     )
   }
-  scales:::discrete_range(existing, new, drop = drop, na.rm = na.rm, fct = fct)
+    discrete_range(existing, new, drop = drop, na.rm = na.rm, fct = fct)
 
 }
 

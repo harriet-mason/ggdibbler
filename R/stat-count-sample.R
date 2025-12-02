@@ -18,19 +18,19 @@ StatCountSample <- ggplot2::ggproto("StatCountSample", ggplot2::StatCount,
                                       
                                     },
                                   
-                                  extra_params = c("na.rm", "times", "orientation",
-                                                   "width", "flipped_aes"),
+                                  extra_params = c("na.rm", "times", "seed"),
                                   
                                   
 )
 
 #' @export
-#' @rdname geom_count_sample
+#' @rdname geom_bar_sample
 #' @importFrom ggplot2 make_constructor StatCount
 #' @inheritParams ggplot2::stat_count
 #' @param times A parameter used to control the number of values sampled from each distribution. 
 stat_count_sample <- make_constructor(
-  ggplot2::StatCount, geom = "bar", # position = "stack",
-  orientation = NA, omit = "width", times=10,
+  ggplot2::StatCount, geom = "bar", position = "stack_identity",
+  orientation = NA, omit = "width", 
+  times=10, alpha = 1/log(times), seed = NULL
 )
 

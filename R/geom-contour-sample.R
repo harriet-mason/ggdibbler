@@ -5,40 +5,33 @@
 #' 
 #' @inheritParams ggplot2::geom_contour
 #' @importFrom ggplot2 make_constructor GeomContour
-#' @param times A parameter used to control the number of values sampled 
-#' from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
 #' 
 #' # ggplot2
 #' v <- ggplot(faithfuld, aes(waiting, eruptions, z = density))
 #' v + geom_contour()
-#' 
 #' # ggdibbler
-#' u0 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density0))
-#' u1 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density))
-#' u2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density2))
-#' # plot them
-#' u0 + geom_contour_sample(alpha=0.2) # low noise
-#' u1 + geom_contour_sample(alpha=0.2) # mod noise
-#' u2 + geom_contour_sample(alpha=0.2) # high noise
+#' u <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density))
+#' u + geom_contour_sample() 
 #' 
 #' # use geom_contour_filled() for filled contours
 #' # ggplot2
 #' v + geom_contour_filled() # no error (point prediction)
 #' # ggdibbler
-#' u0 + geom_contour_filled_sample(alpha=0.1) # low se
-#' u1 + geom_contour_filled_sample(alpha=0.1) # med se
-#' u2 + geom_contour_filled_sample(alpha=0.1) # high se
+#' u + geom_contour_filled_sample() 
 #' 
-#' # Other parameters
-#' v + geom_raster(aes(fill = density)) +
-#'   geom_contour(colour = "white")
-#' u1 + geom_raster_sample(aes(fill = density)) +
-#'   geom_contour_sample(colour = "white", alpha=0.1)
 #' @export
 geom_contour_sample <- make_constructor(ggplot2::GeomContour, 
                                         stat = "contour_sample", times=10,
+                                        alpha = 0.5/log(times), seed = NULL,
                                         # Passed to contour stat:
                                         bins = NULL, binwidth = NULL, 
                                         breaks = NULL)
@@ -50,6 +43,7 @@ geom_contour_sample <- make_constructor(ggplot2::GeomContour,
 #' @export
 geom_contour_filled_sample <- make_constructor(
   GeomContourFilled, stat = "contour_filled_sample", times=10,
+  alpha = 0.5/log(times), seed = NULL,
   # Passed to contour_filled stat:
   bins = NULL, binwidth = NULL, breaks = NULL
 )

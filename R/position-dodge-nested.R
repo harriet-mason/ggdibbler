@@ -1,46 +1,53 @@
 #' Nested dodge positions
 #' 
-#' These functions use nested positioning for distributional data, where the
-#' original plot has a dodged position. This allows you to set different 
-#' position adjustments for the "main" and "distribution" parts of your plot.
+#' These functions use nested positioning for distributional data, where one of 
+#' the positions is dodged. This allows you to set different position 
+#' adjustments for the "main" and "distribution" parts of your plot.
 #' 
 #' @inheritParams ggplot2::position_dodge
+#' @inheritParams ggplot2::position_identity
+#' @aesthetics PositionDodge
 #' @importFrom ggplot2 ggproto PositionDodge Position
+#' @returns A ggplot2 position
 #' @examples
-#' # Standard ggplots often have a position adjustment to fix overplotting
-#' # plot with dodged positions
 #' library(ggplot2)
+#' 
+#' # ggplot dodge 
 #' ggplot(mpg, aes(class)) + 
 #'   geom_bar(aes(fill = drv), 
 #'            position = position_dodge(preserve = "single"))
-#' 
-#' # but when we use this in ggdibbler, it can not work the way we expect
-#' # normal dodge
+#'            
+#' # normal dodge without nesting
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "dodge")
-#' 
-#' # nested positions allows us to differentiate which postion adjustments
-#' # are used for the plot groups vs the distribution samples
-#' 
+#'   
+#' # dodge_identity
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "dodge_identity", alpha=0.2)
 #' 
-#' # using postion_dodge nests the original plot group inside the distribtion 
-#' # position dodge_dodge does the opposite nesting
+#' # dodge_dodge
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "dodge_dodge")
+#' 
+#' # identity_dodge 
+#' ggplot(mpg, aes(class)) + 
+#'   geom_bar(aes(fill = drv), alpha=0.5, position = "identity")
+#' ggplot(uncertain_mpg, aes(class)) + 
+#'   geom_bar_sample(aes(fill = drv), position = "identity_dodge", alpha=0.7)
 #'   
-#' @rdname position_dodge_identity
+#' @name position_dodge_nested 
+NULL
+
+#' @rdname position_dodge_nested 
 #' @export
-position_dodge_dodge <- function(vjust = 1, reverse = FALSE, width = NULL,  
-                                 preserve = "single", orientation = "x") {
+position_dodge_dodge <- function(width = NULL, preserve = "single", orientation = "x",
+                                 reverse = FALSE) {
   PositionDodgeDodge
 }
-#' @rdname position_dodge_identity
+#' @rdname position_dodge_nested 
 #' @export
 position_dodge_identity <- function(width = NULL, preserve = "single", orientation = "x",
                                     reverse = FALSE) {
-  ggplot2:::check_bool(reverse)
   ggproto(NULL, PositionDodgeIdentity,
           width = width,
           preserve = arg_match0(preserve, c("total", "single")),
@@ -50,7 +57,7 @@ position_dodge_identity <- function(width = NULL, preserve = "single", orientati
 }
 
 
-#' @rdname position_dodge_identity
+#' @rdname position_dodge_nested 
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -93,7 +100,62 @@ PositionDodgeIdentity <- ggplot2::ggproto("PositionDodgeIdentity", ggplot2::Posi
                                           extra_params = c("vjust", "reverse")
 )
 
-#' @rdname position_dodge_identity
+
+#' @inheritParams ggplot2::position_dodge
+#' @rdname position_dodge_nested 
+#' @export
+position_identity_dodge <- function(width = NULL, preserve = "single", 
+                                    orientation = "x", reverse = FALSE) {
+  ggplot2::ggproto(NULL, PositionIdentityDodge,
+                   width = width,
+                   preserve = arg_match0(preserve, c("total", "single")),
+                   orientation = arg_match0(orientation, c("x", "y")),
+                   reverse = reverse
+  )
+}
+
+#' @rdname position_dodge_nested 
+#' @format NULL
+#' @usage NULL
+#' @export
+PositionIdentityDodge <- ggplot2::ggproto("PositionIdentityDodge", 
+                                          ggplot2::PositionDodge,
+                                          width = NULL,
+                                          preserve = "single",
+                                          orientation = "x",
+                                          reverse = NULL,
+                                          
+                                          default_aes = aes(order = NULL),
+                                          setup_params = function(self, data){
+                                            params <- ggproto_parent(PositionDodge, 
+                                                                     self)$setup_params(data)
+                                            # set n to be times if preserve = "single"
+                                            if(!is.null(params$n)){
+                                              params$n <- max(as.numeric(data$drawID))
+                                            }
+                                            params
+                                          },
+                                          
+                                          setup_data = function(self, data, params){
+                                            position_by_group(data, "ogroup",
+                                                              ggproto_parent(PositionDodge, 
+                                                                             self)$setup_data,
+                                                              params)
+                                          },
+                                          compute_panel = function(self, data, 
+                                                                   params, scales) {
+                                            # set order to be drawID due to order problem
+                                            data$order <- as.integer(data$drawID)
+                                            position_by_group(data, "ogroup",
+                                                              ggproto_parent(PositionDodge, 
+                                                                             self)$compute_panel,
+                                                              params)
+                                          },
+                                          
+                                          extra_params = c("vjust", "reverse")
+)
+
+#' @rdname position_dodge_nested 
 #' @format NULL
 #' @usage NULL
 #' @export

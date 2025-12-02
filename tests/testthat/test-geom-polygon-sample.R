@@ -45,23 +45,19 @@ test_that("geom_polygon_sample examples", {
   set.seed(323)
   
   q0 <- ggplot(datapoly, aes(x = x, y = y)) +
-    geom_polygon_sample(aes(fill = value, group = id))
+    geom_polygon_sample(aes(fill = value, group = id), alpha=1)
   
   expect_doppelganger("deterministic", q0)
   
   q1 <- ggplot(uncertain_datapoly, aes(x = x, y = y)) +
-    geom_polygon_sample(aes(fill = value, group = id), alpha=0.2)
+    geom_polygon_sample(aes(fill = value, group = id), times=2)
   
-  expect_doppelganger("example 1", q1)
+  expect_doppelganger("random polygon", q1)
   
   q2 <- q1 + 
     geom_line(data = stream, colour = "grey30", linewidth = 5)
 
-  expect_doppelganger("example 2", q2)
-  
-  q3 <- q1 +
-    geom_line_sample(data = uncertain_stream, colour = "grey30", linewidth = 1, alpha=0.5)
-  expect_doppelganger("example 3", q3)
+  expect_doppelganger("add to coordinate", q2)
 }
 )
 

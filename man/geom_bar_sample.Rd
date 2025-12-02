@@ -6,16 +6,18 @@
 \alias{geom_bar_sample}
 \alias{geom_col_sample}
 \alias{StatCountSample}
+\alias{stat_count_sample}
 \title{Uncertain Bar Charts}
 \usage{
 geom_bar_sample(
   mapping = NULL,
   data = NULL,
   stat = "count_sample",
-  position = "dodge",
+  position = "stack_dodge",
   ...,
   just = 0.5,
   times = 10,
+  seed = NULL,
   lineend = "butt",
   linejoin = "mitre",
   na.rm = FALSE,
@@ -27,12 +29,28 @@ geom_col_sample(
   mapping = NULL,
   data = NULL,
   stat = "identity_sample",
-  position = "dodge",
+  position = "stack_dodge",
   ...,
   just = 0.5,
   times = 10,
+  seed = NULL,
   lineend = "butt",
   linejoin = "mitre",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
+
+stat_count_sample(
+  mapping = NULL,
+  data = NULL,
+  geom = "bar",
+  position = "stack_identity",
+  ...,
+  orientation = NA,
+  times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -108,6 +126,9 @@ unintended behaviour when used with alternative positions, e.g.
 
 \item{times}{A parameter used to control the number of values sampled from each distribution.}
 
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
 \item{lineend}{Line end style (round, butt, square).}
 
 \item{linejoin}{Line join style (round, mitre, bevel).}
@@ -127,9 +148,23 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
+\item{geom, stat}{Override the default connection between \code{geom_bar()} and
+\code{stat_count()}. For more information about overriding these connections,
+see how the \link[ggplot2:layer_stats]{stat} and \link[ggplot2:layer_geoms]{geom} arguments work.}
+
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to set the default value to 1/log(times) to make sure the 
+repeated draws are always visible}
 }
 \description{
-Identical to geom_bar, except that it will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_bar, except that it will accept a distribution in place of 
+any of the usual aesthetics.
 }
 \examples{
 library(distributional)
@@ -141,27 +176,28 @@ q <- ggplot(uncertain_mpg, aes(class)) #ggdibbler
 
 # Number of cars in each class:
 g + geom_bar() #ggplot
-q + geom_bar_sample() #ggdibbler
+q + geom_bar_sample() #ggdibbler - a
+q + geom_bar_sample(position = "identity_dodge", alpha=1) #ggdibbler - b
 
-# Total engine displacement of each class
-g + geom_bar(aes(weight = displ)) #ggplot
-q + geom_bar_sample(aes(weight = displ)) #ggdibbler
-
-# Map class to y instead to flip the orientation
-ggplot(mpg) + geom_bar(aes(y = class)) #ggplot
-ggplot(uncertain_mpg) + geom_bar_sample(aes(y = class)) #ggdibbler
-
-# geom_col also has a sample counterpart
+# make dataframe
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 uncertain_df <-  data.frame(trt = c("a", "b", "c"), 
-                            outcome = dist_normal(mean = c(2.3, 1.9, 3.2), sd = c(0.5, 0.8, 0.7)))
+                            outcome = dist_normal(mean = c(2.3, 1.9, 3.2), 
+                                                  sd = c(0.5, 0.8, 0.7)))
+# geom_col also has a sample counterpart
 # ggplot
-ggplot(df, aes(trt, outcome)) +
-  geom_col()
+ggplot(df, aes(trt, outcome)) + geom_col()
 # ggdibbler
-ggplot(uncertain_df, aes(x=trt, y=outcome)) +
-  geom_col_sample(alpha=0.05, position = "identity", times=30)
-ggplot(uncertain_df, aes(x=trt, y=outcome)) +
-  geom_col_sample(times = 30)
+ggplot(uncertain_df, aes(x=trt, y=outcome)) + geom_col_sample()
+
+# ggplot
+ggplot(mpg, aes(y = class)) +
+  geom_bar(aes(fill = drv), position = position_stack(reverse = TRUE)) +
+  theme(legend.position = "top")
+# ggdibbler
+ggplot(uncertain_mpg, aes(y = class)) +
+  geom_bar_sample(aes(fill = drv), alpha=1,
+                  position = position_stack_dodge(reverse = TRUE)) +
+  theme(legend.position = "top")
 }
 \keyword{datasets}

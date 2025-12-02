@@ -9,14 +9,20 @@
 #' @importFrom tibble rowid_to_column
 #' @importFrom tidyr unnest_longer
 #' @param data Distribution dataset to expand into samples
-#' @param times The number of values sampled from each distribution in the data set.
-#' @examples
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to get the
+#' same draw from repeated sample_expand calls
 #' sample_expand(uncertain_mpg, times=10)
+#' @returns A data frame of resampled values from the input distributions
 #' @export
-sample_expand <- function(data, times=10){ 
+sample_expand <- function(data, times=10, seed=NULL){ 
   # Check for at least one distribution vector
   distcols <- get_dist_cols(data)
   if(length(distcols)==0) return(data |> dplyr::mutate(drawID=0))
+  
+  # set seed if not null
+  if(!is.null(seed)) set.seed(seed)
   
   # Sample from distribution variables
   data |>
@@ -58,7 +64,7 @@ get_dist_cols <- function(data){
 #' @keywords internal
 get_discrete_cols <- function(data){
   a <- names(data)[sapply(data, is_discrete)]
-  b <- names(data)[sapply(data, ggplot2:::is_mapped_discrete)]
+  b <- names(data)[sapply(data, is_mapped_discrete)]
   c(a,b)
 }
 
@@ -70,7 +76,7 @@ dibble_to_tibble <- function(data, params) {
   if(length(distcols)==0) return(data|> dplyr::mutate(drawID=0))
   
   # expand data
-  data <- sample_expand(data, params$times) 
+  data <- sample_expand(data, params$times, params$seed) 
   
   # check for discrete distribution columns for group adjust
   discretecols <- get_discrete_cols(data)

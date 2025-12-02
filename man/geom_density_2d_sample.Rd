@@ -20,7 +20,10 @@ geom_density_2d_sample(
   position = "identity",
   ...,
   times = 10,
-  contour_var = "density",
+  seed = NULL,
+  alpha = 0.5/log(times),
+  arrow = NULL,
+  arrow.fill = NULL,
   lineend = "butt",
   linejoin = "round",
   linemitre = 10,
@@ -36,7 +39,12 @@ geom_density_2d_filled_sample(
   position = "identity",
   ...,
   times = 10,
-  contour_var = "density",
+  seed = NULL,
+  alpha = 0.5/log(times),
+  rule = "evenodd",
+  lineend = "butt",
+  linejoin = "round",
+  linemitre = 10,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -51,6 +59,8 @@ stat_density_2d_sample(
   contour = TRUE,
   contour_var = "density",
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   h = NULL,
   adjust = c(1, 1),
   n = 100,
@@ -68,6 +78,8 @@ stat_density_2d_filled_sample(
   contour = TRUE,
   contour_var = "density",
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   h = NULL,
   adjust = c(1, 1),
   n = 100,
@@ -127,11 +139,19 @@ Overrides \code{binwidth} and \code{bins}. By default, this is a vector of lengt
 ten with \code{\link[=pretty]{pretty()}} breaks.}
   }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
 
-\item{contour_var}{Character string identifying the variable to contour
-by. Can be one of \code{"density"}, \code{"ndensity"}, or \code{"count"}. See the section
-on computed variables for details.}
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
+\item{arrow}{specification for arrow heads, as created by \code{\link[grid:arrow]{grid::arrow()}}.}
+
+\item{arrow.fill}{fill colour to use for the arrow head (if closed). \code{NULL}
+means use \code{colour} aesthetic.}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -155,6 +175,11 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
+\item{rule}{Either \code{"evenodd"} or \code{"winding"}. If polygons with holes are
+being drawn (using the \code{subgroup} aesthetic) this argument defines how the
+hole coordinates are interpreted. See the examples in \code{\link[grid:grid.path]{grid::pathGrob()}} for
+an explanation.}
+
 \item{geom, stat}{Use to override the default connection between
 \code{geom_density_2d()} and \code{stat_density_2d()}. For more information at
 overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
@@ -162,6 +187,10 @@ overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 
 \item{contour}{If \code{TRUE}, contour the results of the 2d density
 estimation.}
+
+\item{contour_var}{Character string identifying the variable to contour
+by. Can be one of \code{"density"}, \code{"ndensity"}, or \code{"count"}. See the section
+on computed variables for details.}
 
 \item{h}{Bandwidth (vector of length two). If \code{NULL}, estimated
 using \code{\link[MASS:bandwidth.nrd]{MASS::bandwidth.nrd()}}.}
@@ -199,15 +228,6 @@ n + geom_density_2d_sample(linewidth=2/10, alpha=0.5)
 m + geom_density_2d_filled(alpha = 0.5)
 # ggdibbler
 n + geom_density_2d_filled_sample(alpha = 0.1)
-
-
-# contour bands and contour lines
-# ggplot
-m + geom_density_2d_filled(alpha = 0.5) +
-  geom_density_2d(linewidth = 0.25, colour = "black")
-# ggdibbler
-n + geom_density_2d_filled_sample(alpha = 0.1) +
-  geom_density_2d_sample(linewidth = 0.2, colour = "black", alpha=0.5)
 
 }
 \keyword{datasets}

@@ -4,11 +4,10 @@
 #' @importFrom ggplot2 ggproto Stat
 #' @rdname stat_identity_sample
 StatIdentitySample <- ggplot2::ggproto("StatIdentitySample", ggplot2::StatIdentity,
-                               setup_data = function(data, params) {
-                                 dibble_to_tibble(data, params)
-                                 },
-                               
-                               extra_params = c("na.rm", "times")
+                                       setup_data = function(data, params) {
+                                         dibble_to_tibble(data, params)
+                                       },
+                                       extra_params = c("na.rm", "times", "seed")
 )
 
 #' Generates a sample from a distribution
@@ -31,7 +30,15 @@ StatIdentitySample <- ggplot2::ggproto("StatIdentitySample", ggplot2::StatIdenti
 #' @importFrom rlang list2
 #' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
 #' @inheritParams ggplot2::stat_identity
-#' @param times A parameter used to control the number of values sampled from each distribution.
-stat_identity_sample <- make_constructor(StatIdentitySample, geom = "point", times = 10)
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
+stat_identity_sample <- make_constructor(StatIdentitySample, geom = "point", 
+                                         times = 10, alpha = 1/log(times), 
+                                         seed = NULL)
 
 

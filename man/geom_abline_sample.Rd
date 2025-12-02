@@ -12,6 +12,7 @@ geom_abline_sample(
   data = NULL,
   stat = "identity_sample",
   times = 10,
+  seed = NULL,
   ...,
   slope,
   intercept,
@@ -26,6 +27,7 @@ geom_hline_sample(
   stat = "identity_sample",
   position = "identity",
   ...,
+  seed = NULL,
   times = 10,
   yintercept,
   na.rm = FALSE,
@@ -40,6 +42,7 @@ geom_vline_sample(
   position = "identity",
   ...,
   times = 10,
+  seed = NULL,
   xintercept,
   na.rm = FALSE,
   show.legend = NA,
@@ -64,7 +67,24 @@ the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{stat}{The statistical transformation to use on the data for this layer.
+When using a \verb{geom_*()} function to construct a layer, the \code{stat}
+argument can be used to override the default coupling between geoms and
+stats. The \code{stat} argument accepts the following:
+\itemize{
+\item A \code{Stat} ggproto subclass, for example \code{StatCount}.
+\item A string naming the stat. To give the stat as a string, strip the
+function name of the \code{stat_} prefix. For example, to use \code{stat_count()},
+give the stat as \code{"count"}.
+\item For more information and other ways to specify the stat, see the
+\link[ggplot2:layer_stats]{layer stat} documentation.
+}}
+
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}'s \code{params} argument. These
 arguments broadly fall into one of 4 categories below. Notably, further
@@ -105,6 +125,11 @@ display. To include legend keys for all levels, even
 when no data exists, use \code{TRUE}.  If \code{NA}, all levels are shown in legend,
 but unobserved levels are omitted.}
 
+\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
 \item{position}{A position adjustment to use on the data for this layer. This
 can be used in various ways, including to prevent overplotting and
 improving the display. The \code{position} argument accepts the following:
@@ -133,30 +158,24 @@ library(distributional)
 
 # ggplot
 p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
-p + geom_abline() #' Can't see it - outside the range of the data
 # ggdibbler
-q <- ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample()
-q + geom_abline_sample() #' Can't see it - outside the range of the data
-# ggplot
-p + geom_abline(intercept = 20)
-# ggdibbler
-q + geom_abline_sample(intercept = dist_normal(20, 1))
+q <- ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample(alpha=0.3)
 
-# Fixed values
 # ggplot
-p + geom_vline(xintercept = 5) #ggplot
-q + geom_vline_sample(xintercept = dist_normal(5, 0.1)) 
-p + geom_vline(xintercept = 1:5) #ggplot
-q + geom_vline_sample(xintercept = dist_normal(1:5, 0.1)) #ggdibbler
-p + geom_hline(yintercept = 20) #' ggplot
-q + geom_hline_sample(yintercept = dist_normal(20, 1)) 
+p + geom_abline(intercept = 20) # ggplot
+q + geom_abline_sample(intercept = dist_normal(20, 1), alpha=0.3) # ggdibbler
+p + geom_vline(xintercept = 5) # ggplot
+q + geom_vline_sample(xintercept = dist_normal(5, 0.1), alpha=0.3) # ggdibbler
+p + geom_hline(yintercept = 20) # ggplot
+q + geom_hline_sample(yintercept = dist_normal(20, 1), alpha=0.3) # ggdibbler 
 
 # Calculate slope and intercept of line of best fit
 # get coef and standard error
 summary(lm(mpg ~ wt, data = mtcars))
 # ggplot for coef
-p + geom_abline(intercept = 37, slope = -5)
+p + geom_abline(intercept = 37, slope = -5) # ggplot
 # ggdibbler for coef AND standard error
-p + geom_abline_sample(intercept = dist_normal(37, 1.8), slope = dist_normal(-5, 0.56),
-                       times=30, alpha=0.1)
+p + geom_abline_sample(intercept = dist_normal(37, 1.8), 
+  slope = dist_normal(-5, 0.56),
+  times=30, alpha=0.3) # ggplot
 }

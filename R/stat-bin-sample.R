@@ -17,15 +17,13 @@ StatBinSample <- ggplot2::ggproto("StatBinSample", ggplot2::StatBin,
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times", "show.legend", "inherit.aes",
-                                                   "binwidth", "bins", "orientation", "lineend,",
-                                                   "linejoin", "center", "boundary", "closed", "pad", 
-                                                   "breaks", "drop")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' @export
 #' @rdname geom_histogram_sample
 #' @inheritParams ggplot2::stat_bin
 #' @param times A parameter used to control the number of values sampled from each distribution.
-stat_bin_sample <- make_constructor(StatBinSample, geom = "bar", times = 10, #position = "stack",
-                                    orientation = NA)
+stat_bin_sample <- make_constructor(StatBinSample, geom = "bar", times = 10, 
+                                    position = "stack_identity", orientation = NA, 
+                                    alpha = 1/log(times), seed = NULL)

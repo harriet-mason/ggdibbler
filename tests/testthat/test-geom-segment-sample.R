@@ -29,8 +29,6 @@ test_that("geom_segment_sample tests", {
   set.seed(876)
   
   p1 <- a +
-    geom_curve_sample(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "curve"), 
-                      data = uncertain_df, alpha=0.5) +
     geom_segment_sample(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "segment"), 
                         data = uncertain_df, alpha=0.5)
   
@@ -45,33 +43,4 @@ test_that("geom_segment_sample tests", {
   
 }
 )
-
-################ PASS #################
-############### FAIL #################
-############## UNTESTED #################
-
-
-# if (requireNamespace('maps', quietly = TRUE)) {
-#   ggplot(seals, aes(long, lat)) +
-#     geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat),
-#                  arrow = arrow(length = unit(0.1,"cm"))) +
-#     annotation_borders("state")
-# }
-# 
-# # Use lineend and linejoin to change the style of the segments
-# df2 <- expand.grid(
-#   lineend = c('round', 'butt', 'square'),
-#   linejoin = c('round', 'mitre', 'bevel'),
-#   stringsAsFactors = FALSE
-# )
-# df2 <- data.frame(df2, y = 1:9)
-# ggplot(df2, aes(x = 1, y = y, xend = 2, yend = y, label = paste(lineend, linejoin))) +
-#   geom_segment(
-#     lineend = df2$lineend, linejoin = df2$linejoin,
-#     size = 3, arrow = arrow(length = unit(0.3, "inches"))
-#   ) +
-#   geom_text(hjust = 'outside', nudge_x = -0.2) +
-#   xlim(0.5, 2)
-
-# with(counts, plot(x, Freq, type = "h", lwd = 10))
 

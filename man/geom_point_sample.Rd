@@ -11,8 +11,8 @@ geom_point_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.7,
-  size = 3/times,
+  seed = NULL,
+  alpha = 1/log(times),
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -93,7 +93,14 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
@@ -115,10 +122,12 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 A ggplot2 geom representing a point_sample which can be added to a ggplot object
 }
 \description{
-Identical to geom_point, except that it will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_point, except that it will accept a distribution in place 
+of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
+library(distributional)
 
   # ggplot
 p <- ggplot(mtcars, aes(wt, mpg))
@@ -126,39 +135,24 @@ p + geom_point()
 
   # ggdibbler - set the sample size with times
 q <- ggplot(uncertain_mtcars, aes(wt, mpg))
-q + geom_point_sample(times=20) 
+q + geom_point_sample(times=50) 
 
 # Add aesthetic mappings
 
  # ggplot
 p + geom_point(aes(colour = factor(cyl)))
   # ggdibbler - a
-q + geom_point_sample(aes(colour = cyl))
-  # ggdibbler - b
-  # If you want the categorical colour for a factor,
-  # You would need to have a categorical rand variable 
-  # If you dont, you can always just compute the colour with after_stat()
-ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distcol=cyl)) + 
-  geom_point_sample(aes(colour = factor(after_stat(distcol))))
-  
+q + geom_point_sample(aes(colour = dist_transformed(cyl, factor, as.numeric))) +
+labs(colour = "factor(cyl)")
  # ggplot
 p + geom_point(aes(shape = factor(cyl))) 
-  # ggdibbler - a
-q + geom_point_sample(aes(shape = cyl)) + 
-  scale_shape_binned()
-  # ggdibbler - b
-ggplot(data = uncertain_mtcars, aes(x=wt, y=mpg, distshape=cyl)) +
-  geom_point_sample(aes(shape = factor(after_stat(distshape))))
+  # ggdibbler
+q + geom_point_sample(aes(shape = dist_transformed(cyl, factor, as.numeric))) + 
+labs(shape = "factor(cyl)")
  
 # A "bubblechart":
 # ggplot2
 p + geom_point(aes(size = qsec))
 # ggdibbler
-q + geom_point_sample(aes(size = qsec), alpha=0.5)
-
-# Set aesthetics to fixed value
-# ggplot
-ggplot(mtcars, aes(wt, mpg)) + geom_point(colour = "red", size = 3)
-# ggdibbler
-ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample(colour = "red", size = 3)
+q + geom_point_sample(aes(size = qsec), alpha=0.1)
 }

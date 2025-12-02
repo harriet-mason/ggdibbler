@@ -8,6 +8,7 @@ geom_vline_sample <- function(mapping = NULL, data = NULL,
                        stat = "identity_sample", position = "identity",
                        ...,
                        times = 10,
+                       seed = NULL,
                        xintercept,
                        na.rm = FALSE,
                        show.legend = NA,
@@ -39,6 +40,7 @@ geom_vline_sample <- function(mapping = NULL, data = NULL,
     params = list2(
       na.rm = na.rm,
       times = times,
+      seed = seed,
       ...
     )
   )

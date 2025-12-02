@@ -17,7 +17,7 @@ StatEcdfSample <- ggplot2::ggproto("StatEcdfSample", ggplot2::StatEcdf,
                                     dibble_to_tibble(data, params) 
                                   },
                                   
-                                  extra_params = c("na.rm", "times")
+                                  extra_params = c("na.rm", "times", "seed")
 )
 
 #' Compute uncertain empirical cumulative distributions
@@ -26,7 +26,12 @@ StatEcdfSample <- ggplot2::ggproto("StatEcdfSample", ggplot2::StatEcdf,
 #' 
 #' @inheritParams ggplot2::stat_ecdf
 #' @importFrom ggplot2 make_constructor 
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)
@@ -56,8 +61,6 @@ StatEcdfSample <- ggplot2::ggproto("StatEcdfSample", ggplot2::StatEcdf,
 #' # ggdibbler 1
 #' ggplot(uncertain_df, aes(x, colour = g)) +
 #'   stat_ecdf_sample(alpha=0.3)
-#' # ggdibbler 2 with random groups
-#' ggplot(uncertain_df, aes(x, colour = g_pred)) +
-#'   stat_ecdf_sample(alpha=0.3)
 #' @export
-stat_ecdf_sample <- make_constructor(StatEcdfSample, geom = "step", times = 10)
+stat_ecdf_sample <- make_constructor(StatEcdfSample, geom = "step", times = 10,
+                                     alpha = 1/log(times), seed = NULL)

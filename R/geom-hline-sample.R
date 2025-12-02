@@ -7,6 +7,7 @@
 geom_hline_sample <- function(mapping = NULL, data = NULL,
                        stat = "identity_sample", position = "identity",
                        ...,
+                       seed = NULL,
                        times = 10,
                        yintercept,
                        na.rm = FALSE,
@@ -39,6 +40,7 @@ geom_hline_sample <- function(mapping = NULL, data = NULL,
     params = list2(
       na.rm = na.rm,
       times = times,
+      seed = seed,
       ...
     )
   )

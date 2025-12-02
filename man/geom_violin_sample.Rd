@@ -10,12 +10,21 @@
 geom_violin_sample(
   mapping = NULL,
   data = NULL,
-  stat = "ydensity_sample",
-  position = "identity",
-  ...,
   times = 10,
-  quantile_gp = list(linetype = 0),
+  seed = NULL,
+  stat = "ydensity_sample",
+  position = "dodge_identity",
+  ...,
+  trim = TRUE,
+  bounds = c(-Inf, Inf),
+  quantile.colour = NULL,
+  quantile.color = NULL,
+  quantile.linetype = 0L,
+  quantile.linewidth = NULL,
+  draw_quantiles = deprecated(),
+  scale = "area",
   na.rm = FALSE,
+  orientation = NA,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -27,7 +36,9 @@ stat_ydensity_sample(
   position = "identity",
   ...,
   times = 10,
-  width = NULL,
+  alpha = 1/log(times),
+  seed = NULL,
+  orientation = NA,
   bw = "nrd0",
   adjust = 1,
   kernel = "gaussian",
@@ -61,6 +72,12 @@ A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
+
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{position}{A position adjustment to use on the data for this layer. This
 can be used in various ways, including to prevent overplotting and
@@ -103,10 +120,34 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{trim}{If \code{TRUE} (default), trim the tails of the violins
+to the range of the data. If \code{FALSE}, don't trim the tails.}
+
+\item{bounds}{Known lower and upper bounds for estimated data. Default
+\code{c(-Inf, Inf)} means that there are no (finite) bounds. If any bound is
+finite, boundary effect of default density estimation will be corrected by
+reflecting tails outside \code{bounds} around their closest edge. Data points
+outside of bounds are removed with a warning.}
+
+\item{quantile.colour, quantile.color, quantile.linewidth, quantile.linetype}{Default aesthetics for the quantile lines. Set to \code{NULL} to inherit from
+the data's aesthetics. By default, quantile lines are hidden and can be
+turned on by changing \code{quantile.linetype}. Quantile values can be set
+using the \code{quantiles} argument when using \code{stat = "ydensity"} (default).}
+
+\item{draw_quantiles}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Previous
+specification of drawing quantiles.}
+
+\item{scale}{if "area" (default), all violins have the same area (before trimming
+the tails). If "count", areas are scaled proportionally to the number of
+observations. If "width", all violins have the same maximum width.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -126,6 +167,9 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 \link[ggplot2:layer_geoms]{geom} arguments work.}
 
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
 \item{bw}{The smoothing bandwidth to be used.
 If numeric, the standard deviation of the smoothing kernel.
 If character, a rule to choose the bandwidth, as listed in
@@ -138,25 +182,15 @@ For example, \code{adjust = 1/2} means use half of the default bandwidth.}
 
 \item{kernel}{Kernel. See list of available kernels in \code{\link[=density]{density()}}.}
 
-\item{trim}{If \code{TRUE} (default), trim the tails of the violins
-to the range of the data. If \code{FALSE}, don't trim the tails.}
-
-\item{scale}{if "area" (default), all violins have the same area (before trimming
-the tails). If "count", areas are scaled proportionally to the number of
-observations. If "width", all violins have the same maximum width.}
-
 \item{drop}{Whether to discard groups with less than 2 observations
 (\code{TRUE}, default) or keep such groups for position adjustment purposes
 (\code{FALSE}).}
 
-\item{bounds}{Known lower and upper bounds for estimated data. Default
-\code{c(-Inf, Inf)} means that there are no (finite) bounds. If any bound is
-finite, boundary effect of default density estimation will be corrected by
-reflecting tails outside \code{bounds} around their closest edge. Data points
-outside of bounds are removed with a warning.}
-
-\item{quantiles}{If not \code{NULL} (default), compute the \code{quantile} variable
-and draw horizontal lines at the given quantiles in \code{geom_violin()}.}
+\item{quantiles}{A numeric vector with numbers between 0 and 1 to indicate
+quantiles marked by the \code{quantile} computed variable. The default marks the
+25th, 50th and 75th percentiles. The display of quantiles can be
+turned on by setting \code{quantile.linetype} to non-blank when using
+\code{geom = "violin"} (default).}
 }
 \description{
 Identical to geom_violin, except that it will accept a distribution in
@@ -167,46 +201,16 @@ library(ggplot2)
 library(dplyr)
 library(distributional)
 
-# have to make factor variable, probably easier ways to do it
-uncertain_mtcars2 <- uncertain_mtcars |>
-  rowwise() |> #must have this or the distributions get mixed up
-  mutate(cyl_factor = dist_sample(list(factor(unlist(generate(cyl,100))))))
-
 # plot set up
-p <- ggplot(mtcars, aes(factor(cyl), mpg))
-q <- ggplot(uncertain_mtcars2, aes(cyl_factor, mpg))
+p <- ggplot(mtcars, 
+  aes(factor(cyl), mpg))
+q <- ggplot(uncertain_mtcars, 
+  aes(dist_transformed(cyl, factor, as.numeric), mpg))
 
 # ggplot
 p + geom_violin()
 # ggdibbler
 q + geom_violin_sample(alpha=0.1)
-
-# Orientation follows the discrete axis
-# ggplot
-ggplot(mtcars, aes(mpg, factor(cyl))) +
-  geom_violin()
-# ggdibbler
-ggplot(uncertain_mtcars2, aes(mpg, cyl_factor)) +
-  geom_violin_sample(alpha=0.1)
-
-# ggplot
-p + geom_violin() + 
-  geom_jitter(height = 0, width = 0.1)
-# ggdibbler
-q + geom_violin_sample(alpha=0.1) + 
-  geom_jitter_sample(height = 0, width = 0.1, size=0.1)
-
-# Scale maximum width proportional to sample size:
-# ggplot
-p + geom_violin(scale = "count")
-# ggdibbler
-q + geom_violin_sample(scale = "count")
-
-# Scale maximum width to 1 for all violins:
-# ggplot
-p + geom_violin(scale = "width")
-# ggdibbler
-q + geom_violin_sample(scale = "width", alpha=0.1)
 
 # Default is to trim violins to the range of the data. To disable:
 # ggplot
@@ -214,31 +218,5 @@ p + geom_violin(trim = FALSE)
 # ggdibbler
 q + geom_violin_sample(trim = FALSE, alpha=0.1)
 
-# Use a smaller bandwidth for closer density fit (default is 1).
-# ggplot
-p + geom_violin(adjust = .5)
-# ggdibbler
-q + geom_violin_sample(adjust = .5, alpha=0.1)
-
-
-# Add aesthetic mappings
-
-# ggplot
-ggplot(mtcars, aes(factor(cyl), mpg)) + 
-  geom_violin(aes(fill = cyl))
-# ggdibbler
-ggplot(uncertain_mtcars2, aes(cyl_factor, mpg)) + 
-  geom_violin_sample(aes(fill = after_stat(x))) 
-
-# ggplot
-p + geom_violin(aes(fill = factor(cyl)))
-# ggdibbler
-q + geom_violin_sample(aes(fill = factor(after_stat(x))))
-
-# Set aesthetics to fixed value
-# ggplot
-p + geom_violin(fill = "grey80", colour = "#3366FF")
-# ggdibbler
-q + geom_violin_sample(fill = "grey80", colour = "#3366FF", alpha=0.1)
 }
 \keyword{datasets}

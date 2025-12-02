@@ -5,6 +5,7 @@
 #' This subdivide position can be used with geom_polygon_sample (soon to
 #' be extended to others such as geom_sf, geom_map, etc).
 #' 
+#' @returns A ggplot2 position
 #' @examples
 #' library(ggplot2)
 #' library(distributional)
@@ -118,7 +119,8 @@ sample_subdivide_sf <- function(data, times){
   # add geometry ID for rejoining later
   data <- data |> 
     dplyr::group_by(geometry) |>
-    dplyr::mutate(geometryID = cur_group_id())
+    dplyr::mutate(geometryID = cur_group_id()) |>
+    dplyr::ungroup()
   
   # make grid for subdivision
   d <- square_grid(times)

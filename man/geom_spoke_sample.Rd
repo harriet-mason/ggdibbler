@@ -11,6 +11,8 @@ geom_spoke_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   arrow = NULL,
   arrow.fill = NULL,
   lineend = "butt",
@@ -95,7 +97,14 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid:arrow]{grid::arrow()}}.}
 
@@ -123,7 +132,8 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 }
 \description{
-Identical to geom_spoke except that it will accept a distribution in place of any of the usual aesthetics.
+Identical to geom_spoke except that it will accept a distribution in place 
+of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
@@ -146,21 +156,10 @@ uncertain_df <- df |>
 # ggplot
 ggplot(df, aes(x, y)) +
   geom_point() +
-  geom_spoke(aes(angle = angle), radius = 0.5)
-
-# ggdibbler
-ggplot(uncertain_df, aes(x, y)) +
-  #' can use geom_point or geom_point_sample since x & y are deterministic
-  geom_point() + #' here we used geom_point
-  geom_spoke_sample(aes(angle = angle), radius = 0.5, alpha=0.3)
-
-# ggplot
-ggplot(df, aes(x, y)) +
-  geom_point() +
   geom_spoke(aes(angle = angle, radius = speed))
 
 # ggdibbler
 ggplot(uncertain_df, aes(x, y)) +
   geom_point_sample() + #' and here we used geom_point_sample
-  geom_spoke_sample(aes(angle = angle, radius = speed), alpha=0.3)
+  geom_spoke_sample(aes(angle = angle, radius = speed))
 }

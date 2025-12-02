@@ -4,7 +4,7 @@
 \alias{uncertain_faithful}
 \title{Old Faithful data with uncertainty}
 \format{
-A data frame with 5,625 observations and 3 variables:
+A data frame:
 \describe{
   \item{eruptions}{Eruption time in mins}
   \item{waiting}{Waiting time to next eruption in mins}

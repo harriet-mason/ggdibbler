@@ -36,16 +36,23 @@ Imports:
     tidyr,
     tibble,
     cli,
-    quantreg,
     sf
 Suggests: 
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
     vdiffr,
-    tidygraph,
-    ggraph,
+    mgcv,
+    fable,
     gganimate,
+    tidyverse,
+    tidygraph,
+    ggthemes,
+    conmat,
+    ggridges,
+    quantreg,
+    ggdist,
+    ggraph,
     patchwork
 VignetteBuilder: 
     knitr

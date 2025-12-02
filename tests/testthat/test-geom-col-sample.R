@@ -14,7 +14,7 @@ test_that("Basic example tests", {
   
   # random variables x and y
   p2 <- ggplot(uncertain_df, aes(x=trt, y=outcome)) +
-    geom_col_sample(times = 30, position = "dodge")
+    geom_col_sample(times = 30, alpha=1, position = "identity_dodge")
   expect_doppelganger("example2", p2)
 }
 )

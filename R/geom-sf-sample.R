@@ -8,8 +8,10 @@
 #' @importFrom rlang list2
 #' @importFrom lifecycle deprecated is_present deprecate_soft
 #' @param n Deprecated in favour of times.
-#' @param times A parameter used to control the number of cells in each grid. 
-#' The geom will find the factors of times and select the ones that make the grid as square as possible.
+#' @param times A parameter used to control the number of values sampled from 
+#' each distribution.
+#' @param seed Set the seed for the layers random draw, allows you to plot the
+#' same draw across multiple layers.
 #' @returns A ggplot2 geom representing a sf_sample which can be added to a 
 #' ggplot object
 #' @inheritParams ggplot2::geom_sf
@@ -33,7 +35,8 @@
 #' @export
 geom_sf_sample <- function(mapping = aes(), data = NULL, 
                            position = "subdivide", na.rm = FALSE, show.legend = NA,
-                           inherit.aes = TRUE, times = 10, n = deprecated(), ...) {
+                           inherit.aes = TRUE, times = 10, seed = NULL,
+                           n = deprecated(), ...) {
   if (is_present(n)) {
     
     # Signal the deprecation to the user
@@ -53,6 +56,7 @@ geom_sf_sample <- function(mapping = aes(), data = NULL,
       show.legend = show.legend,
       inherit.aes = inherit.aes,
       params = list2(
+        seed = seed,
         na.rm = na.rm,
         times = times,
         ...
