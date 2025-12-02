@@ -48,6 +48,7 @@ Suggests:
     tidyverse,
     tidygraph,
     ggthemes,
+    magick,
     ggridges,
     quantreg,
     ggdist,
