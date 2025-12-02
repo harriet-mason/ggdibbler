@@ -1,10 +1,20 @@
 # ggdibbler 0.6.0
 
+## New featues and data
+### Geoms & stats
+  - `stat_connect_sample`
+  - `stat_manual_sample`
+  - `stat_summary_2d_sample` / `stat_summary_hex_sample`
+  - `stat_summary_sample`/`stat_summary_bin_sample``
+  - `stat_unique_sample`
+
+### data
+- `walktober`
+
 # ggdibbler 0.5.0
 
-# Version v0.5.0
-
 ## New Featues
+
 ### Geoms & stats
 - `stat_ellipse_sample`
 - `stat_ecdf_sample`
