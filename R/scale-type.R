@@ -5,7 +5,8 @@
 #' @importFrom distributional generate
 #' @importFrom ggplot2 scale_type
 #' @param x value being scaled
-#' @return A character vector of scale types. The scale type is the ggplot scale type of the outcome of the distribution.
+#' @return A character vector of scale types. The scale type is the ggplot 
+#' scale type of the outcome of the distribution.
 #' @exportS3Method ggplot2::scale_type
 scale_type.distribution <- function(x) {
   datatype <- scale_type(unlist(generate(x,1)))

@@ -9,6 +9,7 @@
 #' @inheritParams ggplot2::scale_x_discrete
 #' @inheritParams ggplot2::scale_y_discrete
 #' @inheritParams scales::train_discrete
+#' @returns A ggplot2 scale
 #' @examples
 #' library(ggplot2)
 #' # ggplot

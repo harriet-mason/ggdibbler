@@ -4,6 +4,7 @@
 #' the positions are an identity. This allows you to set different position 
 #' adjustments for the "main" and "distribution" parts of your plot.
 #' 
+#' @returns A ggplot2 position
 #' @examples
 #' # Standard ggplots often have a position adjustment to fix overplotting
 #' # plot with overplotting

@@ -1,5 +1,5 @@
 ---
-title: "Unexpected behaviours of random plots"
+title: "Unexpected behaviour of random plots"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{barchart_problem}
@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE, echo=FALSE}
 set.seed(101)
 
 library(ggdibbler)
@@ -37,10 +37,11 @@ When you save a plot, `ggplot2`doesn't technically save the plot itself. It save
 plot <- ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample(times=5) 
 plot + plot
 ```
+
 The two scatter plots above were called using the same variable `plot` and would be identical if they were a ggplot, but you can see they are slightly different. 
 
 ## Calling the same variable twice
-ggdibbler assumes all aesthetic distributions passed are independent, which means if you pass the same variable to two different aesthetic, they will be different samples.
+`ggdibbler` assumes all aesthetic distributions passed are independent, which means if you pass the same variable to two different aesthetic, they will be different samples.
 
 ```{r}
 p1 <- ggplot(mtcars, aes(wt, wt)) + geom_point()  +
@@ -49,7 +50,8 @@ p2 <- ggplot(uncertain_mtcars, aes(wt, wt)) + geom_point_sample(times=5) +
   ggtitle("ggdibbler")
 p1 + p2
 ```
-By the time a column gets to the stat where we draw the samples, we do not have the variable names anymore. This means we can't be sure which variables are actually identical versus which variables only appear to be identical. You can get the identical behaviour by one of the draws using the `after_stat` function.
+
+By the time a column gets to the stat where we draw the samples, we do not have the variable names any more. This means we can't be sure which variables are actually identical versus which variables only appear to be identical. You can get the identical behaviour by one of the draws using the `after_stat` function.
 
 ```{r}
 ggplot(uncertain_mtcars, aes(wt, after_stat(x))) + geom_point_sample(times=5) 
@@ -88,7 +90,7 @@ You might want to know how many values end up in each group and how certain the 
 ggplot(diamonds_pred, aes(x=cut_pred)) +
   geom_bar_sample(times=30)
 ```
-Looking at this plot, it is clear that the count value is uncertain, but that uncertainty is coming from the uncertainty in the cut_prediction. The cut_pred values don't look very "uncertain", because in this plot, they are not. This is the reality of visualising uncertainty for signal supression. Since the `stat_sample` that is used to get outcomes from the distribution is nested inside of ggplot's `stat_count`, the uncetainty in the prediction is carried through to the variable the plot is designed to show, i.e. the count in each category. If it makes you feel better, we can set the fill to be the outputs so you can 100% see this is the case.
+Looking at this plot, it is clear that the count value is uncertain, but that uncertainty is coming from the uncertainty in the cut_prediction. The cut_pred values don't look very "uncertain", because in this plot, they are not. This is the reality of visualising uncertainty for signal suppression. Since the `stat_sample` that is used to get outcomes from the distribution is nested inside of ggplot's `stat_count`, the uncertainty in the prediction is carried through to the variable the plot is designed to show, i.e. the count in each category. If it makes you feel better, we can set the fill to be the outputs so you can 100% see this is the case.
 
 ```{r}
 ggplot(diamonds_pred, aes(x=cut_pred)) +
@@ -111,7 +113,7 @@ p2 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, 
                   position= "stack_dodge") +
   scale_fill_brewer(palette = "Set1") +
-  ggtitle("Random colour (dodoge)")
+  ggtitle("Random colour (dodge)")
 
 p3 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, alpha=0.1,
@@ -119,9 +121,21 @@ p3 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   scale_fill_brewer(palette = "Set1") +
   ggtitle("Random colour (identity)")
 
-p1 | p2 | p3
+p2 | p3
 
 ```
 
 The height of the bar represents the total number of values predicted as that class, and the proportion of the the bar that is filled in as that colour represents the probability that the observation is that class. You will notice that the y-axis now represents the count of a deterministic variable (so there is no random variation and it is easy to read) but the colour *is* random, so it does have variation.
 
+```{r, include=FALSE, eval=FALSE}
+library(spelling)
+qmd <- "C_random-plots.Rmd"
+check_spelling <- spell_check_files(
+  qmd,
+  lang = "en_GB"
+)
+if (nrow(check_spelling) > 0) {
+  print(check_spelling)
+  stop("Check spelling in Qmd files!")
+}
+```

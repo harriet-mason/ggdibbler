@@ -34,6 +34,7 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' same draw across multiple layers.
 #' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
 #' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
 #' library(distributional)

@@ -53,6 +53,7 @@ position_dictionary_sample <- function(position){
 #' 
 #' @importFrom ggplot2 ggproto
 #' @param position a character of the nested position you want to use
+#' @returns A ggplot2 position
 #' @examples
 #' # nested positions allows us to differentiate which postion adjustments
 #' # are used for the plot groups vs the distribution samples

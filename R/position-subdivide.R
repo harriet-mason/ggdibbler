@@ -5,6 +5,7 @@
 #' This subdivide position can be used with geom_polygon_sample (soon to
 #' be extended to others such as geom_sf, geom_map, etc).
 #' 
+#' @returns A ggplot2 position
 #' @examples
 #' library(ggplot2)
 #' library(distributional)

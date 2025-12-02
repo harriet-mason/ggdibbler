@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggdibbler <img src="man/figures/logo.png" align="right" height="139" alt="" />
+# `ggdibbler` <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 For information to be passed into ggplot2, or any visualisation
 software, it usually needs to be expressed as data. This restriction
@@ -15,18 +15,20 @@ variables created using
 [`distributional`](https://github.com/mitchelloharawild/distributional)
 and visualise these types of inputs using `ggdibbler`. Any quantifiable
 uncertainty can be expressed as a distribution, and any distribution can
-be passed to an existing ggplot2 geom with ggdibbler. Users are not
-limited by data type (the data can be a random factor, continuous
-variable, character, etc) or by type of distribution (it can be any
-theoretical distribution, but also an empirical distribution expressed
-as a set of samples).
+be passed to an existing `ggplot2` geom with `ggdibbler`. Users are not
+limited by data type, the data can be continuous or discrete, sf
+objects, character or factors, or even other distributions. You are also
+not limited to any type of distribution, theoretical, empirical,
+truncated, and mixed distributions are all allowed by `distributional`
+and therefore accepted by `ggdibbler`. No matter what you pass,
+`ggdibbler` will incorporate the uncertainty into your graphic as noise
+and allows you to see how the variation may change the conclusions you
+take away from your graphics.
 
-`ggdibbler` it incorporates uncertainty into your graphic as noise and
-allows you to see how the variation may change the conclusions you take
-away from your graphics. The power of ggdibbler is in its simplicity and
-flexibility. There is no need to learn specific package syntax or new
-functions and you can pass a distribution to ANY combination of
-aesthetics in ggplot2.
+The power of `ggdibbler` is in its simplicity and flexibility. There is
+no need to learn specific package syntax or new functions and you can
+pass a distribution to ANY combination of aesthetics in ggplot2. It is a
+universal, exploratory tool for uncertainty visualisation.
 
 ## Installation
 
@@ -37,7 +39,7 @@ You can install the stable version of `ggdibbler` from CRAN with:
 install.packages("ggdibbler")
 ```
 
-or you can install the development version of ggdibbler from
+or you can install the development version of `ggdibbler` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -53,14 +55,15 @@ variable with a `distributional` variable, and you get an uncertainty
 visualisation.
 
 You will often run into an overplotting problem when visualising
-uncertainty, so using a jitter or adjustment to the alpha value will
-allow you to see all outcomes of the distribution. Otherwise you will
-only see the draw.
+uncertainty, so using a jitter or adjusting the alpha value will allow
+you to see all outcomes of the distribution. Otherwise you will only see
+the final draw.
 
-Below are some examples of `ggplot2` code alongside its uncertain
-`ggdibbler` counterpart. The only parameter added by `ggdibbler` is the
+Below are some examples of `ggdibbler` code alongside their uncertain
+`ggplot2` counterpart. The only parameters added by `ggdibbler` are the
 `times` argument, which decides how many samples to draw from the
-distribution.
+distribution, and the `seed` argument which allows you to keep the same
+random draw across multiple layers.
 
 ``` r
 library(distributional)
@@ -114,9 +117,8 @@ p1  + p2 + p3
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
-`ggdibbler` also have a completely nested positioning system for
-managing overplotting from re sampling. This is usually in the form of
-nested positions:
+You can mix and match positions to get some interesting looking graphics
+that all converge to the same `ggplot2` plot.
 
 ``` r
 p1 <- ggplot(mpg, aes(class)) + 
@@ -144,10 +146,9 @@ p1 | p2 | p3
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 The only geoms that implement new positioning (i.e. not nested versions
-of existing ggplot2 positions) are `geom_sf_sample`, and
-`geom_pollygon_sample`. These geometries use the `subdivide` position to
-fix the over plotting problem. This position adjustment replicates the
-pixel map implemented in
+of existing `ggplot2` positions) are `geom_sf_sample`, and
+`geom_pollygon_sample`. These geometries use the `subdivide` position
+which is inspired by the pixel map implemented in
 [Vizumap](https://github.com/lydialucchesi/Vizumap).
 
 ``` r
@@ -183,17 +184,17 @@ p1+p2
 
 There are three primary limitations of the software to keep in mind.
 First, it only allows you to visualise the distribution as a sample. We
-are planning to expand this to quantiles in later version, but it is not
+are planning to expand this to quantiles in later versions but it is not
 currently an option. Second, if multiple distributions are passed, they
-are assumed to be independent. As the examples show, there are some work
-arounds to this problem but this is also something we are hoping to fix
-in later versions (the first hurdle is allowing the `distributional`
-MTVN object). Finally, all desired scale and position functions are not
-always available as we built the minimum required level of nesting
-before this release. This is another feature we hope to build up in the
-future.
+are assumed to be independent. This is actually not as much of a
+limitation as people think, there are often a simple work around in most
+cases, but it isn’t as frictionless as we would like. Finally, all
+desired scale and position functions are not always available as we
+built the minimum required level of nesting before this release. This is
+another feature we hope to build up in the future.
 
 ## Future additions to the package
 
-The plans for `ggdibbler` are tracked in the [github
-issues](https://github.com/harriet-mason/ggdibbler/issues)
+Future plans for `ggdibbler` are tracked in the [Github
+issues](https://github.com/harriet-mason/ggdibbler/issues). If you have
+a suggestion or bug, please let us know!

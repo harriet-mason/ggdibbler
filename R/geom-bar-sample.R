@@ -12,6 +12,7 @@
 #' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
 #' parameter to set the default value to 1/log(times) to make sure the 
 #' repeated draws are always visible
+#' @returns A ggplot2 layer
 #' @examples
 #' library(distributional)
 #' library(ggplot2)

@@ -4,6 +4,7 @@
 #' place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::geom_segment
+#' @inheritParams ggplot2::geom_curve
 #' @importFrom ggplot2 make_constructor GeomSegment
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
@@ -11,6 +12,7 @@
 #' same draw across multiple layers.
 #' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
 #' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
 #' 
 #' @examples
 #' library(ggplot2)

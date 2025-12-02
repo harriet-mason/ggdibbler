@@ -11,6 +11,7 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
 #' 

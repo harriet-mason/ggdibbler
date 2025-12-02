@@ -3,12 +3,17 @@
 #' Identical to geom_tile and geom_rect, except that they will accept a 
 #' distribution in place of any of the usual aesthetics.
 #' 
+#' @inheritParams ggplot2::geom_rect
 #' @inheritParams ggplot2::geom_tile
+#' @inheritParams ggplot2::geom_raster
 #' @importFrom ggplot2 make_constructor GeomTile
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
+#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
+#' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
 #' library(distributional)

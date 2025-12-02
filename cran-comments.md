@@ -1,11 +1,7 @@
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
+* This version is a much more significant implementation of the uncertainty visualisation system implemented in the previous version. The package is now a full replication of ggplot2 that allows users to pass random variables to any aesthetic.
 
-* Resubmitting after addressing the issues outlined in Uwe's email.
- 
-* Resubmitting again after added return documentation to scale_type as mentioned in Konstanze's email
 
-* Fixed Latex issue from building the manual

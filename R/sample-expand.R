@@ -14,6 +14,7 @@
 #' @param seed Set the seed for the layers random draw, allows you to get the
 #' same draw from repeated sample_expand calls
 #' sample_expand(uncertain_mpg, times=10)
+#' @returns A data frame of resampled values from the input distributions
 #' @export
 sample_expand <- function(data, times=10, seed=NULL){ 
   # Check for at least one distribution vector

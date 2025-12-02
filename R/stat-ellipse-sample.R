@@ -33,6 +33,7 @@ StatEllipseSample <- ggplot2::ggproto("StatEllipseSample", ggplot2::StatEllipse,
 #' same draw across multiple layers.
 #' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
 #' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
 #' library(distributional)

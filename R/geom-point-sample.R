@@ -10,7 +10,7 @@
 #' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
 #' parameter to make sure the repeated draws are always visible
 #' @importFrom ggplot2 make_constructor GeomPoint
-#' @returns A ggplot2 geom representing a point_sample which can be added to a ggplot object
+#' @returns A ggplot2 layer
 #' @inheritParams ggplot2::geom_point
 #' @examples
 #' library(ggplot2)

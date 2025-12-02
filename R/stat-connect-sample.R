@@ -34,6 +34,7 @@ StatConnectSample <- ggplot2::ggproto("StatConnectSample", ggplot2::StatConnect,
 #' same draw across multiple layers.
 #' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
 #' parameter to make sure the repeated draws are always visible
+#' @returns A ggplot2 layer
 #' @examples
 #' # set up data
 #' library(ggplot2)

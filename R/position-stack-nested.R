@@ -6,6 +6,7 @@
 #' 
 #' @inheritParams ggplot2::position_stack
 #' @inheritParams ggplot2::position_identity
+#' @returns A ggplot2 position
 #' @importFrom ggplot2 ggproto PositionDodge PositionStack
 #' @examples
 #' # Standard ggplots often have a position adjustment to fix overplotting

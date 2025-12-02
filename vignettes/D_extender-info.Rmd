@@ -1,5 +1,5 @@
 ---
-title: "Info for ggplot extenders"
+title: "Help for ggplot extenders"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{extender-info}
@@ -14,17 +14,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE, echo=FALSE}
 library(ggdibbler)
 ```
 
 
-## Like a dog, your ggplot extension *can* learn new tricks
-The beauty of the broad solution ggdibbler provides is that it always works. It might not always look *good* or be exactly what you were looking for, but it always works. To illustrate this, I selected the visualisation system that `ggraph` example in the [introduction to ggdibbler](ggdibbler-intro.Rmd) to see how 
+## Your old ggplot extension *can* learn new tricks
+The beauty of the broad solution `ggdibbler` provides is that it always works. It might not always look *good* or be exactly what you were looking for, but it always works. To illustrate this, I selected the visualisation system that `ggraph` example in the [introduction to `ggdibbler`](ggdibbler-intro.Rmd) to see how 
 
 In the `ggraph` example, I illustrated how you can use the `ggdibbler` approach with a ggplot extension that isn't even aware `ggdibbler` exists. While that method works (well enough) it can be somewhat annoying to implement, and it doesn't give you access to the nested positions (as they use internal variables). I can understand fellow ggplot extenders might be chomping at the bit to see what their plots look like with uncertainty and nested positions. 
 
-Sometimes, when making a `ggdibbler` version of a `ggplot2` base function, I would think to myself "What is the point of this, who on earth needs an uncertain version of `stat_unique`?". I still sometimes think that, but the reason we implemented it with *ALL* ggplot2 functions, is not for the users, but rather for the extenders. If there is a ggplot2 extension that is the child of a base `stat` or base position, a geom_*_sample variation of their function will simply be the child of the ggdibbler variation of the ggplot2 stat, instead of the original ggplot2 code. The only ggplot2 extension that might not work with `ggdibbler` is `ggdist` (for the obvious reason that is is the only other ggplot extension that is designed to take distributional input). 
+Sometimes, when making a `ggdibbler` version of a `ggplot2` base function, I would think to myself "What is the point of this, who on earth needs an uncertain version of `stat_unique`?". I still sometimes think that, but the reason we implemented it with *ALL* ggplot2 functions, is not for the users, but rather for the extenders. If there is a ggplot2 extension that is the child of a base `stat` or base position, a geom_*_sample variation of their function will simply be the child of the `ggdibbler` variation of the ggplot2 stat, instead of the original ggplot2 code. The only ggplot2 extension that might not work with `ggdibbler` is `ggdist` (for the obvious reason that is is the only other ggplot extension that is designed to take distributional input). 
 
 Now, I have made all functions in base `ggplot2` accept uncertain inputs, go me, but the real power of ggplot2 comes from the wealth of extension packages. Now, as fun as I am sure it would be, I am not about to spend the next 5 years making pull requests on every `ggplot2` extension package so that they can all accept random variables. Largely because:
 
@@ -43,7 +43,7 @@ geom_YOURGEOM_sample <- make_constructor(YOURGEOM, stat = "GGPLOT2STAT_sample",
 ```
 
 ### Stats
-Stats are slightly more complicated, but still shockingly simple. There are two approaches to this. The first options is to make a YOURSTATSample child version of your stat, similar to the relationship between the base stats in ggplot and the sample stats implemented in ggdibbler. When making these functions in `ggdibbler` I literally had a template that I would copy and paste into the .R file. 
+Stats are slightly more complicated, but still shockingly simple. There are two approaches to this. The first options is to make a YOURSTATSample child version of your stat, similar to the relationship between the base stats in ggplot and the sample stats implemented in `ggdibbler`. When making these functions in `ggdibbler` I literally had a template that I would copy and paste into the .R file. 
 
 ```{r, eval = FALSE}
 #' @importFrom ggplot2 ggproto Stat***
@@ -85,7 +85,7 @@ stat_***_sample <- make_constructor(Stat***Sample, geom = "***",
 
 ```
 
-The alternative option is if your stat is the child of an existing ggplot2 stat, you can just make a new version of your function that is a child of the ggdibbler version instead of the ggplot2 version. I haven't implemented this one, so I am not 100% sure how it would work, but the *only* thing that ggdibbler does (99% of the time) is do a setup_data step.
+The alternative option is if your stat is the child of an existing ggplot2 stat, you can just make a new version of your function that is a child of the `ggdibbler` version instead of the ggplot2 version. I haven't implemented this one, so I am not 100% sure how it would work, but the *only* thing that `ggdibbler` does (99% of the time) is do a setup_data step.
 
 ### Scales(TODO)
 Honestly, if your package implements new scales, I would hold off on this one until the `ggdibbler` scales system is more built up. You can still try, if you want, but I am not making any promises on the usability of the function you spit out. So long as distributional can make a random variable of your scale's object type, you can make a nested scale of it.
@@ -95,3 +95,16 @@ Honestly, if your package implements new scales, I would hold off on this one un
 
 ### Nested Positions (TODO)
 The nested position system can't really be extended upon yet, but it is a future plan, sorry!
+
+```{r, include=FALSE, eval=FALSE}
+library(spelling)
+qmd <- "D_extender-info.Rmd"
+check_spelling <- spell_check_files(
+  qmd,
+  lang = "en_GB"
+)
+if (nrow(check_spelling) > 0) {
+  print(check_spelling)
+  stop("Check spelling in Qmd files!")
+}
+```

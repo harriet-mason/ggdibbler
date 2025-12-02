@@ -8,6 +8,7 @@
 #' @inheritParams ggplot2::position_identity
 #' @aesthetics PositionDodge
 #' @importFrom ggplot2 ggproto PositionDodge Position
+#' @returns A ggplot2 position
 #' @examples
 #' library(ggplot2)
 #' 
