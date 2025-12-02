@@ -6,6 +6,9 @@
 \usage{
 position_identity_identity()
 }
+\value{
+A ggplot2 position
+}
 \description{
 These functions use nested positioning for distributional data, where both of 
 the positions are an identity. This allows you to set different position 

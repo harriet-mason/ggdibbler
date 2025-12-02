@@ -165,6 +165,9 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 
 \item{linejoin}{Line join style (round, mitre, bevel).}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_segment, except that it will accept a distribution in 
 place of any of the usual aesthetics.

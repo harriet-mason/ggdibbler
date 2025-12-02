@@ -203,6 +203,9 @@ If \code{"extremes"} only zero count bins at the flanks are filtered out, but
 not in the middle. \code{TRUE} is shorthand for \code{"all"} and \code{FALSE} is shorthand
 for \code{"none"}.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_histogram, geom_freqpoly, and stat-bin except that 
 it will accept a distribution in place of any of the usual aesthetics.

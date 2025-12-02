@@ -192,6 +192,9 @@ quantiles marked by the \code{quantile} computed variable. The default marks the
 turned on by setting \code{quantile.linetype} to non-blank when using
 \code{geom = "violin"} (default).}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_violin, except that it will accept a distribution in
 place of any of the usual aesthetics.

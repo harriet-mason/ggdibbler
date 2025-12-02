@@ -119,7 +119,7 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 }
 \value{
-A ggplot2 geom representing a point_sample which can be added to a ggplot object
+A ggplot2 layer
 }
 \description{
 Identical to geom_point, except that it will accept a distribution in place 

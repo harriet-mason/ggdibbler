@@ -231,6 +231,9 @@ give the geom as \code{"point"}.
 \link[ggplot2:layer_geoms]{layer geom} documentation.
 }}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_contour and geom_contour_filled, except that it will 
 accept a distribution in place of any of the usual aesthetics.

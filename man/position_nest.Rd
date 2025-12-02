@@ -11,6 +11,9 @@ position_nest(position = "identity_identity")
 \arguments{
 \item{position}{a character of the nested position you want to use}
 }
+\value{
+A ggplot2 position
+}
 \description{
 This function lets you nest any two positions available in ggplot2 (your
 results may vary). This allows you to set different position adjustments 

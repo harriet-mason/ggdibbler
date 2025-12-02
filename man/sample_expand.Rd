@@ -16,6 +16,9 @@ each distribution.}
 same draw from repeated sample_expand calls
 sample_expand(uncertain_mpg, times=10)}
 }
+\value{
+A data frame of resampled values from the input distributions
+}
 \description{
 Simulates outcomes from all distributions in the dataset to make an "expanded" data
 set that can be intepreted by ggplot2. This can be used to debug ggdibbler plots, or

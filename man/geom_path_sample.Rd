@@ -186,6 +186,9 @@ to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more 
 'hv' for horizontal then vertical, or 'mid' for step half-way between
 adjacent x-values.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_path, geom_line, and geom_step, except that it will accept a distribution in place of any of the usual aesthetics.
 }

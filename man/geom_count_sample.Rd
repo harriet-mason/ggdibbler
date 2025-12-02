@@ -129,6 +129,9 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 these connections, see how the \link[ggplot2:layer_stats]{stat} and \link[ggplot2:layer_geoms]{geom}
 arguments work.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_count, except that it will accept a distribution in place 
 of any of the usual aesthetics.

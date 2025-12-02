@@ -150,6 +150,9 @@ bin width of a time variable is the number of seconds.}
 
 \item{bins}{Number of bins. Overridden by \code{binwidth}. Defaults to 30.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_hex, except that it will accept a distribution in place of 
 any of the usual aesthetics.

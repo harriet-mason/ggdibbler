@@ -198,6 +198,9 @@ parameter to make sure the repeated draws are always visible}
 
 \item{lineend}{Line end style (round, butt, square).}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_linerange, geom_errorbar, geom_crossbar, and 
 geom_pointrange except that they will accept a distribution in place of 

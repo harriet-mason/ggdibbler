@@ -190,6 +190,9 @@ equally spaced points for continuous data.}
 \item{method.args}{List of additional arguments passed on to the modelling
 function defined by \code{method}.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_smooth, except that it will accept a distribution in place of any of the usual aesthetics.
 }

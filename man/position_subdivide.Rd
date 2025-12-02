@@ -8,6 +8,9 @@
 \usage{
 position_subdivide()
 }
+\value{
+A ggplot2 position
+}
 \description{
 If the outline of a polygon is deterministic but the fill is random,
 you should use position subdivide rather than varying the alpha value.

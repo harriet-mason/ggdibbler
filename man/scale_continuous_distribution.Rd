@@ -105,6 +105,9 @@ bounds values with \code{NA}.
 
 \item{...}{Other arguments passed on to \verb{scale_(x|y)_continuous()}}
 }
+\value{
+A ggplot2 scale
+}
 \description{
 These scales allow for distributions to be passed to the x and y position by mapping distribution objects
 to continuous aesthetics.

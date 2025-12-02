@@ -202,6 +202,9 @@ use half of the default bandwidth.}
 
 \item{n}{Number of grid points in each direction.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_density_2d() and geom_density_2d_filled, except that it 
 will accept a distribution in place of any of the usual aesthetics.

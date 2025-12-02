@@ -41,6 +41,9 @@ at a position, or the width of a \code{"single"} element?}
 indicate an explicit orientation, like \code{geom_point()}. Can be \code{"x"}
 (default) or \code{"y"}.}
 }
+\value{
+A ggplot2 position
+}
 \description{
 These functions use nested positioning for distributional data, where one of 
 the positions is stacked. This allows you to set different position 

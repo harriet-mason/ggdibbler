@@ -174,6 +174,8 @@ supported by \code{geom_label()}.}
 }
 \value{
 A ggplot2 geom representing a point_sample which can be added to a ggplot object
+
+A ggplot2 layer
 }
 \description{
 Identical to geom_text and geom_label except that it will accept a 

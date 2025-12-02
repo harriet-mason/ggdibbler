@@ -180,6 +180,9 @@ finite, boundary effect of default density estimation will be corrected by
 reflecting tails outside \code{bounds} around their closest edge. Data points
 outside of bounds are removed with a warning.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_density, except that the fill for each density will be 
 represented by a sample from each distribution.

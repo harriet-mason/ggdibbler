@@ -158,6 +158,9 @@ overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 \item{method.args}{List of additional arguments passed on to the modelling
 function defined by \code{method}.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_quantile, except that it will accept a distribution in place of any of the usual aesthetics.
 }

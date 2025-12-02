@@ -167,6 +167,9 @@ if \code{0} is outside the range of the data. Alternatively, this same alignment
 can be specified with \code{binwidth = 1} and \code{boundary = 0.5}, even if \code{0.5} is
 outside the range of the data.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_bin_2d, except that it will accept a distribution in place of any of the usual aesthetics.
 }

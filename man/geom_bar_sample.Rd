@@ -162,6 +162,9 @@ to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more 
 parameter to set the default value to 1/log(times) to make sure the 
 repeated draws are always visible}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_bar, except that it will accept a distribution in place of 
 any of the usual aesthetics.

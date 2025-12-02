@@ -198,6 +198,9 @@ overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 
 \item{coef}{Length of the whiskers as multiple of IQR. Defaults to 1.5.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_boxplot, except that it will accept a distribution in place of any of the usual aesthetics.
 }

@@ -10,7 +10,8 @@
 \item{x}{value being scaled}
 }
 \value{
-A character vector of scale types. The scale type is the ggplot scale type of the outcome of the distribution.
+A character vector of scale types. The scale type is the ggplot 
+scale type of the outcome of the distribution.
 }
 \description{
 Generates a single value from the distribution and uses it to set the default ggplot scale. The scale can be changed later in the ggplot by using any scale_* function

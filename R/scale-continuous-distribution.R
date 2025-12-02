@@ -9,8 +9,8 @@
 #' For example, if you would like a log transformation of the x axis, plot + coord_transform(x = "log")
 #' would work fine.
 #' 
-#' @examples
 #' @returns A ggplot2 scale
+#' @examples
 #' library(ggplot2)
 #' library(distributional)
 #' set.seed(1997)

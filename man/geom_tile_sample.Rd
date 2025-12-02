@@ -165,6 +165,9 @@ parameter to make sure the repeated draws are always visible}
 
 \item{linejoin}{Line join style (round, mitre, bevel).}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_tile and geom_rect, except that they will accept a 
 distribution in place of any of the usual aesthetics.

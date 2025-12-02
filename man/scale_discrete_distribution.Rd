@@ -126,6 +126,9 @@ notation.
     \item{\code{super}}{The super class to use for the constructed scale}
   }}
 }
+\value{
+A ggplot2 scale
+}
 \description{
 These scales allow for discrete distributions to be passed to the x and y position by mapping distribution objects
 to discrete aesthetics.

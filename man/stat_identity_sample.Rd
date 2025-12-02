@@ -122,6 +122,8 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 }
 \value{
 A ggplot2 geom representing a point_sample which can be added to a ggplot object
+
+A ggplot2 layer
 }
 \description{
 Can think of as the ggdibbler equivalent to "stat_identity". It is the default stat

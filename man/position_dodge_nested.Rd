@@ -47,6 +47,9 @@ indicate an explicit orientation, like \code{geom_point()}. Can be \code{"x"}
 \item{reverse}{If \code{TRUE}, will reverse the default stacking order.
 This is useful if you're rotating both the plot and legend.}
 }
+\value{
+A ggplot2 position
+}
 \description{
 These functions use nested positioning for distributional data, where one of 
 the positions is dodged. This allows you to set different position 
