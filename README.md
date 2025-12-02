@@ -180,7 +180,7 @@ p1+p2
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
-# Limitations of the Package
+## Limitations of the Package
 
 There are three primary limitations of the software to keep in mind.
 First, it only allows you to visualise the distribution as a sample. We

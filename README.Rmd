@@ -145,7 +145,7 @@ p2 <- toy_temp_dist |>
 p1+p2
 ```
 
-# Limitations of the Package
+## Limitations of the Package
 There are three primary limitations of the software to keep in mind. First, it only allows you to visualise the distribution as a sample. We are planning to expand this to quantiles in later versions but it is not currently an option. Second, if multiple distributions are passed, they are assumed to be independent. This is actually not as much of a limitation as people think, there are often a simple work around in most cases, but it isn't as frictionless as we would like. Finally, all desired scale and position functions are not always available as we built the minimum required level of nesting before this release. This is another feature we hope to build up in the future.
 
 ## Future additions to the package
