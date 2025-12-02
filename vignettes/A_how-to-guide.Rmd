@@ -25,7 +25,6 @@ library(ggraph)
 library(ggthemes)
 library(fable)
 library(gganimate)
-library(conmat)
 library(ggridges)
 ```
 
