@@ -29,7 +29,9 @@ StatYdensitySample <- ggplot2::ggproto("StatYdensitySample", ggplot2::StatYdensi
 #' same draw across multiple layers.
 stat_ydensity_sample <- make_constructor(StatYdensitySample, geom = "violin", 
                                          times = 10, alpha = 1/log(times), 
-                                         seed = NULL)
+                                         seed = NULL, orientation = NA,
+                                         checks = exprs(scale <- arg_match0(scale, c("area", "count", "width"))),
+                                         omit = "width")
 
 
 

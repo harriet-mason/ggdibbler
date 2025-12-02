@@ -64,6 +64,8 @@ Use \code{NA} to refer to the existing minimum or maximum.
 length two.
 }}
 
+\item{drop}{\code{TRUE}, will drop factor levels not associated with data}
+
 \item{...}{
   Arguments passed on to \code{\link[ggplot2:discrete_scale]{discrete_scale}}
   \describe{

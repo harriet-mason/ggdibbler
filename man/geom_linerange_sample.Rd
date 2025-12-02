@@ -12,20 +12,22 @@
 geom_crossbar_sample(
   mapping = NULL,
   data = NULL,
+  times = 10,
+  seed = NULL,
   stat = "identity_sample",
   position = "identity",
   ...,
-  times = 10,
-  orientation = NA,
-  alpha = 0.5/log(times),
-  seed = NULL,
-  lineend = "butt",
-  linejoin = "mitre",
-  fatten = 2.5,
-  width = NULL,
-  middle_gp = NULL,
-  box_gp = NULL,
+  middle.colour = NULL,
+  middle.color = NULL,
+  middle.linetype = NULL,
+  middle.linewidth = NULL,
+  box.colour = NULL,
+  box.color = NULL,
+  box.linetype = NULL,
+  box.linewidth = NULL,
+  fatten = deprecated(),
   na.rm = FALSE,
+  orientation = NA,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -100,6 +102,12 @@ the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
+
 \item{stat}{The statistical transformation to use on the data for this layer.
 When using a \verb{geom_*()} function to construct a layer, the \code{stat}
 argument can be used to override the default coupling between geoms and
@@ -154,21 +162,11 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from 
-each distribution.}
+\item{middle.colour, middle.color, middle.linetype, middle.linewidth}{Default aesthetics for the middle line. Set to \code{NULL} to inherit from the
+data's aesthetics.}
 
-\item{orientation}{The orientation of the layer. The default (\code{NA})
-automatically determines the orientation from the aesthetic mapping. In the
-rare event that this fails it can be given explicitly by setting \code{orientation}
-to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
-\item{seed}{Set the seed for the layers random draw, allows you to plot the
-same draw across multiple layers.}
-
-\item{lineend}{Line end style (round, butt, square).}
+\item{box.colour, box.color, box.linetype, box.linewidth}{Default aesthetics for the boxes. Set to \code{NULL} to inherit from the
+data's aesthetics.}
 
 \item{fatten}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}  A multiplicative factor
 used to increase the size of the middle bar in \code{geom_crossbar()} and the
@@ -176,6 +174,11 @@ middle point in \code{geom_pointrange()}.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -189,6 +192,11 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
+
+\item{lineend}{Line end style (round, butt, square).}
 }
 \description{
 Identical to geom_linerange, geom_errorbar, geom_crossbar, and 

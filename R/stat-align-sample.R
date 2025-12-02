@@ -28,4 +28,5 @@ StatAlignSample <- ggplot2::ggproto("StatAlignSample", ggplot2::StatAlign,
 #' @rdname geom_ribbon_sample
 #' @inheritParams ggplot2::stat_align
 stat_align_sample <- make_constructor(StatAlignSample, geom = "area",
-                                      times = 10, seed = NULL, alpha=1/log(times))
+                                      times = 10, seed = NULL, alpha=1/log(times),
+                                      omit = c("unique_loc", "adjust"))

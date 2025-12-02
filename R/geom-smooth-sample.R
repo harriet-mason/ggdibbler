@@ -4,7 +4,7 @@
 #' 
 #' @inheritParams ggplot2::geom_smooth
 #' @inheritParams ggplot2::stat_smooth
-#' @importFrom ggplot2 GeomSmooth aes layer
+#' @importFrom ggplot2 GeomSmooth layer
 #' @importFrom rlang list2
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
@@ -37,7 +37,41 @@
 #'     se = FALSE, method = lm, seed = 22)
 #' 
 #' @export
-geom_smooth_sample <- make_constructor(ggplot2::GeomSmooth,  
-                                        stat = "smooth_sample", 
-                                        times=10, alpha = 1/log(times), 
-                                        seed = NULL)
+geom_smooth_sample <- function(mapping = NULL, data = NULL, times = 10, seed = NULL,
+                        stat = "smooth_sample", position = "identity",
+                        ...,
+                        method = NULL,
+                        formula = NULL,
+                        se = TRUE,
+                        na.rm = FALSE,
+                        orientation = NA,
+                        show.legend = NA,
+                        inherit.aes = TRUE) {
+  
+  params <- list2(
+    times = times,
+    seed = seed,
+    na.rm = na.rm,
+    orientation = orientation,
+    se = se,
+    ...
+  )
+  if (identical(stat, "smooth_sample")) {
+    params[["method"]] <- method
+    params$formula <- formula
+  }
+  
+  layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = ggplot2::GeomSmooth,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = params
+  )
+}
+
+
+

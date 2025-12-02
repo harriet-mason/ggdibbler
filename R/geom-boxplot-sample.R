@@ -4,7 +4,8 @@
 #' 
 #' @inheritParams ggplot2::geom_boxplot
 #' @inheritParams ggplot2::stat_boxplot
-#' @importFrom ggplot2 GeomSmooth aes layer
+#' @importFrom ggplot2 GeomBoxplot layer
+#' @importFrom rlang list2
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the

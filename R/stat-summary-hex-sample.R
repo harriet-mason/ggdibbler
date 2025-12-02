@@ -12,7 +12,6 @@ StatSummaryHexSample <- ggplot2::ggproto("StatSummaryHexSample", ggplot2::StatSu
 )
 
 #' @rdname stat_summary_2d_sample
-#' @inheritParams ggplot2::stat_summary_hex
 #' @importFrom ggplot2 make_constructor
 #' @export
 stat_summary_hex_sample <- make_constructor(StatSummaryHexSample, geom = "hex", 

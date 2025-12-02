@@ -1,44 +1,49 @@
 #' Nested dodge positions
 #' 
-#' These functions use nested positioning for distributional data, where the
-#' original plot has a dodged position. This allows you to set different 
-#' position adjustments for the "main" and "distribution" parts of your plot.
+#' These functions use nested positioning for distributional data, where one of 
+#' the positions is dodged. This allows you to set different position 
+#' adjustments for the "main" and "distribution" parts of your plot.
 #' 
 #' @inheritParams ggplot2::position_dodge
 #' @inheritParams ggplot2::position_identity
 #' @aesthetics PositionDodge
 #' @importFrom ggplot2 ggproto PositionDodge Position
 #' @examples
-#' # Standard ggplots often have a position adjustment to fix overplotting
-#' # plot with dodged positions
 #' library(ggplot2)
+#' 
+#' # ggplot dodge 
 #' ggplot(mpg, aes(class)) + 
 #'   geom_bar(aes(fill = drv), 
 #'            position = position_dodge(preserve = "single"))
-#' 
-#' # but when we use this in ggdibbler, it can not work the way we expect
-#' # normal dodge
+#'            
+#' # normal dodge without nesting
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "dodge")
-#' 
-#' # nested positions allows us to differentiate which postion adjustments
-#' # are used for the plot groups vs the distribution samples
-#' 
+#'   
+#' # dodge_identity
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "dodge_identity", alpha=0.2)
 #' 
-#' # using postion_dodge nests the original plot group inside the distribtion 
-#' # position dodge_dodge does the opposite nesting
+#' # dodge_dodge
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "dodge_dodge")
+#' 
+#' # identity_dodge 
+#' ggplot(mpg, aes(class)) + 
+#'   geom_bar(aes(fill = drv), alpha=0.5, position = "identity")
+#' ggplot(uncertain_mpg, aes(class)) + 
+#'   geom_bar_sample(aes(fill = drv), position = "identity_dodge", alpha=0.7)
 #'   
-#' @rdname position_dodge_identity
+#' @name position_dodge_nested 
+NULL
+
+#' @rdname position_dodge_nested 
 #' @export
 position_dodge_dodge <- function(width = NULL, preserve = "single", orientation = "x",
                                  reverse = FALSE) {
   PositionDodgeDodge
 }
-#' @rdname position_dodge_identity
+#' @rdname position_dodge_nested 
 #' @export
 position_dodge_identity <- function(width = NULL, preserve = "single", orientation = "x",
                                     reverse = FALSE) {
@@ -51,7 +56,7 @@ position_dodge_identity <- function(width = NULL, preserve = "single", orientati
 }
 
 
-#' @rdname position_dodge_identity
+#' @rdname position_dodge_nested 
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -96,7 +101,7 @@ PositionDodgeIdentity <- ggplot2::ggproto("PositionDodgeIdentity", ggplot2::Posi
 
 
 #' @inheritParams ggplot2::position_dodge
-#' @rdname position_identity_identity
+#' @rdname position_dodge_nested 
 #' @export
 position_identity_dodge <- function(width = NULL, preserve = "single", 
                                     orientation = "x", reverse = FALSE) {
@@ -108,8 +113,7 @@ position_identity_dodge <- function(width = NULL, preserve = "single",
   )
 }
 
-#' @inheritParams ggplot2::position_dodge
-#' @rdname position_identity_identity
+#' @rdname position_dodge_nested 
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -150,7 +154,7 @@ PositionIdentityDodge <- ggplot2::ggproto("PositionIdentityDodge",
                                           extra_params = c("vjust", "reverse")
 )
 
-#' @rdname position_dodge_identity
+#' @rdname position_dodge_nested 
 #' @format NULL
 #' @usage NULL
 #' @export

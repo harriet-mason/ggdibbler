@@ -5,6 +5,7 @@
 #' 
 #' @inheritParams ggplot2::geom_ribbon
 #' @inheritParams ggplot2::geom_area
+#' @inheritParams ggplot2::stat_align
 #' @importFrom ggplot2 make_constructor GeomRibbon
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.

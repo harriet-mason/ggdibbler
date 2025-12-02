@@ -28,6 +28,7 @@ StatSummary2dSample <- ggplot2::ggproto("StatSummary2dSample", ggplot2::StatSumm
 #' place of any of the usual aesthetics.
 #' 
 #' @inheritParams ggplot2::stat_summary_2d
+#' @inheritParams ggplot2::stat_summary_hex
 #' @importFrom ggplot2 make_constructor
 #' @param times A parameter used to control the number of values sampled from 
 #' each distribution.

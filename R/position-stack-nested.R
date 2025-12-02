@@ -1,36 +1,42 @@
 #' Nested stack positions
 #' 
-#' These functions use nested positioning for distributional data, where the
-#' original plot has a stacked position. This allows you to set different 
-#' position adjustments for the "main" and "distribution" parts of your plot.
+#' These functions use nested positioning for distributional data, where one of 
+#' the positions is stacked. This allows you to set different position 
+#' adjustments for the "main" and "distribution" parts of your plot.
 #' 
+#' @inheritParams ggplot2::position_stack
 #' @inheritParams ggplot2::position_identity
-#' @importFrom ggplot2 ggproto PositionDodge Position
+#' @importFrom ggplot2 ggproto PositionDodge PositionStack
 #' @examples
 #' # Standard ggplots often have a position adjustment to fix overplotting
 #' # plot with overplotting
 #' library(ggplot2)
 #' ggplot(mpg, aes(class)) + 
-#'   geom_bar(aes(fill = drv), alpha=0.5,
+#'   geom_bar(aes(fill = drv),
 #'            position = "stack")
 #' 
-#' # but when we use this in ggdibbler, it can not work the way we expect
 #' # normal stack warps the scale and doesn't communicate useful info
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "stack")
 #' 
-#' # nested positions allows us to differentiate which postion adjustments
-#' # are used for the plot groups vs the distribution samples
+#' # stack_identity
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "stack_identity", alpha=0.2)
+#'   
+#' # stack_dodge
 #' ggplot(uncertain_mpg, aes(class)) + 
 #'   geom_bar_sample(aes(fill = drv), position = "stack_dodge")
+#' @name position_stack_nested
+NULL
+
+#' @rdname position_stack_nested
+#' @export
 position_stack_identity <- function(vjust = 1, reverse = FALSE) {
   ggproto(NULL, PositionStackIdentity, vjust = vjust, reverse = reverse)
 }
 
 
-#' @rdname position_stack_identity
+#' @rdname position_stack_nested
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -56,14 +62,51 @@ PositionStackIdentity <- ggplot2::ggproto("PositionStackIdentity", ggplot2::Posi
                                           extra_params = c("vjust", "reverse")
 )
 
-#' @rdname position_stack_identity
+
+#' @rdname position_stack_nested
+#' @format NULL
+#' @usage NULL
 #' @export
+position_identity_stack <- function(vjust = 1, reverse = FALSE) {
+  ggproto(NULL, PositionIdentityStack, vjust = vjust, reverse = reverse)
+}
+
+#' @rdname position_stack_nested
+#' @format NULL
+#' @usage NULL
+#' @export
+PositionIdentityStack <- ggplot2::ggproto("PositionIdentityStack", ggplot2::PositionStack,
+                                          type = NULL,
+                                          vjust = 1,
+                                          fill = FALSE,
+                                          reverse = FALSE,
+                                          setup_data = function(self, data, params){
+                                            # split into groups
+                                            position_by_group(data, "ogroup",
+                                                              ggproto_parent(PositionStack, self)$setup_data,
+                                                              params)
+                                          },
+                                          
+                                          
+                                          compute_panel = function(self, data, params, scales){
+                                            data <- position_by_group(data, "ogroup",
+                                                                      ggproto_parent(PositionStack, self)$compute_panel,
+                                                                      params)
+                                            data
+                                          },
+                                          
+                                          extra_params = c("vjust", "reverse")
+)
+
+#' @rdname position_stack_nested
+#' @inheritParams ggplot2::position_dodge
+#' @export 
 position_stack_dodge <- function(vjust = 1, reverse = FALSE, width = NULL,  
                                  preserve = "single", orientation = "x") {
   PositionStackDodge
 }
 
-#' @rdname position_stack_identity
+#' @rdname position_stack_nested
 #' @format NULL
 #' @usage NULL
 #' @export

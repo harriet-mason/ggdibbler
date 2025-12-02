@@ -12,40 +12,48 @@
 stat_summary_bin_sample(
   mapping = NULL,
   data = NULL,
+  times = 10,
+  seed = NULL,
   geom = "pointrange",
   position = "identity",
   ...,
-  times = 10,
-  alpha = 1/log(times),
-  seed = NULL,
+  fun.data = NULL,
   fun = NULL,
+  fun.max = NULL,
+  fun.min = NULL,
+  fun.args = list(),
   bins = 30,
   binwidth = NULL,
   breaks = NULL,
-  origin = NULL,
-  right = FALSE,
-  width = NULL,
-  center = NULL,
-  boundary = NULL,
-  closed = c("right", "left"),
   na.rm = FALSE,
+  orientation = NA,
   show.legend = NA,
-  inherit.aes = TRUE
+  inherit.aes = TRUE,
+  fun.y = deprecated(),
+  fun.ymin = deprecated(),
+  fun.ymax = deprecated()
 )
 
 stat_summary_sample(
   mapping = NULL,
   data = NULL,
+  times = 10,
+  seed = NULL,
   geom = "pointrange",
   position = "identity",
   ...,
-  times = 10,
-  alpha = 1/log(times),
-  seed = NULL,
+  fun.data = NULL,
   fun = NULL,
+  fun.max = NULL,
+  fun.min = NULL,
+  fun.args = list(),
   na.rm = FALSE,
+  orientation = NA,
   show.legend = NA,
-  inherit.aes = TRUE
+  inherit.aes = TRUE,
+  fun.y = deprecated(),
+  fun.ymin = deprecated(),
+  fun.ymax = deprecated()
 )
 }
 \arguments{
@@ -68,6 +76,12 @@ A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
+
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
+
+\item{seed}{Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.}
 
 \item{geom}{The geometric object to use to display the data for this layer.
 When using a \verb{stat_*()} function to construct a layer, the \code{geom} argument
@@ -123,14 +137,14 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from 
-each distribution.}
+\item{fun.data}{A function that is given the complete data and should
+return a data frame with variables \code{ymin}, \code{y}, and \code{ymax}.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
+\item{fun.min, fun, fun.max}{Alternatively, supply three individual
+functions that are each passed a vector of values and should return a
+single number.}
 
-\item{seed}{Set the seed for the layers random draw, allows you to plot the
-same draw across multiple layers.}
+\item{fun.args}{Optional additional arguments passed on to the functions.}
 
 \item{bins}{Number of bins. Overridden by \code{binwidth}. Defaults to 30.}
 
@@ -152,6 +166,11 @@ boundaries. Overrides \code{binwidth} and \code{bins}.}
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
+
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.
@@ -164,6 +183,9 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
+\item{fun.ymin, fun.y, fun.ymax}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use the
+versions specified above instead.}
 }
 \description{
 Identical to stat_summary, except that it will accept a distribution in 

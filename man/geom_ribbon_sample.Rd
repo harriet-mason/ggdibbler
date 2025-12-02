@@ -54,8 +54,6 @@ stat_align_sample(
   times = 10,
   seed = NULL,
   alpha = 1/log(times),
-  unique_loc = NULL,
-  adjust = 0,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
