@@ -296,7 +296,7 @@ In a HOPs plot, it seems that animations replace our distribution specific posit
 
 Implementing the code is trivially easy when we just have the animation run through every draw using the `drawID` variable (which is exactly what we do in the other position adjustments).
 
-```{r hops1, fig.width=4, fig.height=4}
+```{r hops1}
 # bar chart
 hops <- ggplot(uncertain_mpg, aes(class)) +
   geom_bar_sample(aes(fill = drv),
