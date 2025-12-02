@@ -169,7 +169,7 @@ NULL
 #'   \item{date}{Date steps were recorded}
 #'   \item{steps}{Number of steps recorded on `date`}
 #' }
-#' @name walkathon
+#' @name walktober
 NULL
 
 #' Old Faithful data with uncertainty

@@ -147,6 +147,9 @@ to use \code{position_jitter()}, give the position as \code{"jitter"}.
 position of the line. If these are set, \code{data}, \code{mapping} and
 \code{show.legend} are overridden.}
 }
+\value{
+A ggplot2 layer
+}
 \description{
 Identical to geom_vline, geom_hline and geom_abline, except that it will accept a distribution 
 in place of any of the usual aesthetics.
