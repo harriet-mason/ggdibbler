@@ -1,4 +1,4 @@
-# ggdibbler (development version)
+# ggdibbler 0.6.0
 
 # ggdibbler 0.5.0
 
