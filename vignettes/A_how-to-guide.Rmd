@@ -304,7 +304,7 @@ hops <- ggplot(uncertain_mpg, aes(class)) +
   theme_few() +
   transition_states(after_stat(drawID))
 
-animate(hops, renderer = sprite_renderer())
+animate(hops, height = 400, width = 600, renderer = sprite_renderer(), )
 ```
 
 
