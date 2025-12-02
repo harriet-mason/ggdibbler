@@ -48,7 +48,6 @@ Suggests:
     tidyverse,
     tidygraph,
     ggthemes,
-    conmat,
     ggridges,
     quantreg,
     ggdist,
