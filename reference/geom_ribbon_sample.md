@@ -1,7 +1,7 @@
 # Ribbons and area plots with uncertainty
 
-Identical to geom_ribbon, except that it will accept a distribution in
-place of any of the usual aesthetics.
+Identical to geom_ribbon and geom_area, except that it will accept a
+distribution in place of any of the usual aesthetics.
 
 ## Usage
 
@@ -12,6 +12,8 @@ geom_ribbon_sample(
   stat = "identity_sample",
   position = "identity",
   ...,
+  alpha = 0.9/log(times),
+  seed = NULL,
   times = 10,
   lineend = "butt",
   linejoin = "round",
@@ -26,9 +28,11 @@ geom_area_sample(
   mapping = NULL,
   data = NULL,
   stat = "align_sample",
-  position = "identity",
+  position = "stack_identity",
   ...,
   times = 10,
+  seed = NULL,
+  alpha = 1/log(times),
   orientation = NA,
   outline.type = "upper",
   lineend = "butt",
@@ -46,8 +50,8 @@ stat_align_sample(
   position = "identity",
   ...,
   times = 10,
-  unique_loc = NULL,
-  adjust = 0,
+  seed = NULL,
+  alpha = 1/log(times),
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -160,6 +164,16 @@ stat_align_sample(
     glyphs](https://ggplot2.tidyverse.org/reference/draw_key.html), to
     change the display of the layer in the legend.
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - times:
 
   A parameter used to control the number of values sampled from each
@@ -232,6 +246,10 @@ stat_align_sample(
     geom](https://ggplot2.tidyverse.org/reference/layer_geoms.html)
     documentation.
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -257,30 +275,15 @@ h + geom_ribbon(aes(ymin=0, ymax=level))
 q + geom_ribbon_sample(aes(ymin=0, ymax=level), alpha=0.2)
 
 
-# ggplot
-h + geom_area(aes(y = level))
-
-# ggdibbler
-q + geom_area_sample(aes(y = level), alpha=0.2)
-
-
-# Orientation cannot be deduced by mapping, so must be given explicitly for
-# flipped orientation
-# ggplot
-h + geom_area(aes(x = level, y = year), orientation = "y")
-
-# ggdibbler
-q + geom_area_sample(aes(x = level, y = year), orientation = "y", alpha=0.2)
-
-
 # Add aesthetic mappings
-h + #' ggplot
+h + # ggplot
   geom_ribbon(aes(ymin = level - 1, ymax = level + 1), fill = "grey70") +
   geom_line(aes(y = level))
 
-q + #ggdibbler
-  geom_ribbon_sample(aes(ymin = level - 1, ymax = level + 1), fill = "grey70", alpha=0.2) +
-  geom_line_sample(aes(y = level), alpha=0.2)
+q + # ggdibbler
+  geom_ribbon_sample(aes(ymin = level - 1, ymax = level + 1), 
+    fill = "grey70", seed=4) +
+  geom_line_sample(aes(y = level), seed=4)
 
 
 df <- data.frame(
@@ -300,6 +303,7 @@ ggplot(df, aes(x, y, fill = g)) +
 
 # ggdibbler
 ggplot(uncertain_df, aes(x, y, fill = g)) +
-  geom_area_sample(alpha=0.2) +
+  geom_area_sample(seed=100) +
+  geom_point_sample(seed=100) +
   facet_grid(g ~ .)
 ```

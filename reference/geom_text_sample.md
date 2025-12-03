@@ -1,7 +1,7 @@
 # Uncertain Text
 
-Identical to geom_text, except that it will accept a distribution in
-place of any of the usual aesthetics.
+Identical to geom_text and geom_label except that it will accept a
+distribution in place of any of the usual aesthetics.
 
 ## Usage
 
@@ -9,15 +9,19 @@ place of any of the usual aesthetics.
 geom_label_sample(
   mapping = NULL,
   data = NULL,
+  times = 10,
+  seed = NULL,
   stat = "identity_sample",
   position = "nudge",
   ...,
-  times = 10,
   parse = FALSE,
   label.padding = unit(0.25, "lines"),
   label.r = unit(0.15, "lines"),
+  label.size = deprecated(),
   border.colour = NULL,
+  border.color = NULL,
   text.colour = NULL,
+  text.color = NULL,
   size.unit = "mm",
   na.rm = FALSE,
   show.legend = NA,
@@ -31,6 +35,8 @@ geom_text_sample(
   position = "nudge",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   parse = FALSE,
   check_overlap = FALSE,
   size.unit = "mm",
@@ -67,6 +73,16 @@ geom_text_sample(
   return value must be a `data.frame`, and will be used as the layer
   data. A `function` can be created from a `formula` (e.g.
   `~ head(.x, 10)`).
+
+- times:
+
+  A parameter used to control the number of values sampled from each
+  distribution.
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
 
 - stat:
 
@@ -146,11 +162,6 @@ geom_text_sample(
     glyphs](https://ggplot2.tidyverse.org/reference/draw_key.html), to
     change the display of the layer in the legend.
 
-- times:
-
-  A parameter used to control the number of values sampled from each
-  distribution.
-
 - parse:
 
   If `TRUE`, the labels will be parsed into expressions and displayed as
@@ -163,6 +174,23 @@ geom_text_sample(
 - label.r:
 
   Radius of rounded corners. Defaults to 0.15 lines.
+
+- label.size:
+
+  **\[deprecated\]** Replaced by the `linewidth` aesthetic. Size of
+  label border, in mm.
+
+- border.colour, border.color:
+
+  Colour of label border. When `NULL` (default), the `colour` aesthetic
+  determines the colour of the label border. `border.color` is an alias
+  for `border.colour`.
+
+- text.colour, text.color:
+
+  Colour of the text. When `NULL` (default), the `colour` aesthetic
+  determines the colour of the text. `text.color` is an alias for
+  `text.colour`.
 
 - size.unit:
 
@@ -192,6 +220,11 @@ geom_text_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
 - check_overlap:
 
   If `TRUE`, text that overlaps previous text in the same layer will not
@@ -207,44 +240,34 @@ geom_text_sample(
 A ggplot2 geom representing a point_sample which can be added to a
 ggplot object
 
+A ggplot2 layer
+
 ## Examples
 
 ``` r
 library(ggplot2)
 
 p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars)))
-p + geom_text() # ggplot example
-
-
-# note: categories are determnistic as they are row names
 q <- ggplot(uncertain_mtcars, aes(wt, mpg, label = rownames(uncertain_mtcars)))
-q + geom_text_sample(times=10) #ggdibbler
 
+# Text example
+p + geom_text() # ggplot 
 
-# Avoid overlaps
-p + geom_text(check_overlap = TRUE) #ggplot
-
-q + geom_text_sample(check_overlap = TRUE) #ggdibbler
-
+q + geom_text_sample(times=3) #ggdibbler
 
 # Labels with background
 p + geom_label() #ggplot
 
-q + geom_label_sample(times=10) #ggdibbler
+q + geom_label_sample(times=3) #ggdibbler
 
 
-# Change size of the label
-p + geom_text(size = 10) #ggplot
+# Random text with constant position (harder to read signal supression)
+# ggplot
+ggplot(mtcars, aes(wt, mpg, label = cyl)) +
+ geom_text(size=6)
 
-q + geom_text_sample(size = 10) #ggdibbler
+# ggdibbler
+ggplot(uncertain_mtcars, aes(mean(wt), mean(mpg), lab = cyl)) +
+ geom_text_sample(aes(label = after_stat(lab)), size=6)
 
-
-# Set aesthetics to fixed value
-p +
-  geom_point() +
-  geom_text(hjust = 0, nudge_x = 0.05) #ggplot
-
-q +
-  geom_point_sample() +
-  geom_text_sample(hjust = 0, nudge_x = 0.05, times=1) #ggplot
 ```

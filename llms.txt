@@ -1,4 +1,4 @@
-# ggdibbler
+# `ggdibbler`
 
 For information to be passed into ggplot2, or any visualisation
 software, it usually needs to be expressed as data. This restriction
@@ -12,18 +12,20 @@ variables created using
 [`distributional`](https://github.com/mitchelloharawild/distributional)
 and visualise these types of inputs using `ggdibbler`. Any quantifiable
 uncertainty can be expressed as a distribution, and any distribution can
-be passed to an existing ggplot2 geom with ggdibbler. Users are not
-limited by data type (the data can be a random factor, continuous
-variable, character, etc) or by type of distribution (it can be any
-theoretical distribution, but also an empirical distribution expressed
-as a set of samples).
+be passed to an existing `ggplot2` geom with `ggdibbler`. Users are not
+limited by data type, the data can be continuous or discrete, sf
+objects, character or factors, or even other distributions. You are also
+not limited to any type of distribution, theoretical, empirical,
+truncated, and mixed distributions are all allowed by `distributional`
+and therefore accepted by `ggdibbler`. No matter what you pass,
+`ggdibbler` will incorporate the uncertainty into your graphic as noise
+and allows you to see how the variation may change the conclusions you
+take away from your graphics.
 
-`ggdibbler` it incorporates uncertainty into your graphic as noise and
-allows you to see how the variation may change the conclusions you take
-away from your graphics. The power of ggdibbler is in its simplicity and
-flexibility. There is no need to learn specific package syntax or new
-functions and you can pass a distribution to ANY combination of
-aesthetics in ggplot2.
+The power of `ggdibbler` is in its simplicity and flexibility. There is
+no need to learn specific package syntax or new functions and you can
+pass a distribution to ANY combination of aesthetics in ggplot2. It is a
+universal, exploratory tool for uncertainty visualisation.
 
 ## Installation
 
@@ -34,7 +36,7 @@ You can install the stable version of `ggdibbler` from CRAN with:
 install.packages("ggdibbler")
 ```
 
-or you can install the development version of ggdibbler from
+or you can install the development version of `ggdibbler` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -50,14 +52,15 @@ variable with a `distributional` variable, and you get an uncertainty
 visualisation.
 
 You will often run into an overplotting problem when visualising
-uncertainty, so using a jitter or adjustment to the alpha value will
-allow you to see all outcomes of the distribution. Otherwise you will
-only see the draw.
+uncertainty, so using a jitter or adjusting the alpha value will allow
+you to see all outcomes of the distribution. Otherwise you will only see
+the final draw.
 
-Below are some examples of `ggplot2` code alongside its uncertain
-`ggdibbler` counterpart. The only parameter added by `ggdibbler` is the
+Below are some examples of `ggdibbler` code alongside their uncertain
+`ggplot2` counterpart. The only parameters added by `ggdibbler` are the
 `times` argument, which decides how many samples to draw from the
-distribution.
+distribution, and the `seed` argument which allows you to keep the same
+random draw across multiple layers.
 
 ``` r
 library(distributional)
@@ -111,9 +114,8 @@ p1  + p2 + p3
 
 ![](reference/figures/README-unnamed-chunk-4-1.png)
 
-`ggdibbler` also have a completely nested positioning system for
-managing overplotting from re sampling. This is usually in the form of
-nested positions:
+You can mix and match positions to get some interesting looking graphics
+that all converge to the same `ggplot2` plot.
 
 ``` r
 p1 <- ggplot(mpg, aes(class)) + 
@@ -141,10 +143,9 @@ p1 | p2 | p3
 ![](reference/figures/README-unnamed-chunk-5-1.png)
 
 The only geoms that implement new positioning (i.e. not nested versions
-of existing ggplot2 positions) are `geom_sf_sample`, and
-`geom_pollygon_sample`. These geometries use the `subdivide` position to
-fix the over plotting problem. This position adjustment replicates the
-pixel map implemented in
+of existing `ggplot2` positions) are `geom_sf_sample`, and
+`geom_pollygon_sample`. These geometries use the `subdivide` position
+which is inspired by the pixel map implemented in
 [Vizumap](https://github.com/lydialucchesi/Vizumap).
 
 ``` r
@@ -176,34 +177,24 @@ p1+p2
 
 ![](reference/figures/README-unnamed-chunk-6-1.png)
 
-## Limitations
+## Limitations of the Package
 
 There are three primary limitations of the software to keep in mind.
 First, it only allows you to visualise the distribution as a sample. We
-are planning to expand this to quantiles in later version, but it is not
+are planning to expand this to quantiles in later versions but it is not
 currently an option. Second, if multiple distributions are passed, they
-are assumed to be independent. This is also something we are hoping to
-fix in later versions (possibly with a covariance matrix or a dibble
-object that represents joint distributions). Finally, replacing a single
-value with a sample of values (which is functionally what ggdibbler
-does) results in pervasive overplotting issue. We are hoping to mediate
-this with nested positions and sensible geom defaults, but this can be
-difficult to manage depending on the type of plot. In general, we
-recommend *always* setting `alpha<=0.5` the first time you make a plot.
+are assumed to be independent. This is actually not as much of a
+limitation as people think, there are often a simple work around in most
+cases, but it isn’t as frictionless as we would like. Finally, all
+desired scale and position functions are not always available as we
+built the minimum required level of nesting before this release. This is
+another feature we hope to build up in the future.
 
 ## Future additions to the package
 
-The eventual goal of `ggdibbler` is to allows any distribution object to
-be passed to any aesthetic in a `ggplot2` geom (so long as I have gotten
-to that geom). The main improvements that are currently being made are
-working through the full set of `ggplot2` geometries, the status of
-which is tracked in the [All Geometries - Status
-List](https://github.com/harriet-mason/ggdibbler/issues/28) issue,
-implementing nested positions, which is tracked in the [All Nested
-Positions - Status
-list](https://github.com/harriet-mason/ggdibbler/issues/34) issue, and
-allowing users to represent distributions as quantiles instead of
-samples.
+Future plans for `ggdibbler` are tracked in the [Github
+issues](https://github.com/harriet-mason/ggdibbler/issues). If you have
+a suggestion or bug, please let us know!
 
 # Package index
 
@@ -219,6 +210,7 @@ interact with ggplot2.
   : Reference lines with uncertainty: horizontal, vertical, and diagonal
 - [`geom_bar_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bar_sample.md)
   [`geom_col_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bar_sample.md)
+  [`stat_count_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bar_sample.md)
   : Uncertain Bar Charts
 - [`geom_bin_2d_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bin_2d_sample.md)
   [`stat_bin_2d_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bin_2d_sample.md)
@@ -232,7 +224,6 @@ interact with ggplot2.
   [`stat_contour_filled_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_contour_sample.md)
   : Uncertain 2D contours of a 3D surface
 - [`geom_count_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
-  [`stat_count_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
   [`stat_sum_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
   : Uncertain Count overlapping points
 - [`geom_density_2d_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_density_2d_sample.md)
@@ -242,7 +233,7 @@ interact with ggplot2.
   : Uncertain contours of a 2D density estimate
 - [`geom_density_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_density_sample.md)
   [`stat_density_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_density_sample.md)
-  : Visualise Densities with Uncertainty
+  : Visualise densities with Uncertainty
 - [`geom_dotplot_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_dotplot_sample.md)
   : Dot plot with uncertainty
 - [`geom_hex_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_hex_sample.md)
@@ -298,16 +289,15 @@ interact with ggplot2.
 - [`geom_raster_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
   [`geom_rect_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
   [`geom_tile_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
-  : Rectangles with Uncertainty
+  : Plot rectangles with uncertainty
 - [`geom_violin_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_violin_sample.md)
   [`stat_ydensity_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_violin_sample.md)
   : Violin plots with uncertainty
 
 ## Stats
 
-This is where most of the methods used to make uncertainty visualisation
-in ggdibbler work. These stat functions convert a distribution to a
-sample before running through their non-uncertainty counterpart.
+These are the ggdibbler versions of the layer better specified by the
+stats in the ggplot documentation.
 
 - [`sample_expand()`](https://harriet-mason.github.io/ggdibbler/reference/sample_expand.md)
   : Simulate outcomes from dibble to make a tibble
@@ -317,22 +307,34 @@ sample before running through their non-uncertainty counterpart.
   : Compute uncertain empirical cumulative distributions
 - [`stat_ellipse_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_ellipse_sample.md)
   : Compute normal data ellipses with uncertainty
+- [`stat_connect_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_connect_sample.md)
+  : Connect uncertain observations
+- [`stat_manual_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_manual_sample.md)
+  : Manually compute transformations with uncertainty
+- [`stat_summary_2d_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_summary_2d_sample.md)
+  [`stat_summary_hex_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_summary_2d_sample.md)
+  : Bin and summarise in 2d (rectangle & hexagons) with uncertain inputs
+- [`stat_summary_bin_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_summary_sample.md)
+  [`stat_summary_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_summary_sample.md)
+  : Summarise y values at unique/binned x with uncertainty
+- [`stat_unique_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_unique_sample.md)
+  : Remove duplicates (with uncertainty?)
 
 ## Position
 
 These positions allow you to nest the distribution overplotting within a
 different ggplot2 position adjustment
 
-- [`position_dodge_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_identity.md)
-  [`position_dodge_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_identity.md)
+- [`position_dodge_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_nested.md)
+  [`position_dodge_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_nested.md)
+  [`position_identity_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_nested.md)
   : Nested dodge positions
 - [`position_identity_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_identity_identity.md)
-  [`position_identity_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_identity_identity.md)
   : Nested identity positions
 - [`position_nest()`](https://harriet-mason.github.io/ggdibbler/reference/position_nest.md)
   : Any combination of nested positions
-- [`position_stack_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_stack_identity.md)
-  [`position_stack_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_stack_identity.md)
+- [`position_stack_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_stack_nested.md)
+  [`position_stack_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_stack_nested.md)
   : Nested stack positions
 - [`position_subdivide()`](https://harriet-mason.github.io/ggdibbler/reference/position_subdivide.md)
   : Subdivide position aesthetic in a geometry
@@ -378,16 +380,18 @@ with uncertainty added in.
   : 2d density estimate of Old Faithful data with uncertainty
 - [`uncertain_faithful`](https://harriet-mason.github.io/ggdibbler/reference/uncertain_faithful.md)
   : Old Faithful data with uncertainty
-- [`walkathon`](https://harriet-mason.github.io/ggdibbler/reference/walkathon.md)
+- [`walktober`](https://harriet-mason.github.io/ggdibbler/reference/walktober.md)
   : Step Counts from Walktober 2025 Challenge
 
 # Articles
 
 ### All vignettes
 
-- [An introduction to
-  ggdibbler](https://harriet-mason.github.io/ggdibbler/articles/ggdibbler-intro.md):
-- [Nested
-  Positions](https://harriet-mason.github.io/ggdibbler/articles/nested-positions.md):
-- [Unexpected by products of uncertain
-  plots](https://harriet-mason.github.io/ggdibbler/articles/random-plots.md):
+- [Get started with
+  ggdibbler](https://harriet-mason.github.io/ggdibbler/articles/A_how-to-guide.md):
+- [The philosophy of
+  ggdibbler](https://harriet-mason.github.io/ggdibbler/articles/B_ggdibbler-philosophy.md):
+- [Unexpected behaviour of random
+  plots](https://harriet-mason.github.io/ggdibbler/articles/C_random-plots.md):
+- [Help for ggplot
+  extenders](https://harriet-mason.github.io/ggdibbler/articles/D_extender-info.md):

@@ -88,6 +88,10 @@ scale_y_discrete_distribution(
   - A function that accepts the limits and returns a numeric vector of
     length two.
 
+- drop:
+
+  `TRUE`, will drop factor levels not associated with data
+
 - ...:
 
   Arguments passed on to
@@ -194,6 +198,10 @@ scale_y_discrete_distribution(
   `super`
 
   :   The super class to use for the constructed scale
+
+## Value
+
+A ggplot2 scale
 
 ## Examples
 

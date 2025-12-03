@@ -5,7 +5,7 @@ uncertainty.
 
 ## Format
 
-A data frame with 5,625 observations and 3 variables:
+A data frame:
 
 - eruptions:
 

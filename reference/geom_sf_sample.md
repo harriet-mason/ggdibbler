@@ -15,6 +15,7 @@ geom_sf_sample(
   show.legend = NA,
   inherit.aes = TRUE,
   times = 10,
+  seed = NULL,
   n = deprecated(),
   ...
 )
@@ -93,9 +94,13 @@ geom_sf_sample(
 
 - times:
 
-  A parameter used to control the number of cells in each grid. The geom
-  will find the factors of times and select the ones that make the grid
-  as square as possible.
+  A parameter used to control the number of values sampled from each
+  distribution.
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
 
 - n:
 

@@ -13,8 +13,8 @@ stat_ellipse_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.7,
-  linewidth = 3/times,
+  alpha = 1/log(times),
+  seed = NULL,
   type = "t",
   level = 0.95,
   segments = 51,
@@ -135,6 +135,16 @@ stat_ellipse_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - type:
 
   The type of ellipse. The default `"t"` assumes a multivariate
@@ -176,6 +186,10 @@ stat_ellipse_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -195,7 +209,6 @@ ggplot(uncertain_faithful, aes(waiting, eruptions)) +
 # ggplot
 ggplot(faithful, aes(waiting, eruptions, color = eruptions > 3)) +
   geom_point() +
-  stat_ellipse(type = "norm", linetype = 2) +
   stat_ellipse(type = "t")
 
 # ggdibbler
@@ -203,7 +216,6 @@ ggplot(uncertain_faithful,
        aes(waiting, eruptions,
            color = dist_transformed(eruptions,function(x) x > 3, identity))) +
   geom_point_sample() +
-  stat_ellipse_sample(type = "norm", linetype = 2) +
   stat_ellipse_sample(type = "t") +
   labs(colour = "eruptions > 3")
 

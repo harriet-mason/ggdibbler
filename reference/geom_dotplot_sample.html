@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,9 +18,10 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ggdibbler-intro.html">An introduction to ggdibbler</a></li>
-    <li><a class="dropdown-item" href="../articles/nested-positions.html">Nested Positions</a></li>
-    <li><a class="dropdown-item" href="../articles/random-plots.html">Unexpected by products of uncertain plots</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/A_how-to-guide.html">Get started with ggdibbler</a></li>
+    <li><a class="dropdown-item" href="../articles/B_ggdibbler-philosophy.html">The philosophy of ggdibbler</a></li>
+    <li><a class="dropdown-item" href="../articles/C_random-plots.html">Unexpected behaviour of random plots</a></li>
+    <li><a class="dropdown-item" href="../articles/D_extender-info.html">Help for ggplot extenders</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -34,7 +35,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Dot plot with uncertainty</h1>
-      <small class="dont-index">Source: <a href="https://github.com/harriet-mason/ggdibbler/blob/main/R/geom-bindot-sample.R" class="external-link"><code>R/geom-bindot-sample.R</code></a>, <a href="https://github.com/harriet-mason/ggdibbler/blob/main/R/stat-bindot-sample.R" class="external-link"><code>R/stat-bindot-sample.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/harriet-mason/ggdibbler/blob/main/R/geom-dotplot-sample.R" class="external-link"><code>R/geom-dotplot-sample.R</code></a>, <a href="https://github.com/harriet-mason/ggdibbler/blob/main/R/stat-bindot-sample.R" class="external-link"><code>R/stat-bindot-sample.R</code></a></small>
       <div class="d-none name"><code>geom_dotplot_sample.Rd</code></div>
     </div>
 
@@ -48,6 +49,7 @@
 <span>  mapping <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  position <span class="op">=</span> <span class="st">"identity"</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  binwidth <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -106,6 +108,11 @@ to use <code><a href="https://ggplot2.tidyverse.org/reference/position_jitter.ht
 </ul></dd>
 
 
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>Set the seed for the layers random draw, allows you to plot the
+same draw across multiple layers.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Other arguments passed on to <code><a href="https://ggplot2.tidyverse.org/reference/layer.html" class="external-link">layer()</a></code>'s <code>params</code> argument. These
 arguments broadly fall into one of 4 categories below. Notably, further
@@ -135,7 +142,8 @@ lists which parameters it can accept.</p></li>
 
 
 <dt id="arg-times">times<a class="anchor" aria-label="anchor" href="#arg-times"></a></dt>
-<dd><p>A parameter used to control the number of values sampled from each distribution.</p></dd>
+<dd><p>A parameter used to control the number of values sampled from
+each distribution.</p></dd>
 
 
 <dt id="arg-binwidth">binwidth<a class="anchor" aria-label="anchor" href="#arg-binwidth"></a></dt>
@@ -220,6 +228,10 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.org/reference/annotation_borders.html" class="external-link">annotation_borders()</a></code>.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A ggplot2 layer</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -257,83 +269,6 @@ the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.or
 <span class="r-in"><span>                      alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="geom_dotplot_sample-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Some other stacking methods</span></span></span>
-<span class="r-in"><span><span class="co"># ggplot</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html" class="external-link">geom_dotplot</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, stackdir <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-7.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_dotplot_sample</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, stackdir <span class="op">=</span> <span class="st">"center"</span>, alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-8.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ggplot</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html" class="external-link">geom_dotplot</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, stackdir <span class="op">=</span> <span class="st">"centerwhole"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-9.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_dotplot_sample</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, stackdir <span class="op">=</span> <span class="st">"centerwhole"</span>,</span></span>
-<span class="r-in"><span>                      alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-10.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># y axis isn't really meaningful, so hide it</span></span></span>
-<span class="r-in"><span><span class="co"># ggplot</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html" class="external-link">geom_dotplot</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-11.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span></span>
-<span class="r-in"><span>  <span class="fu">geom_dotplot_sample</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-12.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Overlap dots vertically</span></span></span>
-<span class="r-in"><span><span class="co"># ggplot</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html" class="external-link">geom_dotplot</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, stackratio <span class="op">=</span> <span class="fl">.7</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-13.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_dotplot_sample</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, stackratio <span class="op">=</span> <span class="fl">.7</span>,</span></span>
-<span class="r-in"><span>                      alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-14.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Expand dot diameter</span></span></span>
-<span class="r-in"><span><span class="co"># ggplot</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html" class="external-link">geom_dotplot</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, dotsize <span class="op">=</span> <span class="fl">1.25</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-15.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_dotplot_sample</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, dotsize <span class="op">=</span> <span class="fl">1.25</span>,</span></span>
-<span class="r-in"><span>                      alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-16.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Change dot fill colour, stroke width</span></span></span>
-<span class="r-in"><span><span class="co"># ggplot</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html" class="external-link">geom_dotplot</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, fill <span class="op">=</span> <span class="st">"white"</span>, stroke <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-17.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_dotplot_sample</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">1.5</span>, fill <span class="op">=</span> <span class="st">"white"</span>, stroke <span class="op">=</span> <span class="fl">2</span>,</span></span>
-<span class="r-in"><span>                      alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="geom_dotplot_sample-18.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Examples with stacking along y axis instead of x</span></span></span>
-<span class="r-in"><span><span class="co"># ggplot</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html" class="external-link">geom_dotplot</a></span><span class="op">(</span>binaxis <span class="op">=</span> <span class="st">"y"</span>, stackdir <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Bin width defaults to 1/30 of the range of the data. Pick better value with</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `binwidth`.</span>
-<span class="r-plt img"><img src="geom_dotplot_sample-19.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, y <span class="op">=</span> <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_dotplot_sample</span><span class="op">(</span>binaxis <span class="op">=</span> <span class="st">"y"</span>, stackdir <span class="op">=</span> <span class="st">"center"</span>,</span></span>
-<span class="r-in"><span>                      alpha<span class="op">=</span><span class="fl">0.2</span><span class="op">)</span> </span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Bin width defaults to 1/30 of the range of the data. Pick better value with</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `binwidth`.</span>
-<span class="r-plt img"><img src="geom_dotplot_sample-20.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

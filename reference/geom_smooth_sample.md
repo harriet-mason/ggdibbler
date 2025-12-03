@@ -9,10 +9,11 @@ place of any of the usual aesthetics.
 geom_smooth_sample(
   mapping = NULL,
   data = NULL,
+  times = 10,
+  seed = NULL,
   stat = "smooth_sample",
   position = "identity",
   ...,
-  times = 10,
   method = NULL,
   formula = NULL,
   se = TRUE,
@@ -29,6 +30,8 @@ stat_smooth_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   method = NULL,
   formula = NULL,
   se = TRUE,
@@ -71,6 +74,16 @@ stat_smooth_sample(
   return value must be a `data.frame`, and will be used as the layer
   data. A `function` can be created from a `formula` (e.g.
   `~ head(.x, 10)`).
+
+- times:
+
+  A parameter used to control the number of values sampled from each
+  distribution.
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
 
 - position:
 
@@ -130,11 +143,6 @@ stat_smooth_sample(
     described as [key
     glyphs](https://ggplot2.tidyverse.org/reference/draw_key.html), to
     change the display of the layer in the legend.
-
-- times:
-
-  A parameter used to control the number of values sampled from each
-  distribution.
 
 - method:
 
@@ -212,6 +220,11 @@ stat_smooth_sample(
   [geom](https://ggplot2.tidyverse.org/reference/layer_geoms.html)
   arguments work.
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
 - n:
 
   Number of points at which to evaluate smoother.
@@ -245,6 +258,10 @@ stat_smooth_sample(
   List of additional arguments passed on to the modelling function
   defined by `method`.
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -258,70 +275,9 @@ ggplot(mpg, aes(displ, hwy)) +
 
 # ggdibbbler
 ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) + 
-  geom_smooth_sample(linewidth=0.2, alpha=0.1) 
+  geom_point_sample(alpha=0.5, size=0.2, seed = 22) + 
+  geom_smooth_sample(linewidth=0.2, alpha=0.1, seed = 22) 
 #> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-
-# Note: each line will have its own estimated error bands. This uncertainty
-# should still be shown, as it is different to the resampled uncertainty
-# displayed by ggdibbler.
-
-
-# If you need the fitting to be done along the y-axis set the orientation
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(orientation = "y")
-#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-
-# ggdibbler
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, orientation = "y")
-#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-
-
-# Use span to control the "wiggliness" of the default loess smoother.
-# The span is the fraction of points used to fit each local regression:
-# small numbers make a wigglier curve, larger numbers make a smoother curve.
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(span = 0.3)
-#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-
-# ggdibbler
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, span = 0.3)
-#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-
-
-# Instead of a loess smooth, you can use any other modelling function:
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(method = lm, se = FALSE)
-#> `geom_smooth()` using formula = 'y ~ x'
-
-# ggdibbler
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, method = lm, se = FALSE)
-#> `geom_smooth()` using formula = 'y ~ x'
-
-
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
-
-# ggdibbler
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1,
-                     method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
-
 
 
 # Smooths are automatically fit to each group (defined by categorical
@@ -334,25 +290,9 @@ ggplot(mpg, aes(displ, hwy, colour = class)) +
 
 # ggdibbler
 ggplot(uncertain_mpg, aes(displ, hwy, colour = class)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, se = FALSE, method = lm)
+  geom_point_sample(alpha=0.5, size=0.2, seed = 22) +
+  geom_smooth_sample(linewidth=0.2, alpha=0.1, 
+    se = FALSE, method = lm, seed = 22)
 #> `geom_smooth()` using formula = 'y ~ x'
 
-
-# ggplot
-ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_smooth(span = 0.8) +
-  facet_wrap(~drv)
-#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-
-# ggdibbler (facets cannot be random, complain to posit, I can't control this)
-uncertain_mpg$drv2 <- mpg$drv
-ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(alpha=0.5, size=0.2) +
-  geom_smooth_sample(linewidth=0.2, alpha=0.1, span = 0.8) +
-  facet_wrap(~drv2)
-#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-
-  
 ```

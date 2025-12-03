@@ -13,7 +13,10 @@ geom_density_2d_sample(
   position = "identity",
   ...,
   times = 10,
-  contour_var = "density",
+  seed = NULL,
+  alpha = 0.5/log(times),
+  arrow = NULL,
+  arrow.fill = NULL,
   lineend = "butt",
   linejoin = "round",
   linemitre = 10,
@@ -29,7 +32,12 @@ geom_density_2d_filled_sample(
   position = "identity",
   ...,
   times = 10,
-  contour_var = "density",
+  seed = NULL,
+  alpha = 0.5/log(times),
+  rule = "evenodd",
+  lineend = "butt",
+  linejoin = "round",
+  linemitre = 10,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -44,6 +52,8 @@ stat_density_2d_sample(
   contour = TRUE,
   contour_var = "density",
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   h = NULL,
   adjust = c(1, 1),
   n = 100,
@@ -61,6 +71,8 @@ stat_density_2d_filled_sample(
   contour = TRUE,
   contour_var = "density",
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   h = NULL,
   adjust = c(1, 1),
   n = 100,
@@ -151,11 +163,25 @@ stat_density_2d_filled_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
-- contour_var:
+- seed:
 
-  Character string identifying the variable to contour by. Can be one of
-  `"density"`, `"ndensity"`, or `"count"`. See the section on computed
-  variables for details.
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
+- arrow:
+
+  specification for arrow heads, as created by
+  [`grid::arrow()`](https://rdrr.io/r/grid/arrow.html).
+
+- arrow.fill:
+
+  fill colour to use for the arrow head (if closed). `NULL` means use
+  `colour` aesthetic.
 
 - lineend:
 
@@ -191,6 +217,14 @@ stat_density_2d_filled_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+- rule:
+
+  Either `"evenodd"` or `"winding"`. If polygons with holes are being
+  drawn (using the `subgroup` aesthetic) this argument defines how the
+  hole coordinates are interpreted. See the examples in
+  [`grid::pathGrob()`](https://rdrr.io/r/grid/grid.path.html) for an
+  explanation.
+
 - geom, stat:
 
   Use to override the default connection between
@@ -205,6 +239,12 @@ stat_density_2d_filled_sample(
 - contour:
 
   If `TRUE`, contour the results of the 2d density estimation.
+
+- contour_var:
+
+  Character string identifying the variable to contour by. Can be one of
+  `"density"`, `"ndensity"`, or `"count"`. See the section on computed
+  variables for details.
 
 - h:
 
@@ -221,6 +261,10 @@ stat_density_2d_filled_sample(
 - n:
 
   Number of grid points in each direction.
+
+## Value
+
+A ggplot2 layer
 
 ## Examples
 
@@ -249,16 +293,5 @@ m + geom_density_2d_filled(alpha = 0.5)
 
 # ggdibbler
 n + geom_density_2d_filled_sample(alpha = 0.1)
-
-
-
-# contour bands and contour lines
-# ggplot
-m + geom_density_2d_filled(alpha = 0.5) +
-  geom_density_2d(linewidth = 0.25, colour = "black")
-
-# ggdibbler
-n + geom_density_2d_filled_sample(alpha = 0.1) +
-  geom_density_2d_sample(linewidth = 0.2, colour = "black", alpha=0.5)
 
 ```

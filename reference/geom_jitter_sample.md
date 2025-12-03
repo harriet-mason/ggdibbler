@@ -16,6 +16,7 @@ geom_jitter_sample(
   height = NULL,
   na.rm = FALSE,
   times = 10,
+  seed = NULL,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -149,6 +150,11 @@ geom_jitter_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - show.legend:
 
   logical. Should this layer be included in the legends? `NA`, the
@@ -166,6 +172,10 @@ geom_jitter_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -173,15 +183,16 @@ library(ggplot2)
 
 # ggplot
 p <- ggplot(mpg, aes(cyl, hwy)) #ggplot
+q <- ggplot(uncertain_mpg, aes(cyl, hwy)) #ggdibbler
 p + geom_point()
 
-p + geom_jitter()
-
-
-# ggdibbler
-q <- ggplot(uncertain_mpg, aes(cyl, hwy)) #ggdibbler
 q + geom_point_sample(times=10) 
 
+
+# ggplot
+p + geom_jitter()
+
+# ggdibbler
 q + geom_jitter_sample(times=10)
 
 
@@ -190,9 +201,4 @@ p + geom_jitter(aes(colour = class)) #ggplot
 
 p + geom_jitter_sample(aes(colour = class)) #ggdibler
 
-
-# Use smaller width/height to emphasise categories
-p + geom_jitter(width = 0.2) # ggplot
-
-q + geom_jitter_sample(width = 0.2, times=10) # ggdibbler
 ```

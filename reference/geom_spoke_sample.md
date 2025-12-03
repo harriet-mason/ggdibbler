@@ -13,6 +13,8 @@ geom_spoke_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   arrow = NULL,
   arrow.fill = NULL,
   lineend = "butt",
@@ -134,6 +136,16 @@ geom_spoke_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - arrow:
 
   specification for arrow heads, as created by
@@ -174,6 +186,10 @@ geom_spoke_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -197,24 +213,11 @@ uncertain_df <- df |>
 # ggplot
 ggplot(df, aes(x, y)) +
   geom_point() +
-  geom_spoke(aes(angle = angle), radius = 0.5)
-
-
-# ggdibbler
-ggplot(uncertain_df, aes(x, y)) +
-  #' can use geom_point or geom_point_sample since x & y are deterministic
-  geom_point() + #' here we used geom_point
-  geom_spoke_sample(aes(angle = angle), radius = 0.5, alpha=0.3)
-
-
-# ggplot
-ggplot(df, aes(x, y)) +
-  geom_point() +
   geom_spoke(aes(angle = angle, radius = speed))
 
 
 # ggdibbler
 ggplot(uncertain_df, aes(x, y)) +
   geom_point_sample() + #' and here we used geom_point_sample
-  geom_spoke_sample(aes(angle = angle, radius = speed), alpha=0.3)
+  geom_spoke_sample(aes(angle = angle, radius = speed))
 ```

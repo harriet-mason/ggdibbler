@@ -13,6 +13,8 @@ geom_polygon_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 0.5/log(times),
+  seed = NULL,
   rule = "evenodd",
   lineend = "butt",
   linejoin = "round",
@@ -134,6 +136,16 @@ geom_polygon_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - rule:
 
   Either `"evenodd"` or `"winding"`. If polygons with holes are being
@@ -176,6 +188,10 @@ geom_polygon_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -214,26 +230,5 @@ q <- ggplot(uncertain_datapoly, aes(x = x, y = y)) +
   geom_polygon_sample(aes(fill = value, group = id), alpha=0.2)
 q
 
-
-#' Which seems like a lot of work, but then it's easy to add on
-#' other features in this coordinate system, e.g.:
-
-set.seed(1)
-stream <- data.frame(
-  x = cumsum(runif(50, max = 0.1)),
-  y = cumsum(runif(50,max = 0.1))
-)
-
-uncertain_stream <- stream |>
-mutate(x = dist_normal(x, 0.1),
-       y = dist_normal(y, 0.1))
-
-# adding deterministic line
-p + geom_line(data = stream, colour = "grey30", linewidth = 5)
-
-q + geom_line(data = stream, colour = "grey30", linewidth = 5)
-
-# adding random line
-q + geom_line_sample(data = uncertain_stream, colour = "grey30", linewidth = 1)
 
 ```

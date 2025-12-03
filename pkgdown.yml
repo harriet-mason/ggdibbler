@@ -2,10 +2,11 @@ pandoc: 3.1.11
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
-  ggdibbler-intro: ggdibbler-intro.html
-  nested-positions: nested-positions.html
-  random-plots: random-plots.html
-last_built: 2025-11-21T02:00Z
+  A_how-to-guide: A_how-to-guide.html
+  B_ggdibbler-philosophy: B_ggdibbler-philosophy.html
+  C_random-plots: C_random-plots.html
+  D_extender-info: D_extender-info.html
+last_built: 2025-12-03T02:36Z
 urls:
   reference: https://harriet-mason.github.io/ggdibbler/reference
   article: https://harriet-mason.github.io/ggdibbler/articles

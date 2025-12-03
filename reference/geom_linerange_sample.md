@@ -11,6 +11,7 @@ geom_crossbar_sample(
   mapping = NULL,
   data = NULL,
   times = 10,
+  seed = NULL,
   stat = "identity_sample",
   position = "identity",
   ...,
@@ -22,6 +23,7 @@ geom_crossbar_sample(
   box.color = NULL,
   box.linetype = NULL,
   box.linewidth = NULL,
+  fatten = deprecated(),
   na.rm = FALSE,
   orientation = NA,
   show.legend = NA,
@@ -36,6 +38,8 @@ geom_errorbar_sample(
   ...,
   times = 10,
   orientation = NA,
+  alpha = 1/log(times),
+  seed = NULL,
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
@@ -50,6 +54,8 @@ geom_linerange_sample(
   ...,
   times = 10,
   orientation = NA,
+  alpha = 0.5/log(times),
+  seed = NULL,
   lineend = "butt",
   na.rm = FALSE,
   show.legend = NA,
@@ -64,6 +70,8 @@ geom_pointrange_sample(
   ...,
   times = 10,
   orientation = NA,
+  alpha = 1/log(times),
+  seed = NULL,
   lineend = "butt",
   fatten = 4,
   na.rm = FALSE,
@@ -104,6 +112,11 @@ geom_pointrange_sample(
 
   A parameter used to control the number of values sampled from each
   distribution.
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
 
 - stat:
 
@@ -193,6 +206,14 @@ geom_pointrange_sample(
   Default aesthetics for the boxes. Set to `NULL` to inherit from the
   data's aesthetics.
 
+- fatten:
+
+  **\[deprecated\]** A multiplicative factor used to increase the size
+  of the middle bar in
+  [`geom_crossbar()`](https://ggplot2.tidyverse.org/reference/geom_linerange.html)
+  and the middle point in
+  [`geom_pointrange()`](https://ggplot2.tidyverse.org/reference/geom_linerange.html).
+
 - na.rm:
 
   If `FALSE`, the default, missing values are removed with a warning. If
@@ -223,17 +244,18 @@ geom_pointrange_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
 - lineend:
 
   Line end style (round, butt, square).
 
-- fatten:
+## Value
 
-  **\[deprecated\]** A multiplicative factor used to increase the size
-  of the middle bar in
-  [`geom_crossbar()`](https://ggplot2.tidyverse.org/reference/geom_linerange.html)
-  and the middle point in
-  [`geom_pointrange()`](https://ggplot2.tidyverse.org/reference/geom_linerange.html).
+A ggplot2 layer
 
 ## Examples
 
@@ -250,6 +272,7 @@ library(dplyr)
 #>     intersect, setdiff, setequal, union
 library(distributional)
 # Create a simple example dataset
+
 df <- data.frame(
   trt = factor(c(1, 1, 2, 2)),
   resp = c(1, 5, 3, 4),
@@ -257,7 +280,6 @@ df <- data.frame(
   upper = c(1.1, 5.3, 3.3, 4.2),
   lower = c(0.8, 4.6, 2.4, 3.6)
 )
-
 
 uncertain_df <- df |>
   group_by(trt, group) |>
@@ -270,18 +292,17 @@ p <- ggplot(df, aes(trt, resp, colour = group))
 q <- ggplot(uncertain_df, aes(trt, resp, colour = group))
 
 # ggplot
-p + geom_linerange(aes(ymin = lower, ymax = upper))
+p + geom_linerange(aes(ymin = lower, ymax = upper), linewidth=4)
 
 #ggdibbler
-q + geom_linerange_sample(aes(ymin = lower, ymax = upper), , alpha=0.7,
-                          position=position_jitter(height=0, width=0.05))
+q + geom_linerange_sample(aes(ymin = lower, ymax = upper), linewidth=4)
 
 
 # ggplot
 p + geom_pointrange(aes(ymin = lower, ymax = upper))
 
 # ggdibbler
-q + geom_pointrange_sample(aes(ymin = lower, ymax = upper), alpha= 0.3,) 
+q + geom_pointrange_sample(aes(ymin = lower, ymax = upper)) 
 #> Warning: The `fatten` argument of `geom_pointrange()` is deprecated as of ggplot2 4.0.0.
 #> ℹ Please use the `size` aesthetic instead.
 
@@ -298,27 +319,4 @@ p + geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2)
 
 # ggdibbler
 q + geom_errorbar_sample(aes(ymin = lower, ymax = upper), width = 0.2)
-
-
-# Flip the orientation by changing mapping
-# ggplot
-ggplot(df, aes(resp, trt, colour = group)) +
-  geom_linerange(aes(xmin = lower, xmax = upper))
-
-# ggdibbler
-ggplot(uncertain_df, aes(resp, trt, colour = group)) +
-  geom_linerange_sample(aes(xmin = lower, xmax = upper), alpha=0.7,
-                        position=position_jitter(height=0.05, width=0))
-
-
-# Draw lines connecting group means
-# ggplot
-p +
-  geom_line(aes(group = group)) +
-  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2)
-
-# ggdibbler
-q +
-  geom_line_sample(aes(group = group), alpha=0.5) +
-  geom_errorbar_sample(aes(ymin = lower, ymax = upper), width = 0.2, alpha=0.5)
 ```

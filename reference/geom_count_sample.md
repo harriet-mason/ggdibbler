@@ -13,19 +13,8 @@ geom_count_sample(
   position = "identity",
   ...,
   times = 10,
-  na.rm = FALSE,
-  show.legend = NA,
-  inherit.aes = TRUE
-)
-
-stat_count_sample(
-  mapping = NULL,
-  data = NULL,
-  geom = "bar",
-  position = "identity",
-  ...,
-  orientation = NA,
-  times = 10,
+  alpha = 0.5/log(times),
+  seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -38,6 +27,8 @@ stat_sum_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -136,6 +127,16 @@ stat_sum_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - na.rm:
 
   If `FALSE`, the default, missing values are removed with a warning. If
@@ -169,13 +170,9 @@ stat_sum_sample(
   [geom](https://ggplot2.tidyverse.org/reference/layer_geoms.html)
   arguments work.
 
-- orientation:
+## Value
 
-  The orientation of the layer. The default (`NA`) automatically
-  determines the orientation from the aesthetic mapping. In the rare
-  event that this fails it can be given explicitly by setting
-  `orientation` to either `"x"` or `"y"`. See the *Orientation* section
-  for more detail.
+A ggplot2 layer
 
 ## Examples
 
@@ -199,7 +196,7 @@ ggplot(mpg, aes(cty, hwy)) +
 
 # ggdibbler (alpha for resample overlap)
 ggplot(uncertain_mpg, aes(cty, hwy)) +
-  geom_count_sample(alpha=0.2) 
+  geom_count_sample() 
 
   
 # Best used in conjunction with scale_size_area 
@@ -210,6 +207,6 @@ ggplot(mpg, aes(cty, hwy)) +
 
 # ggdibbler
 ggplot(uncertain_mpg, aes(cty, hwy)) +
-  geom_count_sample(alpha=0.2) +
+  geom_count_sample() +
   scale_size_area()
 ```

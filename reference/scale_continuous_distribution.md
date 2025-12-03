@@ -155,6 +155,10 @@ scale_y_continuous_distribution(
 
   Other arguments passed on to `scale_(x|y)_continuous()`
 
+## Value
+
+A ggplot2 scale
+
 ## Examples
 
 ``` r

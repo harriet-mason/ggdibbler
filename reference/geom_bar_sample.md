@@ -10,10 +10,11 @@ geom_bar_sample(
   mapping = NULL,
   data = NULL,
   stat = "count_sample",
-  position = "dodge",
+  position = "stack_dodge",
   ...,
   just = 0.5,
   times = 10,
+  seed = NULL,
   lineend = "butt",
   linejoin = "mitre",
   na.rm = FALSE,
@@ -25,12 +26,28 @@ geom_col_sample(
   mapping = NULL,
   data = NULL,
   stat = "identity_sample",
-  position = "dodge",
+  position = "stack_dodge",
   ...,
   just = 0.5,
   times = 10,
+  seed = NULL,
   lineend = "butt",
   linejoin = "mitre",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
+
+stat_count_sample(
+  mapping = NULL,
+  data = NULL,
+  geom = "bar",
+  position = "stack_identity",
+  ...,
+  orientation = NA,
+  times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -137,6 +154,11 @@ geom_col_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - lineend:
 
   Line end style (round, butt, square).
@@ -167,6 +189,35 @@ geom_col_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
+- geom, stat:
+
+  Override the default connection between
+  [`geom_bar()`](https://ggplot2.tidyverse.org/reference/geom_bar.html)
+  and
+  [`stat_count()`](https://ggplot2.tidyverse.org/reference/geom_bar.html).
+  For more information about overriding these connections, see how the
+  [stat](https://ggplot2.tidyverse.org/reference/layer_stats.html) and
+  [geom](https://ggplot2.tidyverse.org/reference/layer_geoms.html)
+  arguments work.
+
+- orientation:
+
+  The orientation of the layer. The default (`NA`) automatically
+  determines the orientation from the aesthetic mapping. In the rare
+  event that this fails it can be given explicitly by setting
+  `orientation` to either `"x"` or `"y"`. See the *Orientation* section
+  for more detail.
+
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to set
+  the default value to 1/log(times) to make sure the repeated draws are
+  always visible
+
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -180,33 +231,32 @@ q <- ggplot(uncertain_mpg, aes(class)) #ggdibbler
 # Number of cars in each class:
 g + geom_bar() #ggplot
 
-q + geom_bar_sample() #ggdibbler
+q + geom_bar_sample() #ggdibbler - a
+
+q + geom_bar_sample(position = "identity_dodge", alpha=1) #ggdibbler - b
 
 
-# Total engine displacement of each class
-g + geom_bar(aes(weight = displ)) #ggplot
-
-q + geom_bar_sample(aes(weight = displ)) #ggdibbler
-
-
-# Map class to y instead to flip the orientation
-ggplot(mpg) + geom_bar(aes(y = class)) #ggplot
-
-ggplot(uncertain_mpg) + geom_bar_sample(aes(y = class)) #ggdibbler
-
-
-# geom_col also has a sample counterpart
+# make dataframe
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 uncertain_df <-  data.frame(trt = c("a", "b", "c"), 
-                            outcome = dist_normal(mean = c(2.3, 1.9, 3.2), sd = c(0.5, 0.8, 0.7)))
+                            outcome = dist_normal(mean = c(2.3, 1.9, 3.2), 
+                                                  sd = c(0.5, 0.8, 0.7)))
+# geom_col also has a sample counterpart
 # ggplot
-ggplot(df, aes(trt, outcome)) +
-  geom_col()
+ggplot(df, aes(trt, outcome)) + geom_col()
 
 # ggdibbler
-ggplot(uncertain_df, aes(x=trt, y=outcome)) +
-  geom_col_sample(alpha=0.05, position = "identity", times=30)
+ggplot(uncertain_df, aes(x=trt, y=outcome)) + geom_col_sample()
 
-ggplot(uncertain_df, aes(x=trt, y=outcome)) +
-  geom_col_sample(times = 30)
+
+# ggplot
+ggplot(mpg, aes(y = class)) +
+  geom_bar(aes(fill = drv), position = position_stack(reverse = TRUE)) +
+  theme(legend.position = "top")
+
+# ggdibbler
+ggplot(uncertain_mpg, aes(y = class)) +
+  geom_bar_sample(aes(fill = drv), alpha=1,
+                  position = position_stack_dodge(reverse = TRUE)) +
+  theme(legend.position = "top")
 ```

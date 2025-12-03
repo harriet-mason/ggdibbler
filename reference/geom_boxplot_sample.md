@@ -9,8 +9,9 @@ place of any of the usual aesthetics.
 geom_boxplot_sample(
   mapping = NULL,
   data = NULL,
-  stat = "boxplot_sample",
   times = 10,
+  seed = NULL,
+  stat = "boxplot_sample",
   position = "identity",
   ...,
   outliers = TRUE,
@@ -55,6 +56,7 @@ stat_boxplot_sample(
   ...,
   times = 10,
   orientation = NA,
+  seed = NULL,
   coef = 1.5,
   na.rm = FALSE,
   show.legend = NA,
@@ -94,6 +96,11 @@ stat_boxplot_sample(
 
   A parameter used to control the number of values sampled from each
   distribution.
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
 
 - position:
 
@@ -260,6 +267,10 @@ stat_boxplot_sample(
 
   Length of the whiskers as multiple of IQR. Defaults to 1.5.
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -274,83 +285,6 @@ q <- ggplot(uncertain_mpg, aes(class, hwy))
 q + geom_boxplot_sample(alpha=0.1) 
 
 
-# ggdibbler: e.g. only one random variable 
-# (If you only have one random variable, there is less uncertainty)
-uncertain_mpg_new <- uncertain_mpg
-uncertain_mpg_new$class <- mpg$class
-r <- ggplot(uncertain_mpg_new, aes(class, hwy))  
-r  + geom_boxplot_sample(alpha=0.1) 
-
-
-# Orientation follows the discrete axis
-# ggplot
-ggplot(mpg, aes(hwy, class)) + 
-  geom_boxplot()
-
-# ggdibbler
-ggplot(uncertain_mpg, aes(hwy, class)) + 
-  geom_boxplot_sample(alpha=0.1)
-
-
-# ggplot
-p + geom_boxplot(notch = TRUE)
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-
-# ggdibbler
-q + geom_boxplot_sample(alpha=0.1, notch = TRUE) 
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-#> Notch went outside hinges
-#> ℹ Do you want `notch = FALSE`?
-
-
 # ggplot
 p + geom_boxplot(varwidth = TRUE)
 
@@ -358,25 +292,10 @@ p + geom_boxplot(varwidth = TRUE)
 q + geom_boxplot_sample(alpha=0.1, varwidth = TRUE) 
 
 
-#ggplot
-p + geom_boxplot(fill = "white", colour = "#3366FF")
+# ggplot
+p + geom_boxplot(aes(colour = drv), position = position_dodge(preserve = "single"))
 
-#ggdibbler
-q + geom_boxplot_sample(alpha=0.1, fill = "white", colour = "#3366FF") 
+# ggdibbler
+q + geom_boxplot_sample(aes(colour = drv), alpha=0.05, position = "dodge_identity")
 
-
-# By default, outlier points match the colour of the box. Use
-# outlier.colour to override
-p + geom_boxplot(outlier.colour = "red", outlier.shape = 1)
-
-q + geom_boxplot_sample(alpha=0.1, outlier.colour = "red", outlier.shape = 1) 
-
-
-# Remove outliers when overlaying boxplot with original data points
-p + geom_boxplot(outlier.shape = NA) + geom_jitter(width = 0.2)
-
-q + geom_boxplot_sample(alpha=0.1, outlier.shape = NA) + 
-  geom_jitter_sample(size= 0.1, width = 0.2)
-
-  
 ```

@@ -12,6 +12,7 @@ interact with ggplot2.
   : Reference lines with uncertainty: horizontal, vertical, and diagonal
 - [`geom_bar_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bar_sample.md)
   [`geom_col_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bar_sample.md)
+  [`stat_count_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bar_sample.md)
   : Uncertain Bar Charts
 - [`geom_bin_2d_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bin_2d_sample.md)
   [`stat_bin_2d_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_bin_2d_sample.md)
@@ -25,7 +26,6 @@ interact with ggplot2.
   [`stat_contour_filled_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_contour_sample.md)
   : Uncertain 2D contours of a 3D surface
 - [`geom_count_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
-  [`stat_count_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
   [`stat_sum_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_count_sample.md)
   : Uncertain Count overlapping points
 - [`geom_density_2d_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_density_2d_sample.md)
@@ -35,7 +35,7 @@ interact with ggplot2.
   : Uncertain contours of a 2D density estimate
 - [`geom_density_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_density_sample.md)
   [`stat_density_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_density_sample.md)
-  : Visualise Densities with Uncertainty
+  : Visualise densities with Uncertainty
 - [`geom_dotplot_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_dotplot_sample.md)
   : Dot plot with uncertainty
 - [`geom_hex_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_hex_sample.md)
@@ -91,16 +91,15 @@ interact with ggplot2.
 - [`geom_raster_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
   [`geom_rect_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
   [`geom_tile_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.md)
-  : Rectangles with Uncertainty
+  : Plot rectangles with uncertainty
 - [`geom_violin_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_violin_sample.md)
   [`stat_ydensity_sample()`](https://harriet-mason.github.io/ggdibbler/reference/geom_violin_sample.md)
   : Violin plots with uncertainty
 
 ## Stats
 
-This is where most of the methods used to make uncertainty visualisation
-in ggdibbler work. These stat functions convert a distribution to a
-sample before running through their non-uncertainty counterpart.
+These are the ggdibbler versions of the layer better specified by the
+stats in the ggplot documentation.
 
 - [`sample_expand()`](https://harriet-mason.github.io/ggdibbler/reference/sample_expand.md)
   : Simulate outcomes from dibble to make a tibble
@@ -110,22 +109,34 @@ sample before running through their non-uncertainty counterpart.
   : Compute uncertain empirical cumulative distributions
 - [`stat_ellipse_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_ellipse_sample.md)
   : Compute normal data ellipses with uncertainty
+- [`stat_connect_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_connect_sample.md)
+  : Connect uncertain observations
+- [`stat_manual_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_manual_sample.md)
+  : Manually compute transformations with uncertainty
+- [`stat_summary_2d_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_summary_2d_sample.md)
+  [`stat_summary_hex_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_summary_2d_sample.md)
+  : Bin and summarise in 2d (rectangle & hexagons) with uncertain inputs
+- [`stat_summary_bin_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_summary_sample.md)
+  [`stat_summary_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_summary_sample.md)
+  : Summarise y values at unique/binned x with uncertainty
+- [`stat_unique_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_unique_sample.md)
+  : Remove duplicates (with uncertainty?)
 
 ## Position
 
 These positions allow you to nest the distribution overplotting within a
 different ggplot2 position adjustment
 
-- [`position_dodge_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_identity.md)
-  [`position_dodge_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_identity.md)
+- [`position_dodge_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_nested.md)
+  [`position_dodge_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_nested.md)
+  [`position_identity_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_dodge_nested.md)
   : Nested dodge positions
 - [`position_identity_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_identity_identity.md)
-  [`position_identity_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_identity_identity.md)
   : Nested identity positions
 - [`position_nest()`](https://harriet-mason.github.io/ggdibbler/reference/position_nest.md)
   : Any combination of nested positions
-- [`position_stack_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_stack_identity.md)
-  [`position_stack_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_stack_identity.md)
+- [`position_stack_identity()`](https://harriet-mason.github.io/ggdibbler/reference/position_stack_nested.md)
+  [`position_stack_dodge()`](https://harriet-mason.github.io/ggdibbler/reference/position_stack_nested.md)
   : Nested stack positions
 - [`position_subdivide()`](https://harriet-mason.github.io/ggdibbler/reference/position_subdivide.md)
   : Subdivide position aesthetic in a geometry
@@ -171,5 +182,5 @@ with uncertainty added in.
   : 2d density estimate of Old Faithful data with uncertainty
 - [`uncertain_faithful`](https://harriet-mason.github.io/ggdibbler/reference/uncertain_faithful.md)
   : Old Faithful data with uncertainty
-- [`walkathon`](https://harriet-mason.github.io/ggdibbler/reference/walkathon.md)
+- [`walktober`](https://harriet-mason.github.io/ggdibbler/reference/walktober.md)
   : Step Counts from Walktober 2025 Challenge

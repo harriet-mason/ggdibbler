@@ -13,6 +13,8 @@ geom_quantile_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   arrow = NULL,
   arrow.fill = NULL,
   lineend = "butt",
@@ -30,6 +32,8 @@ stat_quantile_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   quantiles = c(0.25, 0.5, 0.75),
   formula = NULL,
   method = "rq",
@@ -132,6 +136,16 @@ stat_quantile_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - arrow:
 
   Arrow specification, as created by
@@ -207,6 +221,10 @@ stat_quantile_sample(
   List of additional arguments passed on to the modelling function
   defined by `method`.
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -216,13 +234,13 @@ m <- ggplot(mpg, aes(displ, hwy)) +
   geom_point()
 # ggdibbler
 n <- ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample(size=1, alpha=0.2)
+  geom_point_sample()
 # ggplot
 m + geom_quantile()
 #> Smoothing formula not specified. Using: y ~ x
 
 # ggdibbler
-n + geom_quantile_sample(alpha=0.5, linewidth=0.5)
+n + geom_quantile_sample()
 #> Smoothing formula not specified. Using: y ~ x
 #> Warning: Solution may be nonunique
 #> Smoothing formula not specified. Using: y ~ x
@@ -230,6 +248,7 @@ n + geom_quantile_sample(alpha=0.5, linewidth=0.5)
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
+#> Warning: Solution may be nonunique
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
@@ -241,97 +260,10 @@ m + geom_quantile(quantiles = 0.5)
 #> Smoothing formula not specified. Using: y ~ x
 
 # ggdibbler
-n + geom_quantile_sample(quantiles = 0.5, 
-                         alpha=0.5, linewidth=0.5)
+n + geom_quantile_sample(quantiles = 0.5)
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-
-
-q10 <- seq(0.05, 0.95, by = 0.05)
-# ggplot
-m + geom_quantile(quantiles = q10)
-#> Smoothing formula not specified. Using: y ~ x
-
-# ggdibbler
-n + geom_quantile_sample(quantiles = q10, alpha=0.5, linewidth=0.5)
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Warning: Solution may be nonunique
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Warning: Solution may be nonunique
-#> Smoothing formula not specified. Using: y ~ x
-#> Warning: Solution may be nonunique
-#> Smoothing formula not specified. Using: y ~ x
-#> Warning: Solution may be nonunique
-
-
-# You can also use rqss to fit smooth quantiles
-# ggplot
-m + geom_quantile(method = "rqss")
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-
-# ggdibbler
-n + geom_quantile_sample(method = "rqss",
-                         alpha=0.5, linewidth=0.5)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Warning: 
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 1)
-
-
-# Note that rqss doesn't pick a smoothing constant automatically, so
-# you'll need to tweak lambda yourself
-# ggplot
-m + geom_quantile(method = "rqss", lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-
-# ggdibbler
-n + geom_quantile_sample(method = "rqss", lambda = 0.1,
-                         alpha=0.5, linewidth=0.5)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Warning: tiny diagonals replaced with Inf when calling blkfct
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-#> Smoothing formula not specified. Using: y ~ qss(x, lambda = 0.1)
-
-
-# Set aesthetics to fixed value
-# ggplot
-m + geom_quantile(colour = "red", linewidth = 2, alpha = 0.5)
-#> Smoothing formula not specified. Using: y ~ x
-
-# ggdibbler
-n + geom_quantile_sample(colour = "red", linewidth = 2, alpha = 0.5)
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Warning: Solution may be nonunique
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x

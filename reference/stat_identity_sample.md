@@ -13,6 +13,8 @@ stat_identity_sample(
   position = "identity",
   ...,
   times = 10,
+  alpha = 1/log(times),
+  seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -130,6 +132,16 @@ stat_identity_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- alpha:
+
+  ggplot2 alpha, i.e. transparency. It is included as a parameter to
+  make sure the repeated draws are always visible
+
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - na.rm:
 
   If `FALSE`, the default, missing values are removed with a warning. If
@@ -156,6 +168,8 @@ stat_identity_sample(
 
 A ggplot2 geom representing a point_sample which can be added to a
 ggplot object
+
+A ggplot2 layer
 
 ## Examples
 

@@ -11,6 +11,10 @@ extended to others such as geom_sf, geom_map, etc).
 position_subdivide()
 ```
 
+## Value
+
+A ggplot2 position
+
 ## Examples
 
 ``` r

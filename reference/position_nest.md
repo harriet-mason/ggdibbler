@@ -10,6 +10,16 @@ for the "main" and "distribution" parts of your plot.
 position_nest(position = "identity_identity")
 ```
 
+## Arguments
+
+- position:
+
+  a character of the nested position you want to use
+
+## Value
+
+A ggplot2 position
+
 ## Examples
 
 ``` r

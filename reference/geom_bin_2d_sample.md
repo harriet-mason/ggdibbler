@@ -13,6 +13,7 @@ geom_bin_2d_sample(
   position = "identity_dodge",
   ...,
   times = 10,
+  seed = NULL,
   lineend = "butt",
   linejoin = "mitre",
   na.rm = FALSE,
@@ -24,9 +25,10 @@ stat_bin_2d_sample(
   mapping = NULL,
   data = NULL,
   geom = "tile",
-  position = "identity",
+  position = "identity_dodge",
   ...,
   times = 10,
+  seed = NULL,
   binwidth = NULL,
   bins = 30,
   breaks = NULL,
@@ -132,6 +134,11 @@ stat_bin_2d_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
+- seed:
+
+  Set the seed for the layers random draw, allows you to plot the same
+  draw across multiple layers.
+
 - lineend:
 
   Line end style (round, butt, square).
@@ -218,6 +225,10 @@ stat_bin_2d_sample(
   alignment can be specified with `binwidth = 1` and `boundary = 0.5`,
   even if `0.5` is outside the range of the data.
 
+## Value
+
+A ggplot2 layer
+
 ## Examples
 
 ``` r
@@ -234,7 +245,7 @@ b + geom_bin_2d_sample(times=100)
 #> `stat_bin2d_sample()` using `bins = 30`. Pick better value `binwidth`.
 
 # but it can change it to be transparency
-b + geom_bin_2d_sample(position="identity", alpha=0.2)
+b + geom_bin_2d_sample(position="identity", alpha=0.1)
 #> `stat_bin2d_sample()` using `bins = 30`. Pick better value `binwidth`.
 
 # Still have the same options

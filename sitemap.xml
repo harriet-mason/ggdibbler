@@ -1,9 +1,10 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://harriet-mason.github.io/ggdibbler/404.html</loc></url>
-<url><loc>https://harriet-mason.github.io/ggdibbler/articles/ggdibbler-intro.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/articles/A_how-to-guide.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/articles/B_ggdibbler-philosophy.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/articles/C_random-plots.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/articles/D_extender-info.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/articles/index.html</loc></url>
-<url><loc>https://harriet-mason.github.io/ggdibbler/articles/nested-positions.html</loc></url>
-<url><loc>https://harriet-mason.github.io/ggdibbler/articles/random-plots.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/authors.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/index.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/news/index.html</loc></url>
@@ -35,19 +36,24 @@
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/geom_tile_sample.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/geom_violin_sample.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/index.html</loc></url>
-<url><loc>https://harriet-mason.github.io/ggdibbler/reference/position_dodge_identity.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/reference/position_dodge_nested.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/position_identity_identity.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/position_nest.html</loc></url>
-<url><loc>https://harriet-mason.github.io/ggdibbler/reference/position_stack_identity.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/reference/position_stack_nested.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/position_subdivide.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/sample_expand.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/scale_continuous_distribution.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/scale_discrete_distribution.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/scale_type.distribution.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/smaller_uncertain_diamonds.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/reference/stat_connect_sample.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/stat_ecdf_sample.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/stat_ellipse_sample.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/stat_identity_sample.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/reference/stat_manual_sample.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/reference/stat_summary_2d_sample.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/reference/stat_summary_sample.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/reference/stat_unique_sample.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/toy_temp.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/toy_temp_dist.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/uncertain_economics.html</loc></url>
@@ -55,6 +61,6 @@
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/uncertain_faithfuld.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/uncertain_mpg.html</loc></url>
 <url><loc>https://harriet-mason.github.io/ggdibbler/reference/uncertain_mtcars.html</loc></url>
-<url><loc>https://harriet-mason.github.io/ggdibbler/reference/walkathon.html</loc></url>
+<url><loc>https://harriet-mason.github.io/ggdibbler/reference/walktober.html</loc></url>
 </urlset>
 
