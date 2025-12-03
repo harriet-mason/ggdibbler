@@ -3,8 +3,10 @@ title: "Get started with ggdibbler"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{A_how-to-guide}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -304,7 +306,7 @@ hops <- ggplot(uncertain_mpg, aes(class)) +
   theme_few() +
   transition_states(after_stat(drawID))
 
-animate(hops, height = 400, width = 600, renderer = sprite_renderer(), )
+animate(hops, renderer =  gifski_renderer())
 ```
 
 
