@@ -4,10 +4,9 @@
 
 The beauty of the broad solution `ggdibbler` provides is that it always
 works. It might not always look *good* or be exactly what you were
-looking for, but it always works. To illustrate this, I selected the
-visualisation system that `ggraph` example in the [introduction to
-`ggdibbler`](https://harriet-mason.github.io/ggdibbler/articles/ggdibbler-intro.Rmd)
-to see how
+looking for, but it always produces… something. To illustrate this, I
+included the `ggraph` example in the introduction to `ggdibbler`, but
+the idea can be implemented with extensions as well.
 
 In the `ggraph` example, I illustrated how you can use the `ggdibbler`
 approach with a ggplot extension that isn’t even aware `ggdibbler`

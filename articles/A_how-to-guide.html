@@ -286,7 +286,7 @@ pre-processing</p>
 <span>  <span class="fu">model</span><span class="op">(</span><span class="fu">ARIMA</span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">forecast</span><span class="op">(</span>h <span class="op">=</span> <span class="st">"10 years"</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; Warning: 1 error encountered for ARIMA(value)</span></span>
-<span><span class="co">#&gt; [1] The `feasts` package must be installed to use this functionality. It can be installed with install.packages("feasts")</span></span>
+<span><span class="co">#&gt; [1] The `urca` package must be installed to use this functionality. It can be installed with install.packages("urca")</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">forecast</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_path_sample.html">geom_line_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">index</span>, y <span class="op">=</span> <span class="va">value</span><span class="op">)</span>,</span>

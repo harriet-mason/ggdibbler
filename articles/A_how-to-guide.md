@@ -211,7 +211,7 @@ forecast <- as_tsibble(sunspot.year) |>
   model(ARIMA(value)) |> 
   forecast(h = "10 years") 
 #> Warning: 1 error encountered for ARIMA(value)
-#> [1] The `feasts` package must be installed to use this functionality. It can be installed with install.packages("feasts")
+#> [1] The `urca` package must be installed to use this functionality. It can be installed with install.packages("urca")
 
 ggplot(forecast) +
   geom_line_sample(aes(x = index, y = value),
