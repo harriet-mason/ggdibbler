@@ -44,6 +44,7 @@ Suggests:
     vdiffr,
     mgcv,
     fable,
+    urca,
     gganimate,
     tidyverse,
     tidygraph,
