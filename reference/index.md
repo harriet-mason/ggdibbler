@@ -102,6 +102,7 @@ These are the ggdibbler versions of the layer better specified by the
 stats in the ggplot documentation.
 
 - [`sample_expand()`](https://harriet-mason.github.io/ggdibbler/reference/sample_expand.md)
+  [`dibble_to_tibble()`](https://harriet-mason.github.io/ggdibbler/reference/sample_expand.md)
   : Simulate outcomes from dibble to make a tibble
 - [`stat_identity_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_identity_sample.md)
   : Generates a sample from a distribution

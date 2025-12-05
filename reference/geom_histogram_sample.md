@@ -41,11 +41,10 @@ stat_bin_sample(
   mapping = NULL,
   data = NULL,
   geom = "bar",
-  position = "stack_identity",
+  position = "stack_dodge",
   ...,
   times = 10,
   orientation = NA,
-  alpha = 1/log(times),
   seed = NULL,
   binwidth = NULL,
   bins = NULL,
@@ -224,11 +223,6 @@ stat_bin_sample(
   [geom](https://ggplot2.tidyverse.org/reference/layer_geoms.html)
   arguments work.
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
-
 - center, boundary:
 
   bin position specifiers. Only one, `center` or `boundary`, may be
@@ -286,7 +280,7 @@ ggplot(smaller_uncertain_diamonds, aes(carat)) +
 #> `stat_bin_sample()` using `bins = 30`. Pick better value `binwidth`.
 
 ggplot(smaller_uncertain_diamonds, aes(carat)) +
-  geom_histogram_sample(position="identity_dodge", alpha=1) 
+  geom_histogram_sample(position="identity_identity", alpha=0.15) 
 #> `stat_bin_sample()` using `bins = 30`. Pick better value `binwidth`.
 
 

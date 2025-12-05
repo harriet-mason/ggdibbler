@@ -46,7 +46,6 @@ stat_count_sample(
   ...,
   orientation = NA,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
@@ -208,12 +207,6 @@ stat_count_sample(
   `orientation` to either `"x"` or `"y"`. See the *Orientation* section
   for more detail.
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to set
-  the default value to 1/log(times) to make sure the repeated draws are
-  always visible
-
 ## Value
 
 A ggplot2 layer
@@ -233,7 +226,7 @@ g + geom_bar() #ggplot
 
 q + geom_bar_sample() #ggdibbler - a
 
-q + geom_bar_sample(position = "identity_dodge", alpha=1) #ggdibbler - b
+q + geom_bar_sample(position = "identity_identity", alpha=0.1) #ggdibbler - b
 
 
 # make dataframe

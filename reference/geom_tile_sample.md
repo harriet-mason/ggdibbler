@@ -29,7 +29,6 @@ geom_rect_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   lineend = "butt",
   linejoin = "mitre",
@@ -202,11 +201,6 @@ geom_tile_sample(
   data and aesthetics and shouldn't inherit behaviour from the default
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
-
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
 
 - lineend:
 

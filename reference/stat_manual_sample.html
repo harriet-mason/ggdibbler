@@ -9,7 +9,7 @@ place of any of the usual aesthetics."><meta property="og:image" content="https:
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,6 @@ place of any of the usual aesthetics.</p>
 <span>  position <span class="op">=</span> <span class="st">"identity"</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">times</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fun <span class="op">=</span> <span class="va">identity</span>,</span>
 <span>  args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -149,11 +148,6 @@ lists which parameters it can accept.</p></li>
 each distribution.</p></dd>
 
 
-<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>ggplot2 alpha, i.e. transparency. It is included as a
-parameter to make sure the repeated draws are always visible</p></dd>
-
-
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p>Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.</p></dd>
@@ -227,7 +221,7 @@ the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.or
 <span class="r-in"><span><span class="va">q</span> <span class="op">+</span> <span class="fu">stat_manual_sample</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  geom <span class="op">=</span> <span class="st">"polygon"</span>,</span></span>
 <span class="r-in"><span>  fun  <span class="op">=</span> <span class="va">make_hull</span>,</span></span>
-<span class="r-in"><span>  fill <span class="op">=</span> <span class="cn">NA</span></span></span>
+<span class="r-in"><span>  fill <span class="op">=</span> <span class="cn">NA</span>,</span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="stat_manual_sample-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># Using the `transform` function with quoting</span></span></span>
@@ -254,7 +248,7 @@ the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.or
 <span class="r-in"><span><span class="co"># Using dplyr verbs with `vars()`</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"dplyr"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  </span></span>
-<span class="r-in"><span>  <span class="co">#' Get centroids with `summarise()`</span></span></span>
+<span class="r-in"><span>  <span class="co"># Get centroids with `summarise()`</span></span></span>
 <span class="r-in"><span>  <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_manual.html" class="external-link">stat_manual</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    size <span class="op">=</span> <span class="fl">10</span>, shape <span class="op">=</span> <span class="fl">21</span>,</span></span>
 <span class="r-in"><span>    fun  <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span>,</span></span>

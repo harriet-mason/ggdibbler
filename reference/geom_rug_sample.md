@@ -13,7 +13,6 @@ geom_rug_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   lineend = "butt",
   sides = "bl",
@@ -136,11 +135,6 @@ geom_rug_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
-
 - seed:
 
   Set the seed for the layers random draw, allows you to plot the same
@@ -209,5 +203,5 @@ q <- ggplot(uncertain_mtcars, aes(wt, mpg)) +
 
 p + geom_rug() #ggplot
 
-q + geom_rug_sample(seed=4) #ggdibbler
+q + geom_rug_sample(seed=4, alpha=0.5) #ggdibbler
 ```

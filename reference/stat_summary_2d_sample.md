@@ -35,7 +35,6 @@ stat_summary_hex_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   binwidth = NULL,
   bins = 30,
@@ -239,11 +238,6 @@ stat_summary_hex_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
-
 ## Examples
 
 ``` r
@@ -264,7 +258,7 @@ d + stat_summary_hex(fun = ~ sum(.x^2))
 #> Caused by error in `compute_group()`:
 #> ! The package "hexbin" is required for `stat_summary_hex()`.
 
-b + stat_summary_hex_sample(fun = ~ sum(.x^2))
+b + stat_summary_hex_sample(fun = ~ sum(.x^2), alpha=0.3)
 #> Warning: Computation failed in `stat_summary_hex_sample()`.
 #> Caused by error in `compute_group()`:
 #> ! The package "hexbin" is required for `stat_summary_hex()`.

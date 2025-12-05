@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,6 @@
 <span>  position <span class="op">=</span> <span class="st">"identity"</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">times</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  arrow <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  arrow.fill <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -70,9 +69,8 @@
 <span>  geom <span class="op">=</span> <span class="st">"quantile"</span>,</span>
 <span>  position <span class="op">=</span> <span class="st">"identity"</span>,</span>
 <span>  <span class="va">...</span>,</span>
-<span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">times</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  quantiles <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span>,</span>
 <span>  formula <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method <span class="op">=</span> <span class="st">"rq"</span>,</span>
@@ -152,11 +150,6 @@ lists which parameters it can accept.</p></li>
 <dt id="arg-times">times<a class="anchor" aria-label="anchor" href="#arg-times"></a></dt>
 <dd><p>A parameter used to control the number of values sampled from
 each distribution.</p></dd>
-
-
-<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>ggplot2 alpha, i.e. transparency. It is included as a
-parameter to make sure the repeated draws are always visible</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
@@ -245,13 +238,13 @@ function defined by <code>method</code>.</p></dd>
 <span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
 <span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">displ</span>, <span class="va">hwy</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># ggplot</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_quantile.html" class="external-link">geom_quantile</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Smoothing formula not specified. Using: y ~ x</span>
 <span class="r-plt img"><img src="geom_quantile_sample-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="va">n</span> <span class="op">+</span> <span class="fu">geom_quantile_sample</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">n</span> <span class="op">+</span> <span class="fu">geom_quantile_sample</span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Smoothing formula not specified. Using: y ~ x</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Solution may be nonunique</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Smoothing formula not specified. Using: y ~ x</span>
@@ -271,7 +264,7 @@ function defined by <code>method</code>.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Smoothing formula not specified. Using: y ~ x</span>
 <span class="r-plt img"><img src="geom_quantile_sample-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
-<span class="r-in"><span><span class="va">n</span> <span class="op">+</span> <span class="fu">geom_quantile_sample</span><span class="op">(</span>quantiles <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">n</span> <span class="op">+</span> <span class="fu">geom_quantile_sample</span><span class="op">(</span>quantiles <span class="op">=</span> <span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Smoothing formula not specified. Using: y ~ x</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Smoothing formula not specified. Using: y ~ x</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Smoothing formula not specified. Using: y ~ x</span>

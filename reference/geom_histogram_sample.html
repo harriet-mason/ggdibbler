@@ -9,7 +9,7 @@ it will accept a distribution in place of any of the usual aesthetics."><meta pr
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,11 +83,10 @@ it will accept a distribution in place of any of the usual aesthetics.</p>
 <span>  mapping <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  geom <span class="op">=</span> <span class="st">"bar"</span>,</span>
-<span>  position <span class="op">=</span> <span class="st">"stack_identity"</span>,</span>
+<span>  position <span class="op">=</span> <span class="st">"stack_dodge"</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  orientation <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">times</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  binwidth <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bins <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -175,7 +174,8 @@ a warning. If <code>TRUE</code>, missing values are silently removed.</p></dd>
 
 
 <dt id="arg-times">times<a class="anchor" aria-label="anchor" href="#arg-times"></a></dt>
-<dd><p>A parameter used to control the number of values sampled from each distribution.</p></dd>
+<dd><p>A parameter used to control the number of values sampled from
+each distribution.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
@@ -239,11 +239,6 @@ at overriding these connections, see how the <a href="https://ggplot2.tidyverse.
 <a href="https://ggplot2.tidyverse.org/reference/layer_geoms.html" class="external-link">geom</a> arguments work.</p></dd>
 
 
-<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>ggplot2 alpha, i.e. transparency. It is included as a
-parameter to make sure the repeated draws are always visible</p></dd>
-
-
 <dt id="arg-center-boundary">center, boundary<a class="anchor" aria-label="anchor" href="#arg-center-boundary"></a></dt>
 <dd><p>bin position specifiers. Only one, <code>center</code> or
 <code>boundary</code>, may be specified for a single plot. <code>center</code> specifies the
@@ -300,7 +295,7 @@ for <code>"none"</code>.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `stat_bin_sample()` using `bins = 30`. Pick better value `binwidth`.</span>
 <span class="r-plt img"><img src="geom_histogram_sample-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">smaller_uncertain_diamonds</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">carat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_histogram_sample</span><span class="op">(</span>position<span class="op">=</span><span class="st">"identity_dodge"</span>, alpha<span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  <span class="fu">geom_histogram_sample</span><span class="op">(</span>position<span class="op">=</span><span class="st">"identity_identity"</span>, alpha<span class="op">=</span><span class="fl">0.15</span><span class="op">)</span> </span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `stat_bin_sample()` using `bins = 30`. Pick better value `binwidth`.</span>
 <span class="r-plt img"><img src="geom_histogram_sample-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

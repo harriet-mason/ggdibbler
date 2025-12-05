@@ -14,7 +14,6 @@ geom_hex_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 0.5/log(times),
   lineend = "butt",
   linejoin = "mitre",
   linemitre = 10,
@@ -31,7 +30,6 @@ stat_bin_hex_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 0.5/log(times),
   binwidth = NULL,
   bins = 30,
   na.rm = FALSE,
@@ -136,11 +134,6 @@ stat_bin_hex_sample(
 
   Set the seed for the layers random draw, allows you to plot the same
   draw across multiple layers.
-
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
 
 - lineend:
 

@@ -13,7 +13,6 @@ geom_contour_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.5/log(times),
   seed = NULL,
   bins = NULL,
   binwidth = NULL,
@@ -35,7 +34,6 @@ geom_contour_filled_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.5/log(times),
   seed = NULL,
   bins = NULL,
   binwidth = NULL,
@@ -56,7 +54,6 @@ stat_contour_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   bins = NULL,
   binwidth = NULL,
@@ -73,7 +70,6 @@ stat_contour_filled_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   bins = NULL,
   binwidth = NULL,
@@ -195,11 +191,6 @@ stat_contour_filled_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
-
 - seed:
 
   Set the seed for the layers random draw, allows you to plot the same
@@ -306,13 +297,42 @@ A ggplot2 layer
 
 ``` r
 library(ggplot2)
-
+library(dplyr)
+#> 
+#> Attaching package: ‘dplyr’
+#> The following objects are masked from ‘package:stats’:
+#> 
+#>     filter, lag
+#> The following objects are masked from ‘package:base’:
+#> 
+#>     intersect, setdiff, setequal, union
+faithfuld
+#> # A tibble: 5,625 × 3
+#>    eruptions waiting density
+#>        <dbl>   <dbl>   <dbl>
+#>  1      1.6       43 0.00322
+#>  2      1.65      43 0.00384
+#>  3      1.69      43 0.00444
+#>  4      1.74      43 0.00498
+#>  5      1.79      43 0.00542
+#>  6      1.84      43 0.00574
+#>  7      1.88      43 0.00592
+#>  8      1.93      43 0.00594
+#>  9      1.98      43 0.00581
+#> 10      2.03      43 0.00554
+#> # ℹ 5,615 more rows
 # ggplot2
-v <- ggplot(faithfuld, aes(waiting, eruptions, z = density))
+v <- ggplot(faithfuld |>
+  filter(waiting>80) |>
+  filter(eruptions >3), 
+  aes(waiting, eruptions, z = density))
 v + geom_contour()
 
 # ggdibbler
-u <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density))
+u <- ggplot(uncertain_faithfuld |> 
+  filter(waiting>80) |>
+  filter(eruptions >3), 
+  aes(waiting, eruptions, z = density))
 u + geom_contour_sample() 
 
 

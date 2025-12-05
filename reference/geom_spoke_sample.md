@@ -13,7 +13,6 @@ geom_spoke_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   arrow = NULL,
   arrow.fill = NULL,
@@ -136,11 +135,6 @@ geom_spoke_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
-
 - seed:
 
   Set the seed for the layers random draw, allows you to plot the same
@@ -219,5 +213,5 @@ ggplot(df, aes(x, y)) +
 # ggdibbler
 ggplot(uncertain_df, aes(x, y)) +
   geom_point_sample() + #' and here we used geom_point_sample
-  geom_spoke_sample(aes(angle = angle, radius = speed))
+  geom_spoke_sample(aes(angle = angle, radius = speed), alpha=0.3)
 ```

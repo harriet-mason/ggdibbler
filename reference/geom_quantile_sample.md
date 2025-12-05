@@ -13,7 +13,6 @@ geom_quantile_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   arrow = NULL,
   arrow.fill = NULL,
@@ -31,9 +30,8 @@ stat_quantile_sample(
   geom = "quantile",
   position = "identity",
   ...,
-  times = 10,
-  alpha = 1/log(times),
   seed = NULL,
+  times = 10,
   quantiles = c(0.25, 0.5, 0.75),
   formula = NULL,
   method = "rq",
@@ -136,11 +134,6 @@ stat_quantile_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
-
 - seed:
 
   Set the seed for the layers random draw, allows you to plot the same
@@ -234,13 +227,13 @@ m <- ggplot(mpg, aes(displ, hwy)) +
   geom_point()
 # ggdibbler
 n <- ggplot(uncertain_mpg, aes(displ, hwy)) +
-  geom_point_sample()
+  geom_point_sample(alpha=0.3)
 # ggplot
 m + geom_quantile()
 #> Smoothing formula not specified. Using: y ~ x
 
 # ggdibbler
-n + geom_quantile_sample()
+n + geom_quantile_sample(alpha=0.3)
 #> Smoothing formula not specified. Using: y ~ x
 #> Warning: Solution may be nonunique
 #> Smoothing formula not specified. Using: y ~ x
@@ -260,7 +253,7 @@ m + geom_quantile(quantiles = 0.5)
 #> Smoothing formula not specified. Using: y ~ x
 
 # ggdibbler
-n + geom_quantile_sample(quantiles = 0.5)
+n + geom_quantile_sample(quantiles = 0.5, alpha=0.3)
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x

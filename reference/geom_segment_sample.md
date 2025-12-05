@@ -13,7 +13,6 @@ geom_curve_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   curvature = 0.5,
   angle = 90,
@@ -33,7 +32,6 @@ geom_segment_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   arrow = NULL,
   arrow.fill = NULL,
@@ -156,11 +154,6 @@ geom_segment_sample(
   A parameter used to control the number of values sampled from each
   distribution.
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
-
 - seed:
 
   Set the seed for the layers random draw, allows you to plot the same
@@ -238,7 +231,7 @@ b <- ggplot(mtcars, aes(wt, mpg)) +
   geom_point()
 # ggdibbler
 a <- ggplot(uncertain_mtcars, aes(wt, mpg)) +
-  geom_point_sample(seed=77)
+  geom_point_sample(seed=77, alpha=0.5)
 
 
 df <- data.frame(x1 = 2.62, x2 = 3.57, 
@@ -256,9 +249,9 @@ b +
 # ggdibbler
 a +
   geom_curve_sample(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "curve"), 
-                    data = uncertain_df, seed=77) +
+                    data = uncertain_df, seed=77, alpha=0.5) +
   geom_segment_sample(aes(x = x1, y = y1, xend = x2, yend = y2, colour = "segment"), 
-                      data = uncertain_df, seed=77)
+                      data = uncertain_df, seed=77, alpha=0.5)
 
                       
 ```

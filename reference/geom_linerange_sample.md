@@ -38,7 +38,6 @@ geom_errorbar_sample(
   ...,
   times = 10,
   orientation = NA,
-  alpha = 1/log(times),
   seed = NULL,
   lineend = "butt",
   na.rm = FALSE,
@@ -54,7 +53,6 @@ geom_linerange_sample(
   ...,
   times = 10,
   orientation = NA,
-  alpha = 0.5/log(times),
   seed = NULL,
   lineend = "butt",
   na.rm = FALSE,
@@ -70,7 +68,6 @@ geom_pointrange_sample(
   ...,
   times = 10,
   orientation = NA,
-  alpha = 1/log(times),
   seed = NULL,
   lineend = "butt",
   fatten = 4,
@@ -244,11 +241,6 @@ geom_pointrange_sample(
   plot specification, e.g.
   [`annotation_borders()`](https://ggplot2.tidyverse.org/reference/annotation_borders.html).
 
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
-
 - lineend:
 
   Line end style (round, butt, square).
@@ -262,14 +254,6 @@ A ggplot2 layer
 ``` r
 library(ggplot2)
 library(dplyr)
-#> 
-#> Attaching package: ‘dplyr’
-#> The following objects are masked from ‘package:stats’:
-#> 
-#>     filter, lag
-#> The following objects are masked from ‘package:base’:
-#> 
-#>     intersect, setdiff, setequal, union
 library(distributional)
 # Create a simple example dataset
 

@@ -9,7 +9,7 @@ place of any of the usual aesthetics."><meta property="og:image" content="https:
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,6 @@ place of any of the usual aesthetics.</p>
 <span>  position <span class="op">=</span> <span class="st">"identity"</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">times</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  curvature <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  angle <span class="op">=</span> <span class="fl">90</span>,</span>
@@ -75,7 +74,6 @@ place of any of the usual aesthetics.</p>
 <span>  position <span class="op">=</span> <span class="st">"identity"</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">times</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  arrow <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  arrow.fill <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -171,11 +169,6 @@ lists which parameters it can accept.</p></li>
 each distribution.</p></dd>
 
 
-<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>ggplot2 alpha, i.e. transparency. It is included as a
-parameter to make sure the repeated draws are always visible</p></dd>
-
-
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p>Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.</p></dd>
@@ -253,7 +246,7 @@ the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.or
 <span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
 <span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>seed<span class="op">=</span><span class="fl">77</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="geom_point_sample.html">geom_point_sample</a></span><span class="op">(</span>seed<span class="op">=</span><span class="fl">77</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x1 <span class="op">=</span> <span class="fl">2.62</span>, x2 <span class="op">=</span> <span class="fl">3.57</span>, </span></span>
@@ -271,9 +264,9 @@ the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.or
 <span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
 <span class="r-in"><span><span class="va">a</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">geom_curve_sample</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x1</span>, y <span class="op">=</span> <span class="va">y1</span>, xend <span class="op">=</span> <span class="va">x2</span>, yend <span class="op">=</span> <span class="va">y2</span>, colour <span class="op">=</span> <span class="st">"curve"</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>                    data <span class="op">=</span> <span class="va">uncertain_df</span>, seed<span class="op">=</span><span class="fl">77</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>                    data <span class="op">=</span> <span class="va">uncertain_df</span>, seed<span class="op">=</span><span class="fl">77</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">geom_segment_sample</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x1</span>, y <span class="op">=</span> <span class="va">y1</span>, xend <span class="op">=</span> <span class="va">x2</span>, yend <span class="op">=</span> <span class="va">y2</span>, colour <span class="op">=</span> <span class="st">"segment"</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>                      data <span class="op">=</span> <span class="va">uncertain_df</span>, seed<span class="op">=</span><span class="fl">77</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                      data <span class="op">=</span> <span class="va">uncertain_df</span>, seed<span class="op">=</span><span class="fl">77</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="geom_segment_sample-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span>                      </span></span>
 </code></pre></div>

@@ -9,7 +9,7 @@ distribution in place of any of the usual aesthetics."><meta property="og:image"
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,6 @@ distribution in place of any of the usual aesthetics.</p>
 <span>  position <span class="op">=</span> <span class="st">"nudge"</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  alpha <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">times</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  parse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  check_overlap <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -235,11 +234,6 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.org/reference/annotation_borders.html" class="external-link">annotation_borders()</a></code>.</p></dd>
 
 
-<dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
-<dd><p>ggplot2 alpha, i.e. transparency. It is included as a
-parameter to make sure the repeated draws are always visible</p></dd>
-
-
 <dt id="arg-check-overlap">check_overlap<a class="anchor" aria-label="anchor" href="#arg-check-overlap"></a></dt>
 <dd><p>If <code>TRUE</code>, text that overlaps previous text in the
 same layer will not be plotted. <code>check_overlap</code> happens at draw time and in
@@ -264,12 +258,12 @@ supported by <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.ht
 <span class="r-in"><span><span class="co"># Text example</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># ggplot </span></span></span>
 <span class="r-plt img"><img src="geom_text_sample-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">q</span> <span class="op">+</span> <span class="fu">geom_text_sample</span><span class="op">(</span>times<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="co">#ggdibbler</span></span></span>
+<span class="r-in"><span><span class="va">q</span> <span class="op">+</span> <span class="fu">geom_text_sample</span><span class="op">(</span>times<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="co">#ggdibbler</span></span></span>
 <span class="r-plt img"><img src="geom_text_sample-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># Labels with background</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span><span class="op">)</span> <span class="co">#ggplot</span></span></span>
 <span class="r-plt img"><img src="geom_text_sample-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">q</span> <span class="op">+</span> <span class="fu">geom_label_sample</span><span class="op">(</span>times<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="co">#ggdibbler</span></span></span>
+<span class="r-in"><span><span class="va">q</span> <span class="op">+</span> <span class="fu">geom_label_sample</span><span class="op">(</span>times<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="co">#ggdibbler</span></span></span>
 <span class="r-plt img"><img src="geom_text_sample-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Random text with constant position (harder to read signal supression)</span></span></span>
@@ -279,7 +273,7 @@ supported by <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.ht
 <span class="r-plt img"><img src="geom_text_sample-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># ggdibbler</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">wt</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">)</span>, lab <span class="op">=</span> <span class="va">cyl</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span> <span class="fu">geom_text_sample</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">lab</span><span class="op">)</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu">geom_text_sample</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">lab</span><span class="op">)</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">6</span>, alpha<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="geom_text_sample-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

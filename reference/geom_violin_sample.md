@@ -35,7 +35,6 @@ stat_ydensity_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   orientation = NA,
   bw = "nrd0",
@@ -221,11 +220,6 @@ stat_ydensity_sample(
   [stat](https://ggplot2.tidyverse.org/reference/layer_stats.html) and
   [geom](https://ggplot2.tidyverse.org/reference/layer_geoms.html)
   arguments work.
-
-- alpha:
-
-  ggplot2 alpha, i.e. transparency. It is included as a parameter to
-  make sure the repeated draws are always visible
 
 - bw:
 

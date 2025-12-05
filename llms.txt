@@ -126,7 +126,7 @@ p1 <- ggplot(mpg, aes(class)) +
 
 
 p2 <- ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), alpha=0.1,
+  geom_bar_sample(aes(fill = drv), alpha=0.15,
                   position = "stack_identity")+
   theme(legend.position="none")+
   ggtitle("stack_identity")
@@ -300,6 +300,7 @@ These are the ggdibbler versions of the layer better specified by the
 stats in the ggplot documentation.
 
 - [`sample_expand()`](https://harriet-mason.github.io/ggdibbler/reference/sample_expand.md)
+  [`dibble_to_tibble()`](https://harriet-mason.github.io/ggdibbler/reference/sample_expand.md)
   : Simulate outcomes from dibble to make a tibble
 - [`stat_identity_sample()`](https://harriet-mason.github.io/ggdibbler/reference/stat_identity_sample.md)
   : Generates a sample from a distribution
