@@ -9,9 +9,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to set the default value to 1/log(times) to make sure the 
-#' repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(distributional)
@@ -24,7 +21,7 @@
 #' # Number of cars in each class:
 #' g + geom_bar() #ggplot
 #' q + geom_bar_sample() #ggdibbler - a
-#' q + geom_bar_sample(position = "identity_dodge", alpha=1) #ggdibbler - b
+#' q + geom_bar_sample(position = "identity_identity", alpha=0.1) #ggdibbler - b
 #' 
 #' # make dataframe
 #' df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))

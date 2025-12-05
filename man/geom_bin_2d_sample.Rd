@@ -104,7 +104,8 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
 
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}

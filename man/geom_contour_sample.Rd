@@ -17,7 +17,6 @@ geom_contour_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.5/log(times),
   seed = NULL,
   bins = NULL,
   binwidth = NULL,
@@ -39,7 +38,6 @@ geom_contour_filled_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.5/log(times),
   seed = NULL,
   bins = NULL,
   binwidth = NULL,
@@ -60,7 +58,6 @@ stat_contour_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   bins = NULL,
   binwidth = NULL,
@@ -77,7 +74,6 @@ stat_contour_filled_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   bins = NULL,
   binwidth = NULL,
@@ -165,9 +161,6 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
@@ -240,12 +233,19 @@ accept a distribution in place of any of the usual aesthetics.
 }
 \examples{
 library(ggplot2)
-
+library(dplyr)
+faithfuld
 # ggplot2
-v <- ggplot(faithfuld, aes(waiting, eruptions, z = density))
+v <- ggplot(faithfuld |>
+  filter(waiting>80) |>
+  filter(eruptions >3), 
+  aes(waiting, eruptions, z = density))
 v + geom_contour()
 # ggdibbler
-u <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density))
+u <- ggplot(uncertain_faithfuld |> 
+  filter(waiting>80) |>
+  filter(eruptions >3), 
+  aes(waiting, eruptions, z = density))
 u + geom_contour_sample() 
 
 # use geom_contour_filled() for filled contours

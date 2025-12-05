@@ -10,17 +10,17 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
 #' 
 #' # Basic density plot
 #' # GGPLOT
-#' ggplot(smaller_diamonds, aes(carat)) + geom_density()
+#' ggplot(smaller_diamonds, aes(carat)) + 
+#'   geom_density()
 #' # GGDIBBLER
-#' ggplot(smaller_uncertain_diamonds, aes(carat)) + geom_density_sample()
+#' ggplot(smaller_uncertain_diamonds, aes(carat)) + 
+#'   geom_density_sample(alpha=0.5)
 #' 
 #' # ggplot
 #' ggplot(smaller_diamonds, aes(depth, fill = cut, colour = cut)) +
@@ -36,8 +36,8 @@
 #'   
 #' @export
 geom_density_sample <- make_constructor(
-  ggplot2::GeomDensity, stat = "density_sample", times = 10, outline.type = "upper",
-  alpha = 1/log(times), seed = NULL,
+  ggplot2::GeomDensity, stat = "density_sample", outline.type = "upper",
+  seed = NULL, times = 10,
   checks = rlang::exprs(
     outline.type <- rlang::arg_match0(outline.type, c("both", "upper", "lower", "full"))
   )

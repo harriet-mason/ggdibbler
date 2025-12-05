@@ -23,8 +23,6 @@ StatUniqueSample <- ggplot2::ggproto("StatUniqueSample", ggplot2::StatUnique,
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @examples
 #' library(ggplot2)
 #' # ggplot
@@ -42,4 +40,4 @@ StatUniqueSample <- ggplot2::ggproto("StatUniqueSample", ggplot2::StatUnique,
 #'   geom_point_sample(alpha = 0.01, stat = "unique_sample")
 #' @export
 stat_unique_sample <- make_constructor(StatUniqueSample, geom = "point", 
-                                       times = 10, alpha = 1/log(times), seed = NULL)
+                                       times = 10, seed = NULL)

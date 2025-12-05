@@ -14,7 +14,6 @@ geom_ribbon_sample(
   stat = "identity_sample",
   position = "identity",
   ...,
-  alpha = 0.9/log(times),
   seed = NULL,
   times = 10,
   lineend = "butt",
@@ -34,7 +33,6 @@ geom_area_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 1/log(times),
   orientation = NA,
   outline.type = "upper",
   lineend = "butt",
@@ -53,7 +51,6 @@ stat_align_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 1/log(times),
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -134,9 +131,6 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
@@ -213,7 +207,7 @@ q <- ggplot(uncertain_huron, aes(year))
 # ggplot
 h + geom_ribbon(aes(ymin=0, ymax=level))
 # ggdibbler
-q + geom_ribbon_sample(aes(ymin=0, ymax=level), alpha=0.2)
+q + geom_ribbon_sample(aes(ymin=0, ymax=level), alpha=0.15)
 
 # Add aesthetic mappings
 h + # ggplot
@@ -221,8 +215,8 @@ h + # ggplot
   geom_line(aes(y = level))
 q + # ggdibbler
   geom_ribbon_sample(aes(ymin = level - 1, ymax = level + 1), 
-    fill = "grey70", seed=4) +
-  geom_line_sample(aes(y = level), seed=4)
+    fill = "grey70", seed=4, alpha=0.15) +
+  geom_line_sample(aes(y = level), seed=4, alpha=0.15)
 
 df <- data.frame(
   g = c("a", "a", "a", "b", "b", "b"),
@@ -240,7 +234,7 @@ ggplot(df, aes(x, y, fill = g)) +
   facet_grid(g ~ .)
 # ggdibbler
 ggplot(uncertain_df, aes(x, y, fill = g)) +
-  geom_area_sample(seed=100) +
+  geom_area_sample(seed=100, alpha=0.15) +
   geom_point_sample(seed=100) +
   facet_grid(g ~ .)
 }

@@ -16,4 +16,4 @@ StatBinhexSample <- ggplot2::ggproto("StatBinhexSample", ggplot2::StatBinhex,
 #' @inheritParams ggplot2::stat_bin_hex
 #' @param times A parameter used to control the number of values sampled from each distribution.
 stat_bin_hex_sample <- make_constructor(StatBinhexSample, geom = "hex", 
-                                        times = 10, seed = NULL, alpha=0.5/log(times))
+                                        times = 10, seed = NULL)

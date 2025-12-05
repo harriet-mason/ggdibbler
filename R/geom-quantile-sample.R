@@ -8,8 +8,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
@@ -18,16 +16,16 @@
 #'   geom_point()
 #' # ggdibbler
 #' n <- ggplot(uncertain_mpg, aes(displ, hwy)) +
-#'   geom_point_sample()
+#'   geom_point_sample(alpha=0.3)
 #' # ggplot
 #' m + geom_quantile()
 #' # ggdibbler
-#' n + geom_quantile_sample()
+#' n + geom_quantile_sample(alpha=0.3)
 #' 
 #' # ggplot
 #' m + geom_quantile(quantiles = 0.5)
 #' # ggdibbler
-#' n + geom_quantile_sample(quantiles = 0.5)
+#' n + geom_quantile_sample(quantiles = 0.5, alpha=0.3)
 #' @export
 geom_quantile_sample <- make_constructor(ggplot2::GeomQuantile, stat = "quantile_sample", 
-                                         times=10, alpha = 1/log(times), seed = NULL)
+                                         times=10, seed = NULL)

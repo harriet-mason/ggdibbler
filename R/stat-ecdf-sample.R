@@ -30,8 +30,6 @@ StatEcdfSample <- ggplot2::ggproto("StatEcdfSample", ggplot2::StatEcdf,
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)
@@ -62,5 +60,5 @@ StatEcdfSample <- ggplot2::ggproto("StatEcdfSample", ggplot2::StatEcdf,
 #' ggplot(uncertain_df, aes(x, colour = g)) +
 #'   stat_ecdf_sample(alpha=0.3)
 #' @export
-stat_ecdf_sample <- make_constructor(StatEcdfSample, geom = "step", times = 10,
-                                     alpha = 1/log(times), seed = NULL)
+stat_ecdf_sample <- make_constructor(StatEcdfSample, geom = "step", 
+                                     times = 10, seed = NULL)

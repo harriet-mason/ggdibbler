@@ -9,8 +9,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' # load ggplot
@@ -22,7 +20,7 @@
 #' ggplot(smaller_uncertain_diamonds, aes(carat)) +
 #'   geom_histogram_sample() #' alpha
 #' ggplot(smaller_uncertain_diamonds, aes(carat)) +
-#'   geom_histogram_sample(position="identity_dodge", alpha=1) 
+#'   geom_histogram_sample(position="identity_identity", alpha=0.15) 
 #' 
 #' # ggplot
 #' ggplot(smaller_diamonds, aes(price, colour = cut)) +

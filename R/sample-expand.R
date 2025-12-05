@@ -2,7 +2,10 @@
 #' 
 #' Simulates outcomes from all distributions in the dataset to make an "expanded" data
 #' set that can be intepreted by ggplot2. This can be used to debug ggdibbler plots, or
-#' used to make an uncertainty visualisation for a geom that doesn't exist.
+#' used to make an uncertainty visualisation for a geom that doesn't exist. If
+#' (and only if) you are implementing a ggdibbler version of a ggplot stat
+#' extension, you should use dibble_to_tibble instead.
+#' 
 #' 
 #' @importFrom dplyr mutate across all_of
 #' @importFrom distributional generate is_distribution
@@ -13,6 +16,7 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to get the
 #' same draw from repeated sample_expand calls
+#' @param params the params argument for the stat function
 #' sample_expand(uncertain_mpg, times=10)
 #' @returns A data frame of resampled values from the input distributions
 #' @export
@@ -68,8 +72,8 @@ get_discrete_cols <- function(data){
   c(a,b)
 }
 
-#' @keywords internal
-# Internal function that edits data inside stat
+#' @export
+#' @rdname sample_expand
 dibble_to_tibble <- function(data, params) {
   # return data if deterministic
   distcols <- get_dist_cols(data)

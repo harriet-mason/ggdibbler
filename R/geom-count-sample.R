@@ -10,8 +10,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
@@ -30,7 +28,7 @@
 #'   geom_count()
 #' # ggdibbler (alpha for resample overlap)
 #' ggplot(uncertain_mpg, aes(cty, hwy)) +
-#'   geom_count_sample() 
+#'   geom_count_sample(alpha=0.15) 
 #'   
 #' # Best used in conjunction with scale_size_area 
 #' # ggplot
@@ -39,10 +37,10 @@
 #'   scale_size_area()
 #' # ggdibbler
 #' ggplot(uncertain_mpg, aes(cty, hwy)) +
-#'   geom_count_sample() +
+#'   geom_count_sample(alpha=0.15) +
 #'   scale_size_area()
 #' @export
-geom_count_sample <- make_constructor(GeomPoint, stat = "sum_sample", times=10, 
-                                      alpha = 0.5/log(times), seed = NULL)
+geom_count_sample <- make_constructor(GeomPoint, stat = "sum_sample", times=10,
+                                      seed = NULL)
 
 

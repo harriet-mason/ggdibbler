@@ -34,8 +34,6 @@ StatSummary2dSample <- ggplot2::ggproto("StatSummary2dSample", ggplot2::StatSumm
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @examples
 #' library(ggplot2)
 #' d <- ggplot(smaller_diamonds, 
@@ -48,7 +46,7 @@ StatSummary2dSample <- ggplot2::ggproto("StatSummary2dSample", ggplot2::StatSumm
 #' 
 #' # summary_hex
 #' d + stat_summary_hex(fun = ~ sum(.x^2))
-#' b + stat_summary_hex_sample(fun = ~ sum(.x^2))
+#' b + stat_summary_hex_sample(fun = ~ sum(.x^2), alpha=0.3)
 #' @export
 stat_summary_2d_sample <- make_constructor(StatSummary2dSample, geom = "tile", 
                                     times = 10, position="identity_dodge", 

@@ -14,7 +14,7 @@ StatSumSample <- ggplot2::ggproto("StatSumSample", ggplot2::StatSum,
 #' @export
 #' @rdname geom_count_sample
 #' @inheritParams ggplot2::stat_sum
-stat_sum_sample <- make_constructor(StatSumSample, geom = "point", times = 10, 
-                                    alpha=	1/log(times), seed = NULL)
+stat_sum_sample <- make_constructor(StatSumSample, geom = "point", 
+                                    times = 10, seed = NULL)
 
 

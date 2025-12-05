@@ -32,8 +32,6 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
@@ -64,7 +62,7 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' q + stat_manual_sample(
 #'   geom = "polygon",
 #'   fun  = make_hull,
-#'   fill = NA
+#'   fill = NA,
 #' )
 #' # Using the `transform` function with quoting
 #' p + stat_manual(
@@ -88,7 +86,7 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' # Using dplyr verbs with `vars()`
 #' if (requireNamespace("dplyr", quietly = TRUE)) {
 #'   
-#'   #' Get centroids with `summarise()`
+#'   # Get centroids with `summarise()`
 #'   p + stat_manual(
 #'     size = 10, shape = 21,
 #'     fun  = dplyr::summarise,
@@ -103,8 +101,7 @@ StatManualSample <- ggplot2::ggproto("StatManualSample", ggplot2::StatManual,
 #' }
 #' @export
 stat_manual_sample <- make_constructor(StatManualSample, geom = "point", 
-                                       times = 10, alpha = 1/log(times), 
-                                       seed = NULL)
+                                       times = 10, seed = NULL)
 
 
 

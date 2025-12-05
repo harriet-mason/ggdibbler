@@ -32,8 +32,6 @@ StatConnectSample <- ggplot2::ggproto("StatConnectSample", ggplot2::StatConnect,
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' # set up data
@@ -54,7 +52,6 @@ StatConnectSample <- ggplot2::ggproto("StatConnectSample", ggplot2::StatConnect,
 #'   geom_point_sample(seed=64) 
 #' @export
 stat_connect_sample <- make_constructor(StatConnectSample, geom = "path",
-                                        times = 10, alpha = 1/log(times), 
-                                        seed = NULL)
+                                        times = 10, seed = NULL)
 
 

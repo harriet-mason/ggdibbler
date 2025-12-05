@@ -12,8 +12,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
@@ -41,8 +39,7 @@
 #' @export
 geom_density_2d_sample <- make_constructor(ggplot2::GeomDensity2d, 
                                                   stat = "density_2d_sample",
-                                                  times=10, seed = NULL, 
-                                                  alpha = 0.5/log(times))
+                                                  times=10, seed = NULL)
 
 #' @export
 #' @rdname geom_density_2d_sample
@@ -53,8 +50,7 @@ geom_density2d_sample <- geom_density_2d_sample
 #' @rdname geom_density_2d_sample
 geom_density_2d_filled_sample <- make_constructor(ggplot2::GeomDensity2dFilled, 
                                                   stat = "density_2d_filled_sample",
-                                                  times=10, seed = NULL, 
-                                                  alpha = 0.5/log(times))
+                                                  times=10, seed = NULL)
 
 #' @export
 #' @rdname geom_density_2d_sample

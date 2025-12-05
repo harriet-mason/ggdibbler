@@ -16,7 +16,6 @@ geom_count_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.5/log(times),
   seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
@@ -30,7 +29,6 @@ stat_sum_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
@@ -102,9 +100,6 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
@@ -153,7 +148,7 @@ ggplot(mpg, aes(cty, hwy)) +
   geom_count()
 # ggdibbler (alpha for resample overlap)
 ggplot(uncertain_mpg, aes(cty, hwy)) +
-  geom_count_sample() 
+  geom_count_sample(alpha=0.15) 
   
 # Best used in conjunction with scale_size_area 
 # ggplot
@@ -162,7 +157,7 @@ ggplot(mpg, aes(cty, hwy)) +
   scale_size_area()
 # ggdibbler
 ggplot(uncertain_mpg, aes(cty, hwy)) +
-  geom_count_sample() +
+  geom_count_sample(alpha=0.15) +
   scale_size_area()
 }
 \keyword{datasets}

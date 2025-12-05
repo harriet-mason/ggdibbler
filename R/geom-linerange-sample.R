@@ -15,8 +15,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' 
 #' @examples
@@ -64,6 +62,6 @@
 #' q + geom_errorbar_sample(aes(ymin = lower, ymax = upper), width = 0.2)
 #' @export
 geom_linerange_sample <- make_constructor(ggplot2::GeomLinerange, stat = "identity_sample", 
-                                          times=10, orientation = NA, alpha = 0.5/log(times), 
+                                          times=10, orientation = NA, 
                                           seed = NULL)
 

@@ -9,17 +9,22 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
-#' 
+#' library(dplyr)
+#' faithfuld
 #' # ggplot2
-#' v <- ggplot(faithfuld, aes(waiting, eruptions, z = density))
+#' v <- ggplot(faithfuld |>
+#'   filter(waiting>80) |>
+#'   filter(eruptions >3), 
+#'   aes(waiting, eruptions, z = density))
 #' v + geom_contour()
 #' # ggdibbler
-#' u <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density))
+#' u <- ggplot(uncertain_faithfuld |> 
+#'   filter(waiting>80) |>
+#'   filter(eruptions >3), 
+#'   aes(waiting, eruptions, z = density))
 #' u + geom_contour_sample() 
 #' 
 #' # use geom_contour_filled() for filled contours
@@ -30,8 +35,8 @@
 #' 
 #' @export
 geom_contour_sample <- make_constructor(ggplot2::GeomContour, 
-                                        stat = "contour_sample", times=10,
-                                        alpha = 0.5/log(times), seed = NULL,
+                                        stat = "contour_sample", 
+                                        times=10, seed = NULL,
                                         # Passed to contour stat:
                                         bins = NULL, binwidth = NULL, 
                                         breaks = NULL)
@@ -42,8 +47,8 @@ geom_contour_sample <- make_constructor(ggplot2::GeomContour,
 #' @importFrom ggplot2 make_constructor GeomContourFilled
 #' @export
 geom_contour_filled_sample <- make_constructor(
-  GeomContourFilled, stat = "contour_filled_sample", times=10,
-  alpha = 0.5/log(times), seed = NULL,
+  GeomContourFilled, stat = "contour_filled_sample", 
+  times=10, seed = NULL,
   # Passed to contour_filled stat:
   bins = NULL, binwidth = NULL, breaks = NULL
 )

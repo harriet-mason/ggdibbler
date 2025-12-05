@@ -48,29 +48,19 @@ StatContourFilledSample <- ggplot2::ggproto("StatContourFilledSample", ggplot2::
 #' @export
 #' @rdname geom_contour_sample
 #' @inheritParams ggplot2::stat_contour
-#' @param times A parameter used to control the number of values sampled from 
-#' each distribution.
-#' @param seed Set the seed for the layers random draw, allows you to plot the
-#' same draw across multiple layers.
 stat_contour_sample <- make_constructor(StatContourSample,
                                         geom = "contour", 
                                         times = 10,
-                                        omit = "z.range",
-                                        alpha = 1/log(times), 
+                                        omit = "z.range", 
                                         seed = NULL
                                         )
 
 #' @export
 #' @rdname geom_contour_sample
 #' @inheritParams ggplot2::stat_contour_filled
-#' @param times A parameter used to control the number of values sampled from 
-#' each distribution.
-#' @param seed Set the seed for the layers random draw, allows you to plot the
-#' same draw across multiple layers.
 stat_contour_filled_sample <- make_constructor(StatContourFilledSample, 
                                                geom = "contour_filled", 
                                                times = 10,
                                                omit = "z.range",
-                                               alpha = 1/log(times), 
                                                seed = NULL)
 

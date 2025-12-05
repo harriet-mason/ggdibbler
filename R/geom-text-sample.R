@@ -11,8 +11,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' 
 #' @examples
@@ -23,11 +21,11 @@
 #' 
 #' # Text example
 #' p + geom_text() # ggplot 
-#' q + geom_text_sample(times=3) #ggdibbler
+#' q + geom_text_sample(times=3, alpha=0.5) #ggdibbler
 
 #' # Labels with background
 #' p + geom_label() #ggplot
-#' q + geom_label_sample(times=3) #ggdibbler
+#' q + geom_label_sample(times=3, alpha=0.5) #ggdibbler
 #' 
 #' # Random text with constant position (harder to read signal supression)
 #' # ggplot
@@ -35,11 +33,11 @@
 #'  geom_text(size=6)
 #' # ggdibbler
 #' ggplot(uncertain_mtcars, aes(mean(wt), mean(mpg), lab = cyl)) +
-#'  geom_text_sample(aes(label = after_stat(lab)), size=6)
+#'  geom_text_sample(aes(label = after_stat(lab)), size=6, alpha=0.3)
 #' 
 #' @export
 geom_text_sample <- make_constructor(GeomText, position = "nudge", stat = "identity_sample", 
-                                     times=10, alpha = 1/log(times), seed = NULL)
+                                     times=10, seed = NULL)
 
 
 

@@ -36,7 +36,6 @@ stat_ydensity_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   orientation = NA,
   bw = "nrd0",
@@ -166,9 +165,6 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 \code{geom_violin()} and \code{stat_ydensity()}. For more information about
 overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 \link[ggplot2:layer_geoms]{geom} arguments work.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
 
 \item{bw}{The smoothing bandwidth to be used.
 If numeric, the standard deviation of the smoothing kernel.

@@ -9,8 +9,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(ggplot2)
@@ -44,10 +42,10 @@
 #' p
 #' 
 #' q <- ggplot(uncertain_datapoly, aes(x = x, y = y)) +
-#'   geom_polygon_sample(aes(fill = value, group = id), alpha=0.2)
+#'   geom_polygon_sample(aes(fill = value, group = id), alpha=0.15)
 #' q
 #' 
 #' 
 #' @export
 geom_polygon_sample <- make_constructor(ggplot2::GeomPolygon, stat = "identity_sample", 
-                                        times=10, alpha = 0.5/log(times), seed = NULL)
+                                        times=10, seed = NULL)

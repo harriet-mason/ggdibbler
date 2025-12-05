@@ -38,7 +38,7 @@
 #' # ggdibbler
 #' ggplot(uncertain_df, aes(x, y)) +
 #'   geom_point_sample() + #' and here we used geom_point_sample
-#'   geom_spoke_sample(aes(angle = angle, radius = speed))
+#'   geom_spoke_sample(aes(angle = angle, radius = speed), alpha=0.3)
 #' @export
 geom_spoke_sample <- make_constructor(ggplot2::GeomSpoke, stat = "identity_sample", 
-                                      times=10, alpha = 1/log(times), seed = NULL)
+                                      times=10, seed = NULL)

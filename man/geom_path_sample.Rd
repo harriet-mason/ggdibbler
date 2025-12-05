@@ -13,7 +13,6 @@ geom_path_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   arrow = NULL,
   arrow.fill = NULL,
@@ -32,7 +31,6 @@ geom_line_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   orientation = NA,
   arrow = NULL,
@@ -52,7 +50,6 @@ geom_step_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   orientation = NA,
   lineend = "butt",
@@ -144,9 +141,6 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
@@ -201,7 +195,7 @@ library(distributional)
 ggplot(economics, aes(date, unemploy)) + geom_line() 
 #ggdibbler
 ggplot(uncertain_economics, aes(date, unemploy)) + 
-  geom_line_sample() 
+  geom_line_sample(alpha=0.1) 
   
 # geom_step() is useful when you want to highlight exactly when
 # the y value changes
@@ -209,7 +203,7 @@ recent <- economics[economics$date > as.Date("2013-01-01"), ]
 uncertain_recent <- uncertain_economics[uncertain_economics$date > as.Date("2013-01-01"), ]
 # geom line
 ggplot(recent, aes(date, unemploy)) + geom_step()#ggplot
-ggplot(uncertain_recent, aes(date, unemploy)) + geom_step_sample()#ggdibbler
+ggplot(uncertain_recent, aes(date, unemploy)) + geom_step_sample(alpha=0.5)#ggdibbler
 
 # geom_path lets you explore how two variables are related over time,
 # ggplot
@@ -217,7 +211,7 @@ m <- ggplot(economics, aes(unemploy, psavert))
 m + geom_path(aes(colour = as.numeric(date)))
 # ggdibbler
 n <- ggplot(uncertain_economics, aes(unemploy, psavert))
-n  + geom_path_sample(aes(colour = as.numeric(date)))
+n  + geom_path_sample(aes(colour = as.numeric(date)), alpha=0.15)
 
 # You can use NAs to break the line.
 df <- data.frame(x = 1:5, y = c(1, 2, NA, 4, 5))

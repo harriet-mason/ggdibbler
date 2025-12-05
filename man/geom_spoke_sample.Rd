@@ -11,7 +11,6 @@ geom_spoke_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   arrow = NULL,
   arrow.fill = NULL,
@@ -100,9 +99,6 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
@@ -130,6 +126,9 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
+
+\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
+parameter to make sure the repeated draws are always visible}
 }
 \value{
 A ggplot2 layer
@@ -164,5 +163,5 @@ ggplot(df, aes(x, y)) +
 # ggdibbler
 ggplot(uncertain_df, aes(x, y)) +
   geom_point_sample() + #' and here we used geom_point_sample
-  geom_spoke_sample(aes(angle = angle, radius = speed))
+  geom_spoke_sample(aes(angle = angle, radius = speed), alpha=0.3)
 }

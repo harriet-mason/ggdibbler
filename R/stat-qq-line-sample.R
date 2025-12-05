@@ -14,8 +14,8 @@ StatQqLineSample <- ggplot2::ggproto("StatQqLineSample", ggplot2::StatQqLine,
 #' @importFrom ggplot2 make_constructor
 #' @export
 geom_qq_line_sample <- make_constructor(StatQqLineSample, geom = "abline", 
-                                        omit = "quantiles", times=10, 
-                                        alpha = 1/log(times), seed = NULL)
+                                        omit = "quantiles", 
+                                        times=10, seed = NULL)
 
 #' @export
 #' @rdname geom_qq_sample

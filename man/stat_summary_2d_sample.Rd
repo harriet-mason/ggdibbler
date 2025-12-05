@@ -38,7 +38,6 @@ stat_summary_hex_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   binwidth = NULL,
   bins = 30,
@@ -183,9 +182,6 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
 }
 \description{
 Identical to stat_summary_2d, except that it will accept a distribution in 
@@ -203,6 +199,6 @@ b + stat_summary_2d_sample()
 
 # summary_hex
 d + stat_summary_hex(fun = ~ sum(.x^2))
-b + stat_summary_hex_sample(fun = ~ sum(.x^2))
+b + stat_summary_hex_sample(fun = ~ sum(.x^2), alpha=0.3)
 }
 \keyword{datasets}

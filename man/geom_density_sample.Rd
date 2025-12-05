@@ -11,10 +11,9 @@ geom_density_sample(
   stat = "density_sample",
   position = "identity",
   ...,
-  times = 10,
   outline.type = "upper",
-  alpha = 1/log(times),
   seed = NULL,
+  times = 10,
   lineend = "butt",
   linejoin = "round",
   linemitre = 10,
@@ -32,7 +31,6 @@ stat_density_sample(
   orientation = NA,
   seed = NULL,
   times = 10,
-  alpha = 1/log(times),
   bw = "nrd0",
   adjust = 1,
   kernel = "gaussian",
@@ -106,18 +104,15 @@ lists which parameters it can accept.
 \link[ggplot2:draw_key]{key glyphs}, to change the display of the layer in the legend.
 }}
 
-\item{times}{A parameter used to control the number of values sampled from 
-each distribution.}
-
 \item{outline.type}{Type of the outline of the area; \code{"both"} draws both the
 upper and lower lines, \code{"upper"}/\code{"lower"} draws the respective lines only.
 \code{"full"} draws a closed polygon around the area.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
+
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -192,9 +187,11 @@ library(ggplot2)
 
 # Basic density plot
 # GGPLOT
-ggplot(smaller_diamonds, aes(carat)) + geom_density()
+ggplot(smaller_diamonds, aes(carat)) + 
+  geom_density()
 # GGDIBBLER
-ggplot(smaller_uncertain_diamonds, aes(carat)) + geom_density_sample()
+ggplot(smaller_uncertain_diamonds, aes(carat)) + 
+  geom_density_sample(alpha=0.5)
 
 # ggplot
 ggplot(smaller_diamonds, aes(depth, fill = cut, colour = cut)) +

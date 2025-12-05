@@ -12,7 +12,6 @@ geom_point_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 1/log(times),
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -99,9 +98,6 @@ each distribution.}
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
@@ -135,7 +131,7 @@ p + geom_point()
 
   # ggdibbler - set the sample size with times
 q <- ggplot(uncertain_mtcars, aes(wt, mpg))
-q + geom_point_sample(times=50) 
+q + geom_point_sample(times=50, alpha=0.5) 
 
 # Add aesthetic mappings
 
@@ -154,5 +150,5 @@ labs(shape = "factor(cyl)")
 # ggplot2
 p + geom_point(aes(size = qsec))
 # ggdibbler
-q + geom_point_sample(aes(size = qsec), alpha=0.1)
+q + geom_point_sample(aes(size = qsec), alpha=0.15)
 }

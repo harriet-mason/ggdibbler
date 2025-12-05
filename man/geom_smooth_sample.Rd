@@ -31,7 +31,6 @@ stat_smooth_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   method = NULL,
   formula = NULL,
@@ -165,9 +164,6 @@ the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{ann
 \code{geom_smooth()} and \code{stat_smooth()}. For more information about overriding
 these connections, see how the \link[ggplot2:layer_stats]{stat} and \link[ggplot2:layer_geoms]{geom}
 arguments work.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
 
 \item{n}{Number of points at which to evaluate smoother.}
 

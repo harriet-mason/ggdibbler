@@ -27,7 +27,8 @@ StatSummaryBinSample <- ggplot2::ggproto("StatSummaryBinSample", ggplot2::StatSu
 #' @rdname stat_summary_sample
 #' @importFrom ggplot2 make_constructor
 #' @export
-stat_summary_bin_sample <- function(mapping = NULL, data = NULL, times = 10, seed = NULL,
+stat_summary_bin_sample <- function(mapping = NULL, data = NULL, 
+                             times = 10, seed = NULL,
                              geom = "pointrange", position = "identity",
                              ...,
                              fun.data = NULL,

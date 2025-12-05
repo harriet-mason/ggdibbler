@@ -21,7 +21,6 @@ geom_density_2d_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 0.5/log(times),
   arrow = NULL,
   arrow.fill = NULL,
   lineend = "butt",
@@ -40,7 +39,6 @@ geom_density_2d_filled_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 0.5/log(times),
   rule = "evenodd",
   lineend = "butt",
   linejoin = "round",
@@ -59,7 +57,6 @@ stat_density_2d_sample(
   contour = TRUE,
   contour_var = "density",
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   h = NULL,
   adjust = c(1, 1),
@@ -78,7 +75,6 @@ stat_density_2d_filled_sample(
   contour = TRUE,
   contour_var = "density",
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   h = NULL,
   adjust = c(1, 1),
@@ -144,9 +140,6 @@ each distribution.}
 
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
 
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid:arrow]{grid::arrow()}}.}
 

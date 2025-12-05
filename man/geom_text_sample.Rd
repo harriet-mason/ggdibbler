@@ -34,7 +34,6 @@ geom_text_sample(
   position = "nudge",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   parse = FALSE,
   check_overlap = FALSE,
@@ -163,9 +162,6 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{check_overlap}{If \code{TRUE}, text that overlaps previous text in the
 same layer will not be plotted. \code{check_overlap} happens at draw time and in
 the order of the data. Therefore data should be arranged by the label
@@ -189,10 +185,10 @@ q <- ggplot(uncertain_mtcars, aes(wt, mpg, label = rownames(uncertain_mtcars)))
 
 # Text example
 p + geom_text() # ggplot 
-q + geom_text_sample(times=3) #ggdibbler
+q + geom_text_sample(times=3, alpha=0.5) #ggdibbler
 # Labels with background
 p + geom_label() #ggplot
-q + geom_label_sample(times=3) #ggdibbler
+q + geom_label_sample(times=3, alpha=0.5) #ggdibbler
 
 # Random text with constant position (harder to read signal supression)
 # ggplot
@@ -200,6 +196,6 @@ ggplot(mtcars, aes(wt, mpg, label = cyl)) +
  geom_text(size=6)
 # ggdibbler
 ggplot(uncertain_mtcars, aes(mean(wt), mean(mpg), lab = cyl)) +
- geom_text_sample(aes(label = after_stat(lab)), size=6)
+ geom_text_sample(aes(label = after_stat(lab)), size=6, alpha=0.3)
 
 }

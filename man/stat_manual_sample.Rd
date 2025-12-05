@@ -13,7 +13,6 @@ stat_manual_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   fun = identity,
   args = list(),
@@ -100,9 +99,6 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
@@ -164,7 +160,7 @@ p + stat_manual(
 q + stat_manual_sample(
   geom = "polygon",
   fun  = make_hull,
-  fill = NA
+  fill = NA,
 )
 # Using the `transform` function with quoting
 p + stat_manual(
@@ -188,7 +184,7 @@ q + stat_manual_sample(
 # Using dplyr verbs with `vars()`
 if (requireNamespace("dplyr", quietly = TRUE)) {
   
-  #' Get centroids with `summarise()`
+  # Get centroids with `summarise()`
   p + stat_manual(
     size = 10, shape = 21,
     fun  = dplyr::summarise,

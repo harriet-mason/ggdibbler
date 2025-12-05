@@ -101,7 +101,7 @@ p1 <- ggplot(mpg, aes(class)) +
 
 
 p2 <- ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv), alpha=0.1,
+  geom_bar_sample(aes(fill = drv), alpha=0.15,
                   position = "stack_identity")+
   theme(legend.position="none")+
   ggtitle("stack_identity")

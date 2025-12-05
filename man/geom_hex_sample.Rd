@@ -15,7 +15,6 @@ geom_hex_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 0.5/log(times),
   lineend = "butt",
   linejoin = "mitre",
   linemitre = 10,
@@ -32,7 +31,6 @@ stat_bin_hex_sample(
   ...,
   times = 10,
   seed = NULL,
-  alpha = 0.5/log(times),
   binwidth = NULL,
   bins = 30,
   na.rm = FALSE,
@@ -106,9 +104,6 @@ lists which parameters it can accept.
 
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
 
 \item{lineend}{Line end style (round, butt, square).}
 

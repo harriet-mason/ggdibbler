@@ -17,7 +17,6 @@ geom_qq_line_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   distribution = stats::qnorm,
   dparams = list(),
@@ -35,7 +34,6 @@ stat_qq_line_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   distribution = stats::qnorm,
   dparams = list(),
@@ -53,7 +51,6 @@ geom_qq_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   distribution = stats::qnorm,
   dparams = list(),
@@ -69,7 +66,6 @@ stat_qq_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   distribution = stats::qnorm,
   dparams = list(),
@@ -155,9 +151,6 @@ lists which parameters it can accept.
 
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
 
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}

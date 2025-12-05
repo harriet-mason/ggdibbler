@@ -40,7 +40,6 @@ geom_errorbar_sample(
   ...,
   times = 10,
   orientation = NA,
-  alpha = 1/log(times),
   seed = NULL,
   lineend = "butt",
   na.rm = FALSE,
@@ -56,7 +55,6 @@ geom_linerange_sample(
   ...,
   times = 10,
   orientation = NA,
-  alpha = 0.5/log(times),
   seed = NULL,
   lineend = "butt",
   na.rm = FALSE,
@@ -72,7 +70,6 @@ geom_pointrange_sample(
   ...,
   times = 10,
   orientation = NA,
-  alpha = 1/log(times),
   seed = NULL,
   lineend = "butt",
   fatten = 4,
@@ -192,9 +189,6 @@ but unobserved levels are omitted.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
 
 \item{lineend}{Line end style (round, butt, square).}
 }

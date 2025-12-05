@@ -11,8 +11,6 @@
 #' each distribution.
 #' @param seed Set the seed for the layers random draw, allows you to plot the
 #' same draw across multiple layers.
-#' @param alpha ggplot2 alpha, i.e. transparency. It is included as a 
-#' parameter to make sure the repeated draws are always visible
 #' @returns A ggplot2 layer
 #' @examples
 #' library(distributional)
@@ -33,7 +31,7 @@
 #' # ggplot
 #' h + geom_ribbon(aes(ymin=0, ymax=level))
 #' # ggdibbler
-#' q + geom_ribbon_sample(aes(ymin=0, ymax=level), alpha=0.2)
+#' q + geom_ribbon_sample(aes(ymin=0, ymax=level), alpha=0.15)
 #' 
 #' # Add aesthetic mappings
 #' h + # ggplot
@@ -41,8 +39,8 @@
 #'   geom_line(aes(y = level))
 #' q + # ggdibbler
 #'   geom_ribbon_sample(aes(ymin = level - 1, ymax = level + 1), 
-#'     fill = "grey70", seed=4) +
-#'   geom_line_sample(aes(y = level), seed=4)
+#'     fill = "grey70", seed=4, alpha=0.15) +
+#'   geom_line_sample(aes(y = level), seed=4, alpha=0.15)
 #' 
 #' df <- data.frame(
 #'   g = c("a", "a", "a", "b", "b", "b"),
@@ -60,12 +58,12 @@
 #'   facet_grid(g ~ .)
 #' # ggdibbler
 #' ggplot(uncertain_df, aes(x, y, fill = g)) +
-#'   geom_area_sample(seed=100) +
+#'   geom_area_sample(seed=100, alpha=0.15) +
 #'   geom_point_sample(seed=100) +
 #'   facet_grid(g ~ .)
 
 #' @export
-geom_ribbon_sample <- make_constructor(ggplot2::GeomRibbon, alpha=0.9/log(times),
+geom_ribbon_sample <- make_constructor(ggplot2::GeomRibbon, 
                                        stat = "identity_sample",
                                        seed = NULL, times=10)
 
@@ -74,7 +72,7 @@ geom_ribbon_sample <- make_constructor(ggplot2::GeomRibbon, alpha=0.9/log(times)
 #' @importFrom ggplot2 make_constructor GeomArea
 #' @export
 geom_area_sample <- make_constructor(ggplot2::GeomArea, stat = "align_sample",
-                                     times=10, seed = NULL, alpha=1/log(times), 
+                                     times=10, seed = NULL, 
                                      position = "stack_identity",
                                       orientation = NA, outline.type = "upper",
                                       checks = exprs(

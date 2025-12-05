@@ -15,4 +15,4 @@ StatSummaryHexSample <- ggplot2::ggproto("StatSummaryHexSample", ggplot2::StatSu
 #' @importFrom ggplot2 make_constructor
 #' @export
 stat_summary_hex_sample <- make_constructor(StatSummaryHexSample, geom = "hex", 
-                                    times = 10, alpha = 1/log(times), seed = NULL)
+                                    times = 10, seed = NULL)

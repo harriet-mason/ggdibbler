@@ -44,11 +44,10 @@ stat_bin_sample(
   mapping = NULL,
   data = NULL,
   geom = "bar",
-  position = "stack_identity",
+  position = "stack_dodge",
   ...,
   times = 10,
   orientation = NA,
-  alpha = 1/log(times),
   seed = NULL,
   binwidth = NULL,
   bins = NULL,
@@ -128,7 +127,8 @@ lists which parameters it can accept.
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
 
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
@@ -174,9 +174,6 @@ to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more 
 at overriding these connections, see how the \link[ggplot2:layer_stats]{stat} and
 \link[ggplot2:layer_geoms]{geom} arguments work.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{center, boundary}{bin position specifiers. Only one, \code{center} or
 \code{boundary}, may be specified for a single plot. \code{center} specifies the
 center of one of the bins. \code{boundary} specifies the boundary between two
@@ -220,7 +217,7 @@ ggplot(smaller_diamonds, aes(carat)) +
 ggplot(smaller_uncertain_diamonds, aes(carat)) +
   geom_histogram_sample() #' alpha
 ggplot(smaller_uncertain_diamonds, aes(carat)) +
-  geom_histogram_sample(position="identity_dodge", alpha=1) 
+  geom_histogram_sample(position="identity_identity", alpha=0.15) 
 
 # ggplot
 ggplot(smaller_diamonds, aes(price, colour = cut)) +

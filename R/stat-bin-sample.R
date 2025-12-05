@@ -22,8 +22,7 @@ StatBinSample <- ggplot2::ggproto("StatBinSample", ggplot2::StatBin,
 
 #' @export
 #' @rdname geom_histogram_sample
-#' @inheritParams ggplot2::stat_bin
-#' @param times A parameter used to control the number of values sampled from each distribution.
+#' @inheritParams ggplot2::stat_binx
 stat_bin_sample <- make_constructor(StatBinSample, geom = "bar", times = 10, 
-                                    position = "stack_identity", orientation = NA, 
-                                    alpha = 1/log(times), seed = NULL)
+                                    position = "stack_dodge", orientation = NA, 
+                                    seed = NULL)

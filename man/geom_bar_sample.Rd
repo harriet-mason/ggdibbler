@@ -49,7 +49,6 @@ stat_count_sample(
   ...,
   orientation = NA,
   times = 10,
-  alpha = 1/log(times),
   seed = NULL,
   na.rm = FALSE,
   show.legend = NA,
@@ -124,7 +123,8 @@ columns to the left/right of axis breaks. Note that this argument may have
 unintended behaviour when used with alternative positions, e.g.
 \code{position_dodge()}.}
 
-\item{times}{A parameter used to control the number of values sampled from each distribution.}
+\item{times}{A parameter used to control the number of values sampled from 
+each distribution.}
 
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
@@ -157,10 +157,6 @@ see how the \link[ggplot2:layer_stats]{stat} and \link[ggplot2:layer_geoms]{geom
 automatically determines the orientation from the aesthetic mapping. In the
 rare event that this fails it can be given explicitly by setting \code{orientation}
 to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
-
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to set the default value to 1/log(times) to make sure the 
-repeated draws are always visible}
 }
 \value{
 A ggplot2 layer
@@ -180,7 +176,7 @@ q <- ggplot(uncertain_mpg, aes(class)) #ggdibbler
 # Number of cars in each class:
 g + geom_bar() #ggplot
 q + geom_bar_sample() #ggdibbler - a
-q + geom_bar_sample(position = "identity_dodge", alpha=1) #ggdibbler - b
+q + geom_bar_sample(position = "identity_identity", alpha=0.1) #ggdibbler - b
 
 # make dataframe
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))

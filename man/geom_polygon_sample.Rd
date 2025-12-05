@@ -11,7 +11,6 @@ geom_polygon_sample(
   position = "identity",
   ...,
   times = 10,
-  alpha = 0.5/log(times),
   seed = NULL,
   rule = "evenodd",
   lineend = "butt",
@@ -100,9 +99,6 @@ lists which parameters it can accept.
 \item{times}{A parameter used to control the number of values sampled from 
 each distribution.}
 
-\item{alpha}{ggplot2 alpha, i.e. transparency. It is included as a 
-parameter to make sure the repeated draws are always visible}
-
 \item{seed}{Set the seed for the layers random draw, allows you to plot the
 same draw across multiple layers.}
 
@@ -172,7 +168,7 @@ p <- ggplot(datapoly, aes(x = x, y = y)) +
 p
 
 q <- ggplot(uncertain_datapoly, aes(x = x, y = y)) +
-  geom_polygon_sample(aes(fill = value, group = id), alpha=0.2)
+  geom_polygon_sample(aes(fill = value, group = id), alpha=0.15)
 q
 
 
