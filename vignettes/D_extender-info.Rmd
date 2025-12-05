@@ -20,7 +20,7 @@ library(ggdibbler)
 
 
 ## Your old ggplot extension *can* learn new tricks
-The beauty of the broad solution `ggdibbler` provides is that it always works. It might not always look *good* or be exactly what you were looking for, but it always works. To illustrate this, I selected the visualisation system that `ggraph` example in the [introduction to `ggdibbler`](ggdibbler-intro.Rmd) to see how 
+The beauty of the broad solution `ggdibbler` provides is that it always works. It might not always look *good* or be exactly what you were looking for, but it always produces... something. To illustrate this, I included the `ggraph` example in the introduction to `ggdibbler`, but the idea can be implemented with extensions as well.
 
 In the `ggraph` example, I illustrated how you can use the `ggdibbler` approach with a ggplot extension that isn't even aware `ggdibbler` exists. While that method works (well enough) it can be somewhat annoying to implement, and it doesn't give you access to the nested positions (as they use internal variables). I can understand fellow ggplot extenders might be chomping at the bit to see what their plots look like with uncertainty and nested positions. 
 
