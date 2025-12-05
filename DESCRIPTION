@@ -53,6 +53,7 @@ Suggests:
     quantreg,
     ggdist,
     ggraph,
+    feasts,
     patchwork
 VignetteBuilder: 
     knitr
