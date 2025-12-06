@@ -128,7 +128,11 @@ individual distribution insofar as they impact the density of the
 vector? If you are interested in each distribution you are visualising
 uncertainty as signal and should use `ggdist`, if you only care about
 the impact on the vector density, you are visualising uncertainty as
-noise and should use `ggdibbler`.
+noise and should use `ggdibbler`. Technically the main difference
+between the two package is a difference in how they group the variables
+(and also obviously the wealth of geoms in `ggdist` but that is a side
+point). The two packages can produce similar plots with different data,
+but they shouldn’t make the same plot with the *same* data.
 
 ``` r
 density_data <- data.frame(xmean = rnorm(15),

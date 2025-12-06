@@ -202,7 +202,12 @@ each individual distribution insofar as they impact the density of the
 vector? If you are interested in each distribution you are visualising
 uncertainty as signal and should use <code>ggdist</code>, if you only
 care about the impact on the vector density, you are visualising
-uncertainty as noise and should use <code>ggdibbler</code>.</p>
+uncertainty as noise and should use <code>ggdibbler</code>. Technically
+the main difference between the two package is a difference in how they
+group the variables (and also obviously the wealth of geoms in
+<code>ggdist</code> but that is a side point). The two packages can
+produce similar plots with different data, but they shouldn’t make the
+same plot with the <em>same</em> data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">density_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>xmean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span>,</span>
 <span>                           xse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
