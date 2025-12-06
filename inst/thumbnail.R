@@ -9,6 +9,7 @@ library(tidyverse)
 library(ggrepel)
 library(ozmaps)
 library(sf)
+library(distributional)
 
 # any data edits
 # GRAPH DF
@@ -61,105 +62,97 @@ Aust_map <- ozmap_data(data = "states", quiet = TRUE) |>
   mutate(value = dist_normal(mu = rnorm(1, 30, 10), rexp(1, 0.3))) |>
   ungroup()
 
-
+palname <- "SunsetDark"
 # DATA PLOTS
+pal <- sequential_hcl(7, palette = palname)
 # geom_bar
 pbar <- ggplot(uncertain_mpg, aes(class)) + 
-  geom_bar_sample(aes(fill = drv),, times=50, alpha=0.05,
-                  position = "stack_identity")+
-  theme_void() +
-  theme(aspect.ratio=0.75, legend.position = "none") +
-  scale_fill_discrete_divergingx(palette = "Zissou 1") 
+  geom_bar_sample(aes(fill = drv),, times=50)+
+  theme_few() +
+  theme(aspect.ratio=1, legend.position = "none") +
+  scale_fill_discrete_sequential(palette = palname) 
 
 # geom_contour
 pcont <- ggplot(uncertain_faithful, aes(waiting, eruptions))+
-  theme_void() +
-  theme(aspect.ratio=0.75, legend.position = "none") +
+  theme_few() +
+  theme(aspect.ratio=1, legend.position = "none") +
   geom_density_2d_sample(aes(colour = after_stat(level))) +
-  scale_colour_continuous_sequential(palette = "Batlow") 
+  scale_colour_continuous_sequential(palette = palname) 
 
 
 # geom_tile/raster
-pal <- divergingx_hcl(5, palette = "Temps")
-ptile <- ggplot(uncertain_df, aes(x, y, fill = z)) +
+ptile <- ggplot(uncertain_tile_df, aes(x, y, fill = z)) +
   geom_raster_sample(times = 30) +
-  theme_void() +
-  theme(aspect.ratio=0.75, legend.position = "none") +
-  scale_fill_continuous(palette = pal) 
-ptile
+  theme_few() +
+  theme(aspect.ratio=1, legend.position = "none") +
+  scale_fill_discrete(palette = pal) 
 
 # geom_abline
-pline <- ggplot(mtcars, aes(wt, mpg,)) + 
+pline <- ggplot(mtcars, aes(wt, mpg)) + 
   geom_abline_sample(intercept = dist_normal(37, 1.8),
                      slope = dist_normal(-5, 0.56), 
                      times=30, alpha=0.25,
-                     colour = "firebrick2") +
-  geom_point(colour = "firebrick2") + 
-  theme_void() +
-  theme(aspect.ratio=0.75, legend.position = "none") 
+                     colour = pal[1]) +
+  geom_point(colour = "black") + 
+  theme_few() +
+  theme(aspect.ratio=1, legend.position = "none") 
 
 # geom_text
 ptext <- ggplot(textdata, aes(x=x, y=y, colour=z)) +
   geom_text(aes(label = after_stat(colour)), fontface = "bold",
                    size=5, alpha=1.5/30, times=30, stat="identity_sample") +
-  theme_void() +
-  theme(aspect.ratio = 0.75, legend.position = "none")  +
-  scale_colour_discrete_diverging(palette = "Tropic") +
+  theme_few() +
+  theme(aspect.ratio = 1, legend.position = "none")  +
+  scale_colour_discrete_sequential(palette = palname) +
   scale_x_continuous_distribution(limits = c(0.5,3.5)) +
   scale_y_continuous_distribution(limits = c(0.5,3.5))
 
 # ggraph
 pgraph <- ggraph(graph_sample, weights = weight) + 
   geom_edge_link(aes(group=drawID), position=jitter, alpha=0.01, 
-                 linewidth=1, colour = "dodgerblue3") + 
-  theme_void() +
-  theme(aspect.ratio = 0.75) +
-  geom_node_point(size=5, colour = "dodgerblue3", alpha=0.5)
+                 linewidth=1, colour = pal[3]) + 
+  theme_few() +
+  theme(aspect.ratio = 1) +
+  geom_node_point(size=5, colour = pal[3], alpha=0.5)
 
 
 # geom_spoke
-pal <- divergingx_hcl(5, palette = "Fall")
-pspoke <- ggplot(spoke_df, aes(x, y, colour = speed)) +
-  theme_void() +
-  theme(aspect.ratio = 0.75, legend.position = "none") +
-  geom_spoke_sample(aes(angle = angle, radius = after_stat(colour)),
-                    alpha=0.7, linewidth = 2, lineend = "round") +
+pspoke <- ggplot(spoke_df, aes(x, y, colour = angle)) + 
+  theme_few() +
+  theme(aspect.ratio = 1, legend.position = "none") +
+  geom_spoke_sample(aes(angle = after_stat(colour), radius = 1.5*speed),
+                    times = 50, alpha=0.1, 
+                    linewidth = 1, lineend = "round") +
   scale_colour_continuous(palette = pal) +
   geom_point_sample(size=2, colour = "black")
-pspoke
 
 # geom_historgram
-pal <- divergingx_hcl(5, palette = "Spectral")
 phist <- ggplot(smaller_uncertain_diamonds, aes(carat, fill = cut)) +
-  geom_histogram_sample(position="stack_dodge") +
-  theme_void() +
-  theme(aspect.ratio = 0.75, legend.position="none") +
+  geom_histogram_sample(position="stack_identity", alpha=0.05, times=30) +
+  theme_few() +
+  theme(aspect.ratio = 1, legend.position="none") +
   scale_fill_discrete(palette = pal) 
-phist
 
 # geom_sf
 psf <- ggplot(data = Aust_map, aes(geometry = geometry, fill = value)) + 
   geom_sf_sample(times = 300, linewidth = 0) +
-  theme_void() +
-  theme(aspect.ratio = 0.75, legend.position="none") +
-  scale_fill_continuous_sequential(palette = "ag GrnYl") +
-  geom_sf(fill = NA, linewidth = 1, colour = "black") 
+  theme_few() +
+  theme(aspect.ratio = 1, legend.position="none") +
+  scale_fill_continuous_sequential(palette = palname) +
+  geom_sf(fill = NA, linewidth = 0.5, colour = "black") +
+  scale_x_continuous_distribution(limits = c(111,155))
 
 # geom_count
-ggplot(data = Aust_map, aes(geometry = geometry, fill = value)) + 
-  geom_sf_sample(times = 300, linewidth = 0) +
-  theme_void() +
-  theme(aspect.ratio = 0.75, legend.position="none") +
-  scale_fill_continuous_sequential(palette = "ag GrnYl") +
-  geom_sf(fill = NA, linewidth = 1, colour = "black")
-
-
-pline + psf + pcont + phist + ptext + ptile + pspoke + pbar + pgraph
+pcount <- ggplot(uncertain_mpg, aes(cty, hwy)) +
+  geom_count_sample(alpha=0.05, colour = pal[5], times=30) +
+  theme_few() +
+  theme(aspect.ratio = 1, legend.position="none") +
+  scale_colour_continuous_sequential(palette = palname) 
 
 
 
-
-
+p <- pline +  pspoke + phist + psf  + pbar + pcount
+ggsave('inst/logo.png', plot = p, width = 3500, height = 3000, units = 'px')
 
 
 
