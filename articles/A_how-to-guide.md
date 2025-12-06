@@ -210,15 +210,11 @@ visualise the distributions with zero pre-processing
 forecast <- as_tsibble(sunspot.year) |> 
   model(ARIMA(value)) |> 
   forecast(h = "10 years") 
-#> Warning: 1 error encountered for ARIMA(value)
-#> [1] The `urca` package must be installed to use this functionality. It can be installed with install.packages("urca")
 
 ggplot(forecast) +
   geom_line_sample(aes(x = index, y = value),
                        times=100, alpha=0.5) +
   theme_few()
-#> Warning: Removed 1000 rows containing missing values or values outside the scale range
-#> (`geom_line()`).
 ```
 
 ![](A_how-to-guide_files/figure-html/forecast-1.png)

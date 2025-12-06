@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Get started with ggdibbler</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/harriet-mason/ggdibbler/blob/v0.6.1/vignettes/A_how-to-guide.Rmd" class="external-link"><code>vignettes/A_how-to-guide.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/harriet-mason/ggdibbler/blob/main/vignettes/A_how-to-guide.Rmd" class="external-link"><code>vignettes/A_how-to-guide.Rmd</code></a></small>
       <div class="d-none name"><code>A_how-to-guide.Rmd</code></div>
     </div>
 
@@ -285,15 +285,11 @@ pre-processing</p>
 <code class="sourceCode R"><span><span class="va">forecast</span> <span class="op">&lt;-</span> <span class="fu">as_tsibble</span><span class="op">(</span><span class="va">sunspot.year</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">model</span><span class="op">(</span><span class="fu">ARIMA</span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">forecast</span><span class="op">(</span>h <span class="op">=</span> <span class="st">"10 years"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; Warning: 1 error encountered for ARIMA(value)</span></span>
-<span><span class="co">#&gt; [1] The `urca` package must be installed to use this functionality. It can be installed with install.packages("urca")</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">forecast</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_path_sample.html">geom_line_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">index</span>, y <span class="op">=</span> <span class="va">value</span><span class="op">)</span>,</span>
 <span>                       times<span class="op">=</span><span class="fl">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 1000 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">#&gt; (`geom_line()`).</span></span></code></pre></div>
+<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/forecast-1.png" class="r-plt" width="576"></p>
 <p>This is not a common occurrence, but when it occurs the workflow is
 so seamless that uncertainty visualisation becomes as easy as
