@@ -17,7 +17,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/harriet-mason/ggdibbler/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/harriet-mason/ggdibbler/blob/v0.6.1/DESCRIPTION)
 
 Mason H, Cook D, Goodwin S, VanderPlas S (2025). *ggdibbler: Add
 Uncertainty to Data Visualisations*. R package version 0.6.1,
