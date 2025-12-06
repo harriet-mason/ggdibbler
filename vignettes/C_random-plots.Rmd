@@ -103,25 +103,23 @@ Of course, you can also set the fill to be a second independent draw from the pr
 
 The reality is, distribution variables are "slippery" in a way that deterministic variables are not. They do not have a set value, so if their position on the x axis and their colour are not set by the sample outcome.... what are they set by? The reality, is, if you want the random variables anchored to something, YOU need to decide what to anchor them to. You need to decide what your random variables are conditional on. If you want them conditional on the *deterministic* true value, you need to do that. Here is an example where they are anchored to the ground truth value and we colour by the prediction.
 
-```{r}
-
-p1 <- ggplot(diamonds_pred, aes(x=cut_true)) +
-  geom_bar() +
-  ggtitle("No colour randomness")
+```{r, fig.width=8, fig.height=4}
 
 p2 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, 
                   position= "stack_dodge") +
+  theme(legend.position="top") +
   scale_fill_brewer(palette = "Set1") +
   ggtitle("Random colour (dodge)")
 
 p3 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, alpha=0.1,
                   position= "stack_identity") +
+  theme(legend.position="top") +
   scale_fill_brewer(palette = "Set1") +
   ggtitle("Random colour (identity)")
 
-p2 | p3
+p2 + p3
 
 ```
 
