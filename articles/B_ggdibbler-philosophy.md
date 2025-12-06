@@ -130,6 +130,30 @@ uncertainty as signal and should use `ggdist`, if you only care about
 the impact on the vector density, you are visualising uncertainty as
 noise and should use `ggdibbler`.
 
+``` r
+density_data <- data.frame(xmean = rnorm(15),
+                           xse = rexp(15,3)) |>
+  mutate(xdist = distributional::dist_normal(xmean, xse)) |>
+  mutate(dist_group = factor(xdist)) |>
+  group_by(dist_group) |>
+  mutate(dist_group = cur_group_id()) |>
+  ungroup()
+
+p1 <- density_data |>
+  ggplot(aes(xdist = xdist)) +
+  stat_slab(alpha=0.5) +
+  theme_tufte() +
+  ggtitle("ggdist: uncertainty as signal")
+  
+p2 <- density_data |>
+  ggplot(aes(x=xdist)) + 
+  geom_density_sample(times=10) +
+  theme_tufte() +
+  ggtitle("ggdibbler: uncertainty as noise")
+
+p1 | p2
+```
+
 ![](B_ggdibbler-philosophy_files/figure-html/unnamed-chunk-2-1.png)
 
 We are not particularly interested in visualising uncertainty as signal,
@@ -295,7 +319,7 @@ p1 <- ggplot(catdog, aes(DogOwner)) +
   geom_bar_sample(aes(fill = CatOwner), 
                   position = position_dodge(preserve="single"))+
   theme_few() +
-  theme(legend.position="none", aspect.ratio = 1)+
+  theme(legend.position="top", aspect.ratio = 1)+
   ggtitle("ggplot: dodge")
 
 
@@ -303,24 +327,24 @@ p2 <- ggplot(random_catdog, aes(DogOwner)) +
   geom_bar_sample(aes(fill = CatOwner), times=30,
                   position = "dodge_dodge") +
   theme_few() +
-  theme(legend.position="none", aspect.ratio = 1)+
+  theme(legend.position="top", aspect.ratio = 1)+
   ggtitle("ggdibbler: dodge_dodge")
 
 p3 <- ggplot(random_catdog, aes(DogOwner)) + 
   geom_bar_sample(aes(fill = CatOwner),  times=30,
                   position = position_dodge(preserve="single")) +
   theme_few() +
-  theme(legend.position="none", aspect.ratio = 1)+
+  theme(legend.position="top", aspect.ratio = 1)+
   ggtitle("ggdibbler: dodge")
 
 p3 <- ggplot(random_catdog, aes(DogOwner)) + 
   geom_bar_sample(aes(fill = CatOwner),  times=30,
                   position = position_dodge(preserve="single")) +
   theme_few() +
-  theme(legend.position="none", aspect.ratio = 1)+
+  theme(legend.position="top", aspect.ratio = 1)+
   ggtitle("ggdibbler: dodge")
 
-p1 | p3 | p2
+p1 + p3 + p2
 ```
 
 ![](B_ggdibbler-philosophy_files/figure-html/dodgebarchart-1.png)
@@ -370,7 +394,7 @@ p3 <- textplot("z3", 0.05) +
   ggtitle("Binomial with p = 0.5")
 
 
-(p3 | p2 | p1 | p0)
+p3 + p2 + p1 + p0
 ```
 
 ![](B_ggdibbler-philosophy_files/figure-html/textplot-1.png)
@@ -424,7 +448,7 @@ p8 <- ggplot(tiledata, aes(x=x, y=y)) +
   theme(aspect.ratio = 1, legend.position = "none")  +
   ggtitle("Normal with sigma = 20")
 
-(p8 | p7 | p6 | p5)
+p8 + p7 + p6 + p5
 ```
 
 ![](B_ggdibbler-philosophy_files/figure-html/tileplot-1.png)
@@ -491,13 +515,13 @@ documentation that highlight this difference.
 
 ``` r
 # examples from ggdibbler
-p1 <-  ggplot(uncertain_mtcars, aes(x = mpg)) +
-  geom_dotplot_sample(binwidth = 1.5, alpha=0.2) +
+p1 <-ggplot(uncertain_mtcars, aes(x = mpg)) +
+  geom_dotplot_sample(binwidth = 1.5, times=100, alpha=1.1/100) +
   theme(aspect.ratio = 1)+
   theme_few() +
   ggtitle("Blur in geom_dotplot")
 p2 <- ggplot(uncertain_mpg, aes(cty, hwy)) +
-  geom_count_sample(alpha=0.05, times=30) +
+  geom_count_sample(alpha=0.8/100, times=100) +
   theme(aspect.ratio = 1)+
   theme_few() +
   ggtitle("Fuzziness in geom_count")
@@ -506,7 +530,7 @@ p1 + p2
 
 ![](B_ggdibbler-philosophy_files/figure-html/fuzzblur-1.png)
 
-The most facinating thing about this is that the emerging aesthetics
+The most fascinating thing about this is that the emerging aesthetics
 feature is what allows `ggdibbler` to convey multiple sources of
 uncertainty at once in a single graphic. Blur makes it more difficult to
 read the position of the aesthetics and it is created by uncertainty in

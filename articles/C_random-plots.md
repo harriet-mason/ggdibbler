@@ -157,23 +157,21 @@ do that. Here is an example where they are anchored to the ground truth
 value and we colour by the prediction.
 
 ``` r
-p1 <- ggplot(diamonds_pred, aes(x=cut_true)) +
-  geom_bar() +
-  ggtitle("No colour randomness")
-
 p2 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, 
                   position= "stack_dodge") +
+  theme(legend.position="top") +
   scale_fill_brewer(palette = "Set1") +
   ggtitle("Random colour (dodge)")
 
 p3 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, alpha=0.1,
                   position= "stack_identity") +
+  theme(legend.position="top") +
   scale_fill_brewer(palette = "Set1") +
   ggtitle("Random colour (identity)")
 
-p2 | p3
+p2 + p3
 ```
 
 ![](C_random-plots_files/figure-html/unnamed-chunk-8-1.png)
