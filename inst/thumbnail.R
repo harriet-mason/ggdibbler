@@ -69,9 +69,9 @@ pal <- sequential_hcl(7, palette = palname)
 pbar <- ggplot(uncertain_mpg, aes(class)) + 
   geom_bar_sample(aes(fill = drv),, times=50)+
   theme_few() +
-  theme(aspect.ratio=1, legend.position = "none") +
+  theme(aspect.ratio=1, legend.position = "none",
+        axis.text.x=element_text(angle = -25, hjust = 0)) +
   scale_fill_discrete_sequential(palette = palname) 
-
 # geom_contour
 pcont <- ggplot(uncertain_faithful, aes(waiting, eruptions))+
   theme_few() +
