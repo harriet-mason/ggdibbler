@@ -105,9 +105,9 @@ set.seed(25102025)
 
 uncertain_diamonds <- ggplot2::diamonds
 
-cut_names <- levels(uncertain_diamonds$cut)
-color_names <- levels(uncertain_diamonds$color)
-clarity_names <- levels(uncertain_diamonds$clarity)
+cut_names <-  unique(uncertain_diamonds$cut)
+color_names <-  unique(uncertain_diamonds$color)
+clarity_names <-  unique(uncertain_diamonds$clarity)
 sd_carat <- sd(uncertain_diamonds$carat)/10
 sd_depth <- sd(uncertain_diamonds$depth)/10
 sd_table <- sd(uncertain_diamonds$table)/10
