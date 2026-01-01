@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,16 +67,15 @@
 <code>ggdibbler</code> <a class="anchor" aria-label="anchor" href="#ggdibbler-"></a>
 </h1>
 </div>
-<p>For information to be passed into ggplot2, or any visualisation software, it usually needs to be expressed as data. This restriction prevents us from visualising inputs that are too uncertain to be expressed as single data values. This can include things like estimates, model predictions, bounded values or observations with large measurement error.</p>
-<p>Now, users can simply replace a vector of data with a vector of random variables created using <a href="https://github.com/mitchelloharawild/distributional" class="external-link"><code>distributional</code></a> and visualise these types of inputs using <code>ggdibbler</code>. Any quantifiable uncertainty can be expressed as a distribution, and any distribution can be passed to an existing <code>ggplot2</code> geom with <code>ggdibbler</code>. Users are not limited by data type, the data can be continuous or discrete, sf objects, character or factors, or even other distributions. You are also not limited to any type of distribution, theoretical, empirical, truncated, and mixed distributions are all allowed by <code>distributional</code> and therefore accepted by <code>ggdibbler</code>. No matter what you pass, <code>ggdibbler</code> will incorporate the uncertainty into your graphic as noise and allows you to see how the variation may change the conclusions you take away from your graphics.</p>
-<p>The power of <code>ggdibbler</code> is in its simplicity and flexibility. There is no need to learn specific package syntax or new functions and you can pass a distribution to ANY combination of aesthetics in ggplot2. It is a universal, exploratory tool for uncertainty visualisation.</p>
+<p>For information to be passed into <code>ggplot2</code>, or any visualisation software, it usually needs to be expressed as data. This restriction prevents us from visualising inputs that are too uncertain to be expressed as single data values. This can include things like estimates, model predictions, bounded values or observations with large measurement error. While there is a wealth of visualisation software designed to address this problem, these solutions are often limited to specific plots or data types with bespoke syntax. The lack of generality has significantly restricted the adoption of uncertainty visualisation by the broader statistics community, and established uncertainty as something to be ignored.</p>
+<p>This problem is alleviated by <code>ggdibbler</code>. Now, users can simply replace a vector of data with a vector of random variables created using <a href="https://github.com/mitchelloharawild/distributional" class="external-link"><code>distributional</code></a> and visualise these types of inputs using the software. Any quantifiable uncertainty can be expressed as a distribution, and any distribution can be passed to an existing <code>ggplot2</code> geom with <code>ggdibbler</code>. Unlike other visualisation approaches, users are not limited by data type. You can pass continuous, discrete, spatial (i.e. sf objects), characters, factors, or even other distributions to <code>ggdibbler</code>. Users are also free to pass any type of distribution to the software. Theoretical, empirical, truncated, and mixed distributions are all allowed by <code>distributional</code> and therefore accepted by <code>ggdibbler</code>. No matter what you pass, <code>ggdibbler</code> will incorporate the uncertainty into your graphic as noise and allows you to see how the variation changes the conclusions you take away from your graphics.</p>
+<p>The power of <code>ggdibbler</code> is in its simplicity and flexibility. There is no need to learn specific package syntax or new functions and you can pass a distribution to ANY combination of aesthetics in <code>ggplot2</code>. It is a universal, exploratory tool for uncertainty visualisation.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the stable version of <code>ggdibbler</code> from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ggdibbler"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ggdibbler"</span><span class="op">)</span></span></code></pre></div>
 <p>or you can install the development version of <code>ggdibbler</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
@@ -85,9 +84,9 @@
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<p>In essence, <code>ggdibbler</code> makes visualising uncertainty easy, as you just replace the <code>geom_*</code> with <code>geom_*_sample</code> and replace your deterministic variable with a <code>distributional</code> variable, and you get an uncertainty visualisation.</p>
-<p>You will often run into an overplotting problem when visualising uncertainty, so using a jitter or adjusting the alpha value will allow you to see all outcomes of the distribution. Otherwise you will only see the final draw.</p>
-<p>Below are some examples of <code>ggdibbler</code> code alongside their uncertain <code>ggplot2</code> counterpart. The only parameters added by <code>ggdibbler</code> are the <code>times</code> argument, which decides how many samples to draw from the distribution, and the <code>seed</code> argument which allows you to keep the same random draw across multiple layers.</p>
+<p>To make a <code>ggdibbler</code> visualisation you just replace a <code>geom_*</code> function from <code>ggplot2</code> with <code>geom_*_sample</code>, and replace your deterministic variable with a <code>distributional</code> variable, and you get an uncertainty visualisation. It is that simple.</p>
+<p>You will often run into an over plotting problem when visualising uncertainty, so using a jitter or adjusting the alpha value will allow you to see all outcomes (rather than just the final draw). In many cases the over plotting is managed automatically with the nested positioning system (such as in <code>geom_sf</code> or <code>geom_tile</code>), but it is still a good idea to always set <code>alpha &lt; 1</code> when making a plot for the first time to ensure you aren’t accidentally obfuscating some of the outcomes.</p>
+<p>Below are some examples of uncertain <code>ggdibbler</code> plots alongside their deterministic <code>ggplot2</code> counterpart. The only parameters added by <code>ggdibbler</code> are the <code>times</code> argument (which decides how many samples to draw from the distribution), and the <code>seed</code> argument (which allows you to keep the same random draw across multiple layers). Otherwise, the parameters and syntax are identical to that of a standard <code>ggplot</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.mitchelloharawild.com/distributional/" class="external-link">distributional</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -108,7 +107,7 @@
 <span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<p>Overlapping positions in other geom can be fixed with standard position adjustments, such as <code>position = "identity_dodge"</code> where the position of the original plot is an <code>identity</code>, and the position adjustment specific to the draws is a <code>dodge</code>.</p>
+<p>This raster plot below provides an example of the nested position system implemented in <code>ggdibbler</code>. By default a raster plot will have it’s position set to <code>position = "identity_dodge"</code> where the position associated with the original (i.e. <code>ggplot2</code> version) of the plot is an <code>identity</code>, and the position adjustment specific to the draws is a <code>dodge</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">faithfuld</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">waiting</span>, <span class="va">eruptions</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -128,7 +127,7 @@
 <span></span>
 <span><span class="va">p1</span>  <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="va">p3</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
-<p>You can mix and match positions to get some interesting looking graphics that all converge to the same <code>ggplot2</code> plot.</p>
+<p>You can mix and match positions to get some interesting looking graphics that all converge to the same <code>ggplot2</code> plot as the variance approaches zero.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, </span>
@@ -180,14 +179,10 @@
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
 </div>
 <div class="section level2">
-<h2 id="limitations-of-the-package">Limitations of the Package<a class="anchor" aria-label="anchor" href="#limitations-of-the-package"></a>
+<h2 id="limitations-and-future-additions-to-the-package">Limitations and future additions to the package<a class="anchor" aria-label="anchor" href="#limitations-and-future-additions-to-the-package"></a>
 </h2>
-<p>There are three primary limitations of the software to keep in mind. First, it only allows you to visualise the distribution as a sample. We are planning to expand this to quantiles in later versions but it is not currently an option. Second, if multiple distributions are passed, they are assumed to be independent. This is actually not as much of a limitation as people think, there are often a simple work around in most cases, but it isn’t as frictionless as we would like. Finally, all desired scale and position functions are not always available as we built the minimum required level of nesting before this release. This is another feature we hope to build up in the future.</p>
-</div>
-<div class="section level2">
-<h2 id="future-additions-to-the-package">Future additions to the package<a class="anchor" aria-label="anchor" href="#future-additions-to-the-package"></a>
-</h2>
-<p>Future plans for <code>ggdibbler</code> are tracked in the <a href="https://github.com/harriet-mason/ggdibbler/issues" class="external-link">Github issues</a>. If you have a suggestion or bug, please let us know!</p>
+<p>There are some limitations to the software that are important to keep in mind. First, it only allows you to visualise the distribution as a sample. This does not prevent us from fully see the distribution in full, as the sample approaches the mass as the <code>times</code> argument approaches infinity, but increasing the <code>times</code> argument can become computationally expensive. Second, if multiple distributions are passed, they are assumed to be independent. Finally, the full set of nested scale and nested positions are not yet available in <code>ggdibbler</code>, so all it is not possible to make <code>ggdibbler</code> versions of all plots that use a position adjustment. We built the minimum level of nesting required to replicate the examples from the <code>ggplot2</code> documentation. We plan to fix several of these limitations in future releases of the package</p>
+<p>Future plans for <code>ggdibbler</code> are tracked in the <a href="https://github.com/harriet-mason/ggdibbler/issues" class="external-link">Github issues</a>. There you can see the upcoming additions to the package, including integration with the <code>ggplot2</code> extension ecosystem, the ability to pass joint distributions as parameters, and a full implementation of the nested position and scale systems. We are always open to suggestions, so if you have noticed a bug or would like to request a feature, please let us know!</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

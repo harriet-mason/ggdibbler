@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggdibbler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,41 +73,55 @@
     
     
 <div class="section level2">
-<h2 id="your-old-ggplot-extension-can-learn-new-tricks">Your old ggplot extension <em>can</em> learn new tricks<a class="anchor" aria-label="anchor" href="#your-old-ggplot-extension-can-learn-new-tricks"></a>
+<h2 id="your-old-ggplot-extension-can-learn-new-tricks">Your old <code>ggplot</code> extension <em>can</em> learn new
+tricks<a class="anchor" aria-label="anchor" href="#your-old-ggplot-extension-can-learn-new-tricks"></a>
 </h2>
 <p>The beauty of the broad solution <code>ggdibbler</code> provides is
 that it always works. It might not always look <em>good</em> or be
-exactly what you were looking for, but it always produces… something. To
-illustrate this, I included the <code>ggraph</code> example in the
-introduction to <code>ggdibbler</code>, but the idea can be implemented
-with extensions as well.</p>
+exactly what you were looking for, but it always works. To illustrate
+this, we included the <code>ggraph</code> example in the <a href="https://harriet-mason.github.io/ggdibbler/articles/A_how-to-guide.html">introduction
+to <code>ggdibbler</code></a> vignette.</p>
 <p>In the <code>ggraph</code> example, I illustrated how you can use the
-<code>ggdibbler</code> approach with a ggplot extension that isn’t even
-aware <code>ggdibbler</code> exists. While that method works (well
-enough) it can be somewhat annoying to implement, and it doesn’t give
-you access to the nested positions (as they use internal variables). I
-can understand fellow ggplot extenders might be chomping at the bit to
-see what their plots look like with uncertainty and nested
-positions.</p>
+<code>ggdibbler</code> approach with a <code>ggplot</code> extension
+that isn’t even aware <code>ggdibbler</code> exists. While that method
+works (well enough) it can be somewhat annoying to implement, and it
+doesn’t give you access to the nested positions (as they use internal
+variables). I can understand fellow <code>ggplot</code> extenders might
+be chomping at the bit to see what their plots look like with
+uncertainty and nested positions.</p>
+<p>Currently, if you want a dibbled version of your <code>ggplot2</code>
+extension, you need to update your code to include it. We plan to update
+<code>ggdibbler</code> such that the approach can be used by extensions
+without any required dependency on <code>ggdibbler</code> (see the
+related <a href="https://github.com/harriet-mason/ggdibbler/issues/55" class="external-link">Github
+issue</a> on the topic) but if you want it to work for your extension
+literally right now, you will either have to push a bit of preprocessing
+onto your users, or you will need to write a <code>*_sample</code>
+variation of your functions.</p>
+</div>
+<div class="section level2">
+<h2 id="implementing-uncertainty-visualisation-as-a-nested-stat">Implementing uncertainty visualisation as a nested stat<a class="anchor" aria-label="anchor" href="#implementing-uncertainty-visualisation-as-a-nested-stat"></a>
+</h2>
 <p>Sometimes, when making a <code>ggdibbler</code> version of a
 <code>ggplot2</code> base function, I would think to myself “What is the
 point of this, who on earth needs an uncertain version of
 <code>stat_unique</code>?”. I still sometimes think that, but the reason
-we implemented it with <em>ALL</em> ggplot2 functions, is not for the
-users, but rather for the extenders. If there is a ggplot2 extension
-that is the child of a base <code>stat</code> or base position, a
-geom_*_sample variation of their function will simply be the child of
-the <code>ggdibbler</code> variation of the ggplot2 stat, instead of the
-original ggplot2 code. The only ggplot2 extension that might not work
-with <code>ggdibbler</code> is <code>ggdist</code> (for the obvious
-reason that is is the only other ggplot extension that is designed to
-take distributional input).</p>
+we implemented it with <em>ALL</em> <code>ggplot2</code> functions, is
+not for the users, but rather for the extenders. If there is a
+<code>ggplot2</code> extension that is the child of a base
+<code>stat</code> or base position, a <code>geom_*_sample</code>
+variation of their function will simply be the child of the
+<code>ggdibbler</code> variation of the <code>ggplot2</code> stat,
+instead of the original <code>ggplot2</code> code. The only
+<code>ggplot2</code> extension that might not work with
+<code>ggdibbler</code> is <code>ggdist</code>, although it should work
+if you have a distribution of distributions.</p>
 <p>Now, I have made all functions in base <code>ggplot2</code> accept
-uncertain inputs, go me, but the real power of ggplot2 comes from the
-wealth of extension packages. Now, as fun as I am sure it would be, I am
-not about to spend the next 5 years making pull requests on every
-<code>ggplot2</code> extension package so that they can all accept
-random variables. Largely because:</p>
+uncertain inputs, go me, but the real power of <code>ggplot2</code>
+comes from the wealth of extension packages. Now, as fun as I am sure it
+would be, I am not about to spend the next 5 years making pull requests
+on every <code>ggplot2</code> extension package so that they can all
+accept random variables. Largely because:</p>
 <ol style="list-style-type: decimal">
 <li>Going around making pull requests that forces dependency on
 <em>my</em> package sounds like the early warning signs of a personality
@@ -117,20 +131,19 @@ to.</li>
 </ol>
 <p>Thankfully, the <code>ggdibbler</code> approach is so easy if you are
 the author/maintainer of a <code>ggplot2</code> extension and you want
-it to accept random variables, you can just do it yourself.</p>
-</div>
-<div class="section level2">
-<h2 id="how-to-extend-your-package-to-accept-random-variables-easiest-to-hardest">How to extend your package to accept random variables (easiest to
-hardest)<a class="anchor" aria-label="anchor" href="#how-to-extend-your-package-to-accept-random-variables-easiest-to-hardest"></a>
-</h2>
+it to accept random variables, you can just do it yourself. If your
+package implements a new geom or stat, then you can follow the
+instructions below, if your package implements anything else (like a
+scale or position) then you will need to wait until the update that
+doesn’t require any of this at all (sorry).</p>
 <div class="section level3">
 <h3 id="geoms">Geoms<a class="anchor" aria-label="anchor" href="#geoms"></a>
 </h3>
-<p>As <code>ggdibbler</code> only doesn’t actually implement any new
-geoms, the geoms are just wrappers for the stats. If you use an existing
-ggplot2 stat, <code>ggdibbler</code> should already have a variation of
-it, so you can just make the wrapper function using code that looks like
-this:</p>
+<p><code>ggdibbler</code> doesn’t actually implement any new geoms, the
+geoms are just wrappers for the stats. If you use an existing
+<code>ggplot2</code> stat, <code>ggdibbler</code> should already have a
+variation of it, so you can just make the wrapper function using code
+that looks like this:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">geom_YOURGEOM_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/make_constructor.html" class="external-link">make_constructor</a></span><span class="op">(</span><span class="va">YOURGEOM</span>, stat <span class="op">=</span> <span class="st">"GGPLOT2STAT_sample"</span>,</span>
 <span>                                         times <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
@@ -141,10 +154,11 @@ this:</p>
 <p>Stats are slightly more complicated, but still shockingly simple.
 There are two approaches to this. The first options is to make a
 YOURSTATSample child version of your stat, similar to the relationship
-between the base stats in ggplot and the sample stats implemented in
-<code>ggdibbler</code>. When making these functions in
+between the base stats in <code>ggplot</code> and the sample stats
+implemented in <code>ggdibbler</code>. When making these functions in
 <code>ggdibbler</code> I literally had a template that I would copy and
-paste into the .R file.</p>
+paste into the .R file (don’t tell me whether this is good or bad
+practice, I don’t care).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#' @importFrom ggplot2 ggproto Stat***</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#' @format NULL</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#' @usage NULL</span></span>
@@ -179,28 +193,12 @@ paste into the .R file.</p>
 <span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>stat_<span class="sc">**</span><span class="er">*</span>_sample <span class="ot">&lt;-</span> <span class="fu">make_constructor</span>(Stat<span class="sc">**</span><span class="er">*</span>Sample, <span class="at">geom =</span> <span class="st">"***"</span>, </span>
 <span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>                                    <span class="at">times =</span> <span class="dv">10</span>, <span class="at">seed =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <p>The alternative option is if your stat is the child of an existing
-ggplot2 stat, you can just make a new version of your function that is a
-child of the <code>ggdibbler</code> version instead of the ggplot2
-version. I haven’t implemented this one, so I am not 100% sure how it
-would work, but the <em>only</em> thing that <code>ggdibbler</code> does
-(99% of the time) is do a setup_data step.</p>
-</div>
-<div class="section level3">
-<h3 id="scalestodo">Scales(TODO)<a class="anchor" aria-label="anchor" href="#scalestodo"></a>
-</h3>
-<p>Honestly, if your package implements new scales, I would hold off on
-this one until the <code>ggdibbler</code> scales system is more built
-up. You can still try, if you want, but I am not making any promises on
-the usability of the function you spit out. So long as distributional
-can make a random variable of your scale’s object type, you can make a
-nested scale of it.</p>
-<p>(NOTE: actually fill out this section)</p>
-</div>
-<div class="section level3">
-<h3 id="nested-positions-todo">Nested Positions (TODO)<a class="anchor" aria-label="anchor" href="#nested-positions-todo"></a>
-</h3>
-<p>The nested position system can’t really be extended upon yet, but it
-is a future plan, sorry!</p>
+<code>ggplot2</code> stat, you can just make a new version of your
+function that is a child of the <code>ggdibbler</code> version instead
+of the <code>ggplot2</code> version. I haven’t implemented this one, so
+I am not 100% sure how it would work, but the <em>only</em> thing that
+<code>ggdibbler</code> does (99% of the time) is do a
+<code>setup_data</code> step.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

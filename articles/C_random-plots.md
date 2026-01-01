@@ -1,13 +1,17 @@
 # Unexpected behaviour of random plots
 
-As the plots in `ggdibbler` are random variables, they are random plots,
-which means each time you call a plot, it is different. This behaviour
-makes sense, as every plot is just one of many possible outcomes you can
-have when you represent a distribution by a sample. If you are used to
-the deterministic behaviour of ggplot, the randomness can be
-off-putting, although not technically incorrect. Most of these issue can
-be mitigated by using the seed option, but by default the plots are
-random.
+As the graphics made by `ggdibbler` are random variables represented by
+a sample, they are random plots. This means that each time you call a
+plot, it is different. This behaviour makes sense, as every plot is just
+one of many possible outcomes you can have when you represent a
+distribution by a sample. Technically the plots would be identical if
+you set your `times` to be infinity, but an infinite number of draws is
+just a tad too computationally expensive for our package.
+
+If you are used to the deterministic behaviour of ggplot, the randomness
+can be off-putting, although not technically incorrect. Most of these
+issue can be mitigated by using the seed option, but the behaviour can
+be surprising if you are not used to it (so we are documenting it here).
 
 ## Saving plots
 
@@ -44,8 +48,8 @@ p1 + p2
 
 ![](C_random-plots_files/figure-html/unnamed-chunk-2-1.png)
 
-By the time a column gets to the stat where we draw the samples, we do
-not have the variable names any more. This means we can’t be sure which
+By the time your data gets to the Stat stage of the plot computation, we
+no longer have the variable names. This means we can’t be sure which
 variables are actually identical versus which variables only appear to
 be identical. You can get the identical behaviour by one of the draws
 using the `after_stat` function.
@@ -56,7 +60,7 @@ ggplot(uncertain_mtcars, aes(wt, after_stat(x))) + geom_point_sample(times=5)
 
 ![](C_random-plots_files/figure-html/unnamed-chunk-3-1.png)
 
-This problem is particularly problematic when you have multiple layers
+This issue is particularly problematic when you have multiple layers
 using the same variable where the `after_stat` trick no longer works. In
 this case so you will need to use the seed parameter to ensure the draws
 are the same.
@@ -132,7 +136,7 @@ see this is the case.
 
 ``` r
 ggplot(diamonds_pred, aes(x=cut_pred)) +
-  geom_bar_sample(aes(fill=factor(after_stat(x)))) +
+  geom_bar_sample(aes(fill=factor(after_stat(x))), times=30) +
   labs(fill = "cut_pred")+
   scale_fill_brewer(palette = "Set1")
 ```
@@ -146,15 +150,15 @@ in the bar chart. Instead of drawing from one distribution, we are
 drawing from two independent distributions that technically represent
 the same variable.
 
-The reality is, distribution variables are “slippery” in a way that
-deterministic variables are not. They do not have a set value, so if
-their position on the x axis and their colour are not set by the sample
-outcome…. what are they set by? The reality, is, if you want the random
-variables anchored to something, YOU need to decide what to anchor them
-to. You need to decide what your random variables are conditional on. If
-you want them conditional on the *deterministic* true value, you need to
-do that. Here is an example where they are anchored to the ground truth
-value and we colour by the prediction.
+The reality is, distribution variables do not have a set value, so if
+their position on the x axis and their colour are not set by the
+`after_stat` distribution outcomes …. what are they set by? If you want
+the random variables anchored to a deterministic variable, YOU need to
+decide what to anchor them to. You need to decide what your random
+variables are conditional on. If you want them conditional on the
+*deterministic* true value, you need to do that. Here is an example
+where they are anchored to the ground truth value and we colour by the
+prediction.
 
 ``` r
 p2 <- ggplot(diamonds_pred, aes(x=cut_true)) +
@@ -162,14 +166,16 @@ p2 <- ggplot(diamonds_pred, aes(x=cut_true)) +
                   position= "stack_dodge") +
   theme(legend.position="top") +
   scale_fill_brewer(palette = "Set1") +
-  ggtitle("Random colour (dodge)")
+  ggtitle("Random colour (dodge)") +
+  theme(legend.position = "bottom")
 
 p3 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, alpha=0.1,
                   position= "stack_identity") +
   theme(legend.position="top") +
   scale_fill_brewer(palette = "Set1") +
-  ggtitle("Random colour (identity)")
+  ggtitle("Random colour (identity)") +
+  theme(legend.position = "bottom")
 
 p2 + p3
 ```

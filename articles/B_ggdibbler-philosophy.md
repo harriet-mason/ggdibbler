@@ -2,21 +2,18 @@
 
 ## The `ggdibbler` philosophy
 
-Twenty-five years ago Leeland Wilkinson said that the framework
-described every statistics visualisation you could possibly make, and
-and 25 years later it still seems like half the field of visualisation
-doesn’t believe him. This section is here to correct this
-misunderstanding. We will explain what *we* mean when we talk about
-uncertainty visualisation and how the `ggdibbler` approach came to be so
-flexible, powerful, and effective.
-
-Since `ggdibbler` is so flexible, it has the ability to generate a *lot*
-of graphics, many of which the authors of this package have never seen
-before despite writing the software. Some of these graphics already
-exist in the literature, and some don’t. If any plot that `ggdibbler`
-makes looks familiar to you, it is due to it being a subset of the
-signal suppression philosophy, rather than through any conscious choices
-by us.
+Uncertainty visualisation is a broad field that combines a significant
+number of visualisations that are often only tangentially related. In
+this vignette we will explain what *we* mean when we talk about
+uncertainty visualisation, how we formalised this approach (beyond the
+formalisation already offered by
+(`ggdist`)\[<https://github.com/mjskay/ggdist/tree/master>\]), how this
+formalisation created a flexible and powerful visualisation system, and
+and how we translated this formalisation into the `ggdibbler` package.
+Some of the graphics `ggdibbler` makes already exist in the literature,
+and some don’t. If any plot that `ggdibbler` makes looks familiar to
+you, it is because the graphic is a subset of the philosophical
+approach, rather than through any conscious choices by the authors.
 
 ## How `ggdibbler` works
 
@@ -26,24 +23,25 @@ could have implemented it as a layer extension, but the `ggplot2` team
 do not export it, so here we are. The main brunt of the package is
 literally three very simple operations.
 
-1.  It takes your distribution variables and does n resamples
-    (controlled by `times` in the package)
+1.  It takes your distribution columns and does n resamples (controlled
+    by `times` in the package)
 2.  It then groups by the interaction of the usual `ggplot2` groups and
     `drawID` (an ID number for the draw each value comes from)
-3.  It feeds this altered data through the ggplot pipeline you specified
-    in your code (i.e. scale, stat, position, geom, coord, and theme)
+3.  It feeds this altered data through the `ggplot` pipeline you
+    specified in your code (i.e. scale, stat, position, geom, coord, and
+    theme)
 
 These three components each answer a related question about how we want
 to quantify/visualise our data.
 
 1.  Statistic nesting: What is the quantified representation of your
-    distribution (e.g. samples, quantiles, etc)?
+    distribution (e.g. samples, quantiles, etc.)?
 2.  Grouping structure: Do you want to visualise your uncertainty as
     signal (group by the distribution) or as noise (group by the draws)
 3.  Position nesting: How are managing you managing the over plotting
     created by replacing a single value with a large sample of values
     (e.g. layering and setting `alpha < 1`, using a `position_dodge`,
-    etc)?
+    etc.)?
 
 The entire package is made by nesting the already existing grammar.
 There is exactly *one* new feature we implemented that is not a
@@ -51,7 +49,7 @@ variation of what was already in `ggplot` and that is the
 `position_subdivide` based on the Vizumap’s pixel map. The only reason
 we had to implement that was because `position_dodge` doesn’t work on SF
 objects or polygons (although we think they should). Three parts of the
-grammar that needed to be nested to implement ggdibbler, these are:
+grammar that needed to be nested to implement `ggdibbler`, these are:
 
 1.  A nested scale that scales the domain of the distribution while
     keeping it a random variable
@@ -63,33 +61,38 @@ grammar that needed to be nested to implement ggdibbler, these are:
 
 Choosing to nest the scale, stat, and position might seem like an odd
 choice, but that seemed to be the minimum number of nestings to get
-`ggdibbler` to work as intended.
+`ggdibbler` to work as intended. Keep in mind that nested statistics for
+uncertainty visualisation are not unique (or even originally implemented
+by) `ggdibbler`. The nested (or chained) statistics are implemented in
+`ggdist`, however the nested scales and positions are unique to
+`ggdibbler`.
 
-As ggplot is build for a nested grammar (with it’s parent/child ggproto
-system) making the nested elements was rather straight forward, although
-it was far too tedious to implement it with every stat, scale, and
-position. So even within this subset of grammar elements `ggdibbler`
+As `ggplot` is built for a chained operations (with it’s parent/child
+ggproto system) making the nested elements was rather straight forward,
+although it was far too tedious to implement it with every stat, scale,
+and position. So even within this subset of grammar elements `ggdibbler`
 does not implement a full nested version of them. The package would be
-greatly expanded by a full nested positioning system and having a
-quantile variation of all the `stat_*_sample` functions, but these
-features will take time. This is also not the limit of where we could
-take this idea. Theoretically we could also nest recursively (i.e. nest
-a random variable inside a random variable and plot it with a position
-nested inside a nested position). A random variable nested inside a
-random variable is actually how you could make a `ggdibbler` version of
-a `ggdist` graphic, but this is all beyond the current scope of the
-package.
+greatly expanded by a full nested stat, scale, and positioning system,
+but these features would be laborious to implement with the current
+`ggplot2` extension ecosystem. We could also take the idea of nesting
+much further than what we have done here. Theoretically, we could also
+nest recursively (i.e. nest a random variable inside a random variable
+and plot it with a position nested inside a nested position). A random
+variable nested inside a random variable is actually how you could make
+a `ggdibbler` version of a `ggdist` graphic, but this is all beyond the
+current scope of the package.
 
 ## What is uncertainty visualisation?
 
-Gather around children and let us tell you the philosophical
-underpinnings of our uncertainty visualisation package. The long version
-of the approach (which is actually think it is a good read despite being
-a paper) is written up in the a preprint
+How the package works is relatively straight forward, but *why* we set
+the package up this way requires a bit of a longer explanation. The long
+version of the approach (which is actually think it is a good read
+despite being a paper) is written up in the a preprint
 [here](https://arxiv.org/abs/2411.10482). A shorter version of it was
 given as a talk at UseR!2025 [available
-here](https://www.youtube.com/watch?v=gqhgD997PzY). The cliff notes
-version of these explanations is what makes up this section.
+here](https://www.youtube.com/watch?v=gqhgD997PzY). A medium length (and
+more updated) version of these explanations is what makes up this
+section.
 
 Exactly “what” uncertainty visualisation is, seems to be hard to pin
 down. There are two competing philosophies of uncertainty visualisation.
@@ -117,22 +120,20 @@ at the two density visualisations below. If we feed a vector of
 uncertain values into a `geom_density` function what kind of
 visualisation should it spit out? Are we interested in the uncertainty
 of each individual cell or are we only interested in the uncertainty as
-a collective and want to see how it changes the plot that would have
-been made, had we fed in point estimates instead?
+a collective and want to see how it changes the density that would have
+been made had we fed in point estimates instead?
 
 To show you the difference between these two approaches, we created the
 plots below. Both plots ask the same question: If you pass a vector of
-15 distributions into a geom_density, what should it look like?. Do you
-want to see each individual distribution or do you only care about each
-individual distribution insofar as they impact the density of the
-vector? If you are interested in each distribution you are visualising
-uncertainty as signal and should use `ggdist`, if you only care about
-the impact on the vector density, you are visualising uncertainty as
-noise and should use `ggdibbler`. Technically the main difference
-between the two package is a difference in how they group the variables
-(and also obviously the wealth of geoms in `ggdist` but that is a side
-point). The two packages can produce similar plots with different data,
-but they shouldn’t make the same plot with the *same* data.
+15 distributions into a geom_density, what should it look like?. If you
+are interested in each distribution you are visualising uncertainty as
+signal and should use `ggdist`, if you only care about the impact on the
+vector density, you are visualising uncertainty as noise and should use
+`ggdibbler`. Technically the main difference between the two package is
+a difference in how they group the variables (and also obviously the
+wealth of geoms in `ggdist` but I digress). The two packages can produce
+similar plots with different data, but they shouldn’t make the same plot
+with the *same* data.
 
 ``` r
 density_data <- data.frame(xmean = rnorm(15),
@@ -161,20 +162,11 @@ p1 | p2
 ![](B_ggdibbler-philosophy_files/figure-html/unnamed-chunk-2-1.png)
 
 We are not particularly interested in visualising uncertainty as signal,
-it is already covered by `ggdist` and other packages. The questions
-uncertainty as signal visualisations seek to answer are largely about
-behavioural/psychological effects and it is unclear if there are any
-visualisation specific questions for the field to answer. Additionally,
-calling these visualisation “uncertainty visualisations” implies that we
-should define a plot by its underlying statistics, something we don’t do
-for any other type of statistic (e.g. central measures or extreme
-values) so it is unclear why this approach was taken for uncertainty.
-Regardless, it is not what `ggdibbler` does.
-
-Unlike visualising uncertainty as signal, visualising uncertainty as
-noise *does* pose an interesting visualisation question. Specifically it
-asks “how do we translate statistical validity into something we can see
-with our eyes”. Discussions around visualising uncertainty as noise
+it is already covered by `ggdist` and other packages so `ggdibbler`
+focuses on visualising uncertainty as noise. Visualising uncertainty as
+noise *does* poses an interesting visualisation question. Specifically
+it asks “how do we translate statistical validity into something we can
+see with our eyes”. Discussions around visualising uncertainty as noise
 often seem to believe that we should design visualisations such that
 signals with high certainty (i.e. statistical validity) should be
 visible, while signals with low uncertainty should be invisible (or at
@@ -183,7 +175,7 @@ to perceptual ease.
 
 We decided to call this goal “signal suppression” in reference to one of
 the few papers that seemed to consistently apply the “visualising
-uncertainty as noise” philosophy, [Value Supressing Uncertainty
+uncertainty as noise” philosophy, [Value Suppressing Uncertainty
 Palettes](https://dl.acm.org/doi/10.1145/3173574.3174216). The only
 reason we didn’t call it value suppression, is because we are not
 actually suppressing any individual values, but rather the “plot level”
@@ -208,7 +200,7 @@ a single random variable represented by a distribution.
 
 We implement this structure using `distributional`, and we give some
 details on how to use it in the getting started vignette, this section
-is going to focus on why we sue distributions instead of an estimate and
+is going to focus on why we use distributions instead of an estimate and
 it’s standard error which is more common in uncertainty visualisation
 literature.
 
@@ -224,9 +216,9 @@ an uncertainty visualisation.
 
 Only allowing distributions may feel like a restrictive choice, but it
 is actually far more freeing than any alternative. Every single time you
-make a plot in `ggdibbler`, you must draw samples *some* distribution.
-We don’t care what that distribution is, but it *must* be a
-distribution. If I removed the requirement for you to pass a
+make a plot in `ggdibbler`, you must draw samples from *some*
+distribution. We don’t care what that distribution is, but it *must* be
+a distribution. If I removed the requirement for you to pass a
 distribution, I would still need to *sample* from a distribution, so
 what exactly am I supposed to sample from? Do you want us us run around
 our neighbourhoods asking passer-bys to shout numbers at us that “feel
@@ -256,7 +248,7 @@ If we accept that the units of an uncertainty visualisation are random
 variables, then visualisation is a function of random variables, and
 therefore a random variable in of itself. If it is some kind of
 estimate, then that means it should have some statistical properties
-such as limiting distirbutions, bias/variance trade off, etc. This
+such as limiting distributions, bias/variance trade off, etc. This
 section is about how we achieve these properties.
 
 When discussing “normal” random variables, we often discuss the point
@@ -274,14 +266,13 @@ true that every uncertainty visualisation has a point estimate
 counterpart. That visualisation is not the starting point, but the
 limiting statistic of an uncertainty visualisation. Basically, we are
 looking at the continuous mapping theorem for visual statistics, which
-would certainly be an interesting property for our visualisation to
-have. As the variance in your random variable drops to zero and your
-distribution approaches some point estimate, the uncertainty
-visualisation should also approach the visualisation of said point
-estimate. This approach also works for convergence to another random
-variable, but this would require comparing `ggdibbler` to `ggdibbler`,
-which is not as useful of a frameowork for validating the uncertainty
-visualisaitons.
+would certainly be a useful property for our visualisations to have. As
+the variance in your random variable drops to zero and your distribution
+approaches some point estimate, the uncertainty visualisation should
+also approach the visualisation of said point estimate. This approach
+also works for convergence to another random variable, but this would
+require comparing `ggdibbler` to `ggdibbler`, which is not as useful of
+a framework for validating the uncertainty visualisations.
 
 To formalise this a bit more, lets say that $X_{n},X$ is a series of
 random variables, and $x$ is a constant such that
@@ -354,17 +345,16 @@ p1 + p3 + p2
 ![](B_ggdibbler-philosophy_files/figure-html/dodgebarchart-1.png)
 
 The continuous mapping property should always holds regardless of what
-random variable you are mapping, or how it is represented. From what we
-have seen, this property has been very consistent in `ggdibbler`. It
-should always work regardless of which aesthetic you map your variables
-to (if you make a plot where you believe it doesn’t, please let us know
-with a github issue). Below are two examples that illustrate this
-principle. The text plot consists of deterministic x and y values, but a
-random TRUE/FALSE value. When the variance is high we cannot tell the
-difference between true and false as they are literally a 50/50 coin
-flip, but as the variance of each random variable drops to 0, the
-visualisation gets easier to read and it approaches its `ggplot2`
-deterministic counterpart.
+random variable you are mapping, or how it is represented. This property
+is very consistent in `ggdibbler`. It should always work regardless of
+which aesthetic you map your variables to (if you make a plot where you
+believe it doesn’t, please let us know in a Github issue). Below are two
+examples that illustrate this principle. The text plot consists of
+deterministic x and y values, but a random TRUE/FALSE value. When the
+variance is high we cannot tell the difference between true and false as
+they are literally a 50/50 coin flip, but as the variance of each random
+variable drops to 0, the visualisation gets easier to read and it
+approaches its `ggplot2` deterministic counterpart.
 
 ``` r
 set.seed(10)
@@ -458,12 +448,12 @@ p8 + p7 + p6 + p5
 ![](B_ggdibbler-philosophy_files/figure-html/tileplot-1.png)
 
 Therefore, every `ggdibbler` visualisation should have a `ggdplot2`
-version, that represents its limiting statistic (or specifically what
-the plot would approach as the variance of the random variable
-approaches zero). This is subtly communicated in the package using the
-code syntax. The code of a `ggdibbler` plot and it’s deterministic limit
-will be identical, except you replace `geom_*` with `geom_*_sample`. If
-you feed values into `geom_*_sample` that are deterministic (i.e. random
+version that represents its limiting statistic (or specifically what the
+plot would approach as the variance of the random variable approaches
+zero). This is subtly communicated in the package using the code syntax.
+The code of a `ggdibbler` plot and it’s deterministic limit will be
+identical, except you replace `geom_*` with `geom_*_sample`. If you feed
+values into `geom_*_sample` that are deterministic (i.e. random
 variables with a variance of 0) you will also get the same `ggplot2`
 visualisation. This limiting property is also conveyed using the
 examples which always present in the `ggdibbler` documentation alongside
@@ -471,10 +461,9 @@ their `ggplot` counterpart.
 
 Not only does every `ggdibbler` plot have a `ggplot2` counterpart, but
 the reverse is also true. We tried to communicate this by replicating
-the `ggplot2` documentation exactly as it appears in `ggdibbler`. Most
-of it is cut for the sake of computation time (we are technically
-replacing every example with two examples) but when testing the package
-we replicated every `ggplot2` example.
+the `ggplot2` documentation exactly as it appears in the examples for
+`ggdibbler`. Most of it is cut for the sake of computation time but when
+testing the package we replicated every `ggplot2` example.
 
 ## Visual interference and emergent aesthetics
 
@@ -488,10 +477,9 @@ plotting two variables, we want the second variable *not* to interfere.
 If we are plotting height and age, we don’t want values that are
 particularly high on age to have an impossible to read height. However,
 that desire for visual independence is born from variable independence.
-This assumption no longer holds in the case of uncertainty and estimate.
-In the case of an estimate and it’s uncertainty the variables aren’t
-even different variables, they are two parameters of the same
-distribution.
+This assumption no longer holds in the case of an estimate and it’s
+uncertainty. In this case the variables aren’t even different variables,
+they are two parameters of the same distribution.
 
 Samples allow us to see a distribution as a single variable, rather than
 as two disjoint variables. Not only does this give us the interference
@@ -512,10 +500,10 @@ if directly mapped. Any general investigation into primary vs
 secondary/emergent aesthetics is beyond the scope of this package but we
 have noticed some interesting variations when making `ggdibbler`. For
 example, blur and fuzziness seem to have an unexpected distinction. It
-appears as though blur is the combination of transparency and uncertaity
-in position, while fuzziness is the combination of transparency and
-uncertainty in size. Below are two examples from the `ggdibbler`
-documentation that highlight this difference.
+appears as though blur is the combination of transparency and
+uncertainty in position, while fuzziness is the combination of
+transparency and uncertainty in size. Below are two examples from the
+`ggdibbler` documentation that highlight this difference.
 
 ``` r
 # examples from ggdibbler

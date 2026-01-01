@@ -2,7 +2,14 @@
 
 ## ggdibbler (development version)
 
+## ggdibbler 0.6.2
+
+- Updated diamonds, mpg, and mtcars data so that the ordinal
+  distributions are random factors
+
 ## ggdibbler 0.6.1
+
+CRAN release: 2025-12-06
 
 - Removed alpha option
 
