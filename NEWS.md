@@ -1,5 +1,10 @@
 # ggdibbler (development version)
 
+# ggdibbler 0.6.2
+  -  Updated diamonds, mpg, and mtcars data so that the ordinal distributions 
+  are random factors
+
+
 # ggdibbler 0.6.1
   -  Removed alpha option 
   
