@@ -15,18 +15,17 @@ knitr::opts_chunk$set(
 
 # `ggdibbler` <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
-For information to be passed into ggplot2, or any visualisation software, it usually needs to be expressed as data. This restriction prevents us from visualising inputs that are too uncertain to be expressed as single data values. This can include things like estimates, model predictions, bounded values or observations with large measurement error. 
+For information to be passed into `ggplot2`, or any visualisation software, it usually needs to be expressed as data. This restriction prevents us from visualising inputs that are too uncertain to be expressed as single data values. This can include things like estimates, model predictions, bounded values or observations with large measurement error. While there is a wealth of visualisation software designed to address this problem, these solutions are often limited to specific plots or data types with bespoke syntax. The lack of generality has significantly restricted the adoption of uncertainty visualisation by the broader statistics community, and established uncertainty as something to be ignored.
 
-Now, users can simply replace a vector of data with a vector of random variables created using [`distributional`](https://github.com/mitchelloharawild/distributional) and visualise these types of inputs using `ggdibbler`. Any quantifiable uncertainty can be expressed as a distribution, and any distribution can be passed to an existing `ggplot2` geom with `ggdibbler`. Users are not limited by data type, the data can be continuous or discrete, sf objects, character or factors, or even other distributions. You are also not limited to any type of distribution, theoretical, empirical, truncated, and mixed distributions are all allowed by `distributional` and therefore accepted by `ggdibbler`. No matter what you pass, `ggdibbler` will incorporate the uncertainty into your graphic as noise and allows you to see how the variation may change the conclusions you take away from your graphics. 
+This problem is alleviated by `ggdibbler`. Now, users can simply replace a vector of data with a vector of random variables created using [`distributional`](https://github.com/mitchelloharawild/distributional) and visualise these types of inputs using the software. Any quantifiable uncertainty can be expressed as a distribution, and any distribution can be passed to an existing `ggplot2` geom with `ggdibbler`. Unlike other visualisation approaches, users are not limited by data type. You can pass continuous, discrete, spatial (i.e. sf objects), characters, factors, or even other distributions to `ggdibbler`. Users are also free to pass any type of distribution to the software. Theoretical, empirical, truncated, and mixed distributions are all allowed by `distributional` and therefore accepted by `ggdibbler`. No matter what you pass, `ggdibbler` will incorporate the uncertainty into your graphic as noise and allows you to see how the variation changes the conclusions you take away from your graphics. 
 
-The power of `ggdibbler` is in its simplicity and flexibility. There is no need to learn specific package syntax or new functions and you can pass a distribution to ANY combination of aesthetics in ggplot2. It is a universal, exploratory tool for uncertainty visualisation.
+The power of `ggdibbler` is in its simplicity and flexibility. There is no need to learn specific package syntax or new functions and you can pass a distribution to ANY combination of aesthetics in `ggplot2`. It is a universal, exploratory tool for uncertainty visualisation.
 
 ## Installation
 
 You can install the stable version of `ggdibbler` from CRAN with:
 
 ``` r 
-# install.packages("pak")
 install.packages("ggdibbler")
 ```
 
@@ -38,11 +37,11 @@ pak::pak("harriet-mason/ggdibbler")
 ```
 
 ## Examples
-In essence, `ggdibbler` makes visualising uncertainty easy, as you just replace the `geom_*` with `geom_*_sample` and replace your deterministic variable with a `distributional` variable, and you get an uncertainty visualisation. 
+To make a  `ggdibbler` visualisation you just replace a `geom_*` function from `ggplot2` with `geom_*_sample`, and replace your deterministic variable with a `distributional` variable, and you get an uncertainty visualisation. It is that simple.
 
-You will often run into an overplotting problem when visualising uncertainty, so using a jitter or adjusting the alpha value will allow you to see all outcomes of the distribution. Otherwise you will only see the final draw.
+You will often run into an over plotting problem when visualising uncertainty, so using a jitter or adjusting the alpha value will allow you to see all outcomes (rather than just the final draw). In many cases the over plotting is managed automatically with the nested positioning system (such as in `geom_sf` or `geom_tile`), but it is still a good idea to always set `alpha < 1` when making a plot for the first time to ensure you aren't accidentally obfuscating some of the outcomes. 
 
-Below are some examples of `ggdibbler` code alongside their uncertain `ggplot2` counterpart. The only parameters added by `ggdibbler` are the `times` argument, which decides how many samples to draw from the distribution, and the `seed` argument which allows you to keep the same random draw across multiple layers.
+Below are some examples of uncertain `ggdibbler` plots alongside their deterministic `ggplot2` counterpart. The only parameters added by `ggdibbler` are the `times` argument (which decides how many samples to draw from the distribution), and the `seed` argument (which allows you to keep the same random draw across multiple layers). Otherwise, the parameters and syntax are identical to that of a standard `ggplot`.
 
 ```{r, message=FALSE, warning=FALSE}
 library(distributional)
@@ -67,7 +66,7 @@ p2 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions, z = density0))+
 p1 + p2
 ```
 
-Overlapping positions in other geom can be fixed with standard position adjustments, such as `position = "identity_dodge"` where the position of the original plot is an `identity`, and the position adjustment specific to the draws is a `dodge`.
+This raster plot below provides an example of the nested position system implemented in `ggdibbler`. By default a raster plot will have it's position set to `position = "identity_dodge"` where the position associated with the original (i.e. `ggplot2` version) of the plot is an `identity`, and the position adjustment specific to the draws is a `dodge`.
 
 
 ```{r, fig.width=8, fig.height=4}
@@ -90,7 +89,7 @@ p3 <- ggplot(uncertain_faithfuld, aes(waiting, eruptions)) +
 p1  + p2 + p3
 ```
 
-You can mix and match positions to get some interesting looking graphics that all converge to the same `ggplot2` plot.
+You can mix and match positions to get some interesting looking graphics that all converge to the same `ggplot2` plot as the variance approaches zero.
 
 ```{r, fig.width=12, fig.height=4}
 p1 <- ggplot(mpg, aes(class)) + 
@@ -145,11 +144,11 @@ p2 <- toy_temp_dist |>
 p1+p2
 ```
 
-## Limitations of the Package
-There are three primary limitations of the software to keep in mind. First, it only allows you to visualise the distribution as a sample. We are planning to expand this to quantiles in later versions but it is not currently an option. Second, if multiple distributions are passed, they are assumed to be independent. This is actually not as much of a limitation as people think, there are often a simple work around in most cases, but it isn't as frictionless as we would like. Finally, all desired scale and position functions are not always available as we built the minimum required level of nesting before this release. This is another feature we hope to build up in the future.
 
-## Future additions to the package
-Future plans for `ggdibbler` are tracked in the [Github issues](https://github.com/harriet-mason/ggdibbler/issues). If you have a suggestion or bug, please let us know!
+## Limitations and future additions to the package
+There are some limitations to the software that are important to keep in mind. First, it only allows you to visualise the distribution as a sample. This does not prevent us from fully see the distribution in full, as the sample approaches the mass as the `times` argument approaches infinity, but increasing the `times` argument can become computationally expensive.  Second, if multiple distributions are passed, they are assumed to be independent. Finally, the full set of nested scale and nested positions are not yet available in `ggdibbler`, so all it is not possible to make `ggdibbler` versions of all plots that use a position adjustment. We built the minimum level of nesting required to replicate the examples from the `ggplot2` documentation. We plan to fix several of these limitations in future releases of the package 
+
+Future plans for `ggdibbler` are tracked in the [Github issues](https://github.com/harriet-mason/ggdibbler/issues).  There you can see the upcoming additions to the package, including integration with the `ggplot2` extension ecosystem, the ability to pass joint distributions as parameters, and a full implementation of the nested position and scale systems. We are always open to suggestions, so if you have noticed a bug or would like to request a feature, please let us know! 
 
 ```{r, include=FALSE, eval=FALSE}
 library(spelling)
