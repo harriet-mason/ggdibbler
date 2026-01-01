@@ -30,13 +30,13 @@ library(ggridges)
 ```
 
 ## TLDR - What is `ggdibbler`?
-You can pass random variables to ggplot now. Any geom, any aesthetic (except groups and facets), they all accept random variables. we make no judgements on your plot, we am not your rulers. Whatever your plot is, `ggdibbler` will allow you to pass a random variable to it. The rest of the vignette will explain how this works and the philosophy behind it. I know you are itching to get to the package, so I will quickly answer the main question I know you are dying to ask: Yes, I DO accept cash gifts as expressions of gratitude, cheers.
+You can pass random variables to `ggplot` now. Any geom, any aesthetic (except groups and facets), they all accept random variables. Whatever your plot, `ggdibbler` will allow you to pass a random variable to it. The rest of the vignette will explain how this works. I know you are itching to get to the package, so I will quickly answer the main question I know you are dying to ask: Yes, I DO accept cash gifts as expressions of gratitude, cheers.
 
 # The unfamiliar stuff
-This is a brief explanation of the things you might not already be familiar with when learning about `ggdibbler`.
+This is a brief explanation of the things you might not already encountered before using `ggdibbler`.
 
 ## Using distributional
-`ggdibbler` is entirely built upon the R package `distributional` which allows you to store distributions in a data frame as distribution objects. The package is the foundation of  `ggdibbler` because it perfectly embodies the concept of a random variable as a unit. The package is also shockingly flexible and I am yet to come across a case that cannot be represented by `distributional`. If you have uncertainty that can quantified then it can be represented in a vector and therefore can be visualised by `ggdibbler`.
+`ggdibbler` is entirely built upon the R package `distributional` which allows you to store distributions in a data frame as distribution objects. The package is the foundation of  `ggdibbler` because it perfectly embodies the concept of a random variable as a unit. The package is also shockingly flexible and I am yet to come across a case of uncertainty that cannot be represented by `distributional`. 
 
 - Bounded values? use `dist_uniform(lowerbound, upperbound)`
 - Uncertain predicted classes? use `dist_categorical`
@@ -48,7 +48,7 @@ There are also flexibilities that go beyond just the distribution you choose.
 - You can transform distributions using standard arithmetic (in sensible situations) or with `dist_transformed` 
 - You can make mixed distributions using `dist_mixture` and truncate distributions with `dist_truncated`
 - You can make your own bespoke distributions (although I am not sure how difficult that is, I have never had to do it).
-- You can even have deterministic (there is a deterministic distribution) and distributional objects in the same column.
+- You can even have deterministic (there is a deterministic distribution) and different types of distributions in the same column.
 
 To give an example of the transformations, I just ripped the code below from one of Mitch's talks on the package:
 
@@ -62,7 +62,7 @@ exp(3 * (2 + dist_normal(1,3)))
 (3 * (2 + dist_normal(1,3)))^2
 ```
 
-All of the data sets in `ggdibbler` already have the distributional component added, but making a distribution vector is shockingly easy. Below is an example where we make normally distributed estimates by wrapping our typical estimate and standard error calculations in a `dist_normal` function.
+All of the data in `ggdibbler` is already in a `distributional` form, but making a distribution vector is shockingly easy. Below is an example where we make normally distributed estimates by wrapping our typical estimate and standard error calculations in a `dist_normal` function.
 
 
 ```{r distributional1}
@@ -77,11 +77,11 @@ print(head(toy_temp_eg))
 Now, I could spend all day on this, but ultimately, this is not a vignette for distributional (although they really should make one). It is definitely worth having a play around in `distributional` to get a feel for the package if you have never used it before.
 
 ## Using nested positions
-Another component of `ggdibbler` that is not always immediately clear to users is the nested position system. This system is required to maintain the continuous mapping property that makes `ggdibbler` such a useful uncertainty visualisation system.
+Another component of `ggdibbler` that is not always immediately clear to users is the nested position system. This system is required to maintain the continuous mapping property that makes `ggdibbler` such a useful uncertainty visualisation system. The scales and statistics are also technically nested, but unlike the nested positions, you won't directly interact with those elements as a casual user of the package.
 
-The syntax of the nested positions is `mainposition_nestedposition`, where the main position is what was in the limiting ggplot, and the nested position manages the over plotting caused by sampling from the distribution. 
+The syntax of the nested positions is `mainposition_nestedposition`, where the main position is what was in the limiting (or deterministic) `ggplot` uses, and the nested position manages the over plotting caused by sampling from the `distributional` objects. 
 
-To get an idea of how the nested positions work, we have included a few examples using the identity, dodge and stack positions and am showing them alongside their `ggplot2` deterministic counterpart. The first column is the original ggplot we are going to add uncertainty to, the second and third column is the effect of the over plotting being managed with an identity (with decreased alpha) and dodge positions respectively. 
+To get an idea of how the nested positions work, we have included a few examples using the identity, dodge and stack positions. Here we show them alongside their `ggplot2` deterministic counterpart. The first column is the original `ggplot` we are going to add uncertainty to, the second and third column is the effect of the over plotting being managed with an identity (with decreased alpha) and dodge positions respectively. 
 
 
 ```{r figuregrid, fig.width=16, fig.height=16}
@@ -163,7 +163,7 @@ p11 <- ggplot(uncertain_mpg, aes(class)) +
 
 # Examples
 ## Working directly with model output
-Sometimes you will get lucky and the modelling package you are using will directly spit out a `distributional` objects. This is the case in a package such as `fable`. In this case, you can literally just directly visualise the distributions with zero pre-processing
+Sometimes you will get lucky and the modelling package you are using will directly spit out a `distributional` object. This is the case for `fable` where you can directly visualise the prediction distribution with zero pre-processing
 
 ```{r forecast, fig.width=6, fig.height=4}
 forecast <- as_tsibble(sunspot.year) |> 
@@ -176,10 +176,10 @@ ggplot(forecast) +
   theme_few()
 ```
 
-This is not a common occurrence, but when it occurs the workflow is so seamless that uncertainty visualisation becomes as easy as visualising regular data. The more R programs that spit out a distribution directly, the easier it will be for you to visualise uncertainty. I cannot control this, but hopefully being able to seamlessly visualise the distributions will make transparency in predictions and model outputs seamless to implement into any data analysis workflow.
+This is not a common occurrence, but when it does happen the workflow is so seamless that visualising random variables becomes as easy as visualising point predictions. It would be nice if more R packages directly output distributions, but I have no control over this. Hopefully, being able to easily and reliably visualise the `distributional` objects will incentivise package developers to spit out distributions directly instead of point predictions that force users to reconstruct the uncertainty themselves. 
 
 ## A basic `geom_abline`
-The most basic estimate we can have, is the estimate for a simple linear regression. A simple linear regression is actually used in the `ggplot2` documentation as the example for `geom_abline`. 
+The most basic case of overlooked uncertainty visualisation we have, is probably an estimate for a simple linear regression. A simple linear regression is actually used in the `ggplot2` documentation as the example for `geom_abline`. 
 
 ```{r abline1, fig.width=5, fig.height=5}
 # plot data
@@ -205,14 +205,14 @@ A fun aspect of this approach, is that we can simultaneously see the impact of t
 ## A more complicated case with geom_sf
 Lets work through a longer and more difficult case of uncertainty visualisation, that involves some actual data manipulation, statistical thinking, and a somewhat complicated visualisation; a spatial visualisation with an uncertain fill. To look at this, we are going to use one of the example data sets that comes with `ggdibbler`,`toy_temp`.
 
-The `toy_temp` data set is a simulated data set that represents observations collected from citizen scientists in several counties in Iowa. Each county has several measurements made by individual scientists at the same time on the same day, but their exact location is not provided to preserve anonymity. Different counties can have different numbers of citizen scientists and the temperature measurements can have a significant amount of variance due to the recordings being made by different people in slightly different locations within the county. Each recorded temperature comes with the county the citizen scientist belongs to, the temperature recording the made, and the scientist's ID number. There are also variables to define spatial elements of the county, such as it's geometry, and the county centroid's longitude and latitude.
+The `toy_temp` data set is a simulated data set that represents observations collected from citizen scientists in several counties in Iowa. Each county has several measurements made by individual scientists at the same time on the same day, but their exact location is not provided to preserve anonymity. Different counties can have different numbers of citizen scientists and the temperature measurements within each county can have a significant amount of variance. 
 
 ```{r sf1}
 glimpse(toy_temp)
 ```
 
 
-While it is slightly difficult, we can view the individual observations by plotting them to the centroid longitude and latitude (with a little jitter) and drawing the counties in the background for referee.
+While it is slightly difficult, we can view the individual observations by plotting them to the county's centroid longitude and latitude (with a little jitter) and drawing the counties in the background for referee.
 
 ```{r sf2, fig.width=6, fig.height=4}
 # Plot Raw Data
@@ -255,9 +255,6 @@ toy_temp_est <- toy_temp |>
             temp_se = sd(recorded_temp)/sqrt(n())) 
 ```
 
-
-Getting an estimate along with its variance is also a common format governments supply data. Just like in our citizen scientist case, this if often done to preserve anonymity. 
-
 The problem with this format of data, is that there is no way for us to include the variance information in the visualisation. We can only visualise the estimate and its variance separately. So, instead of trying to use the estimate and its variance as different values, we combine them as a single distribution variable.
 
 ```{r sf5, fig.width=6, fig.height=4}
@@ -293,9 +290,9 @@ Subdivide is the only position that is specifically created for `ggdibbler`. It 
 ##  What about animated plots?
 Yup, you can do that too. It's actually very simple. [Hypothetical outcome](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://idl.cs.washington.edu/files/2015-HOPs-PLOS.pdf) plots have been suggested as an uncertainty visualisation technique, and they are also easily implemented in `ggdibbler`. 
 
-In a HOPs plot, it seems that animations replace our distribution specific position adjustment and the continuous mapping theorem still holds. As the variance of each random variable approaches 0, the difference between the frames approaches zero until the animation looks like a single static plot.
+In a HOPs plot, it seems that animations replace our distribution specific position adjustment and the continuous mapping theorem (discussed in the philosophy vignette) still holds. As the variance of each random variable approaches 0, the difference between the frames approaches zero until the animation looks like a single static plot.
 
-Implementing the code is trivially easy when we just have the animation run through every draw using the `drawID` variable (which is exactly what we do in the other position adjustments).
+Implementing the code is trivially easy when we just have the animation run through every draw using the `drawID` variable which is created by the statistic (so we access it with the `after_stat` function).
 
 ```{r hops1, fig.width=4, fig.height=4}
 # bar chart
@@ -309,10 +306,10 @@ animate(hops, renderer = sprite_renderer())
 ```
 
 
-## What if my plot uses ggplot2 extensions?
-If you represent uncertainty as a distributional object, use the `sample_expand` function, and group by `drawID`, you can apply the signal suppression methods to literally any graphic. It won't always work as nicely as `ggdibbler` (please download the package, it looks good on my CV and I need a job) and you can't use the nested position system, but it works well enough. Writing extensions that use `ggdibbler` is covered in a separate vignette.
+## What if my plot uses `ggplot2` extensions?
+If you represent uncertainty as a distributional object, use the `sample_expand` function, and group by `drawID`, you can apply the signal suppression methods to literally any graphic. The visualisation made with this approach won't always work as nicely as `ggdibbler` (please download the package, it looks good on my CV and I need a job) but it works well enough. Writing extensions that use `ggdibbler` is covered in a separate vignette.
 
-This section will go through an example with `ggraph` and uncertain edges. So you have this random data set.
+This section will go through an example with `ggraph` and uncertain edges. So lets say you have this random data set.
 
 ```{r graph1, fig.width=6, fig.height=4}
 set.seed(10)
@@ -346,7 +343,7 @@ ggraph(graph_sample, layout = 'fr', weights = weight) +
   geom_node_point(size=5)
 ```
 
-You can mess around with alpha, linewidth, and the times argument in the `sample_expand` function to get something you are happy with. There are some other weird over plotting edge things you can utilise to make the uncertainty implicitly represented by some other aesthetic (like thickness), but in general the approaches all look similar (and convey similar information)
+You can mess around with alpha, linewidth, and the times argument in the `sample_expand` function to get something you are happy with. There are some other edge over plotting systems in `ggraph` that you can utilise to make the uncertainty implicitly represented by some other aesthetic (like thickness), but in general the approaches all look similar (and convey similar information).
 
 ```{r graph4}
 # uncertainty indicated by transparency
@@ -364,7 +361,7 @@ ggraph(graph_sample, layout = 'fr', weights = weight) +
 
 ```{r, include=FALSE, eval=FALSE}
 library(spelling)
-qmd <- "A_how-to-guide.Rmd"
+qmd <- "vignettes/A_how-to-guide.Rmd"
 check_spelling <- spell_check_files(
   qmd,
   lang = "en_GB"
