@@ -2,6 +2,11 @@
 
 ## ggdibbler (development version)
 
+## ggdibbler 0.6.3
+
+- Fixed bug that required dyplr to be loaded for subdibivide position to
+  work.
+
 ## ggdibbler 0.6.2
 
 - Updated diamonds, mpg, and mtcars data so that the ordinal
