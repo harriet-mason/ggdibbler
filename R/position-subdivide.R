@@ -147,20 +147,22 @@ sample_subdivide_sf <- function(data, times){
 # Internal function for subdividing geometry grid
 #' @keywords internal
 subdivide <- function(geometry, d){
-  n.overlaps <- NULL #to avoid binding error
-  # make n*n grid
-  nn_grid <- sf::st_make_grid(geometry, n=d)
-  # combine grid and original geometry into sf
-  comb_data <- c(geometry, nn_grid)
-  comb_sf <- sf::st_sf(comb_data) |>
-    sf::st_make_valid()
-  # get interactions of grid and orginal geometry
-  inter_sf <- sf::st_intersection(comb_sf)
-  # new subdivided geometry 
-  subdivided <- inter_sf |> 
-    dplyr::filter(n.overlaps >=2) |> #get grid elements that overlap with original shape
-    dplyr::filter(sf::st_geometry_type(comb_data) %in% c("POLYGON", "MULTIPOLYGON")) # get rid of other weird line stuff
-  subdivided$comb_data
+  suppressMessages({
+    n.overlaps <- NULL #to avoid binding error
+    # make n*n grid
+    nn_grid <- sf::st_make_grid(geometry, n=d)
+    # combine grid and original geometry into sf
+    comb_data <- c(geometry, nn_grid)
+    comb_sf <- sf::st_sf(comb_data) |>
+      sf::st_make_valid()
+    # get interactions of grid and orginal geometry
+    inter_sf <- sf::st_intersection(comb_sf)
+    # new subdivided geometry 
+    subdivided <- inter_sf |> 
+      dplyr::filter(n.overlaps >=2) |> #get grid elements that overlap with original shape
+      dplyr::filter(sf::st_geometry_type(comb_data) %in% c("POLYGON", "MULTIPOLYGON")) # get rid of other weird line stuff
+    subdivided$comb_data
+  })
 }
 
 # Internal function for finding the "most square" factors of a number
