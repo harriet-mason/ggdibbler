@@ -2,6 +2,11 @@
 
 ## ggdibbler (development version)
 
+## ggdibbler 0.6.4
+
+- Suppressed messages in position subdivide about planar CRS fed into
+  st_intersects
+
 ## ggdibbler 0.6.3
 
 - Fixed bug that required dyplr to be loaded for subdibivide position to
