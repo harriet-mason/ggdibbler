@@ -1,5 +1,24 @@
 # Unexpected behaviour of random plots
 
+``` r
+set.seed(101)
+
+library(ggdibbler)
+library(ggplot2)
+library(dplyr)
+library(tibble)
+library(patchwork)
+
+# make prediction diamonds data
+diamonds_pred <- smaller_diamonds
+diamonds_pred$cut_pred <- smaller_uncertain_diamonds$cut
+diamonds_pred <- diamonds_pred |> 
+  rename("cut_true" = cut) |>
+  relocate(c(cut_pred, cut_true), .before = carat)
+
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
 As the graphics made by `ggdibbler` are random variables represented by
 a sample, they are random plots. This means that each time you call a
 plot, it is different. This behaviour makes sense, as every plot is just

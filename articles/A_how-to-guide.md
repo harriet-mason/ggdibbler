@@ -1,5 +1,21 @@
 # Get started with ggdibbler
 
+``` r
+library(ggdibbler)
+library(tidyverse)
+library(sf)
+library(distributional)
+library(patchwork)
+library(tidygraph)
+library(ggraph)
+library(ggthemes)
+library(fable)
+library(gganimate)
+library(ggridges)
+library(feasts)
+library(urca)
+```
+
 ### TLDR - What is `ggdibbler`?
 
 You can pass random variables to ggplot now. Any geom, any aesthetic

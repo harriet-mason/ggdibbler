@@ -1,5 +1,15 @@
 # The philosophy of ggdibbler
 
+``` r
+library(ggdibbler)
+library(ggdist)
+library(tidyverse)
+library(distributional)
+library(patchwork)
+library(ggthemes)
+set.seed(1)
+```
+
 ## The `ggdibbler` philosophy
 
 Uncertainty visualisation is a broad field that combines a significant

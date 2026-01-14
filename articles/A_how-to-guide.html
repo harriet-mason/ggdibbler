@@ -72,6 +72,20 @@
 
     
     
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://harriet-mason.github.io/ggdibbler/">ggdibbler</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.mitchelloharawild.com/distributional/" class="external-link">distributional</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidygraph.data-imaginist.com" class="external-link">tidygraph</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggraph.data-imaginist.com" class="external-link">ggraph</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jrnold.github.io/ggthemes/" class="external-link">ggthemes</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org" class="external-link">fable</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gganimate.com" class="external-link">gganimate</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggridges/" class="external-link">ggridges</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/" class="external-link">feasts</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">urca</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="tldr---what-is-ggdibbler">TLDR - What is <code>ggdibbler</code>?<a class="anchor" aria-label="anchor" href="#tldr---what-is-ggdibbler"></a>
 </h3>
@@ -129,7 +143,7 @@ distribution) and distributional objects in the same column.</li>
 </ul>
 <p>To give an example of the transformations, I just ripped the code
 below from one of Mitch’s talks on the package:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html" class="external-link">dist_normal</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;distribution[1]&gt;</span></span>
 <span><span class="co">#&gt; [1] N(1, 9)</span></span>
@@ -148,7 +162,7 @@ distributional component added, but making a distribution vector is
 shockingly easy. Below is an example where we make normally distributed
 estimates by wrapping our typical estimate and standard error
 calculations in a <code>dist_normal</code> function.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">toy_temp_eg</span> <span class="op">&lt;-</span> <span class="va">toy_temp</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">county_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>temp_dist <span class="op">=</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html" class="external-link">dist_normal</a></span><span class="op">(</span>mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">recorded_temp</span><span class="op">)</span>,</span>
@@ -194,12 +208,12 @@ counterpart. The first column is the original ggplot we are going to add
 uncertainty to, the second and third column is the effect of the over
 plotting being managed with an identity (with decreased alpha) and dodge
 positions respectively.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ggplot IDENTITY</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, </span>
 <span>                  position <span class="op">=</span> <span class="st">"identity"</span>, alpha<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ggplot2: identity"</span><span class="op">)</span></span>
 <span></span>
@@ -207,14 +221,14 @@ positions respectively.</p>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.1</span>,</span>
 <span>                  position <span class="op">=</span> <span class="st">"identity_identity"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"identity_identity"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.7</span>,</span>
 <span>                  position <span class="op">=</span> <span class="st">"identity_dodge"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"identity_dodge"</span><span class="op">)</span></span>
 <span></span>
@@ -223,21 +237,21 @@ positions respectively.</p>
 <span><span class="va">p5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, </span>
 <span>                  position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_dodge.html" class="external-link">position_dodge</a></span><span class="op">(</span>preserve<span class="op">=</span><span class="st">"single"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ggplot: dodge"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.1</span>,</span>
 <span>                  position <span class="op">=</span> <span class="st">"dodge_identity"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"dodge_identity"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p7</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, </span>
 <span>                  position <span class="op">=</span> <span class="st">"dodge_dodge"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"dodge_dodge"</span><span class="op">)</span></span>
 <span></span>
@@ -246,7 +260,7 @@ positions respectively.</p>
 <span><span class="va">p9</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, </span>
 <span>                  position <span class="op">=</span> <span class="st">"stack"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ggplot2: stack"</span><span class="op">)</span></span>
 <span></span>
@@ -254,14 +268,14 @@ positions respectively.</p>
 <span><span class="va">p10</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.1</span>,</span>
 <span>                  position <span class="op">=</span> <span class="st">"stack_identity"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"stack_identity"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p11</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>,</span>
 <span>                  position <span class="op">=</span> <span class="st">"stack_dodge"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span>, aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"stack_dodge"</span><span class="op">)</span></span>
 <span></span>
@@ -281,15 +295,15 @@ will directly spit out a <code>distributional</code> objects. This is
 the case in a package such as <code>fable</code>. In this case, you can
 literally just directly visualise the distributions with zero
 pre-processing</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">forecast</span> <span class="op">&lt;-</span> <span class="fu">as_tsibble</span><span class="op">(</span><span class="va">sunspot.year</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">model</span><span class="op">(</span><span class="fu">ARIMA</span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">forecast</span><span class="op">(</span>h <span class="op">=</span> <span class="st">"10 years"</span><span class="op">)</span> </span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html" class="external-link">as_tsibble</a></span><span class="op">(</span><span class="va">sunspot.year</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html" class="external-link">forecast</a></span><span class="op">(</span>h <span class="op">=</span> <span class="st">"10 years"</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">forecast</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_path_sample.html">geom_line_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">index</span>, y <span class="op">=</span> <span class="va">value</span><span class="op">)</span>,</span>
 <span>                       times<span class="op">=</span><span class="fl">100</span>, alpha<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/forecast-1.png" class="r-plt" alt="" width="576"></p>
 <p>This is not a common occurrence, but when it occurs the workflow is
 so seamless that uncertainty visualisation becomes as easy as
@@ -307,15 +321,15 @@ analysis workflow.</p>
 linear regression. A simple linear regression is actually used in the
 <code>ggplot2</code> documentation as the example for
 <code>geom_abline</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot data</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> </span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span><span class="va">p</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/abline1-1.png" class="r-plt" alt="" width="480"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate slope and intercept of line of best fit</span></span>
 <span><span class="co"># get coef and standard error</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/urca/man/summary-methods.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
 <span><span class="co">#&gt; lm(formula = mpg ~ wt, data = mtcars)</span></span>
@@ -334,7 +348,7 @@ linear regression. A simple linear regression is actually used in the
 <span><span class="co">#&gt; Residual standard error: 3.046 on 30 degrees of freedom</span></span>
 <span><span class="co">#&gt; Multiple R-squared:  0.7528, Adjusted R-squared:  0.7446 </span></span>
 <span><span class="co">#&gt; F-statistic: 91.38 on 1 and 30 DF,  p-value: 1.294e-10</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ggplot, just error estimate</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></span><span class="op">(</span>intercept <span class="op">=</span> <span class="fl">37</span>, slope <span class="op">=</span> <span class="op">-</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co"># ggdibbler for coef AND standard error</span></span>
@@ -367,7 +381,7 @@ county the citizen scientist belongs to, the temperature recording the
 made, and the scientist’s ID number. There are also variables to define
 spatial elements of the county, such as it’s geometry, and the county
 centroid’s longitude and latitude.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">toy_temp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 990</span></span>
 <span><span class="co">#&gt; Columns: 6</span></span>
@@ -381,7 +395,7 @@ centroid’s longitude and latitude.</p>
 observations by plotting them to the centroid longitude and latitude
 (with a little jitter) and drawing the counties in the background for
 referee.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot Raw Data</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span><span class="op">)</span>, fill<span class="op">=</span><span class="st">"white"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -389,12 +403,12 @@ referee.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html" class="external-link">geom_jitter</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">county_longitude</span>, y<span class="op">=</span><span class="va">county_latitude</span>, colour<span class="op">=</span><span class="va">recorded_temp</span><span class="op">)</span>, </span>
 <span>              width<span class="op">=</span><span class="fl">5000</span>, height <span class="op">=</span><span class="fl">5000</span>, alpha<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_colour_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_map</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_map.html" class="external-link">theme_map</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/sf2-1.png" class="r-plt" alt="" width="576"></p>
 <p>Typically, we would not visualise the data this way. A much more
 common approach would be to take the average of each county and display
 that in a choropleth map, displayed below.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Mean data</span></span>
 <span><span class="va">toy_temp_mean</span> <span class="op">&lt;-</span> <span class="va">toy_temp</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">county_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -405,7 +419,7 @@ that in a choropleth map, displayed below.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"ggdibbler some error"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_mean</span><span class="op">)</span>, colour<span class="op">=</span><span class="st">"white"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_map</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_map.html" class="external-link">theme_map</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/sf3-1.png" class="r-plt" alt="" width="576"></p>
 <p>This plot is fine, but it does loose a key piece of information,
 specifically the understanding that this mean is an estimate. That means
@@ -416,7 +430,7 @@ sometimes spatial patterns are not the result of significant differences
 in population, and may disappear if we were to include the variance of
 the estimates. We can calculate the estimated standard error alongside
 the mean.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Mean and variance data</span></span>
 <span><span class="va">toy_temp_est</span> <span class="op">&lt;-</span> <span class="va">toy_temp</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">county_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -430,7 +444,7 @@ to include the variance information in the visualisation. We can only
 visualise the estimate and its variance separately. So, instead of
 trying to use the estimate and its variance as different values, we
 combine them as a single distribution variable.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Distribution</span></span>
 <span><span class="va">toy_temp_dist</span> <span class="op">&lt;-</span> <span class="va">toy_temp_est</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>temp_dist <span class="op">=</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_normal.html" class="external-link">dist_normal</a></span><span class="op">(</span><span class="va">temp_mean</span>, <span class="va">temp_se</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -441,19 +455,19 @@ combine them as a single distribution variable.</p>
 <span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry<span class="op">=</span><span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span>, </span>
 <span>                 times<span class="op">=</span><span class="fl">50</span>, linewidth<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span>  <span class="op">+</span></span>
-<span>  <span class="fu">theme_map</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_map.html" class="external-link">theme_map</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/sf5-1.png" class="r-plt" alt="" width="576"></p>
 <p>To maintain flexibility, the <code>geom_sf_sample</code> does not
 highlight the original boundary lines, but that can be easily added just
 by adding another layer.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">toy_temp_dist</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_sf_sample.html">geom_sf_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span>, fill<span class="op">=</span><span class="va">temp_dist</span><span class="op">)</span>, </span>
 <span>                 linewidth<span class="op">=</span><span class="fl">0</span>, times<span class="op">=</span><span class="fl">50</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html" class="external-link">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"OrRd"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">county_geometry</span><span class="op">)</span>, </span>
 <span>          fill<span class="op">=</span><span class="cn">NA</span>, linewidth<span class="op">=</span><span class="fl">1</span>, colour<span class="op">=</span><span class="st">"white"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_map</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_map.html" class="external-link">theme_map</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/sf6-1.png" class="r-plt" alt="" width="576"></p>
 <p>By default, <code>geom_sf_sample</code> will subdivide the data. It
 is unlikely that you will ever notice this default, as the random part
@@ -485,15 +499,15 @@ like a single static plot.</p>
 <p>Implementing the code is trivially easy when we just have the
 animation run through every draw using the <code>drawID</code> variable
 (which is exactly what we do in the other position adjustments).</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># bar chart</span></span>
 <span><span class="va">hops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">uncertain_mpg</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_bar_sample.html">geom_bar_sample</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">drv</span><span class="op">)</span>,</span>
 <span>                  position <span class="op">=</span> <span class="st">"stack_identity"</span>, times<span class="op">=</span><span class="fl">30</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_few</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">transition_states</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">drawID</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="http://jrnold.github.io/ggthemes/reference/theme_few.html" class="external-link">theme_few</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://gganimate.com/reference/transition_states.html" class="external-link">transition_states</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">drawID</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">animate</span><span class="op">(</span><span class="va">hops</span>, renderer <span class="op">=</span>  <span class="fu">gifski_renderer</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://gganimate.com/reference/animate.html" class="external-link">animate</a></span><span class="op">(</span><span class="va">hops</span>, renderer <span class="op">=</span>  <span class="fu"><a href="https://gganimate.com/reference/renderers.html" class="external-link">gifski_renderer</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/hops1-1.gif"><!-- --></p>
 </div>
 <div class="section level3">
@@ -509,7 +523,7 @@ extensions that use <code>ggdibbler</code> is covered in a separate
 vignette.</p>
 <p>This section will go through an example with <code>ggraph</code> and
 uncertain edges. So you have this random data set.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">uncertain_edges</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">20</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>                    to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">20</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -534,10 +548,10 @@ uncertain edges. So you have this random data set.</p>
 data to a graph, because <code>ggraph</code> is all totalitarian about
 what it will keep in its graph data set, and it doesn’t allow
 distributions.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph_sample</span> <span class="op">&lt;-</span> <span class="va">uncertain_edges</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/sample_expand.html">sample_expand</a></span><span class="op">(</span>times<span class="op">=</span><span class="fl">50</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">as_tbl_graph</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/tbl_graph.html" class="external-link">as_tbl_graph</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Now, the ideal visualisation would allow us to add transparency with
 a small amount of jitter to straight lines. That doesn’t seem to be
 possible in <code>ggraph</code> (as far as I can tell). It seems that,
@@ -547,12 +561,12 @@ them. When it applies the jitter, it does it to each point, rather than
 the line as a whole. So, adding the jitter does work, it just doesn’t
 work exactly as you might expect. It does produce an uncertainty
 visualisation, though.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jitter</span> <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>width<span class="op">=</span><span class="fl">0.01</span>, height<span class="op">=</span><span class="fl">0.01</span><span class="op">)</span></span>
-<span><span class="fu">ggraph</span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_edge_link</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>, position<span class="op">=</span><span class="va">jitter</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, </span>
+<span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html" class="external-link">ggraph</a></span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_link.html" class="external-link">geom_edge_link</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>, position<span class="op">=</span><span class="va">jitter</span>, alpha<span class="op">=</span><span class="fl">0.1</span>, </span>
 <span>                 linewidth<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_node_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_point.html" class="external-link">geom_node_point</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/graph3-1.png" class="r-plt" alt="" width="576"></p>
 <p>You can mess around with alpha, linewidth, and the times argument in
 the <code>sample_expand</code> function to get something you are happy
@@ -560,20 +574,20 @@ with. There are some other weird over plotting edge things you can
 utilise to make the uncertainty implicitly represented by some other
 aesthetic (like thickness), but in general the approaches all look
 similar (and convey similar information)</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># uncertainty indicated by transparency</span></span>
-<span><span class="fu">ggraph</span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_edge_link</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.005</span>,</span>
-<span>                 linewidth<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_node_point</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="A_how-to-guide_files/figure-html/graph4-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># uncertainty indicated by transparency</span></span>
+<span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html" class="external-link">ggraph</a></span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_link.html" class="external-link">geom_edge_link</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.005</span>,</span>
+<span>                 linewidth<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_point.html" class="external-link">geom_node_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="A_how-to-guide_files/figure-html/graph4-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Thickness = probability of an edge (thicker = more probable)</span></span>
-<span><span class="fu">ggraph</span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_edge_parallel0</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html" class="external-link">ggraph</a></span><span class="op">(</span><span class="va">graph_sample</span>, layout <span class="op">=</span> <span class="st">'fr'</span>, weights <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_parallel.html" class="external-link">geom_edge_parallel0</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>group<span class="op">=</span><span class="va">drawID</span><span class="op">)</span>,</span>
 <span>                      sep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="st">"mm"</span><span class="op">)</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, linewidth<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_node_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_point.html" class="external-link">geom_node_point</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
 <p><img src="A_how-to-guide_files/figure-html/graph4-2.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
