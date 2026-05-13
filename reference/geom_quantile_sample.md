@@ -235,13 +235,12 @@ m + geom_quantile()
 # ggdibbler
 n + geom_quantile_sample(alpha=0.3)
 #> Smoothing formula not specified. Using: y ~ x
-#> Warning: Solution may be nonunique
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
-#> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Warning: Solution may be nonunique
+#> Smoothing formula not specified. Using: y ~ x
+#> Smoothing formula not specified. Using: y ~ x
+#> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x
 #> Smoothing formula not specified. Using: y ~ x

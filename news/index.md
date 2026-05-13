@@ -2,6 +2,10 @@
 
 ## ggdibbler (development version)
 
+## ggdibbler 0.6.5
+
+- Fixed reverse dependency problem with ggplot2 boxplot update
+
 ## ggdibbler 0.6.4
 
 - Suppressed messages in position subdivide about planar CRS fed into
@@ -167,7 +171,7 @@ uncertainty visualisation is a function of an existing graphic.
   - This avoids confusion as `n` is used by some `ggplot2` functions as
     a parameter.
   - `times` actually represents the sample size, while `n` was the
-    dimension of the grid (so the actual sample used was $n^{2}$)
+    dimension of the grid (so the actual sample used was $`n^2`$)
   - The most square factors of `times` will be used to generate the
     subdivided grid
 

@@ -58,6 +58,7 @@ stat_boxplot_sample(
   orientation = NA,
   seed = NULL,
   coef = 1.5,
+  quantile.type = 7,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -266,6 +267,12 @@ stat_boxplot_sample(
 - coef:
 
   Length of the whiskers as multiple of IQR. Defaults to 1.5.
+
+- quantile.type:
+
+  An integer between 1 and 9 setting the quantile algorithm per
+  [`stats::quantile(type)`](https://rdrr.io/r/stats/quantile.html).
+  Defaults to `7`
 
 ## Value
 

@@ -69,6 +69,7 @@ wrappers for the stats. If you use an existing `ggplot2` stat,
 the wrapper function using code that looks like this:
 
 ``` r
+
 geom_YOURGEOM_sample <- make_constructor(YOURGEOM, stat = "GGPLOT2STAT_sample",
                                          times = 10, seed = NULL)
 ```

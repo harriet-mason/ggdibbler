@@ -1,6 +1,7 @@
 # Get started with ggdibbler
 
 ``` r
+
 library(ggdibbler)
 library(tidyverse)
 library(sf)
@@ -66,6 +67,7 @@ To give an example of the transformations, I just ripped the code below
 from one of Mitch’s talks on the package:
 
 ``` r
+
 dist_normal(1,3)
 #> <distribution[1]>
 #> [1] N(1, 9)
@@ -88,6 +90,7 @@ wrapping our typical estimate and standard error calculations in a
 `dist_normal` function.
 
 ``` r
+
 toy_temp_eg <- toy_temp |> 
   group_by(county_name) |>
   summarise(temp_dist = dist_normal(mu = mean(recorded_temp),
@@ -137,6 +140,7 @@ with an identity (with decreased alpha) and dodge positions
 respectively.
 
 ``` r
+
 # ggplot IDENTITY
 p1 <- ggplot(mpg, aes(class)) + 
   geom_bar_sample(aes(fill = drv), 
@@ -223,6 +227,7 @@ package such as `fable`. In this case, you can literally just directly
 visualise the distributions with zero pre-processing
 
 ``` r
+
 forecast <- as_tsibble(sunspot.year) |> 
   model(ARIMA(value)) |> 
   forecast(h = "10 years") 
@@ -250,6 +255,7 @@ regression. A simple linear regression is actually used in the `ggplot2`
 documentation as the example for `geom_abline`.
 
 ``` r
+
 # plot data
 p <- ggplot(mtcars, aes(wt, mpg)) + geom_point() + theme_few() 
 p
@@ -258,6 +264,7 @@ p
 ![](A_how-to-guide_files/figure-html/abline1-1.png)
 
 ``` r
+
 # Calculate slope and intercept of line of best fit
 # get coef and standard error
 summary(lm(mpg ~ wt, data = mtcars))
@@ -282,6 +289,7 @@ summary(lm(mpg ~ wt, data = mtcars))
 ```
 
 ``` r
+
 # ggplot, just error estimate
 p1 <- p + geom_abline(intercept = 37, slope = -5)
 # ggdibbler for coef AND standard error
@@ -317,6 +325,7 @@ There are also variables to define spatial elements of the county, such
 as it’s geometry, and the county centroid’s longitude and latitude.
 
 ``` r
+
 glimpse(toy_temp)
 #> Rows: 990
 #> Columns: 6
@@ -333,6 +342,7 @@ by plotting them to the centroid longitude and latitude (with a little
 jitter) and drawing the counties in the background for referee.
 
 ``` r
+
 # Plot Raw Data
 ggplot(toy_temp) +
   geom_sf(aes(geometry=county_geometry), fill="white") +
@@ -350,6 +360,7 @@ approach would be to take the average of each county and display that in
 a choropleth map, displayed below.
 
 ``` r
+
 # Mean data
 toy_temp_mean <- toy_temp |> 
   group_by(county_name) |>
@@ -377,6 +388,7 @@ estimates. We can calculate the estimated standard error alongside the
 mean.
 
 ``` r
+
 # Mean and variance data
 toy_temp_est <- toy_temp |> 
   group_by(county_name) |>
@@ -395,6 +407,7 @@ trying to use the estimate and its variance as different values, we
 combine them as a single distribution variable.
 
 ``` r
+
 # Distribution
 toy_temp_dist <- toy_temp_est |> 
   mutate(temp_dist = dist_normal(temp_mean, temp_se)) |>
@@ -415,6 +428,7 @@ original boundary lines, but that can be easily added just by adding
 another layer.
 
 ``` r
+
 ggplot(toy_temp_dist) + 
   geom_sf_sample(aes(geometry = county_geometry, fill=temp_dist), 
                  linewidth=0, times=50) + 
@@ -459,6 +473,7 @@ run through every draw using the `drawID` variable (which is exactly
 what we do in the other position adjustments).
 
 ``` r
+
 # bar chart
 hops <- ggplot(uncertain_mpg, aes(class)) +
   geom_bar_sample(aes(fill = drv),
@@ -485,6 +500,7 @@ This section will go through an example with `ggraph` and uncertain
 edges. So you have this random data set.
 
 ``` r
+
 set.seed(10)
 uncertain_edges <- tibble::tibble(from = sample(5, 20, TRUE),
                     to = sample(5, 20, TRUE),
@@ -512,6 +528,7 @@ graph, because `ggraph` is all totalitarian about what it will keep in
 its graph data set, and it doesn’t allow distributions.
 
 ``` r
+
 graph_sample <- uncertain_edges |>
   sample_expand(times=50) |>
   as_tbl_graph()
@@ -527,6 +544,7 @@ adding the jitter does work, it just doesn’t work exactly as you might
 expect. It does produce an uncertainty visualisation, though.
 
 ``` r
+
 jitter = position_jitter(width=0.01, height=0.01)
 ggraph(graph_sample, layout = 'fr', weights = weight) + 
   geom_edge_link(aes(group=drawID), position=jitter, alpha=0.1, 
@@ -544,6 +562,7 @@ thickness), but in general the approaches all look similar (and convey
 similar information)
 
 ``` r
+
 # uncertainty indicated by transparency
 ggraph(graph_sample, layout = 'fr', weights = weight) + 
   geom_edge_link(aes(group=drawID), alpha=0.005,
@@ -554,6 +573,7 @@ ggraph(graph_sample, layout = 'fr', weights = weight) +
 ![](A_how-to-guide_files/figure-html/graph4-1.png)
 
 ``` r
+
 
 # Thickness = probability of an edge (thicker = more probable)
 ggraph(graph_sample, layout = 'fr', weights = weight) + 

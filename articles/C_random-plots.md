@@ -1,6 +1,7 @@
 # Unexpected behaviour of random plots
 
 ``` r
+
 set.seed(101)
 
 library(ggdibbler)
@@ -41,6 +42,7 @@ when
 is called, which is only called when you *print* the plot.
 
 ``` r
+
 plot <- ggplot(uncertain_mtcars, aes(wt, mpg)) + geom_point_sample(times=5) 
 plot + plot
 ```
@@ -58,6 +60,7 @@ which means if you pass the same variable to two different aesthetic,
 they will be different samples.
 
 ``` r
+
 p1 <- ggplot(mtcars, aes(wt, wt)) + geom_point()  +
   ggtitle("ggplot2")
 p2 <- ggplot(uncertain_mtcars, aes(wt, wt)) + geom_point_sample(times=5) +
@@ -74,6 +77,7 @@ be identical. You can get the identical behaviour by one of the draws
 using the `after_stat` function.
 
 ``` r
+
 ggplot(uncertain_mtcars, aes(wt, after_stat(x))) + geom_point_sample(times=5) 
 ```
 
@@ -85,6 +89,7 @@ this case so you will need to use the seed parameter to ensure the draws
 are the same.
 
 ``` r
+
 recent <- economics[economics$date > as.Date("2013-01-01"), ]
 uncertain_recent <- uncertain_economics[uncertain_economics$date > as.Date("2013-01-01"), ]
 p1 <- ggplot(recent, aes(date, unemploy)) + 
@@ -118,6 +123,7 @@ is a prediction, we now have a `cut_true` column, (our ground truth) and
 a `cut_pred` which is our predicted distribution.
 
 ``` r
+
 print(head(diamonds_pred))
 ```
 
@@ -137,6 +143,7 @@ certain the model is in that prediction, so, you make the following bar
 chart:
 
 ``` r
+
 ggplot(diamonds_pred, aes(x=cut_pred)) +
   geom_bar_sample(times=30)
 ```
@@ -154,6 +161,7 @@ you feel better, we can set the fill to be the outputs so you can 100%
 see this is the case.
 
 ``` r
+
 ggplot(diamonds_pred, aes(x=cut_pred)) +
   geom_bar_sample(aes(fill=factor(after_stat(x))), times=30) +
   labs(fill = "cut_pred")+
@@ -180,6 +188,7 @@ where they are anchored to the ground truth value and we colour by the
 prediction.
 
 ``` r
+
 p2 <- ggplot(diamonds_pred, aes(x=cut_true)) +
   geom_bar_sample(aes(fill= cut_pred), times=100, 
                   position= "stack_dodge") +

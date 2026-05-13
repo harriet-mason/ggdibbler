@@ -38,6 +38,7 @@ a universal, exploratory tool for uncertainty visualisation.
 You can install the stable version of `ggdibbler` from CRAN with:
 
 ``` r
+
 install.packages("ggdibbler")
 ```
 
@@ -45,6 +46,7 @@ or you can install the development version of `ggdibbler` from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("harriet-mason/ggdibbler")
 ```
@@ -72,6 +74,7 @@ to keep the same random draw across multiple layers). Otherwise, the
 parameters and syntax are identical to that of a standard `ggplot`.
 
 ``` r
+
 library(distributional)
 library(dplyr)
 library(sf)
@@ -83,6 +86,7 @@ set.seed(1343)
 ```
 
 ``` r
+
 p1 <- ggplot(faithfuld, aes(waiting, eruptions, z = density)) + 
   ggtitle("ggplot2") +
   geom_contour()
@@ -104,6 +108,7 @@ associated with the original (i.e. `ggplot2` version) of the plot is an
 `dodge`.
 
 ``` r
+
 
 p1 <- ggplot(faithfuld, aes(waiting, eruptions)) + 
   geom_raster(aes(fill = density)) +
@@ -130,6 +135,7 @@ that all converge to the same `ggplot2` plot as the variance approaches
 zero.
 
 ``` r
+
 p1 <- ggplot(mpg, aes(class)) + 
   geom_bar_sample(aes(fill = drv), 
                   position = "stack")+
@@ -161,6 +167,7 @@ which is inspired by the pixel map implemented in
 [Vizumap](https://github.com/lydialucchesi/Vizumap).
 
 ``` r
+
 # Make average summary of data
 toy_temp_mean <- toy_temp |> 
   dplyr::group_by(county_name) |>

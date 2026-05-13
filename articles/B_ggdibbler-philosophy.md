@@ -1,6 +1,7 @@
 # The philosophy of ggdibbler
 
 ``` r
+
 library(ggdibbler)
 library(ggdist)
 library(tidyverse)
@@ -146,6 +147,7 @@ similar plots with different data, but they shouldn’t make the same plot
 with the *same* data.
 
 ``` r
+
 density_data <- data.frame(xmean = rnorm(15),
                            xse = rexp(15,3)) |>
   mutate(xdist = distributional::dist_normal(xmean, xse)) |>
@@ -284,13 +286,12 @@ also works for convergence to another random variable, but this would
 require comparing `ggdibbler` to `ggdibbler`, which is not as useful of
 a framework for validating the uncertainty visualisations.
 
-To formalise this a bit more, lets say that $X_{n},X$ is a series of
-random variables, and $x$ is a constant such that
-$\lim_{n\rightarrow\infty}X_{n} = x$. Additionally let $V$ be the
+To formalise this a bit more, lets say that $`{X_n}, X`$ is a series of
+random variables, and $`x`$ is a constant such that
+$`\lim_{n \to \infty} X_n = x`$. Additionally let $`V`$ be the
 visualisation function that translates our data to a statistical graphic
 (be it random variable or not). Then our visualisation approach obeys
-continuous mapping theorem if
-$\lim_{n\rightarrow\infty}V\left( X_{n} \right) = V(x)$.
+continuous mapping theorem if $`\lim_{n \to \infty} V(X_n) = V(x)`$.
 
 Now, we would argue that the purest way to check convergence in a
 visualisation is not actually a formal maths proof but…um… just looking
@@ -308,6 +309,7 @@ he show that the standard `ggplot2` position is insufficient to capture
 the random variable’s grouping structure.
 
 ``` r
+
 
 set.seed(10)
 catdog <- tibble(
@@ -367,6 +369,7 @@ variable drops to 0, the visualisation gets easier to read and it
 approaches its `ggplot2` deterministic counterpart.
 
 ``` r
+
 set.seed(10)
 textdata <- expand_grid(x = c(1,2,3,4,5), y= c(1,2,3,4,5)) |>
   mutate(
@@ -408,6 +411,7 @@ variable to colour. We notice the same trend of the visualisation
 approaching it’s limiting statistic, the `ggplot2` counterpart.
 
 ``` r
+
 tiledata <- expand_grid(x = c(1,2,3,4,5), y = c(1,2,3,4,5)) |>
   mutate(
     z0 = rnorm(25, 0, 10)
@@ -516,6 +520,7 @@ transparency and uncertainty in size. Below are two examples from the
 `ggdibbler` documentation that highlight this difference.
 
 ``` r
+
 # examples from ggdibbler
 p1 <-ggplot(uncertain_mtcars, aes(x = mpg)) +
   geom_dotplot_sample(binwidth = 1.5, times=100, alpha=1.1/100) +
