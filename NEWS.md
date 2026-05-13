@@ -1,3 +1,5 @@
+# ggdibbler (development version)
+
 # ggdibbler 0.6.5
 - Fixed reverse dependency problem with ggplot2 boxplot update
 
