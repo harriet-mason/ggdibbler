@@ -1,12 +1,12 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   A_how-to-guide: A_how-to-guide.html
   B_ggdibbler-philosophy: B_ggdibbler-philosophy.html
   C_random-plots: C_random-plots.html
   D_extender-info: D_extender-info.html
-last_built: 2026-05-13T14:25Z
+last_built: 2026-07-16T13:20Z
 urls:
   reference: https://harriet-mason.github.io/ggdibbler/reference
   article: https://harriet-mason.github.io/ggdibbler/articles
