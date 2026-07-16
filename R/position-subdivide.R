@@ -122,6 +122,8 @@ sample_subdivide_sf <- function(data, times){
     dplyr::mutate(geometryID = dplyr::cur_group_id()) |>
     dplyr::ungroup()
   
+  # remove 
+  
   # make grid for subdivision
   d <- square_grid(times)
   
@@ -147,6 +149,10 @@ sample_subdivide_sf <- function(data, times){
 # Internal function for subdividing geometry grid
 #' @keywords internal
 subdivide <- function(geometry, d){
+  # return with no subdivision if geometry is empty
+  if(sf::st_is_empty(geometry)){
+    return(geometry)
+  } else{
   suppressMessages({
     n.overlaps <- NULL #to avoid binding error
     # make n*n grid
@@ -163,6 +169,7 @@ subdivide <- function(geometry, d){
       dplyr::filter(sf::st_geometry_type(comb_data) %in% c("POLYGON", "MULTIPOLYGON")) # get rid of other weird line stuff
     subdivided$comb_data
   })
+  }
 }
 
 # Internal function for finding the "most square" factors of a number
