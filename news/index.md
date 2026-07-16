@@ -1,5 +1,7 @@
 # Changelog
 
+## ggdibbler (development version)
+
 ## ggdibbler 0.6.6
 
 - Patched empty geometry error in subdivide position adjustment
