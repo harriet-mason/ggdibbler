@@ -27,13 +27,19 @@ sample_expand <- function(data, times=10, seed=NULL){
   
   # set seed if not null
   if(!is.null(seed)) set.seed(seed)
-  
   # Sample from distribution variables
-  data |>
+  data_out <- data |>
     tibble::as_tibble()|>
     # get sample and convert to tidy format
     dplyr::mutate(dplyr::across(dplyr::all_of(distcols), ~ distributional::generate(.x, times = times))) |>
-    tidyr::unnest_longer(dplyr::all_of(distcols)) |>
+    tidyr::unnest_longer(dplyr::all_of(distcols)) 
+  
+  # are the distributional columns still lists?
+  if (!all(sapply(data_out[distcols], rlang::is_atomic)))
+    data_out <- data_out |>
+    tidyr::unnest_longer(col=dplyr::all_of(distcols), simplify = TRUE)
+  
+  data_out |>
     # get drawID for grouping later
     tibble::rowid_to_column(var = "drawID") |>
     dplyr::mutate(drawID = as.factor(drawID%%times + 1))
