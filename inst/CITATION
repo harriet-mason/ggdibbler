@@ -1,0 +1,10 @@
+bibentry(
+  bibtype  = "Manual",
+  title    = "ggdibbler: Add Uncertainty to Data Visualisations",
+  author   = c(person("Harriet", "Mason"), person("Dianne", "Cook"),
+               person("Sarah", "Goodwin"), person("Susan", "VanderPlas")),
+  year     = 2026,
+  note     = "R package version 0.6.5",
+  doi      = "10.32614/CRAN.package.ggdibbler",
+  url      = "https://github.com/harriet-mason/ggdibbler"
+)
