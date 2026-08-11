@@ -17,16 +17,18 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/harriet-mason/ggdibbler/blob/main/DESCRIPTION)
+[`inst/CITATION`](https://github.com/harriet-mason/ggdibbler/blob/main/inst/CITATION)
 
 Mason H, Cook D, Goodwin S, VanderPlas S (2026). *ggdibbler: Add
-Uncertainty to Data Visualisations*. R package version 0.6.7.9000,
-<https://harriet-mason.github.io/ggdibbler/>.
+Uncertainty to Data Visualisations*.
+[doi:10.32614/CRAN.package.ggdibbler](https://doi.org/10.32614/CRAN.package.ggdibbler).
+R package version 0.6.5, <https://github.com/harriet-mason/ggdibbler>.
 
     @Manual{,
       title = {ggdibbler: Add Uncertainty to Data Visualisations},
       author = {Harriet Mason and Dianne Cook and Sarah Goodwin and Susan VanderPlas},
       year = {2026},
-      note = {R package version 0.6.7.9000},
-      url = {https://harriet-mason.github.io/ggdibbler/},
+      note = {R package version 0.6.5},
+      doi = {10.32614/CRAN.package.ggdibbler},
+      url = {https://github.com/harriet-mason/ggdibbler},
     }
