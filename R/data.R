@@ -88,13 +88,13 @@ NULL
 
 #' An uncertain (and shrunk down) version of the diamonds data from`ggplot2` 
 #' 
-#' This dataset is a subset of the diamonds data. There is a deterministic version that is only 
-#' a subset (smaller_diamonds) and a version that has random variables (uncertain_smaller_diamonds). 
-#' The data is only a subset as the ggdibbler approach can take quite a long time when applied to
-#' the full sized diamonds data set. An uncertain version of the original diamonds data is also
-#' available as uncertain_diamonds, although it isn't used in any examples.
+#' This dataset is a uncertain version of a subset of the diamonds data. 
+#' The subset of the diamonds data is stored as `smaller_diamonds`, while 
+#' the uncertain version of that data is `smaller_uncertain_diamonds`.
+#' We only use a subset of the diamonds data as the `ggdibbler` approach can 
+#' take quite a long time when applied to the full sized diamonds data set.
 #'
-#' @format A data frame with almost 54000 observations and 10 variables:
+#' @format A data frame with almost 1000 observations and 10 variables:
 #' \describe{
 #'   \item{price}{Binomial random variable - price in US dollars ($326–$18,823)}
 #'   \item{carat}{Normal random variable - weight of the diamond (0.2–5.01)}
@@ -112,9 +112,6 @@ NULL
 
 #' @rdname smaller_uncertain_diamonds
 "smaller_diamonds"
-
-#' @rdname smaller_uncertain_diamonds
-"uncertain_diamonds"
 
 #' An uncertain version of the economics data from`ggplot2`
 #' 

@@ -137,7 +137,7 @@ uncertain_diamonds <- uncertain_diamonds |>
   select(-id)
 
 
-# usethis::use_data(uncertain_diamonds, overwrite = TRUE)
+usethis::use_data(uncertain_diamonds, overwrite = TRUE)
 
 diamond_ind <- sample(nrow(ggplot2::diamonds), size = 1000)
 smaller_diamonds <- ggplot2::diamonds[diamond_ind,]
