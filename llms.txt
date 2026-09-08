@@ -392,7 +392,6 @@ with uncertainty added in.
   : A toy data set that has the ambient temperature as measured by a
   collection of citizen scientists for each Iowa county
 - [`smaller_diamonds`](https://harriet-mason.github.io/ggdibbler/reference/smaller_uncertain_diamonds.md)
-  [`uncertain_diamonds`](https://harriet-mason.github.io/ggdibbler/reference/smaller_uncertain_diamonds.md)
   : An uncertain (and shrunk down) version of the diamonds data
   from\`ggplot2\`
 - [`uncertain_mpg`](https://harriet-mason.github.io/ggdibbler/reference/uncertain_mpg.md)
