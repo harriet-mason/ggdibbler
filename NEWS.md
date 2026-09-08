@@ -1,4 +1,4 @@
-# ggdibbler (development version)
+# ggdibbler 0.6.8
 
 # ggdibbler 0.6.7
 - Bug fix for grouped/nested data frames
