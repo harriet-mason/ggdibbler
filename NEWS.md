@@ -1,4 +1,5 @@
 # ggdibbler 0.6.8
+- Removed uncertain_diamonds as it was incorrect and a full uncertain version of diamonds is too big (and makes the package too slow to load)
 
 # ggdibbler 0.6.7
 - Bug fix for grouped/nested data frames
